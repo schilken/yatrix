@@ -7,6 +7,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart' hide Draggable;
+import 'package:flutter/services.dart';
 
 import 'package:tetris/boundaries.dart';
 
@@ -16,13 +17,15 @@ import 'tetromino.dart';
 const TextStyle _textStyle = TextStyle(color: Colors.black, fontSize: 2);
 
 class TheGame extends FlameGame
-    with HasCollisionDetection, TapDetector, HasDraggables {
+    with HasCollisionDetection, TapDetector, HasDraggables, KeyboardEvents {
   static const info = '''
 This example shows how to compose a `BodyComponent` together with a normal Flame
 component. Click the ball to see the number increment.
 ''';
 
   TheGame();
+
+  FallingComponent? _currentFalling;
 
   @override
   Future<void> onLoad() async {
@@ -38,12 +41,35 @@ component. Click the ball to see the number increment.
     final position = Vector2((tapPosition.x ~/ 50) * 51.0, 100);
     final componentSize = Vector2(10, 10);
     final type = (tapPosition.y < 200) ? 'tet-O' : 'tet-J';
-    add(
-      FallingComponent(type, Vector2(0, 100), position, componentSize)
-        ..flipVertically(),
-    );
-
+    _currentFalling =
+        FallingComponent(type, Vector2(0, 100), position, componentSize);
+    add(_currentFalling!);
+ 
 //    add(Tetromino(position, size: Vector2(15, 10)));
+  }
+
+@override
+  KeyEventResult onKeyEvent(
+    RawKeyEvent event,
+    Set<LogicalKeyboardKey> keysPressed,
+  ) {
+    final isKeyDown = event is RawKeyDownEvent;
+
+    // Avoiding repeat event as we are interested only in
+    // key up and key down event.
+    if (!event.repeat) {
+      if (event.logicalKey == LogicalKeyboardKey.keyA) {
+        _currentFalling?.x += isKeyDown ? -51 : 0;
+      } else if (event.logicalKey == LogicalKeyboardKey.keyD) {
+        _currentFalling?.x += isKeyDown ? 0 : 51;
+      } else if (event.logicalKey == LogicalKeyboardKey.keyW) {
+        _currentFalling?.y += isKeyDown ? -1 : 1;
+      } else if (event.logicalKey == LogicalKeyboardKey.keyS) {
+        _currentFalling?.y += isKeyDown ? 1 : -1;
+      }
+    }
+
+    return super.onKeyEvent(event, keysPressed);
   }
 
   @override
