@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "version": "0.6.7"
+  },
+  "savePath": "/Users/aschilken/flutterdev/my_projects/tetris/assets/images",
+  "images": [
+    {
+      "name": "tetris-I.png",
+      "path": "/Users/aschilken/flutterdev/my_projects/tetris/assets/images/tetris-I.png",
+      "folder": ""
+    },
+    {
+      "name": "tetris-J.png",
+      "path": "/Users/aschilken/flutterdev/my_projects/tetris/assets/images/tetris-J.png",
+      "folder": ""
+    },
+    {
+      "name": "tetris-L.png",
+      "path": "/Users/aschilken/flutterdev/my_projects/tetris/assets/images/tetris-L.png",
+      "folder": ""
+    },
+    {
+      "name": "tetris-O.png",
+      "path": "/Users/aschilken/flutterdev/my_projects/tetris/assets/images/tetris-O.png",
+      "folder": ""
+    },
+    {
+      "name": "tetris-S.png",
+      "path": "/Users/aschilken/flutterdev/my_projects/tetris/assets/images/tetris-S.png",
+      "folder": ""
+    },
+    {
+      "name": "tetris-T.png",
+      "path": "/Users/aschilken/flutterdev/my_projects/tetris/assets/images/tetris-T.png",
+      "folder": ""
+    },
+    {
+      "name": "tetris-Z.png",
+      "path": "/Users/aschilken/flutterdev/my_projects/tetris/assets/images/tetris-Z.png",
+      "folder": ""
+    }
+  ],
+  "folders": [],
+  "packOptions": {
+    "textureName": "tetris2",
+    "textureFormat": "png",
+    "removeFileExtension": false,
+    "prependFolderName": true,
+    "base64Export": false,
+    "tinify": false,
+    "tinifyKey": "",
+    "scale": 1,
+    "filter": "none",
+    "exporter": "JSON (hash)",
+    "fileName": "pack-result",
+    "savePath": "/Users/aschilken/flutterdev/my_projects/tetris/assets/images",
+    "width": 2048,
+    "height": 2048,
+    "fixedSize": false,
+    "powerOfTwo": false,
+    "padding": 0,
+    "extrude": 0,
+    "allowRotation": true,
+    "allowTrim": true,
+    "trimMode": "trim",
+    "alphaThreshold": "0",
+    "detectIdentical": true,
+    "packer": "MaxRectsBin",
+    "packerMethod": "BestShortSideFit"
+  }
+}

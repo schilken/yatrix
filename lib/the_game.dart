@@ -1,37 +1,49 @@
+import 'dart:math';
+import 'dart:ui';
+
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
-import 'package:flame_audio/flame_audio.dart';
-import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flame/palette.dart';
 import 'package:flutter/material.dart' hide Draggable;
+
 import 'package:tetris/boundaries.dart';
 
+import 'game_assets.dart';
 import 'tetromino.dart';
 
 const TextStyle _textStyle = TextStyle(color: Colors.black, fontSize: 2);
 
-class TheGame extends Forge2DGame with TapDetector, HasDraggables {
+class TheGame extends FlameGame
+    with HasCollisionDetection, TapDetector, HasDraggables {
   static const info = '''
 This example shows how to compose a `BodyComponent` together with a normal Flame
 component. Click the ball to see the number increment.
 ''';
 
-  TheGame() : super(zoom: 10, gravity: Vector2(0, 20.0));
+  TheGame();
 
   @override
   Future<void> onLoad() async {
     //debugMode = true;
-    await FlameAudio.audioCache.loadAll(['pha.mp3']);
-    final boundaries = createBoundaries(this);
-    boundaries.forEach(add);
-    final viewportCenter = camera.viewport.effectiveSize / 2;
+    await gameAssets.preCache();
+    add(ScreenHitbox());
   }
 
   @override
   void onTapDown(TapDownInfo details) {
     super.onTapDown(details);
-    final position = details.eventPosition.game;
-    add(Tetromino(position, size: Vector2(15, 10)));
+    final tapPosition = details.eventPosition.game;
+    final position = Vector2((tapPosition.x ~/ 50) * 51.0, 100);
+    final componentSize = Vector2(10, 10);
+    final type = (tapPosition.y < 200) ? 'tet-O' : 'tet-J';
+    add(
+      FallingComponent(type, Vector2(0, 100), position, componentSize)
+        ..flipVertically(),
+    );
+
+//    add(Tetromino(position, size: Vector2(15, 10)));
   }
 
   @override
@@ -42,5 +54,85 @@ component. Click the ball to see the number increment.
   @override
   void onRemove() {
     super.onRemove();
+  }
+}
+
+class FallingComponent extends SpriteComponent
+    with CollisionCallbacks, HasGameRef {
+  Vector2 velocity;
+
+  FallingComponent(
+    this.type,
+    this.velocity,
+    Vector2 position,
+    Vector2 size, {
+    double angle = 0,
+  }) : super(
+          position: position,
+          size: size,
+          angle: angle,
+          anchor: Anchor.center,
+        );
+
+  String type;
+
+  @override
+  Future<void> onLoad() async {
+    anchor = Anchor.topLeft;
+    final hitboxPaint = BasicPalette.white.paint()
+      ..style = PaintingStyle.stroke;
+    if (type == 'tet-O') {
+      size = Vector2(100, 100);
+      sprite = gameAssets.sprites['tet-O'];
+      add(
+        PolygonHitbox.relative(
+          [
+            Vector2(-1.0, -1.0),
+            Vector2(-1.0, 1.0),
+            Vector2(1, 1.0),
+            Vector2(1, -1),
+          ],
+          parentSize: size,
+        )
+          ..paint = hitboxPaint
+          ..renderShape = true,
+      );
+    } else if (type == 'tet-J') {
+      size = Vector2(150, 100);
+      sprite = gameAssets.sprites[type];
+      add(
+        PolygonHitbox.relative(
+          [
+            Vector2(-1.0, -1.0),
+            Vector2(-1.0, 1.0),
+            Vector2(1, 1.0),
+            Vector2(1, -1),
+          ],
+          parentSize: size,
+        )
+          ..paint = hitboxPaint
+          ..renderShape = true,
+      );
+    }
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    position += velocity * dt;
+  }
+
+  final Paint hitboxPaint = BasicPalette.green.paint()
+    ..style = PaintingStyle.stroke;
+  final Paint dotPaint = BasicPalette.red.paint()..style = PaintingStyle.stroke;
+
+  @override
+  void onCollisionStart(
+    Set<Vector2> intersectionPoints,
+    PositionComponent other,
+  ) {
+    print('onCollisionStart');
+    super.onCollisionStart(intersectionPoints, other);
+    velocity = Vector2.all(0);
   }
 }

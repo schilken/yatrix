@@ -1,0 +1,183 @@
+{
+  "frames": {
+    "tetris-I.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 762,
+        "h": 190
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 762,
+        "h": 190
+      },
+      "sourceSize": {
+        "w": 763,
+        "h": 191
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "tetris-J.png": {
+      "frame": {
+        "x": 762,
+        "y": 0,
+        "w": 576,
+        "h": 384
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 576,
+        "h": 384
+      },
+      "sourceSize": {
+        "w": 576,
+        "h": 385
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "tetris-L.png": {
+      "frame": {
+        "x": 1338,
+        "y": 0,
+        "w": 576,
+        "h": 384
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 576,
+        "h": 384
+      },
+      "sourceSize": {
+        "w": 576,
+        "h": 384
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "tetris-T.png": {
+      "frame": {
+        "x": 0,
+        "y": 190,
+        "w": 576,
+        "h": 383
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 576,
+        "h": 383
+      },
+      "sourceSize": {
+        "w": 576,
+        "h": 383
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "tetris-Z.png": {
+      "frame": {
+        "x": 576,
+        "y": 384,
+        "w": 576,
+        "h": 383
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 576,
+        "h": 383
+      },
+      "sourceSize": {
+        "w": 576,
+        "h": 383
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "tetris-S.png": {
+      "frame": {
+        "x": 0,
+        "y": 573,
+        "w": 575,
+        "h": 384
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 575,
+        "h": 384
+      },
+      "sourceSize": {
+        "w": 576,
+        "h": 384
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "tetris-O.png": {
+      "frame": {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 383
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 383
+      },
+      "sourceSize": {
+        "w": 384,
+        "h": 383
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com",
+    "version": "0.6.7",
+    "image": "tetris2.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1914,
+      "h": 957
+    },
+    "scale": 1
+  }
+}
