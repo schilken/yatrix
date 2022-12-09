@@ -3,16 +3,12 @@ import 'dart:ui';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart' hide Draggable;
-import 'package:flutter/services.dart';
-
 import 'package:tetris/boundaries.dart';
 
 import 'game_assets.dart';
-import 'tetromino.dart';
 
 class FallingComponent extends SpriteComponent
     with CollisionCallbacks, HasGameRef {
@@ -21,12 +17,10 @@ class FallingComponent extends SpriteComponent
   FallingComponent(
     this.type,
     this.velocity,
-    Vector2 position,
-    Vector2 size, {
+    Vector2 position, {
     double angle = 0,
   }) : super(
           position: position,
-          size: size,
           angle: angle,
           anchor: Anchor.center,
         );
@@ -70,6 +64,24 @@ class FallingComponent extends SpriteComponent
             Vector2(0.95, 0.05),
             Vector2(-0.333, 0.05),
             Vector2(-0.333, -0.95),
+          ],
+          parentSize: size,
+        )
+          ..paint = hitboxPaint
+          ..renderShape = true,
+      );
+    } else if (type == 'tet-I') {
+      size = Vector2(199, 49);
+      sprite = gameAssets.sprites[type];
+      anchor = Anchor(0.125, 0.5);
+      x += 25.0;
+      add(
+        PolygonHitbox.relative(
+          [
+            Vector2(-0.95, -0.95),
+            Vector2(-0.95, 0.95),
+            Vector2(0.95, 0.95),
+            Vector2(0.95, -0.95),
           ],
           parentSize: size,
         )

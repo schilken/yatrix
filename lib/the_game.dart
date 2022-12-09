@@ -32,7 +32,6 @@ component. Click the ball to see the number increment.
   Future<void> onLoad() async {
     //debugMode = true;
     await gameAssets.preCache();
-//    add(ScreenHitbox());
     final boundaries = createBoundaries(this);
     boundaries.forEach(add);
   }
@@ -40,15 +39,12 @@ component. Click the ball to see the number increment.
   @override
   void onTapDown(TapDownInfo details) {
     super.onTapDown(details);
-    final tapPosition = details.eventPosition.game;
-    final position = Vector2((tapPosition.x ~/ 50) * 50.0, 100);
-    final componentSize = Vector2(10, 10);
-    final type = (tapPosition.y < 150) ? 'tet-O' : 'tet-J';
-    _currentFalling =
-        FallingComponent(type, Vector2(0, 100), position, componentSize);
-    add(_currentFalling!);
- 
-//    add(Tetromino(position, size: Vector2(15, 10)));
+  }
+
+  void restart() {
+    print('restart');
+    final allBlocks = children.query<FallingComponent>();
+    allBlocks.forEach((element) => element.removeFromParent());
   }
 
 @override
@@ -56,7 +52,25 @@ component. Click the ball to see the number increment.
     RawKeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
   ) {
-    final isKeyDown = event is RawKeyDownEvent;
+    final startPosition = Vector2(size.x / 2, 150);
+    final velocity = Vector2(0, 100);
+    final isKeyUp = event is RawKeyUpEvent;
+    if (event.repeat || !isKeyUp) {
+      return super.onKeyEvent(event, keysPressed);
+    }
+    if (event.logicalKey == LogicalKeyboardKey.keyO) {
+      add(_currentFalling = FallingComponent('tet-O', velocity, startPosition));
+    }
+    if (event.logicalKey == LogicalKeyboardKey.keyJ) {
+      add(_currentFalling = FallingComponent('tet-J', velocity, startPosition));
+    }
+    if (event.logicalKey == LogicalKeyboardKey.keyI) {
+      add(_currentFalling = FallingComponent('tet-I', velocity, startPosition));
+    }
+    if (event.logicalKey == LogicalKeyboardKey.escape) {
+      restart();
+    }
+
     if (_currentFalling == null) {
       return super.onKeyEvent(event, keysPressed);
     }
@@ -64,19 +78,15 @@ component. Click the ball to see the number increment.
     // key up and key down event.
     if (!event.repeat) {
       if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-        var newX = _currentFalling!.x + (isKeyDown ? -50 : 0);
+        var newX = _currentFalling!.x + -50;
         if (isMoveAllowed(Vector2(newX, _currentFalling?.y ?? 0))) {
           print('isMoveAllowed true, newX: $newX');
           _currentFalling!.updateX(max(newX, 0));
         }
       } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-        _currentFalling?.x += isKeyDown ? 0 : 50;
+        _currentFalling?.x += 50;
       } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-        if (isKeyDown) {
-          _currentFalling?.rotate();
-        }
-      } else if (event.logicalKey == LogicalKeyboardKey.keyS) {
-        _currentFalling?.y += isKeyDown ? 1 : -1;
+        _currentFalling?.rotate();
       }
     }
 

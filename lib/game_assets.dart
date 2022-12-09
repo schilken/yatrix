@@ -9,6 +9,7 @@ class GameAssets {
   Future<void> preCache() async {
     sprites['tet-O'] = Sprite(await Flame.images.load('tetris-O.png'));
     sprites['tet-J'] = Sprite(await Flame.images.load('tetris-J.png'));
+    sprites['tet-I'] = Sprite(await Flame.images.load('tetris-I.png'));
   }
 }
 
