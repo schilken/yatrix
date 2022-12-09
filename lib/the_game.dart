@@ -11,7 +11,7 @@ import 'package:flutter/services.dart';
 
 import 'package:tetris/boundaries.dart';
 
-import 'falling_component.dart';
+import 'tetris_block.dart';
 import 'game_assets.dart';
 import 'tetromino.dart';
 
@@ -26,7 +26,7 @@ component. Click the ball to see the number increment.
 
   TheGame();
 
-  FallingComponent? _currentFalling;
+  TetrisBlock? _currentFallingBlock;
 
   @override
   Future<void> onLoad() async {
@@ -43,7 +43,7 @@ component. Click the ball to see the number increment.
 
   void restart() {
     print('restart');
-    final allBlocks = children.query<FallingComponent>();
+    final allBlocks = children.query<TetrisBlock>();
     allBlocks.forEach((element) => element.removeFromParent());
   }
 
@@ -59,34 +59,34 @@ component. Click the ball to see the number increment.
       return super.onKeyEvent(event, keysPressed);
     }
     if (event.logicalKey == LogicalKeyboardKey.keyO) {
-      add(_currentFalling = FallingComponent('tet-O', velocity, startPosition));
+      add(_currentFallingBlock = TetrisO(velocity, startPosition));
     }
     if (event.logicalKey == LogicalKeyboardKey.keyJ) {
-      add(_currentFalling = FallingComponent('tet-J', velocity, startPosition));
+      add(_currentFallingBlock = TetrisJ(velocity, startPosition));
     }
     if (event.logicalKey == LogicalKeyboardKey.keyI) {
-      add(_currentFalling = FallingComponent('tet-I', velocity, startPosition));
+      add(_currentFallingBlock = TetrisI(velocity, startPosition));
     }
     if (event.logicalKey == LogicalKeyboardKey.escape) {
       restart();
     }
 
-    if (_currentFalling == null) {
+    if (_currentFallingBlock == null) {
       return super.onKeyEvent(event, keysPressed);
     }
     // Avoiding repeat event as we are interested only in
     // key up and key down event.
     if (!event.repeat) {
       if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-        var newX = _currentFalling!.x + -50;
-        if (isMoveAllowed(Vector2(newX, _currentFalling?.y ?? 0))) {
+        var newX = _currentFallingBlock!.x + -50;
+        if (isMoveAllowed(Vector2(newX, _currentFallingBlock?.y ?? 0))) {
           print('isMoveAllowed true, newX: $newX');
-          _currentFalling!.updateX(max(newX, 0));
+          _currentFallingBlock!.updateX(max(newX, 0));
         }
       } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-        _currentFalling?.x += 50;
+        _currentFallingBlock?.x += 50;
       } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-        _currentFalling?.rotate();
+        _currentFallingBlock?.rotate();
       }
     }
 
@@ -113,7 +113,7 @@ component. Click the ball to see the number increment.
               -3,
               3,
             ))
-        .whereType<FallingComponent>();
+        .whereType<TetrisBlock>();
     print('checkPosition: $checkPosition, otherComponents: ${otherComponents}');
     final isAllowed = otherComponents.isEmpty;
     print('isAllowed: ${isAllowed}');
