@@ -39,7 +39,7 @@ class FallingComponent extends SpriteComponent
     final hitboxPaint = BasicPalette.white.paint()
       ..style = PaintingStyle.stroke;
     if (type == 'tet-O') {
-      size = Vector2(100, 100);
+      size = Vector2(99, 99);
       sprite = gameAssets.sprites['tet-O'];
       add(
         PolygonHitbox.relative(
@@ -55,7 +55,7 @@ class FallingComponent extends SpriteComponent
           ..renderShape = true,
       );
     } else if (type == 'tet-J') {
-      size = Vector2(150, 100);
+      size = Vector2(149, 99);
       sprite = gameAssets.sprites[type];
       add(
         PolygonHitbox.relative(
@@ -94,7 +94,6 @@ class FallingComponent extends SpriteComponent
     PositionComponent other,
   ) {
     print('onCollisionStart $intersectionPoints $other');
-    super.onCollisionStart(intersectionPoints, other);
     if (intersectionPoints.first.x < 1) {
       return;
     }
@@ -102,6 +101,7 @@ class FallingComponent extends SpriteComponent
       velocity = Vector2.all(0);
     }
     velocity = Vector2.all(0);
+    super.onCollisionStart(intersectionPoints, other);
   }
 
   void rotate() {

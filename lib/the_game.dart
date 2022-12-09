@@ -41,7 +41,7 @@ component. Click the ball to see the number increment.
   void onTapDown(TapDownInfo details) {
     super.onTapDown(details);
     final tapPosition = details.eventPosition.game;
-    final position = Vector2((tapPosition.x ~/ 50) * 51.0, 100);
+    final position = Vector2((tapPosition.x ~/ 50) * 50.0, 100);
     final componentSize = Vector2(10, 10);
     final type = (tapPosition.y < 150) ? 'tet-O' : 'tet-J';
     _currentFalling =
@@ -64,13 +64,13 @@ component. Click the ball to see the number increment.
     // key up and key down event.
     if (!event.repeat) {
       if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-        var newX = _currentFalling!.x + (isKeyDown ? -51 : 0);
+        var newX = _currentFalling!.x + (isKeyDown ? -50 : 0);
         if (isMoveAllowed(Vector2(newX, _currentFalling?.y ?? 0))) {
           print('isMoveAllowed true, newX: $newX');
           _currentFalling!.updateX(max(newX, 0));
         }
       } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-        _currentFalling?.x += isKeyDown ? 0 : 51;
+        _currentFalling?.x += isKeyDown ? 0 : 50;
       } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
         if (isKeyDown) {
           _currentFalling?.rotate();

@@ -49,7 +49,6 @@ class Wall extends PositionComponent with CollisionCallbacks {
     Set<Vector2> intersectionPoints,
     PositionComponent other,
   ) {
-    print('onCollisionStart $intersectionPoints $other');
     super.onCollisionStart(intersectionPoints, other);
   }
 }
