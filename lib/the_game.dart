@@ -57,13 +57,18 @@ component. Click the ball to see the number increment.
     Set<LogicalKeyboardKey> keysPressed,
   ) {
     final isKeyDown = event is RawKeyDownEvent;
-
+    if (_currentFalling == null) {
+      return super.onKeyEvent(event, keysPressed);
+    }
     // Avoiding repeat event as we are interested only in
     // key up and key down event.
     if (!event.repeat) {
       if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-        var newX = _currentFalling?.x += isKeyDown ? -51 : 0;
-        _currentFalling?.x = max(newX ?? 0, 0);
+        var newX = _currentFalling!.x + (isKeyDown ? -51 : 0);
+        if (isMoveAllowed(Vector2(newX, _currentFalling?.y ?? 0))) {
+          print('isMoveAllowed true, newX: $newX');
+          _currentFalling!.updateX(max(newX, 0));
+        }
       } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
         _currentFalling?.x += isKeyDown ? 0 : 51;
       } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
@@ -86,6 +91,22 @@ component. Click the ball to see the number increment.
   @override
   void onRemove() {
     super.onRemove();
+  }
+  
+  bool isMoveAllowed(Vector2 checkPosition) {
+    if (checkPosition.x < 0) {
+      return false;
+    }
+    final otherComponents = componentsAtPoint(checkPosition +
+            Vector2(
+              -3,
+              3,
+            ))
+        .whereType<FallingComponent>();
+    print('checkPosition: $checkPosition, otherComponents: ${otherComponents}');
+    final isAllowed = otherComponents.isEmpty;
+    print('isAllowed: ${isAllowed}');
+    return isAllowed;
   }
 }
 

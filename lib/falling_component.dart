@@ -73,6 +73,11 @@ class FallingComponent extends SpriteComponent
     }
   }
 
+  void updateX(double newX) {
+    print('updateX: $newX');
+    x = newX;
+  }
+
   @override
   void update(double dt) {
     super.update(dt);
