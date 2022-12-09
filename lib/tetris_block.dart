@@ -27,6 +27,8 @@ abstract class TetrisBlock extends SpriteComponent
 
   @override
   Future<void> onLoad() async {
+    final hitboxPaint = BasicPalette.white.withAlpha(128).paint()
+      ..style = PaintingStyle.fill;
     position = blockPosition;
     size = blockSize;
     sprite = gameAssets.sprites[name];
@@ -36,9 +38,9 @@ abstract class TetrisBlock extends SpriteComponent
       PolygonHitbox.relative(
         hitboxPoints,
         parentSize: size,
-      ),
-//        ..paint = hitboxPaint
-//        ..renderShape = true,
+      )
+        ..paint = hitboxPaint
+        ..renderShape = true,
     );
   }
 
@@ -138,5 +140,49 @@ class TetrisJ extends TetrisBlock {
       ];
 }
 
+class TetrisT extends TetrisBlock {
+  TetrisT(super.velocity, super.blockPosition);
+  @override
+  Vector2 get blockSize => Vector2(149, 99);
+  @override
+  String get name => 'tet-T';
+  @override
+  Anchor get blockAnchor => const Anchor(0.5, 0.75);
+  @override
+  double get xOffset => 25.0;
+  @override
+  List<Vector2> get hitboxPoints => [
+        Vector2(-0.95, 0.0),
+        Vector2(-0.95, 0.95),
+        Vector2(0.95, 0.95),
+        Vector2(0.95, 0.05),
+        Vector2(0.333, 0.05),
+        Vector2(0.333, -0.95),
+        Vector2(-0.333, -0.95),
+        Vector2(-0.333, 0.05),
+      ];
+}
 
+class TetrisS extends TetrisBlock {
+  TetrisS(super.velocity, super.blockPosition);
+  @override
+  Vector2 get blockSize => Vector2(149, 99);
+  @override
+  String get name => 'tet-S';
+  @override
+  Anchor get blockAnchor => const Anchor(0.5, 0.75);
+  @override
+  double get xOffset => 25.0;
+  @override
+  List<Vector2> get hitboxPoints => [
+        Vector2(-0.95, 0.0),
+        Vector2(-0.95, 0.95),
+        Vector2(0.33, 0.95),
+        Vector2(0.33, -0.05),
+        Vector2(0.99, -0.05),
+        Vector2(0.99, -0.95),
+        Vector2(-0.333, -0.95),
+        Vector2(-0.333, 0.05),
+      ];
+}
 

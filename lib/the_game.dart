@@ -66,6 +66,12 @@ component. Click the ball to see the number increment.
     if (event.logicalKey == LogicalKeyboardKey.keyI) {
       add(_currentFallingBlock = TetrisI(velocity, startPosition));
     }
+    if (event.logicalKey == LogicalKeyboardKey.keyT) {
+      add(_currentFallingBlock = TetrisT(velocity, startPosition));
+    }
+    if (event.logicalKey == LogicalKeyboardKey.keyS) {
+      add(_currentFallingBlock = TetrisS(velocity, startPosition));
+    }
     if (event.logicalKey == LogicalKeyboardKey.escape) {
       restart();
     }
