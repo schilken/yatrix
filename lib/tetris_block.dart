@@ -46,7 +46,7 @@ abstract class TetrisBlock extends SpriteComponent
 
   void updateX(double newX) {
     print('updateX: $newX');
-    x = newX;
+    x = newX + xOffset;
   }
 
   @override
@@ -149,7 +149,7 @@ class TetrisT extends TetrisBlock {
   @override
   Anchor get blockAnchor => const Anchor(0.5, 0.75);
   @override
-  double get xOffset => 25.0;
+  double get xOffset => 75.0;
   @override
   List<Vector2> get hitboxPoints => [
         Vector2(-0.95, 0.0),
@@ -172,7 +172,7 @@ class TetrisS extends TetrisBlock {
   @override
   Anchor get blockAnchor => const Anchor(0.5, 0.75);
   @override
-  double get xOffset => 25.0;
+  double get xOffset => 75.0;
   @override
   List<Vector2> get hitboxPoints => [
         Vector2(-0.95, 0.0),
