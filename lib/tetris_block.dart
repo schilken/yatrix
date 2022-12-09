@@ -25,6 +25,7 @@ abstract class TetrisBlock extends SpriteComponent
   double get xOffset;
   String get name;
 
+
   @override
   Future<void> onLoad() async {
     final hitboxPaint = BasicPalette.white.withAlpha(128).paint()
@@ -44,9 +45,9 @@ abstract class TetrisBlock extends SpriteComponent
     );
   }
 
-  void updateX(double newX) {
-    print('updateX: $newX');
-    x = newX + xOffset;
+  void moveXBy(double deltaX) {
+    print('moveXBy: $deltaX');
+    x += deltaX;
   }
 
   @override
@@ -128,7 +129,7 @@ class TetrisJ extends TetrisBlock {
   @override
   Anchor get blockAnchor => const Anchor(0.5, 0.75);
   @override
-  double get xOffset => 25.0;
+  double get xOffset => 75.0;
   @override
   List<Vector2> get hitboxPoints => [
         Vector2(-0.95, -0.95),

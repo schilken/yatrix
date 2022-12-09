@@ -88,12 +88,11 @@ class TheGame extends FlameGame
     // key up and key down event.
     if (!event.repeat) {
       if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-        var newX = max(
-            0.0, _currentFallingBlock!.x - 50 - _currentFallingBlock!.xOffset);
+        var newX = _currentFallingBlock!.x - 50 - _currentFallingBlock!.xOffset;
 
         if (isMoveAllowed(Vector2(newX, _currentFallingBlock!.y))) {
           print('isMoveAllowed true, newX: $newX');
-          _currentFallingBlock!.updateX(max(newX, 0));
+          _currentFallingBlock!.moveXBy(-50);
         }
       } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
         _currentFallingBlock?.x += 50;
