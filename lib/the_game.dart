@@ -97,6 +97,7 @@ component. Click the ball to see the number increment.
     if (checkPosition.x < 0) {
       return false;
     }
+    return true; // TODO reactivate later
     final otherComponents = componentsAtPoint(checkPosition +
             Vector2(
               -3,

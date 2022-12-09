@@ -41,13 +41,15 @@ class FallingComponent extends SpriteComponent
     if (type == 'tet-O') {
       size = Vector2(99, 99);
       sprite = gameAssets.sprites['tet-O'];
+      anchor = Anchor.center;
+      x += 50.0;
       add(
         PolygonHitbox.relative(
           [
-            Vector2(-1.0, -1.0),
-            Vector2(-1.0, 1.0),
-            Vector2(1, 1.0),
-            Vector2(1, -1),
+            Vector2(-0.95, -0.95),
+            Vector2(-0.95, 0.95),
+            Vector2(0.95, 0.95),
+            Vector2(0.95, -0.95),
           ],
           parentSize: size,
         )
@@ -57,13 +59,17 @@ class FallingComponent extends SpriteComponent
     } else if (type == 'tet-J') {
       size = Vector2(149, 99);
       sprite = gameAssets.sprites[type];
+      anchor = Anchor(0.5, 0.75);
+      x += 25.0;
       add(
         PolygonHitbox.relative(
           [
-            Vector2(-1.0, -1.0),
-            Vector2(-1.0, 1.0),
-            Vector2(1, 1.0),
-            Vector2(1, -1),
+            Vector2(-0.95, -0.95),
+            Vector2(-0.95, 0.95),
+            Vector2(0.95, 0.95),
+            Vector2(0.95, 0.05),
+            Vector2(-0.333, 0.05),
+            Vector2(-0.333, -0.95),
           ],
           parentSize: size,
         )
@@ -94,11 +100,16 @@ class FallingComponent extends SpriteComponent
     PositionComponent other,
   ) {
     print('onCollisionStart $intersectionPoints $other');
-    if (intersectionPoints.first.x < 1) {
+    if (other is Wall) {
+      velocity = Vector2.all(0);
       return;
     }
-    if (intersectionPoints.first.y < 1) {
+    if (other is FallingComponent) {
       velocity = Vector2.all(0);
+      return;
+    }
+    if (intersectionPoints.first.x < 1) {
+      return;
     }
     velocity = Vector2.all(0);
     super.onCollisionStart(intersectionPoints, other);
