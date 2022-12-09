@@ -13,7 +13,6 @@ import 'package:tetris/boundaries.dart';
 
 import 'tetris_block.dart';
 import 'game_assets.dart';
-import 'tetromino.dart';
 
 const TextStyle _textStyle = TextStyle(color: Colors.black, fontSize: 2);
 
