@@ -103,6 +103,10 @@ abstract class TetrisBlock extends SpriteComponent
   void adjustY() {
     y = (y / 50).round() * 50.0 - yOffset;
   }
+
+  void setHighSpeed() {
+    velocity *= 10;
+  }
 }
 
 class TetrisI extends TetrisBlock {

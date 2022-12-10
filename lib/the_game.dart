@@ -83,11 +83,13 @@ class TheGame extends FlameGame
     }
     if (event.logicalKey == LogicalKeyboardKey.keyL) {
       world.add(_currentFallingBlock = TetrisJ(velocity, startPosition)
-        ..flipHorizontally());
+          ..flipHorizontally(),
+      );
     }
     if (event.logicalKey == LogicalKeyboardKey.keyZ) {
       world.add(_currentFallingBlock = TetrisS(velocity, startPosition)
-        ..flipHorizontally());
+          ..flipHorizontally(),
+      );
     }
     if (event.logicalKey == LogicalKeyboardKey.escape) {
       restart();
@@ -103,18 +105,20 @@ class TheGame extends FlameGame
         final newX =
             _currentFallingBlock!.x - 50 - _currentFallingBlock!.xOffset;
         if (isMoveAllowed(Vector2(newX, _currentFallingBlock!.y))) {
-          print('isMoveAllowed true, newX: $newX');
+//          print('isMoveAllowed true, newX: $newX');
           _currentFallingBlock!.moveXBy(-50);
         }
       } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
         final newX =
             _currentFallingBlock!.x + 50 - _currentFallingBlock!.xOffset;
         if (isMoveAllowed(Vector2(newX, _currentFallingBlock!.y))) {
-          print('isMoveAllowed true, newX: $newX');
+//          print('isMoveAllowed true, newX: $newX');
           _currentFallingBlock!.moveXBy(50);
         }
       } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
         _currentFallingBlock?.rotate();
+      } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+        _currentFallingBlock?.setHighSpeed();
       }
     }
 
