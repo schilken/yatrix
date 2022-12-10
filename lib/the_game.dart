@@ -48,7 +48,7 @@ class TheGame extends FlameGame
 
   void restart() {
     print('restart');
-    final allBlocks = children.query<TetrisBlock>();
+    final allBlocks = world.children.query<TetrisBlock>();
     allBlocks.forEach((element) => element.removeFromParent());
   }
 
