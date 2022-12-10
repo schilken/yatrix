@@ -1,12 +1,7 @@
-import 'dart:math';
-import 'dart:ui';
-
-import 'package:flame/collisions.dart';
-import 'package:flame/components.dart';
-import 'package:flame/events.dart';
-import 'package:flame/game.dart';
-import 'package:flame/palette.dart';
-import 'package:flutter/material.dart' hide Draggable;
+import 'package:flame/experimental.dart';
+import 'package:flame/game.dart' hide Viewport;
+import 'package:flame/input.dart';
+import 'package:flutter/material.dart' hide Draggable, Viewport;
 import 'package:flutter/services.dart';
 
 import 'package:tetris/boundaries.dart';
@@ -20,6 +15,12 @@ class TheGame extends FlameGame
     with HasCollisionDetection, TapDetector, HasDraggables, KeyboardEvents {
 
   TheGame();
+  late final World world;
+  late final CameraComponent cameraComponent;
+  late final Viewfinder viewfinder;
+  late final Viewport viewport;
+  Vector2 get visibleGameSize => viewfinder.visibleGameSize!;
+
 
   TetrisBlock? _currentFallingBlock;
 
@@ -27,7 +28,17 @@ class TheGame extends FlameGame
   Future<void> onLoad() async {
     //debugMode = true;
     await gameAssets.preCache();
-    add(Floor(size));
+    world = World();
+    cameraComponent = CameraComponent(world: world);
+    viewport = cameraComponent.viewport;
+    viewfinder = cameraComponent.viewfinder;
+
+    await addAll([world, cameraComponent]);
+    children.register<World>();
+    viewfinder.position = Vector2(-0, 0);
+    viewfinder.visibleGameSize = Vector2(500, 1000);
+
+    world.add(Floor(Vector2(-250, 480)));
   }
 
   @override
@@ -47,33 +58,33 @@ class TheGame extends FlameGame
     Set<LogicalKeyboardKey> keysPressed,
   ) {
 //    print('size.x ${size.x}');
-    final startPosition = Vector2(((size.x / 2) ~/ 100) * 100.0, 70);
+    final startPosition = Vector2(0, -450);
     final velocity = Vector2(0, 100);
     final isKeyUp = event is RawKeyUpEvent;
     if (event.repeat || !isKeyUp) {
       return super.onKeyEvent(event, keysPressed);
     }
     if (event.logicalKey == LogicalKeyboardKey.keyO) {
-      add(_currentFallingBlock = TetrisO(velocity, startPosition));
+      world.add(_currentFallingBlock = TetrisO(velocity, startPosition));
     }
     if (event.logicalKey == LogicalKeyboardKey.keyJ) {
-      add(_currentFallingBlock = TetrisJ(velocity, startPosition));
+      world.add(_currentFallingBlock = TetrisJ(velocity, startPosition));
     }
     if (event.logicalKey == LogicalKeyboardKey.keyI) {
-      add(_currentFallingBlock = TetrisI(velocity, startPosition));
+      world.add(_currentFallingBlock = TetrisI(velocity, startPosition));
     }
     if (event.logicalKey == LogicalKeyboardKey.keyT) {
-      add(_currentFallingBlock = TetrisT(velocity, startPosition));
+      world.add(_currentFallingBlock = TetrisT(velocity, startPosition));
     }
     if (event.logicalKey == LogicalKeyboardKey.keyS) {
-      add(_currentFallingBlock = TetrisS(velocity, startPosition));
+      world.add(_currentFallingBlock = TetrisS(velocity, startPosition));
     }
     if (event.logicalKey == LogicalKeyboardKey.keyL) {
-      add(_currentFallingBlock = TetrisJ(velocity, startPosition)
+      world.add(_currentFallingBlock = TetrisJ(velocity, startPosition)
         ..flipHorizontally());
     }
     if (event.logicalKey == LogicalKeyboardKey.keyZ) {
-      add(_currentFallingBlock = TetrisS(velocity, startPosition)
+      world.add(_currentFallingBlock = TetrisS(velocity, startPosition)
         ..flipHorizontally());
     }
     if (event.logicalKey == LogicalKeyboardKey.escape) {
@@ -119,10 +130,10 @@ class TheGame extends FlameGame
   }
   
   bool isMoveAllowed(Vector2 checkPosition) {
-    if (checkPosition.x < 0) {
+    if (checkPosition.x < -250) {
       return false;
     }
-    if (checkPosition.x > 400) {
+    if (checkPosition.x > 250) {
       return false;
     }
 
