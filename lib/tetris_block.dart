@@ -10,6 +10,8 @@ import 'package:tetris/boundaries.dart';
 
 import 'game_assets.dart';
 
+const tiny = 0.01;
+
 abstract class TetrisBlock extends SpriteComponent
     with CollisionCallbacks, HasGameRef {
   TetrisBlock(
@@ -23,11 +25,13 @@ abstract class TetrisBlock extends SpriteComponent
   Anchor get blockAnchor;
   List<Vector2> get hitboxPoints;
   double get xOffset;
+  double get yOffset;
   String get name;
-
+  double? _lastDeltaX;
 
   @override
   Future<void> onLoad() async {
+//    debugMode = true;
     final hitboxPaint = BasicPalette.white.withAlpha(128).paint()
       ..style = PaintingStyle.fill;
     position = blockPosition;
@@ -46,8 +50,10 @@ abstract class TetrisBlock extends SpriteComponent
   }
 
   void moveXBy(double deltaX) {
-    print('moveXBy: $deltaX');
+//    print('moveXBy: $deltaX');
     x += deltaX;
+    _lastDeltaX = deltaX;
+    Future.delayed(Duration(milliseconds: 100), () => _lastDeltaX = null);
   }
 
   @override
@@ -65,27 +71,44 @@ abstract class TetrisBlock extends SpriteComponent
     Set<Vector2> intersectionPoints,
     PositionComponent other,
   ) {
-    print('onCollisionStart $intersectionPoints $other');
-    if (other is Wall) {
+//    print('onCollisionStart $intersectionPoints $other');
+    if (velocity.y == 0 && _lastDeltaX == null) {
+      return;
+    }
+    if (other is Floor) {
       velocity = Vector2.all(0);
+      _lastDeltaX = null;
+      adjustY();
+      print('y: $y');
       return;
     }
     if (other is TetrisBlock) {
-      velocity = Vector2.all(0);
+      if (_lastDeltaX != null) {
+        x -= _lastDeltaX!;
+        _lastDeltaX = null;
+      } else {
+        velocity = Vector2.all(0);
+        adjustY();
+        print('y: $y');
+      }
       return;
     }
-    if (intersectionPoints.first.x < 1) {
-      return;
-    }
-    velocity = Vector2.all(0);
+    // if (intersectionPoints.first.x < 1) {
+    //   return;
+    // }
+    //velocity = Vector2.all(0);
     super.onCollisionStart(intersectionPoints, other);
+  }
+
+  void adjustY() {
+    y = (y / 50).round() * 50.0 - yOffset;
   }
 }
 
 class TetrisI extends TetrisBlock {
   TetrisI(super.velocity, super.blockPosition);
   @override
-  Vector2 get blockSize => Vector2(199, 49);
+  Vector2 get blockSize => Vector2(200 - tiny, 50 - tiny);
   @override
   String get name => 'tet-I';
   @override
@@ -93,18 +116,20 @@ class TetrisI extends TetrisBlock {
   @override
   double get xOffset => 25.0;
   @override
+  double get yOffset => 25.0;
+  @override
   List<Vector2> get hitboxPoints => [
-        Vector2(-0.95, -0.95),
-        Vector2(-0.95, 0.95),
-        Vector2(0.95, 0.95),
-        Vector2(0.95, -0.95),
+        Vector2(-1 + tiny, -1 + tiny),
+        Vector2(-1 + tiny, 1 - tiny),
+        Vector2(1 - tiny, 1 - tiny),
+        Vector2(1 - tiny, -1 + tiny),
       ];
 }
 
 class TetrisO extends TetrisBlock {
   TetrisO(super.velocity, super.blockPosition);
   @override
-  Vector2 get blockSize => Vector2(99, 99);
+  Vector2 get blockSize => Vector2(99.99, 99.99);
   @override
   String get name => 'tet-O';
   @override
@@ -112,18 +137,21 @@ class TetrisO extends TetrisBlock {
   @override
   double get xOffset => 50.0;
   @override
+  double get yOffset => 0.0;
+
+  @override
   List<Vector2> get hitboxPoints => [
-        Vector2(-0.95, -0.95),
-        Vector2(-0.95, 0.95),
-        Vector2(0.95, 0.95),
-        Vector2(0.95, -0.95),
+        Vector2(-0.99, -0.99),
+        Vector2(-0.99, 0.99),
+        Vector2(0.99, 0.99),
+        Vector2(0.99, -0.99),
       ];
 }
 
 class TetrisJ extends TetrisBlock {
   TetrisJ(super.velocity, super.blockPosition);
   @override
-  Vector2 get blockSize => Vector2(149, 99);
+  Vector2 get blockSize => Vector2(149.99, 99.99);
   @override
   String get name => 'tet-J';
   @override
@@ -131,20 +159,22 @@ class TetrisJ extends TetrisBlock {
   @override
   double get xOffset => 75.0;
   @override
+  double get yOffset => 25.0;
+  @override
   List<Vector2> get hitboxPoints => [
-        Vector2(-0.95, -0.95),
-        Vector2(-0.95, 0.95),
-        Vector2(0.95, 0.95),
-        Vector2(0.95, 0.05),
-        Vector2(-0.333, 0.05),
-        Vector2(-0.333, -0.95),
+        Vector2(-0.99, -0.99),
+        Vector2(-0.99, 0.99),
+        Vector2(0.99, 0.99),
+        Vector2(0.99, 0.01),
+        Vector2(-0.33333, 0.01),
+        Vector2(-0.33333, -0.99),
       ];
 }
 
 class TetrisT extends TetrisBlock {
   TetrisT(super.velocity, super.blockPosition);
   @override
-  Vector2 get blockSize => Vector2(149, 99);
+  Vector2 get blockSize => Vector2(149.99, 99.99);
   @override
   String get name => 'tet-T';
   @override
@@ -152,22 +182,24 @@ class TetrisT extends TetrisBlock {
   @override
   double get xOffset => 75.0;
   @override
+  double get yOffset => 25.0;
+  @override
   List<Vector2> get hitboxPoints => [
-        Vector2(-0.95, 0.0),
-        Vector2(-0.95, 0.95),
-        Vector2(0.95, 0.95),
-        Vector2(0.95, 0.05),
-        Vector2(0.333, 0.05),
-        Vector2(0.333, -0.95),
-        Vector2(-0.333, -0.95),
-        Vector2(-0.333, 0.05),
+        Vector2(-0.99, 0.0),
+        Vector2(-0.99, 0.99),
+        Vector2(0.99, 0.99),
+        Vector2(0.99, 0.01),
+        Vector2(0.33333, 0.01),
+        Vector2(0.33333, -0.99),
+        Vector2(-0.33333, -0.99),
+        Vector2(-0.33333, 0.01),
       ];
 }
 
 class TetrisS extends TetrisBlock {
   TetrisS(super.velocity, super.blockPosition);
   @override
-  Vector2 get blockSize => Vector2(149, 99);
+  Vector2 get blockSize => Vector2(149.99, 99.99);
   @override
   String get name => 'tet-S';
   @override
@@ -175,15 +207,16 @@ class TetrisS extends TetrisBlock {
   @override
   double get xOffset => 75.0;
   @override
+  double get yOffset => 25.0;
+  @override
   List<Vector2> get hitboxPoints => [
-        Vector2(-0.95, 0.0),
-        Vector2(-0.95, 0.95),
-        Vector2(0.33, 0.95),
-        Vector2(0.33, -0.05),
-        Vector2(0.99, -0.05),
-        Vector2(0.99, -0.95),
-        Vector2(-0.333, -0.95),
-        Vector2(-0.333, 0.05),
+        Vector2(-0.99, 0.0),
+        Vector2(-0.99, 0.99),
+        Vector2(0.33333, 0.99),
+        Vector2(0.33333, -0.01),
+        Vector2(0.99, -0.01),
+        Vector2(0.99, -0.99),
+        Vector2(-0.33333, -0.99),
+        Vector2(-0.33333, 0.01),
       ];
 }
-

@@ -27,8 +27,7 @@ class TheGame extends FlameGame
   Future<void> onLoad() async {
     //debugMode = true;
     await gameAssets.preCache();
-    final boundaries = createBoundaries(this);
-    boundaries.forEach(add);
+    add(Floor(size));
   }
 
   @override
@@ -47,7 +46,7 @@ class TheGame extends FlameGame
     RawKeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
   ) {
-    print('size.x ${size.x}');
+//    print('size.x ${size.x}');
     final startPosition = Vector2(((size.x / 2) ~/ 100) * 100.0, 70);
     final velocity = Vector2(0, 100);
     final isKeyUp = event is RawKeyUpEvent;
@@ -88,14 +87,19 @@ class TheGame extends FlameGame
     // key up and key down event.
     if (!event.repeat) {
       if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-        var newX = _currentFallingBlock!.x - 50 - _currentFallingBlock!.xOffset;
-
+        final newX =
+            _currentFallingBlock!.x - 50 - _currentFallingBlock!.xOffset;
         if (isMoveAllowed(Vector2(newX, _currentFallingBlock!.y))) {
           print('isMoveAllowed true, newX: $newX');
           _currentFallingBlock!.moveXBy(-50);
         }
       } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-        _currentFallingBlock?.x += 50;
+        final newX =
+            _currentFallingBlock!.x + 50 - _currentFallingBlock!.xOffset;
+        if (isMoveAllowed(Vector2(newX, _currentFallingBlock!.y))) {
+          print('isMoveAllowed true, newX: $newX');
+          _currentFallingBlock!.moveXBy(50);
+        }
       } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
         _currentFallingBlock?.rotate();
       }
@@ -118,6 +122,10 @@ class TheGame extends FlameGame
     if (checkPosition.x < 0) {
       return false;
     }
+    if (checkPosition.x > 400) {
+      return false;
+    }
+
     return true; // TODO reactivate later
     final otherComponents = componentsAtPoint(checkPosition +
             Vector2(
