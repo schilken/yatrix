@@ -1,3 +1,4 @@
+import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
 import 'package:flame/input.dart';
@@ -35,10 +36,11 @@ class TheGame extends FlameGame
 
     await addAll([world, cameraComponent]);
     children.register<World>();
-    viewfinder.position = Vector2(-0, 0);
+    viewfinder.anchor = Anchor.topCenter;
+    viewfinder.position = Vector2(250, 0);
     viewfinder.visibleGameSize = Vector2(500, 1000);
 
-    world.add(Floor(Vector2(-250, 480)));
+    world.add(Floor(Vector2(0, 480)));
   }
 
   @override
@@ -58,7 +60,7 @@ class TheGame extends FlameGame
     Set<LogicalKeyboardKey> keysPressed,
   ) {
 //    print('size.x ${size.x}');
-    final startPosition = Vector2(0, -450);
+    final startPosition = Vector2(250, 70);
     final velocity = Vector2(0, 100);
     final isKeyUp = event is RawKeyUpEvent;
     if (event.repeat || !isKeyUp) {
@@ -130,24 +132,14 @@ class TheGame extends FlameGame
   }
   
   bool isMoveAllowed(Vector2 checkPosition) {
-    if (checkPosition.x < -250) {
+    if (checkPosition.x < 0) {
       return false;
     }
-    if (checkPosition.x > 250) {
+    if (checkPosition.x > 400) {
       return false;
     }
 
-    return true; // TODO reactivate later
-    final otherComponents = componentsAtPoint(checkPosition +
-            Vector2(
-              -3,
-              3,
-            ))
-        .whereType<TetrisBlock>();
-    print('checkPosition: $checkPosition, otherComponents: ${otherComponents}');
-    final isAllowed = otherComponents.isEmpty;
-    print('isAllowed: ${isAllowed}');
-    return isAllowed;
+    return true; 
   }
 }
 

@@ -19,8 +19,8 @@ void adjustY() {
   @override
   Future<void> onLoad() async {
     debugMode = true;
-    size = Vector2(1000, 10);
-    position = Vector2(-250, 500);
+    size = Vector2(500, 10);
+    position = Vector2(0, 990);
     adjustY();
     final shape = PolygonHitbox.relative(
       [
