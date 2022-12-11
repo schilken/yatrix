@@ -5,9 +5,9 @@ import 'package:tetris/boundaries.dart';
 void main() {
   group('adjust  - ', () {
     test('Floor', () {
-      final floor = Floor(Vector2(500, 690));
+      final floor = Floor(size: Vector2(500, 10), position: Vector2(0, 990));
       floor.onLoad();
-      expect(floor.y, 650);
+      expect(floor.y, 950);
     });
   });
 }

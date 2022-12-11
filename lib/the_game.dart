@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
@@ -43,7 +44,6 @@ class TheGame extends FlameGame
     world.add(Floor(size: Vector2(500, 10), position: Vector2(0, 990)));
     world.add(Side(size: Vector2(10, 900), position: Vector2(-10, 50)));
     world.add(Side(size: Vector2(10, 900), position: Vector2(500, 50)));
-
   }
 
   @override
@@ -64,33 +64,34 @@ class TheGame extends FlameGame
   ) {
 //    print('size.x ${size.x}');
     final startPosition = Vector2(250, 70);
-    final velocity = Vector2(0, 100);
     final isKeyUp = event is RawKeyUpEvent;
     if (event.repeat || !isKeyUp) {
       return super.onKeyEvent(event, keysPressed);
     }
     if (event.logicalKey == LogicalKeyboardKey.keyO) {
-      world.add(_currentFallingBlock = TetrisO(velocity, startPosition));
+      world.add(_currentFallingBlock = TetrisO(blockPosition: startPosition));
     }
     if (event.logicalKey == LogicalKeyboardKey.keyJ) {
-      world.add(_currentFallingBlock = TetrisJ(velocity, startPosition));
+      world.add(_currentFallingBlock = TetrisJ(blockPosition: startPosition));
     }
     if (event.logicalKey == LogicalKeyboardKey.keyI) {
-      world.add(_currentFallingBlock = TetrisI(velocity, startPosition));
+      world.add(_currentFallingBlock = TetrisI(blockPosition: startPosition));
     }
     if (event.logicalKey == LogicalKeyboardKey.keyT) {
-      world.add(_currentFallingBlock = TetrisT(velocity, startPosition));
+      world.add(_currentFallingBlock = TetrisT(blockPosition: startPosition));
     }
     if (event.logicalKey == LogicalKeyboardKey.keyS) {
-      world.add(_currentFallingBlock = TetrisS(velocity, startPosition));
+      world.add(_currentFallingBlock = TetrisS(blockPosition: startPosition));
     }
     if (event.logicalKey == LogicalKeyboardKey.keyL) {
-      world.add(_currentFallingBlock = TetrisJ(velocity, startPosition)
+      world.add(
+        _currentFallingBlock = TetrisJ(blockPosition: startPosition)
           ..flipHorizontally(),
       );
     }
     if (event.logicalKey == LogicalKeyboardKey.keyZ) {
-      world.add(_currentFallingBlock = TetrisS(velocity, startPosition)
+      world.add(
+        _currentFallingBlock = TetrisS(blockPosition: startPosition)
           ..flipHorizontally(),
       );
     }
@@ -101,52 +102,19 @@ class TheGame extends FlameGame
     if (_currentFallingBlock == null) {
       return super.onKeyEvent(event, keysPressed);
     }
-    // Avoiding repeat event as we are interested only in
-    // key up and key down event.
     if (!event.repeat) {
       if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-        final newX =
-            _currentFallingBlock!.x - 50 - _currentFallingBlock!.xOffset;
-        if (isMoveAllowed(Vector2(newX, _currentFallingBlock!.y))) {
-//          print('isMoveAllowed true, newX: $newX');
-          _currentFallingBlock!.moveXBy(-50);
-        }
+        _currentFallingBlock!.moveXBy(-50);
       } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-        final newX =
-            _currentFallingBlock!.x + 50 - _currentFallingBlock!.xOffset;
-        if (isMoveAllowed(Vector2(newX, _currentFallingBlock!.y))) {
-//          print('isMoveAllowed true, newX: $newX');
-          _currentFallingBlock!.moveXBy(50);
-        }
+        _currentFallingBlock!.moveXBy(50);
       } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-        _currentFallingBlock?.rotate();
+        _currentFallingBlock?.rotateBy(-pi / 2);
       } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
         _currentFallingBlock?.setHighSpeed();
       }
     }
-
     return super.onKeyEvent(event, keysPressed);
   }
-
-  @override
-  void onMount() {
-    super.onMount();
-  }
-
-  @override
-  void onRemove() {
-    super.onRemove();
-  }
   
-  bool isMoveAllowed(Vector2 checkPosition) {
-    if (checkPosition.x < 0) {
-      return false;
-    }
-    if (checkPosition.x > 400) {
-      return false;
-    }
-
-    return true; 
-  }
 }
 

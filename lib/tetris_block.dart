@@ -14,11 +14,12 @@ const tiny = 0.01;
 
 abstract class TetrisBlock extends SpriteComponent
     with CollisionCallbacks, HasGameRef {
-  TetrisBlock(
-    this.velocity,
-    this.blockPosition,
-  );
-  Vector2 velocity;
+  TetrisBlock({
+    required this.blockPosition,
+    Vector2? velocity,
+  }) : _velocity = velocity ?? Vector2(0, 100);
+
+  Vector2 _velocity;
   Vector2 blockPosition;
 
   Vector2 get blockSize;
@@ -28,6 +29,7 @@ abstract class TetrisBlock extends SpriteComponent
   double get yOffset;
   String get name;
   double? _lastDeltaX;
+  double? _lastRotate;
 
   @override
   Future<void> onLoad() async {
@@ -53,17 +55,19 @@ abstract class TetrisBlock extends SpriteComponent
 //    print('moveXBy: $deltaX');
     x += deltaX;
     _lastDeltaX = deltaX;
-    Future.delayed(Duration(milliseconds: 100), () => _lastDeltaX = null);
+    Future.delayed(const Duration(milliseconds: 100), () => _lastDeltaX = null);
+  }
+
+  void rotateBy(double deltaAngle) {
+    angle += deltaAngle;
+    _lastRotate = deltaAngle;
+    Future.delayed(const Duration(milliseconds: 100), () => _lastRotate = null);
   }
 
   @override
   void update(double dt) {
     super.update(dt);
-    position += velocity * dt;
-  }
-
-  void rotate() {
-    angle -= pi / 2;
+    position += _velocity * dt;
   }
 
   @override
@@ -71,32 +75,34 @@ abstract class TetrisBlock extends SpriteComponent
     Set<Vector2> intersectionPoints,
     PositionComponent other,
   ) {
-//    print('onCollisionStart $intersectionPoints $other');
-    if (velocity.y == 0 && _lastDeltaX == null) {
+    print('onCollisionStart $other');
+    if (_velocity.y == 0 && _lastDeltaX == null && _lastRotate == null) {
       return;
     }
-    if (other is Floor) {
-      velocity = Vector2.all(0);
+    if (other is Floor && _lastRotate == null) {
+      _velocity = Vector2.all(0);
       _lastDeltaX = null;
       adjustY();
-      print('y: $y');
+//      print('y: $y');
       return;
     }
-    if (other is TetrisBlock) {
-      if (_lastDeltaX != null) {
-        x -= _lastDeltaX!;
-        _lastDeltaX = null;
-      } else {
-        velocity = Vector2.all(0);
-        adjustY();
-        print('y: $y');
-      }
+    if (other is Floor && _lastRotate != null) {
+      angle -= _lastRotate!;
+      _lastRotate = null;
       return;
     }
-    // if (intersectionPoints.first.x < 1) {
-    //   return;
-    // }
-    //velocity = Vector2.all(0);
+
+    if (_lastDeltaX != null) {
+      x -= _lastDeltaX!;
+      _lastDeltaX = null;
+    } else if (_lastRotate != null) {
+      angle -= _lastRotate!;
+      _lastRotate = null;
+    } else {
+      _velocity = Vector2.all(0);
+      adjustY();
+//      print('y: $y');
+    }
     super.onCollisionStart(intersectionPoints, other);
   }
 
@@ -105,12 +111,19 @@ abstract class TetrisBlock extends SpriteComponent
   }
 
   void setHighSpeed() {
-    velocity *= 10;
+    if (_velocity.y != 0) {
+      _velocity *= 10;
+    } else {
+      _velocity = Vector2(0, 100);
+    }
   }
 }
 
 class TetrisI extends TetrisBlock {
-  TetrisI(super.velocity, super.blockPosition);
+  TetrisI({
+    required super.blockPosition,
+    super.velocity,
+  });
   @override
   Vector2 get blockSize => Vector2(200 - tiny, 50 - tiny);
   @override
@@ -131,7 +144,10 @@ class TetrisI extends TetrisBlock {
 }
 
 class TetrisO extends TetrisBlock {
-  TetrisO(super.velocity, super.blockPosition);
+  TetrisO({
+    required super.blockPosition,
+    super.velocity,
+  });
   @override
   Vector2 get blockSize => Vector2(99.99, 99.99);
   @override
@@ -153,7 +169,11 @@ class TetrisO extends TetrisBlock {
 }
 
 class TetrisJ extends TetrisBlock {
-  TetrisJ(super.velocity, super.blockPosition);
+  TetrisJ({
+    required super.blockPosition,
+    super.velocity,
+  });
+
   @override
   Vector2 get blockSize => Vector2(149.99, 99.99);
   @override
@@ -176,7 +196,11 @@ class TetrisJ extends TetrisBlock {
 }
 
 class TetrisT extends TetrisBlock {
-  TetrisT(super.velocity, super.blockPosition);
+  TetrisT({
+    required super.blockPosition,
+    super.velocity,
+  });
+
   @override
   Vector2 get blockSize => Vector2(149.99, 99.99);
   @override
@@ -201,7 +225,11 @@ class TetrisT extends TetrisBlock {
 }
 
 class TetrisS extends TetrisBlock {
-  TetrisS(super.velocity, super.blockPosition);
+  TetrisS({
+    required super.blockPosition,
+    super.velocity,
+  });
+
   @override
   Vector2 get blockSize => Vector2(149.99, 99.99);
   @override
