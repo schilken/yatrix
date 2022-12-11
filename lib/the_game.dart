@@ -40,7 +40,10 @@ class TheGame extends FlameGame
     viewfinder.position = Vector2(250, 0);
     viewfinder.visibleGameSize = Vector2(500, 1000);
 
-    world.add(Floor(Vector2(0, 480)));
+    world.add(Floor(size: Vector2(500, 10), position: Vector2(0, 990)));
+    world.add(Side(size: Vector2(10, 900), position: Vector2(-10, 50)));
+    world.add(Side(size: Vector2(10, 900), position: Vector2(500, 50)));
+
   }
 
   @override

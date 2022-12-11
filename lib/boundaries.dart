@@ -3,24 +3,24 @@ import 'package:flame/components.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart' hide Draggable;
 
-class Floor extends PositionComponent with CollisionCallbacks {
-  final Vector2 gameSize;
 
-  Floor(this.gameSize);
+class Boundary extends PositionComponent with CollisionCallbacks {
+  Boundary({
+    super.size,
+    super.position,
+  });
 
   final Paint hitboxPaint = BasicPalette.green.paint()
     ..style = PaintingStyle.stroke;
 
-void adjustY() {
-    print('adjustY y: $y');
+  void adjustY() {
+//    print('adjustY y: $y');
     y = (y ~/ 50) * 50.0;
   }
 
   @override
   Future<void> onLoad() async {
-    debugMode = true;
-    size = Vector2(500, 10);
-    position = Vector2(0, 990);
+//    debugMode = true;
     adjustY();
     final shape = PolygonHitbox.relative(
       [
@@ -35,5 +35,12 @@ void adjustY() {
       ..renderShape = true;
     add(shape);
   }
+}
 
+class Floor extends Boundary {
+  Floor({super.size, super.position});
+}
+
+class Side extends Boundary {
+  Side({super.size, super.position});
 }
