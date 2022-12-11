@@ -85,14 +85,12 @@ class TheGame extends FlameGame
     }
     if (event.logicalKey == LogicalKeyboardKey.keyL) {
       world.add(
-        _currentFallingBlock = TetrisJ(blockPosition: startPosition)
-          ..flipHorizontally(),
+        _currentFallingBlock = TetrisL(blockPosition: startPosition),
       );
     }
     if (event.logicalKey == LogicalKeyboardKey.keyZ) {
       world.add(
-        _currentFallingBlock = TetrisS(blockPosition: startPosition)
-          ..flipHorizontally(),
+        _currentFallingBlock = TetrisZ(blockPosition: startPosition),
       );
     }
     if (event.logicalKey == LogicalKeyboardKey.escape) {
