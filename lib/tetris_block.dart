@@ -12,6 +12,11 @@ import 'game_assets.dart';
 
 const tiny = 0.01;
 
+typedef TetrisBlockTearOff = TetrisBlock Function({
+  required Vector2 blockPosition,
+  Vector2 velocity,
+});
+
 abstract class TetrisBlock extends SpriteComponent
     with CollisionCallbacks, HasGameRef {
   TetrisBlock({
@@ -22,6 +27,7 @@ abstract class TetrisBlock extends SpriteComponent
   Vector2 _velocity;
   Vector2 blockPosition;
 
+  static final Random _random = Random();
   Vector2 get blockSize;
   Anchor get blockAnchor;
   List<Vector2> get hitboxPoints;
@@ -41,14 +47,13 @@ abstract class TetrisBlock extends SpriteComponent
     sprite = gameAssets.sprites[name];
     anchor = blockAnchor;
     x += xOffset;
-    add(
-      PolygonHitbox.relative(
-        hitboxPoints,
-        parentSize: size,
-      )
+    add(PolygonHitbox.relative(
+      hitboxPoints,
+      parentSize: size,
+    )
         // ..paint = hitboxPaint
         // ..renderShape = true,
-    );
+        );
   }
 
   void moveXBy(double deltaX) {
@@ -75,7 +80,7 @@ abstract class TetrisBlock extends SpriteComponent
     Set<Vector2> intersectionPoints,
     PositionComponent other,
   ) {
-    print('onCollisionStart $other');
+//    print('onCollisionStart $other');
     if (_velocity.y == 0 && _lastDeltaX == null && _lastRotate == null) {
       return;
     }
@@ -116,6 +121,48 @@ abstract class TetrisBlock extends SpriteComponent
     } else {
       _velocity = Vector2(0, 100);
     }
+  }
+
+  factory TetrisBlock.create(String blockType, Vector2 blockPosition) {
+    TetrisBlockTearOff constructorTearOff = TetrisI.new;
+    switch (blockType) {
+      case 'I':
+        constructorTearOff = TetrisI.new;
+        break;
+      case 'O':
+        constructorTearOff = TetrisO.new;
+        break;
+      case 'J':
+        constructorTearOff = TetrisJ.new;
+        break;
+      case 'L':
+        constructorTearOff = TetrisL.new;
+        break;
+      case 'S':
+        constructorTearOff = TetrisS.new;
+        break;
+      case 'Z':
+        constructorTearOff = TetrisZ.new;
+        break;
+      case 'T':
+        constructorTearOff = TetrisT.new;
+        break;
+    }
+    return constructorTearOff(blockPosition: blockPosition);
+  }
+
+  factory TetrisBlock.random(Vector2 blockPosition) {
+    final blockTypes = [
+      'I',
+      'O',
+      'J',
+      'L',
+      'S',
+      'Z',
+      'T',
+    ];
+    final newBlockType = blockTypes[_random.nextInt(blockTypes.length)];
+    return TetrisBlock.create(newBlockType, blockPosition);
   }
 }
 

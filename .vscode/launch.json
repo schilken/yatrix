@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "same_1x1",
+            "name": "tetris",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "same_1x1 (profile mode)",
+            "name": "tetris (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "same_1x1 (release mode)",
+            "name": "tetris (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

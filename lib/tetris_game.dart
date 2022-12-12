@@ -60,45 +60,51 @@ class TetrisGame extends FlameGame
     RawKeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
   ) {
-//    print('size.x ${size.x}');
     final startPosition = Vector2(250, 70);
     final isKeyUp = event is RawKeyUpEvent;
     if (event.repeat || !isKeyUp) {
       return super.onKeyEvent(event, keysPressed);
     }
-    if (event.logicalKey == LogicalKeyboardKey.keyO) {
-      world.add(_currentFallingBlock = TetrisO(blockPosition: startPosition));
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyJ) {
-      world.add(_currentFallingBlock = TetrisJ(blockPosition: startPosition));
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyI) {
-      world.add(_currentFallingBlock = TetrisI(blockPosition: startPosition));
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyT) {
-      world.add(_currentFallingBlock = TetrisT(blockPosition: startPosition));
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyS) {
-      world.add(_currentFallingBlock = TetrisS(blockPosition: startPosition));
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyL) {
-      world.add(
-        _currentFallingBlock = TetrisL(blockPosition: startPosition),
-      );
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyZ) {
-      world.add(
-        _currentFallingBlock = TetrisZ(blockPosition: startPosition),
-      );
-    }
     if (event.logicalKey == LogicalKeyboardKey.escape) {
       restart();
+    }
+
+    if (event.logicalKey == LogicalKeyboardKey.keyO) {
+      _currentFallingBlock = TetrisBlock.create('O', startPosition);
+      world.add(_currentFallingBlock!);
+    }
+    if (event.logicalKey == LogicalKeyboardKey.keyJ) {
+      _currentFallingBlock = TetrisBlock.create('J', startPosition);
+      world.add(_currentFallingBlock!);
+    }
+    if (event.logicalKey == LogicalKeyboardKey.keyI) {
+      _currentFallingBlock = TetrisBlock.create('I', startPosition);
+      world.add(_currentFallingBlock!);
+    }
+    if (event.logicalKey == LogicalKeyboardKey.keyT) {
+      _currentFallingBlock = TetrisBlock.create('T', startPosition);
+      world.add(_currentFallingBlock!);
+    }
+    if (event.logicalKey == LogicalKeyboardKey.keyS) {
+      _currentFallingBlock = TetrisBlock.create('S', startPosition);
+      world.add(_currentFallingBlock!);
+    }
+    if (event.logicalKey == LogicalKeyboardKey.keyL) {
+      _currentFallingBlock = TetrisBlock.create('L', startPosition);
+      world.add(_currentFallingBlock!);
+    }
+    if (event.logicalKey == LogicalKeyboardKey.keyZ) {
+      _currentFallingBlock = TetrisBlock.create('Z', startPosition);
+      world.add(_currentFallingBlock!);
+    }
+    if (event.logicalKey == LogicalKeyboardKey.keyR) {
+      _currentFallingBlock = TetrisBlock.random(startPosition);
+      world.add(_currentFallingBlock!);
     }
 
     if (_currentFallingBlock == null) {
       return super.onKeyEvent(event, keysPressed);
     }
-    if (!event.repeat) {
       if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
         _currentFallingBlock!.moveXBy(-50);
       } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
@@ -106,9 +112,9 @@ class TetrisGame extends FlameGame
       } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
         _currentFallingBlock?.rotateBy(-pi / 2);
       } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
-        _currentFallingBlock?.setHighSpeed();
-      }
+      _currentFallingBlock?.setHighSpeed();
     }
     return super.onKeyEvent(event, keysPressed);
   }
+  
 }
