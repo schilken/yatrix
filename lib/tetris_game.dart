@@ -13,16 +13,14 @@ import 'game_assets.dart';
 
 const TextStyle _textStyle = TextStyle(color: Colors.black, fontSize: 2);
 
-class TheGame extends FlameGame
+class TetrisGame extends FlameGame
     with HasCollisionDetection, TapDetector, HasDraggables, KeyboardEvents {
-
-  TheGame();
+  TetrisGame();
   late final World world;
   late final CameraComponent cameraComponent;
   late final Viewfinder viewfinder;
   late final Viewport viewport;
   Vector2 get visibleGameSize => viewfinder.visibleGameSize!;
-
 
   TetrisBlock? _currentFallingBlock;
 
@@ -57,7 +55,7 @@ class TheGame extends FlameGame
     allBlocks.forEach((element) => element.removeFromParent());
   }
 
-@override
+  @override
   KeyEventResult onKeyEvent(
     RawKeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
@@ -113,6 +111,4 @@ class TheGame extends FlameGame
     }
     return super.onKeyEvent(event, keysPressed);
   }
-  
 }
-
