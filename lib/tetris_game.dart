@@ -23,6 +23,7 @@ class TetrisGame extends FlameGame
   Vector2 get visibleGameSize => viewfinder.visibleGameSize!;
 
   TetrisBlock? _currentFallingBlock;
+  bool isGameRunning = false;
 
   final defaultStartPosition = Vector2(250, 70);
 
@@ -53,6 +54,7 @@ class TetrisGame extends FlameGame
 
   void restart() {
     print('restart');
+    isGameRunning = false;
     final allBlocks = world.children.query<TetrisBlock>();
     allBlocks.forEach((element) => element.removeFromParent());
   }
@@ -99,6 +101,7 @@ class TetrisGame extends FlameGame
       world.add(_currentFallingBlock!);
     }
     if (event.logicalKey == LogicalKeyboardKey.keyR) {
+      isGameRunning = true;
       addRandomBlock();
     }
 
@@ -118,6 +121,10 @@ class TetrisGame extends FlameGame
   }
 
   void addRandomBlock({Vector2? startPosition}) {
+    if (!isGameRunning) {
+      print('>>> GAME OVER <<<');
+      return;
+    }
     _currentFallingBlock =
         TetrisBlock.random(startPosition ?? defaultStartPosition);
     world.add(_currentFallingBlock!);

@@ -80,6 +80,10 @@ abstract class TetrisBlock extends SpriteComponent
     _velocity = Vector2.all(0);
     _lastDeltaX = null;
     adjustY();
+    print('freezedBlock y: $y');
+    if (y <= 75) {
+      game.isGameRunning = false;
+    } 
     Future.delayed(Duration(milliseconds: 500), () => game.addRandomBlock());
   }
 
