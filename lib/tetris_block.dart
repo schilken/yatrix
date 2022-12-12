@@ -120,7 +120,7 @@ abstract class TetrisBlock extends SpriteComponent
 
   void adjustY() {
     print('adjustY before: $y');
-    y = (y / 25).round() * 25.0;
+    y = (y / 25).floor() * 25.0;
     print('adjustY after: $y');
   }
 
