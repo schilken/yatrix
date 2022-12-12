@@ -84,7 +84,7 @@ abstract class TetrisBlock extends SpriteComponent
     if (y <= 75) {
       game.isGameRunning = false;
     } 
-    Future.delayed(Duration(milliseconds: 500), () => game.addRandomBlock());
+    Future.delayed(Duration(milliseconds: 10), () => game.addRandomBlock());
   }
 
   @override
@@ -119,7 +119,9 @@ abstract class TetrisBlock extends SpriteComponent
   }
 
   void adjustY() {
-    y = (y / 50).round() * 50.0 - yOffset;
+    print('adjustY before: $y');
+    y = (y / 25).round() * 25.0;
+    print('adjustY after: $y');
   }
 
   void setHighSpeed() {
@@ -323,8 +325,8 @@ class TetrisS extends TetrisBlock {
   double get yOffset => 25.0;
   @override
   List<Vector2> get hitboxPoints => [
-        Vector2(-0.99, 0.0),
-        Vector2(-0.99, 0.99),
+        Vector2(-0.95, 0.0),
+        Vector2(-0.95, 0.99),
         Vector2(0.33333, 0.99),
         Vector2(0.33333, -0.01),
         Vector2(0.99, -0.01),
@@ -353,12 +355,12 @@ class TetrisZ extends TetrisBlock {
   @override
   List<Vector2> get hitboxPoints => [
         Vector2(-0.99, -0.99),
-        Vector2(-0.99, -0.01),
-        Vector2(-0.35, -0.01),
-        Vector2(-0.35, 0.99),
+        Vector2(-0.99, -0.05),
+        Vector2(-0.32, -0.05),
+        Vector2(-0.32, 0.99),
         Vector2(0.99, 0.99),
-        Vector2(0.99, 0.01),
-        Vector2(0.32, 0.01),
-        Vector2(0.32, -0.99),
+        Vector2(0.99, 0.05),
+        Vector2(0.32, 0.05),
+        Vector2(0.32, -0.95),
       ];
 }
