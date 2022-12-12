@@ -1,6 +1,6 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:tetris/the_game.dart';
+import 'package:tetris/tetris_game.dart';
 
 import 'game_page.dart';
 
@@ -14,7 +14,7 @@ void main() async {
       home: SafeArea(
           child: Builder(builder: (context) {
             return GamePage(
-                game: TheGame(
+                game: TetrisGame(
             ));
           }),
         ),
