@@ -24,6 +24,8 @@ class TetrisGame extends FlameGame
 
   TetrisBlock? _currentFallingBlock;
 
+  final defaultStartPosition = Vector2(250, 70);
+
   @override
   Future<void> onLoad() async {
     //debugMode = true;
@@ -60,7 +62,6 @@ class TetrisGame extends FlameGame
     RawKeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
   ) {
-    final startPosition = Vector2(250, 70);
     final isKeyUp = event is RawKeyUpEvent;
     if (event.repeat || !isKeyUp) {
       return super.onKeyEvent(event, keysPressed);
@@ -70,36 +71,35 @@ class TetrisGame extends FlameGame
     }
 
     if (event.logicalKey == LogicalKeyboardKey.keyO) {
-      _currentFallingBlock = TetrisBlock.create('O', startPosition);
+      _currentFallingBlock = TetrisBlock.create('O', defaultStartPosition);
       world.add(_currentFallingBlock!);
     }
     if (event.logicalKey == LogicalKeyboardKey.keyJ) {
-      _currentFallingBlock = TetrisBlock.create('J', startPosition);
+      _currentFallingBlock = TetrisBlock.create('J', defaultStartPosition);
       world.add(_currentFallingBlock!);
     }
     if (event.logicalKey == LogicalKeyboardKey.keyI) {
-      _currentFallingBlock = TetrisBlock.create('I', startPosition);
+      _currentFallingBlock = TetrisBlock.create('I', defaultStartPosition);
       world.add(_currentFallingBlock!);
     }
     if (event.logicalKey == LogicalKeyboardKey.keyT) {
-      _currentFallingBlock = TetrisBlock.create('T', startPosition);
+      _currentFallingBlock = TetrisBlock.create('T', defaultStartPosition);
       world.add(_currentFallingBlock!);
     }
     if (event.logicalKey == LogicalKeyboardKey.keyS) {
-      _currentFallingBlock = TetrisBlock.create('S', startPosition);
+      _currentFallingBlock = TetrisBlock.create('S', defaultStartPosition);
       world.add(_currentFallingBlock!);
     }
     if (event.logicalKey == LogicalKeyboardKey.keyL) {
-      _currentFallingBlock = TetrisBlock.create('L', startPosition);
+      _currentFallingBlock = TetrisBlock.create('L', defaultStartPosition);
       world.add(_currentFallingBlock!);
     }
     if (event.logicalKey == LogicalKeyboardKey.keyZ) {
-      _currentFallingBlock = TetrisBlock.create('Z', startPosition);
+      _currentFallingBlock = TetrisBlock.create('Z', defaultStartPosition);
       world.add(_currentFallingBlock!);
     }
     if (event.logicalKey == LogicalKeyboardKey.keyR) {
-      _currentFallingBlock = TetrisBlock.random(startPosition);
-      world.add(_currentFallingBlock!);
+      addRandomBlock();
     }
 
     if (_currentFallingBlock == null) {
@@ -115,6 +115,12 @@ class TetrisGame extends FlameGame
       _currentFallingBlock?.setHighSpeed();
     }
     return super.onKeyEvent(event, keysPressed);
+  }
+
+  void addRandomBlock({Vector2? startPosition}) {
+    _currentFallingBlock =
+        TetrisBlock.random(startPosition ?? defaultStartPosition);
+    world.add(_currentFallingBlock!);
   }
   
 }

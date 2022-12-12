@@ -9,6 +9,7 @@ import 'package:flutter/material.dart' hide Draggable;
 import 'package:tetris/boundaries.dart';
 
 import 'game_assets.dart';
+import 'tetris_game.dart';
 
 const tiny = 0.1;
 
@@ -18,7 +19,7 @@ typedef TetrisBlockTearOff = TetrisBlock Function({
 });
 
 abstract class TetrisBlock extends SpriteComponent
-    with CollisionCallbacks, HasGameRef {
+    with CollisionCallbacks, HasGameRef<TetrisGame> {
   TetrisBlock({
     required this.blockPosition,
     Vector2? velocity,
@@ -51,8 +52,8 @@ abstract class TetrisBlock extends SpriteComponent
       hitboxPoints,
       parentSize: size,
     )
-        ..paint = hitboxPaint
-        ..renderShape = true,
+        // ..paint = hitboxPaint
+        // ..renderShape = true,
         );
   }
 
@@ -75,20 +76,24 @@ abstract class TetrisBlock extends SpriteComponent
     position += _velocity * dt;
   }
 
+  void freezeBlock() {
+    _velocity = Vector2.all(0);
+    _lastDeltaX = null;
+    adjustY();
+    Future.delayed(Duration(milliseconds: 500), () => game.addRandomBlock());
+  }
+
   @override
   void onCollisionStart(
     Set<Vector2> intersectionPoints,
     PositionComponent other,
   ) {
-    print('onCollisionStart $other');
+//    print('onCollisionStart $other');
     if (_velocity.y == 0 && _lastDeltaX == null && _lastRotate == null) {
       return;
     }
     if (other is Floor && _lastRotate == null) {
-      _velocity = Vector2.all(0);
-      _lastDeltaX = null;
-      adjustY();
-//      print('y: $y');
+      freezeBlock();
       return;
     }
     if (other is Floor && _lastRotate != null) {
@@ -104,9 +109,7 @@ abstract class TetrisBlock extends SpriteComponent
       angle -= _lastRotate!;
       _lastRotate = null;
     } else {
-      _velocity = Vector2.all(0);
-      adjustY();
-//      print('y: $y');
+      freezeBlock();
     }
     super.onCollisionStart(intersectionPoints, other);
   }
