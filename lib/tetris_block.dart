@@ -11,7 +11,7 @@ import 'package:tetris/boundaries.dart';
 import 'game_assets.dart';
 import 'tetris_game.dart';
 
-const tiny = 0.1;
+const tiny = 0.05;
 const quadSize = 50.0;
 
 typedef TetrisBlockTearOff = TetrisBlock Function({
@@ -38,6 +38,7 @@ abstract class TetrisBlock extends SpriteComponent
   String get name;
   double? _lastDeltaX;
   double? _lastRotate;
+  PolygonHitbox? hitBox;
 
   @override
   Future<void> onLoad() async {
@@ -49,13 +50,16 @@ abstract class TetrisBlock extends SpriteComponent
     sprite = gameAssets.sprites[name];
     anchor = blockAnchor;
     x += xOffset;
-    add(PolygonHitbox.relative(
+
+    hitBox = PolygonHitbox.relative(
       hitboxPoints,
       parentSize: size,
-    )
-        // ..paint = hitboxPaint
-        // ..renderShape = true,
-        );
+    );
+    hitBox!.debugMode = true;
+
+    // ..paint = hitboxPaint
+    // ..renderShape = true,
+    add(hitBox!);
   }
 
   void moveXBy(double deltaX) {
@@ -84,7 +88,7 @@ abstract class TetrisBlock extends SpriteComponent
     print('freezedBlock y: $y');
     if (y <= 75) {
       game.isGameRunning = false;
-    } 
+    }
     Future.delayed(Duration(milliseconds: 300), () => game.addRandomBlock());
   }
 
@@ -120,9 +124,9 @@ abstract class TetrisBlock extends SpriteComponent
   }
 
   void adjustY() {
-    print('adjustY before: $y');
+//    print('adjustY before: $y');
     y = (y / 25).floor() * 25.0;
-    print('adjustY after: $y');
+//    print('adjustY after: $y');
   }
 
   void setHighSpeed() {
@@ -174,6 +178,16 @@ abstract class TetrisBlock extends SpriteComponent
     final newBlockType = blockTypes[_random.nextInt(blockTypes.length)];
     return TetrisBlock.create(newBlockType, blockPosition);
   }
+
+  @override
+  bool containsLocalPoint(Vector2 globalPoint) {
+    final localPoint = globalPoint - position + Vector2(xOffset, yOffset);
+    final isContaining = hitBox!.containsLocalPoint(localPoint);
+    print(
+        'containsLocalPoint $position $globalPoint $localPoint $isContaining');
+    if (isContaining) {}
+    return isContaining;
+  }
 }
 
 class TetrisI extends TetrisBlock {
@@ -218,10 +232,10 @@ class TetrisO extends TetrisBlock {
 
   @override
   List<Vector2> get hitboxPoints => [
-        Vector2(-0.99, -0.99),
-        Vector2(-0.99, 0.99),
-        Vector2(0.99, 0.99),
-        Vector2(0.99, -0.99),
+        Vector2(-0.95, -0.95),
+        Vector2(-0.95, 0.95),
+        Vector2(0.95, 0.95),
+        Vector2(0.95, -0.95),
       ];
 }
 
@@ -243,12 +257,12 @@ class TetrisJ extends TetrisBlock {
   double get yOffset => 25.0;
   @override
   List<Vector2> get hitboxPoints => [
-        Vector2(-0.99, -0.95),
-        Vector2(-0.99, 0.95),
+        Vector2(-0.95, -0.95),
+        Vector2(-0.95, 0.95),
         Vector2(0.95, 0.95),
         Vector2(0.95, 0.05),
-        Vector2(-0.36, 0.05),
-        Vector2(-0.36, -0.9),
+        Vector2(-0.32, 0.05),
+        Vector2(-0.32, -0.95),
       ];
 }
 
@@ -270,12 +284,12 @@ class TetrisL extends TetrisBlock {
   double get yOffset => 25.0;
   @override
   List<Vector2> get hitboxPoints => [
-        Vector2(-0.99, 0.01),
-        Vector2(-0.99, 0.99),
-        Vector2(0.99, 0.99),
-        Vector2(0.99, -0.99),
-        Vector2(0.35, -0.99),
-        Vector2(0.35, 0.01),
+        Vector2(-0.95, 0.05),
+        Vector2(-0.95, 0.95),
+        Vector2(0.95, 0.95),
+        Vector2(0.95, -0.95),
+        Vector2(0.32, -0.95),
+        Vector2(0.32, 0.05),
       ];
 }
 
@@ -297,14 +311,14 @@ class TetrisT extends TetrisBlock {
   double get yOffset => 25.0;
   @override
   List<Vector2> get hitboxPoints => [
-        Vector2(-0.99, 0.0),
-        Vector2(-0.99, 0.99),
-        Vector2(0.99, 0.99),
-        Vector2(0.99, 0.01),
-        Vector2(0.33333, 0.01),
-        Vector2(0.33333, -0.99),
-        Vector2(-0.35, -0.99),
-        Vector2(-0.35, 0.01),
+        Vector2(-0.95, 0.0),
+        Vector2(-0.95, 0.95),
+        Vector2(0.95, 0.95),
+        Vector2(0.95, 0.05),
+        Vector2(0.32, 0.05),
+        Vector2(0.32, -0.95),
+        Vector2(-0.32, -0.95),
+        Vector2(-0.32, 0.05),
       ];
 }
 
@@ -332,8 +346,8 @@ class TetrisS extends TetrisBlock {
         Vector2(0.32, -0.05),
         Vector2(0.95, -0.05),
         Vector2(0.95, -0.95),
-        Vector2(-0.35, -0.95),
-        Vector2(-0.35, 0.05),
+        Vector2(-0.32, -0.95),
+        Vector2(-0.32, 0.05),
       ];
 }
 
@@ -355,12 +369,12 @@ class TetrisZ extends TetrisBlock {
   double get yOffset => 25.0;
   @override
   List<Vector2> get hitboxPoints => [
-        Vector2(-0.99, -0.99),
-        Vector2(-0.99, -0.05),
+        Vector2(-0.95, -0.95),
+        Vector2(-0.95, -0.05),
         Vector2(-0.32, -0.05),
-        Vector2(-0.32, 0.99),
-        Vector2(0.99, 0.99),
-        Vector2(0.99, 0.05),
+        Vector2(-0.32, 0.95),
+        Vector2(0.95, 0.95),
+        Vector2(0.95, 0.05),
         Vector2(0.32, 0.05),
         Vector2(0.32, -0.95),
       ];
