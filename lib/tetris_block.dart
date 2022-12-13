@@ -12,6 +12,7 @@ import 'game_assets.dart';
 import 'tetris_game.dart';
 
 const tiny = 0.1;
+const quadSize = 50.0;
 
 typedef TetrisBlockTearOff = TetrisBlock Function({
   required Vector2 blockPosition,
@@ -181,7 +182,7 @@ class TetrisI extends TetrisBlock {
     super.velocity,
   });
   @override
-  Vector2 get blockSize => Vector2(200 - tiny, 50 - tiny);
+  Vector2 get blockSize => Vector2(4 * quadSize, quadSize);
   @override
   String get name => 'tet-I';
   @override
@@ -205,7 +206,7 @@ class TetrisO extends TetrisBlock {
     super.velocity,
   });
   @override
-  Vector2 get blockSize => Vector2(99.9, 99.9);
+  Vector2 get blockSize => Vector2(2 * quadSize, 2 * quadSize);
   @override
   String get name => 'tet-O';
   @override
@@ -231,7 +232,7 @@ class TetrisJ extends TetrisBlock {
   });
 
   @override
-  Vector2 get blockSize => Vector2(149.9, 99.9);
+  Vector2 get blockSize => Vector2(3 * quadSize, 2 * quadSize);
   @override
   String get name => 'tet-J';
   @override
@@ -258,7 +259,7 @@ class TetrisL extends TetrisBlock {
   });
 
   @override
-  Vector2 get blockSize => Vector2(149.9, 99.9);
+  Vector2 get blockSize => Vector2(3 * quadSize, 2 * quadSize);
   @override
   String get name => 'tet-L';
   @override
@@ -285,7 +286,7 @@ class TetrisT extends TetrisBlock {
   });
 
   @override
-  Vector2 get blockSize => Vector2(149.9, 99.9);
+  Vector2 get blockSize => Vector2(3 * quadSize, 2 * quadSize);
   @override
   String get name => 'tet-T';
   @override
@@ -314,7 +315,7 @@ class TetrisS extends TetrisBlock {
   });
 
   @override
-  Vector2 get blockSize => Vector2(149.9, 99.9);
+  Vector2 get blockSize => Vector2(3 * quadSize, 2 * quadSize);
   @override
   String get name => 'tet-S';
   @override
@@ -325,14 +326,14 @@ class TetrisS extends TetrisBlock {
   double get yOffset => 25.0;
   @override
   List<Vector2> get hitboxPoints => [
-        Vector2(-0.95, 0.0),
-        Vector2(-0.95, 0.99),
-        Vector2(0.33333, 0.99),
-        Vector2(0.33333, -0.01),
-        Vector2(0.99, -0.01),
-        Vector2(0.99, -0.99),
-        Vector2(-0.35, -0.99),
-        Vector2(-0.35, 0.01),
+        Vector2(-0.95, 0.05),
+        Vector2(-0.95, 0.95),
+        Vector2(0.32, 0.95),
+        Vector2(0.32, -0.05),
+        Vector2(0.95, -0.05),
+        Vector2(0.95, -0.95),
+        Vector2(-0.35, -0.95),
+        Vector2(-0.35, 0.05),
       ];
 }
 
@@ -343,7 +344,7 @@ class TetrisZ extends TetrisBlock {
   });
 
   @override
-  Vector2 get blockSize => Vector2(149.9, 99.9);
+  Vector2 get blockSize => Vector2(3 * quadSize, 2 * quadSize);
   @override
   String get name => 'tet-Z';
   @override
