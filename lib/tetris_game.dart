@@ -104,6 +104,10 @@ class TetrisGame extends FlameGame
       isGameRunning = true;
       addRandomBlock();
     }
+    if (event.logicalKey == LogicalKeyboardKey.question) {
+      createRowFillCounts();
+    }
+
 
     if (_currentFallingBlock == null) {
       return super.onKeyEvent(event, keysPressed);
@@ -130,4 +134,21 @@ class TetrisGame extends FlameGame
     world.add(_currentFallingBlock!);
   }
   
+  void createRowFillCounts() {
+    final rowFillCount = <int>[];
+    for (var y = 925.0; y > 75.0; y -= 50.0) {
+      var fillCount = 0;
+      for (var x = 25.0; x < 500.0; x += 50.0) {
+        final point = Vector2(x, y);
+        final blocks =
+            world.children.where((block) => block.containsLocalPoint(point));
+        if (blocks.isNotEmpty) {
+          fillCount++;
+        }
+      }
+      rowFillCount.add(fillCount);
+    }
+    print('rowFillCount $rowFillCount');
+  }
+
 }
