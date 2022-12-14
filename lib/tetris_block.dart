@@ -33,12 +33,14 @@ abstract class TetrisBlock extends SpriteComponent
   Vector2 get blockSize;
   Anchor get blockAnchor;
   List<Vector2> get hitboxPoints;
+  List<RectangleHitbox> get hitBoxes;
   double get xOffset;
   double get yOffset;
   String get name;
   double? _lastDeltaX;
   double? _lastRotate;
   PolygonHitbox? hitBox;
+  CompositeHitbox? comboBox;
 
   @override
   Future<void> onLoad() async {
@@ -51,15 +53,23 @@ abstract class TetrisBlock extends SpriteComponent
     anchor = blockAnchor;
     x += xOffset;
 
+    if (hitBoxes.isNotEmpty) {
+      comboBox = CompositeHitbox(
+        children: hitBoxes,
+      );
+      add(comboBox!);
+    }
+//    hitBoxes.forEach((element) => add(element));
+    if (hitBoxes.isEmpty) {
     hitBox = PolygonHitbox.relative(
       hitboxPoints,
       parentSize: size,
     );
-    hitBox!.debugMode = true;
-
+      hitBox!.debugMode = true;
     // ..paint = hitboxPaint
     // ..renderShape = true,
     add(hitBox!);
+    }
   }
 
   void moveXBy(double deltaX) {
@@ -182,10 +192,10 @@ abstract class TetrisBlock extends SpriteComponent
   @override
   bool containsLocalPoint(Vector2 globalPoint) {
     final localPoint = globalPoint - position + Vector2(xOffset, yOffset);
-    final isContaining = hitBox!.containsLocalPoint(localPoint);
+    final isContaining =
+        hitBoxes.any((box) => box.containsLocalPoint(localPoint));
     print(
         'containsLocalPoint $position $globalPoint $localPoint $isContaining');
-    if (isContaining) {}
     return isContaining;
   }
 }
@@ -212,6 +222,8 @@ class TetrisI extends TetrisBlock {
         Vector2(1 - tiny, 1 - tiny),
         Vector2(1 - tiny, -1 + tiny),
       ];
+  @override
+  List<RectangleHitbox> get hitBoxes => [];
 }
 
 class TetrisO extends TetrisBlock {
@@ -232,11 +244,22 @@ class TetrisO extends TetrisBlock {
 
   @override
   List<Vector2> get hitboxPoints => [
-        Vector2(-0.95, -0.95),
-        Vector2(-0.95, 0.95),
-        Vector2(0.95, 0.95),
-        Vector2(0.95, -0.95),
+        // Vector2(-0.95, -0.95),
+        // Vector2(-0.95, 0.95),
+        // Vector2(0.95, 0.95),
+        // Vector2(0.95, -0.95),
       ];
+  @override
+  List<RectangleHitbox> get hitBoxes => [
+        RectangleHitbox.relative(
+          Vector2(0.9, 0.9),
+          parentSize: size,
+        )
+//          ..debugMode = false
+//          ..paint = hitboxPaint
+//          ..renderShape = true,
+      ];
+
 }
 
 class TetrisJ extends TetrisBlock {
@@ -264,6 +287,22 @@ class TetrisJ extends TetrisBlock {
         Vector2(-0.32, 0.05),
         Vector2(-0.32, -0.95),
       ];
+  @override
+  List<RectangleHitbox> get hitBoxes => [
+        RectangleHitbox(
+          position: Vector2(5, 50),
+          size: Vector2(size.x - 10, 45),
+        ),
+        // ..debugMode = true
+        // ..renderShape = true,
+        RectangleHitbox(
+          position: Vector2(5, 5),
+          size: Vector2(45, 45),
+        )
+        // ..debugMode = true
+        // ..renderShape = true,
+      ];
+
 }
 
 class TetrisL extends TetrisBlock {
@@ -288,9 +327,12 @@ class TetrisL extends TetrisBlock {
         Vector2(-0.95, 0.95),
         Vector2(0.95, 0.95),
         Vector2(0.95, -0.95),
-        Vector2(0.32, -0.95),
-        Vector2(0.32, 0.05),
+        Vector2(0.35, -0.95),
+        Vector2(0.35, 0.05),
       ];
+  @override
+  List<RectangleHitbox> get hitBoxes => [];
+
 }
 
 class TetrisT extends TetrisBlock {
@@ -320,6 +362,9 @@ class TetrisT extends TetrisBlock {
         Vector2(-0.32, -0.95),
         Vector2(-0.32, 0.05),
       ];
+  @override
+  List<RectangleHitbox> get hitBoxes => [];
+
 }
 
 class TetrisS extends TetrisBlock {
@@ -349,6 +394,9 @@ class TetrisS extends TetrisBlock {
         Vector2(-0.32, -0.95),
         Vector2(-0.32, 0.05),
       ];
+  @override
+  List<RectangleHitbox> get hitBoxes => [];
+
 }
 
 class TetrisZ extends TetrisBlock {
@@ -378,4 +426,7 @@ class TetrisZ extends TetrisBlock {
         Vector2(0.32, 0.05),
         Vector2(0.32, -0.95),
       ];
+  @override
+  List<RectangleHitbox> get hitBoxes => [];
+
 }
