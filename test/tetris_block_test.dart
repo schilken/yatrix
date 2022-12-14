@@ -103,13 +103,15 @@ void main() {
   });
 
   group('TetrisJ ', () {
-    test('hitbox containsLocalPoint 25/25', () {
-      final startPosition = Vector2(125.0, 925.0);
+    test('hitbox containsLocalPoint 25/25', () async {
+      final startPosition = Vector2(75.0, 925.0);
       final sut = TetrisJ(blockPosition: startPosition);
-      sut.onLoad();
+      await sut.onLoad();
       sut.adjustY();
+      await Future<void>.delayed(Duration(milliseconds: 10));
+      print('children: ${sut.children}');
       final isFound =
-          sut.hitBoxes.any((box) => box.containsPoint(Vector2(25, 25)));
+          sut.containsLocalPoint(Vector2(25, 925));
       expect(isFound, true);
     });
 
@@ -119,7 +121,7 @@ void main() {
       sut.onLoad();
       sut.adjustY();
       final isFound =
-          sut.hitBoxes.any((box) => box.containsLocalPoint(Vector2(25, 75)));
+          sut.children.any((box) => box.containsLocalPoint(Vector2(25, 75)));
       expect(isFound, true);
     });
 
@@ -129,7 +131,7 @@ void main() {
       sut.onLoad();
       sut.adjustY();
       final isFound =
-          sut.hitBoxes.any((box) => box.containsLocalPoint(Vector2(75, 25)));
+          sut.children.any((box) => box.containsLocalPoint(Vector2(75, 25)));
       expect(isFound, true);
     });
 
@@ -140,7 +142,7 @@ void main() {
       sut.onLoad();
       sut.adjustY();
       final isFound =
-          sut.hitBoxes.any((box) => box.containsPoint(Vector2(125, 75)));
+          sut.children.any((box) => box.containsPoint(Vector2(125, 75)));
       expect(isFound, false);
     });
 
@@ -150,7 +152,7 @@ void main() {
       sut.onLoad();
       sut.adjustY();
       final isFound =
-          sut.hitBoxes.any((box) => box.containsPoint(Vector2(-5, 25)));
+          sut.children.any((box) => box.containsPoint(Vector2(-5, 25)));
       expect(isFound, false);
     });
 
@@ -184,15 +186,6 @@ void main() {
   });
 
   group('TetrisO ', () {
-    test('hitbox containsLocalPoint 25/25', () {
-      final startPosition = Vector2(125.0, 925.0);
-      final sut = TetrisO(blockPosition: startPosition);
-      sut.onLoad();
-      sut.adjustY();
-      final isFound = sut.comboBox!.children
-          .any((box) => box.containsLocalPoint(Vector2(25, 25)));
-      expect(isFound, true);
-    });
 
     test('hitbox containsLocalPoint 25/75', () {
       final startPosition = Vector2(125.0, 925.0);

@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
-
+import 'package:flame/extensions.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
@@ -19,6 +19,43 @@ typedef TetrisBlockTearOff = TetrisBlock Function({
   Vector2 velocity,
 });
 
+typedef CollisionCallback = void Function(PositionComponent);
+
+class Quad extends PositionComponent with CollisionCallbacks {
+  Quad({
+    super.position,
+    required this.collisionCallback,
+  }) {
+    size = Vector2(40, 40);
+  }
+  CollisionCallback collisionCallback;
+
+  @override
+  Future<void> onLoad() async {
+    debugMode = true;
+    add(RectangleHitbox());
+  }
+
+  @override
+  void onCollisionStart(
+    Set<Vector2> intersectionPoints,
+    PositionComponent other,
+  ) {
+    collisionCallback(other);
+    super.onCollisionStart(intersectionPoints, other);
+  }
+
+  bool containsParentPoint(Vector2 parentPoint) {
+    final rect = Rect.fromLTWH(position.x, position.y, size.x, size.y);
+    return rect.containsPoint(parentPoint);
+  }
+
+  @override
+  String toString() {
+    return '$position, $size';
+  }
+}
+
 abstract class TetrisBlock extends SpriteComponent
     with CollisionCallbacks, HasGameRef<TetrisGame> {
   TetrisBlock({
@@ -33,42 +70,37 @@ abstract class TetrisBlock extends SpriteComponent
   Vector2 get blockSize;
   Anchor get blockAnchor;
   List<Vector2> get hitboxPoints;
-  List<RectangleHitbox> get hitBoxes;
+  List<Vector2> get quadPositions;
   double get xOffset;
   double get yOffset;
   String get name;
   double? _lastDeltaX;
   double? _lastRotate;
   PolygonHitbox? hitBox;
-  CompositeHitbox? comboBox;
 
   @override
   Future<void> onLoad() async {
 //    debugMode = true;
-    final hitboxPaint = BasicPalette.white.withAlpha(128).paint()
-      ..style = PaintingStyle.fill;
     position = blockPosition;
     size = blockSize;
     sprite = gameAssets.sprites[name];
     anchor = blockAnchor;
     x += xOffset;
 
-    if (hitBoxes.isNotEmpty) {
-      comboBox = CompositeHitbox(
-        children: hitBoxes,
+    quadPositions.forEach((position) async {
+      final quad = Quad(position: position, collisionCallback: onQuadCollision);
+      await add(quad);
+//      print('Quad $quad');
+    });
+    if (quadPositions.isEmpty) {
+      hitBox = PolygonHitbox.relative(
+        hitboxPoints,
+        parentSize: size,
       );
-      add(comboBox!);
-    }
-//    hitBoxes.forEach((element) => add(element));
-    if (hitBoxes.isEmpty) {
-    hitBox = PolygonHitbox.relative(
-      hitboxPoints,
-      parentSize: size,
-    );
       hitBox!.debugMode = true;
-    // ..paint = hitboxPaint
-    // ..renderShape = true,
-    add(hitBox!);
+      // ..paint = hitboxPaint
+      // ..renderShape = true,
+      add(hitBox!);
     }
   }
 
@@ -100,6 +132,13 @@ abstract class TetrisBlock extends SpriteComponent
       game.isGameRunning = false;
     }
     Future.delayed(Duration(milliseconds: 300), () => game.addRandomBlock());
+  }
+
+  void onQuadCollision(PositionComponent other) {
+    print('onQuadCollision $other');
+
+    Set<Vector2> intersectionPoints = {};
+    onCollisionStart(intersectionPoints, other);
   }
 
   @override
@@ -191,12 +230,13 @@ abstract class TetrisBlock extends SpriteComponent
 
   @override
   bool containsLocalPoint(Vector2 globalPoint) {
-    final localPoint = globalPoint - position + Vector2(xOffset, yOffset);
-    final isContaining =
-        hitBoxes.any((box) => box.containsLocalPoint(localPoint));
-    print(
-        'containsLocalPoint $position $globalPoint $localPoint $isContaining');
+    final localPoint = parentToLocal(globalPoint);
+
+    final isContaining = children.any((quad) {
+      return (quad as Quad).containsParentPoint(localPoint);
+    });
     return isContaining;
+//    return super.containsLocalPoint(localPoint);
   }
 }
 
@@ -223,7 +263,7 @@ class TetrisI extends TetrisBlock {
         Vector2(1 - tiny, -1 + tiny),
       ];
   @override
-  List<RectangleHitbox> get hitBoxes => [];
+  List<Vector2> get quadPositions => [];
 }
 
 class TetrisO extends TetrisBlock {
@@ -250,16 +290,7 @@ class TetrisO extends TetrisBlock {
         // Vector2(0.95, -0.95),
       ];
   @override
-  List<RectangleHitbox> get hitBoxes => [
-        RectangleHitbox.relative(
-          Vector2(0.9, 0.9),
-          parentSize: size,
-        )
-//          ..debugMode = false
-//          ..paint = hitboxPaint
-//          ..renderShape = true,
-      ];
-
+  List<Vector2> get quadPositions => [];
 }
 
 class TetrisJ extends TetrisBlock {
@@ -288,21 +319,12 @@ class TetrisJ extends TetrisBlock {
         Vector2(-0.32, -0.95),
       ];
   @override
-  List<RectangleHitbox> get hitBoxes => [
-        RectangleHitbox(
-          position: Vector2(5, 50),
-          size: Vector2(size.x - 10, 45),
-        ),
-        // ..debugMode = true
-        // ..renderShape = true,
-        RectangleHitbox(
-          position: Vector2(5, 5),
-          size: Vector2(45, 45),
-        )
-        // ..debugMode = true
-        // ..renderShape = true,
+  List<Vector2> get quadPositions => [
+        Vector2(5, 50),
+        Vector2(55, 50),
+        Vector2(105, 50),
+        Vector2(5, 5),
       ];
-
 }
 
 class TetrisL extends TetrisBlock {
@@ -331,8 +353,7 @@ class TetrisL extends TetrisBlock {
         Vector2(0.35, 0.05),
       ];
   @override
-  List<RectangleHitbox> get hitBoxes => [];
-
+  List<Vector2> get quadPositions => [];
 }
 
 class TetrisT extends TetrisBlock {
@@ -363,8 +384,7 @@ class TetrisT extends TetrisBlock {
         Vector2(-0.32, 0.05),
       ];
   @override
-  List<RectangleHitbox> get hitBoxes => [];
-
+  List<Vector2> get quadPositions => [];
 }
 
 class TetrisS extends TetrisBlock {
@@ -395,8 +415,7 @@ class TetrisS extends TetrisBlock {
         Vector2(-0.32, 0.05),
       ];
   @override
-  List<RectangleHitbox> get hitBoxes => [];
-
+  List<Vector2> get quadPositions => [];
 }
 
 class TetrisZ extends TetrisBlock {
@@ -427,6 +446,5 @@ class TetrisZ extends TetrisBlock {
         Vector2(0.32, -0.95),
       ];
   @override
-  List<RectangleHitbox> get hitBoxes => [];
-
+  List<Vector2> get quadPositions => [];
 }
