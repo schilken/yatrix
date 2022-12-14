@@ -32,7 +32,7 @@ class Quad extends PositionComponent with CollisionCallbacks {
 
   @override
   Future<void> onLoad() async {
-    debugMode = true;
+//    debugMode = true;
     add(RectangleHitbox());
   }
 
@@ -69,7 +69,6 @@ abstract class TetrisBlock extends SpriteComponent
   static final Random _random = Random();
   Vector2 get blockSize;
   Anchor get blockAnchor;
-  List<Vector2> get hitboxPoints;
   List<Vector2> get quadPositions;
   double get xOffset;
   double get yOffset;
@@ -92,16 +91,6 @@ abstract class TetrisBlock extends SpriteComponent
       await add(quad);
 //      print('Quad $quad');
     });
-    if (quadPositions.isEmpty) {
-      hitBox = PolygonHitbox.relative(
-        hitboxPoints,
-        parentSize: size,
-      );
-      hitBox!.debugMode = true;
-      // ..paint = hitboxPaint
-      // ..renderShape = true,
-      add(hitBox!);
-    }
   }
 
   void moveXBy(double deltaX) {
@@ -256,14 +245,12 @@ class TetrisI extends TetrisBlock {
   @override
   double get yOffset => 25.0;
   @override
-  List<Vector2> get hitboxPoints => [
-        Vector2(-1 + tiny, -1 + tiny),
-        Vector2(-1 + tiny, 1 - tiny),
-        Vector2(1 - tiny, 1 - tiny),
-        Vector2(1 - tiny, -1 + tiny),
+  List<Vector2> get quadPositions => [
+        Vector2(5, 5),
+        Vector2(55, 5),
+        Vector2(105, 5),
+        Vector2(155, 5),
       ];
-  @override
-  List<Vector2> get quadPositions => [];
 }
 
 class TetrisO extends TetrisBlock {
@@ -283,14 +270,12 @@ class TetrisO extends TetrisBlock {
   double get yOffset => 0.0;
 
   @override
-  List<Vector2> get hitboxPoints => [
-        // Vector2(-0.95, -0.95),
-        // Vector2(-0.95, 0.95),
-        // Vector2(0.95, 0.95),
-        // Vector2(0.95, -0.95),
+  List<Vector2> get quadPositions => [
+        Vector2(5, 5),
+        Vector2(55, 5),
+        Vector2(5, 55),
+        Vector2(55, 55),
       ];
-  @override
-  List<Vector2> get quadPositions => [];
 }
 
 class TetrisJ extends TetrisBlock {
@@ -298,7 +283,6 @@ class TetrisJ extends TetrisBlock {
     required super.blockPosition,
     super.velocity,
   });
-
   @override
   Vector2 get blockSize => Vector2(3 * quadSize, 2 * quadSize);
   @override
@@ -310,19 +294,10 @@ class TetrisJ extends TetrisBlock {
   @override
   double get yOffset => 25.0;
   @override
-  List<Vector2> get hitboxPoints => [
-        Vector2(-0.95, -0.95),
-        Vector2(-0.95, 0.95),
-        Vector2(0.95, 0.95),
-        Vector2(0.95, 0.05),
-        Vector2(-0.32, 0.05),
-        Vector2(-0.32, -0.95),
-      ];
-  @override
   List<Vector2> get quadPositions => [
-        Vector2(5, 50),
-        Vector2(55, 50),
-        Vector2(105, 50),
+        Vector2(5, 55),
+        Vector2(55, 55),
+        Vector2(105, 55),
         Vector2(5, 5),
       ];
 }
@@ -344,16 +319,12 @@ class TetrisL extends TetrisBlock {
   @override
   double get yOffset => 25.0;
   @override
-  List<Vector2> get hitboxPoints => [
-        Vector2(-0.95, 0.05),
-        Vector2(-0.95, 0.95),
-        Vector2(0.95, 0.95),
-        Vector2(0.95, -0.95),
-        Vector2(0.35, -0.95),
-        Vector2(0.35, 0.05),
+  List<Vector2> get quadPositions => [
+        Vector2(5, 55),
+        Vector2(55, 55),
+        Vector2(105, 55),
+        Vector2(105, 5),
       ];
-  @override
-  List<Vector2> get quadPositions => [];
 }
 
 class TetrisT extends TetrisBlock {
@@ -361,7 +332,6 @@ class TetrisT extends TetrisBlock {
     required super.blockPosition,
     super.velocity,
   });
-
   @override
   Vector2 get blockSize => Vector2(3 * quadSize, 2 * quadSize);
   @override
@@ -373,18 +343,12 @@ class TetrisT extends TetrisBlock {
   @override
   double get yOffset => 25.0;
   @override
-  List<Vector2> get hitboxPoints => [
-        Vector2(-0.95, 0.0),
-        Vector2(-0.95, 0.95),
-        Vector2(0.95, 0.95),
-        Vector2(0.95, 0.05),
-        Vector2(0.32, 0.05),
-        Vector2(0.32, -0.95),
-        Vector2(-0.32, -0.95),
-        Vector2(-0.32, 0.05),
+  List<Vector2> get quadPositions => [
+        Vector2(5, 55),
+        Vector2(55, 55),
+        Vector2(105, 55),
+        Vector2(55, 5),
       ];
-  @override
-  List<Vector2> get quadPositions => [];
 }
 
 class TetrisS extends TetrisBlock {
@@ -392,7 +356,6 @@ class TetrisS extends TetrisBlock {
     required super.blockPosition,
     super.velocity,
   });
-
   @override
   Vector2 get blockSize => Vector2(3 * quadSize, 2 * quadSize);
   @override
@@ -404,18 +367,12 @@ class TetrisS extends TetrisBlock {
   @override
   double get yOffset => 25.0;
   @override
-  List<Vector2> get hitboxPoints => [
-        Vector2(-0.95, 0.05),
-        Vector2(-0.95, 0.95),
-        Vector2(0.32, 0.95),
-        Vector2(0.32, -0.05),
-        Vector2(0.95, -0.05),
-        Vector2(0.95, -0.95),
-        Vector2(-0.32, -0.95),
-        Vector2(-0.32, 0.05),
+  List<Vector2> get quadPositions => [
+        Vector2(5, 55),
+        Vector2(55, 55),
+        Vector2(105, 5),
+        Vector2(55, 5),
       ];
-  @override
-  List<Vector2> get quadPositions => [];
 }
 
 class TetrisZ extends TetrisBlock {
@@ -423,7 +380,6 @@ class TetrisZ extends TetrisBlock {
     required super.blockPosition,
     super.velocity,
   });
-
   @override
   Vector2 get blockSize => Vector2(3 * quadSize, 2 * quadSize);
   @override
@@ -435,16 +391,10 @@ class TetrisZ extends TetrisBlock {
   @override
   double get yOffset => 25.0;
   @override
-  List<Vector2> get hitboxPoints => [
-        Vector2(-0.95, -0.95),
-        Vector2(-0.95, -0.05),
-        Vector2(-0.32, -0.05),
-        Vector2(-0.32, 0.95),
-        Vector2(0.95, 0.95),
-        Vector2(0.95, 0.05),
-        Vector2(0.32, 0.05),
-        Vector2(0.32, -0.95),
+  List<Vector2> get quadPositions => [
+        Vector2(5, 5),
+        Vector2(55, 55),
+        Vector2(105, 55),
+        Vector2(55, 5),
       ];
-  @override
-  List<Vector2> get quadPositions => [];
 }
