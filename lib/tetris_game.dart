@@ -136,6 +136,11 @@ class TetrisGame extends FlameGame
     print('yOfRows: ${yOfRows}');
     for (final y in yOfRows) {
       removeRow(y.toDouble());
+      var yAbove = y.toDouble() - 50;
+      do {
+        dropRowAbove(yAbove);
+        yAbove -= 50;
+      } while (yAbove > 275.0);
     }
   }
 
@@ -144,7 +149,22 @@ class TetrisGame extends FlameGame
     final worldPosition =
         cameraComponent.toWorld(details.eventPosition.viewport);
     removeRow(worldPosition.y);
+    dropRowAbove(worldPosition.y - 50);
     super.onTapDown(details);
+  }
+
+  void dropRowAbove(double y) {
+    print('dropRowAbove $y');
+    for (var x = 25.0; x < 500.0; x += 50.0) {
+      final point = Vector2(x, y);
+      final block = world.children
+          .query<TetrisBlock>()
+          .where((block) => block.containsLocalPoint(point))
+          .firstOrNull;
+      if (block != null) {
+        block.setHighSpeed();
+      }
+    }
   }
 
   void removeRow(double y) {
@@ -161,6 +181,7 @@ class TetrisGame extends FlameGame
   }
 
   void addRandomBlock({Vector2? startPosition}) {
+    print('addRandomBlock');
     _currentFallingBlock =
         TetrisBlock.random(startPosition ?? defaultStartPosition);
     world.add(_currentFallingBlock!);
