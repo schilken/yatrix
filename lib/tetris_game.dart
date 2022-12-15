@@ -124,31 +124,43 @@ class TetrisGame extends FlameGame
     return super.onKeyEvent(event, keysPressed);
   }
 
-  void addRandomBlock({Vector2? startPosition}) {
+  void handleBlockFreezed() {
+    removeFullRows();
     if (!isGameRunning) {
       print('>>> GAME OVER <<<');
       return;
     }
+    addRandomBlock();
+  }
+
+  void removeFullRows() {
+    final rowFillingMap = createRowFillCounts();
+    rowFillingMap.removeWhere((key, value) => value < 10);
+    final yOfRows = rowFillingMap.keys;
+    print('yOfRows: ${yOfRows}');
+  }
+
+  void addRandomBlock({Vector2? startPosition}) {
     _currentFallingBlock =
         TetrisBlock.random(startPosition ?? defaultStartPosition);
     world.add(_currentFallingBlock!);
   }
   
-  void createRowFillCounts() {
-    final rowFillCount = <int>[];
-    for (var y = 925.0; y > 75.0; y -= 50.0) {
+  Map<int, int> createRowFillCounts() {
+    final rowFillingMap = <int, int>{};
+    for (var y = 925; y > 75; y -= 50) {
       var fillCount = 0;
       for (var x = 25.0; x < 500.0; x += 50.0) {
-        final point = Vector2(x, y);
+        final point = Vector2(x, y.toDouble());
         final blocks =
             world.children.where((block) => block.containsLocalPoint(point));
         if (blocks.isNotEmpty) {
           fillCount++;
         }
       }
-      rowFillCount.add(fillCount);
+      rowFillingMap[y] = fillCount;
     }
-    print('rowFillCount $rowFillCount');
+    return rowFillingMap;
   }
 
 }

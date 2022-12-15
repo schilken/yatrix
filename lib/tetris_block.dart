@@ -120,7 +120,8 @@ abstract class TetrisBlock extends SpriteComponent
     if (y <= 75) {
       game.isGameRunning = false;
     }
-    Future.delayed(Duration(milliseconds: 300), () => game.addRandomBlock());
+    Future.delayed(
+        Duration(milliseconds: 500), () => game.handleBlockFreezed());
   }
 
   void onQuadCollision(PositionComponent other) {
