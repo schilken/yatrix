@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
+import 'package:collection/collection.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -32,7 +33,7 @@ class Quad extends PositionComponent with CollisionCallbacks {
 
   @override
   Future<void> onLoad() async {
-//    debugMode = true;
+    debugMode = true;
     add(RectangleHitbox());
   }
 
@@ -229,8 +230,16 @@ abstract class TetrisBlock extends SpriteComponent
 //    return super.containsLocalPoint(localPoint);
   }
 
-  void removeAtY(double y) {
-    print('TetrisBlock.removeAtY $y');
+  void removeQuad(Vector2 globalPoint) {
+    print('TetrisBlock.removeQuad at $globalPoint');
+    final localPoint = parentToLocal(globalPoint);
+    final quads = children.query<Quad>();
+    for (final quad in quads) {
+      if (quad.containsParentPoint(localPoint)) {
+        print('removeFromParent $globalPoint');
+        quad.removeFromParent();
+      }
+    }
   }
 }
 

@@ -105,17 +105,16 @@ class TetrisGame extends FlameGame
       createRowFillCounts();
     }
 
-
     if (_currentFallingBlock == null) {
       return super.onKeyEvent(event, keysPressed);
     }
-      if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-        _currentFallingBlock!.moveXBy(-50);
-      } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-        _currentFallingBlock!.moveXBy(50);
-      } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-        _currentFallingBlock?.rotateBy(-pi / 2);
-      } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+    if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
+      _currentFallingBlock!.moveXBy(-50);
+    } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
+      _currentFallingBlock!.moveXBy(50);
+    } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+      _currentFallingBlock?.rotateBy(-pi / 2);
+    } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
       _currentFallingBlock?.setHighSpeed();
     }
     return super.onKeyEvent(event, keysPressed);
@@ -142,11 +141,9 @@ class TetrisGame extends FlameGame
 
   @override
   void onTapDown(TapDownInfo details) {
-    final Vector2 worldPosition =
+    final worldPosition =
         cameraComponent.toWorld(details.eventPosition.viewport);
     removeRow(worldPosition.y);
-    // print(
-    //     'onTapDown $worldPosition ${details.eventPosition.viewport} ${details.eventPosition.game} ');
     super.onTapDown(details);
   }
 
@@ -158,18 +155,17 @@ class TetrisGame extends FlameGame
           .where((block) => block.containsLocalPoint(point))
           .firstOrNull;
       if (block != null) {
-        block.removeAtY(y);
+        block.removeQuad(Vector2(x, y));
       }
     }
   }
-
 
   void addRandomBlock({Vector2? startPosition}) {
     _currentFallingBlock =
         TetrisBlock.random(startPosition ?? defaultStartPosition);
     world.add(_currentFallingBlock!);
   }
-  
+
   Map<int, int> createRowFillCounts() {
     final rowFillingMap = <int, int>{};
     for (var y = 925; y > 75; y -= 50) {
@@ -186,6 +182,4 @@ class TetrisGame extends FlameGame
     }
     return rowFillingMap;
   }
-  
-
 }
