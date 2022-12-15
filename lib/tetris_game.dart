@@ -126,6 +126,9 @@ class TetrisGame extends FlameGame
       print('>>> GAME OVER <<<');
       return;
     }
+    if (_currentFallingBlock != null && _currentFallingBlock!.y < 275) {
+      return;
+    }
     addRandomBlock();
   }
 
