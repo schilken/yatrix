@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:collection/collection.dart';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart' hide Draggable, Viewport;
 import 'package:flutter/services.dart';
 
 import 'package:tetris/boundaries.dart';
+import 'package:tetris/extensions.dart';
 
 import 'tetris_block.dart';
 import 'game_assets.dart';
@@ -45,11 +47,6 @@ class TetrisGame extends FlameGame
     world.add(Floor(size: Vector2(500, 10), position: Vector2(0, 990)));
     world.add(Side(size: Vector2(10, 900), position: Vector2(-10, 50)));
     world.add(Side(size: Vector2(10, 900), position: Vector2(500, 50)));
-  }
-
-  @override
-  void onTapDown(TapDownInfo details) {
-    super.onTapDown(details);
   }
 
   void restart() {
@@ -138,7 +135,34 @@ class TetrisGame extends FlameGame
     rowFillingMap.removeWhere((key, value) => value < 10);
     final yOfRows = rowFillingMap.keys;
     print('yOfRows: ${yOfRows}');
+    for (final y in yOfRows) {
+      removeRow(y.toDouble());
+    }
   }
+
+  @override
+  void onTapDown(TapDownInfo details) {
+    final Vector2 worldPosition =
+        cameraComponent.toWorld(details.eventPosition.viewport);
+    removeRow(worldPosition.y);
+    // print(
+    //     'onTapDown $worldPosition ${details.eventPosition.viewport} ${details.eventPosition.game} ');
+    super.onTapDown(details);
+  }
+
+  void removeRow(double y) {
+    for (var x = 25.0; x < 500.0; x += 50.0) {
+      final point = Vector2(x, y);
+      final block = world.children
+          .query<TetrisBlock>()
+          .where((block) => block.containsLocalPoint(point))
+          .firstOrNull;
+      if (block != null) {
+        block.removeAtY(y);
+      }
+    }
+  }
+
 
   void addRandomBlock({Vector2? startPosition}) {
     _currentFallingBlock =
@@ -162,5 +186,6 @@ class TetrisGame extends FlameGame
     }
     return rowFillingMap;
   }
+  
 
 }

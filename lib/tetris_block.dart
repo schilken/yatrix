@@ -228,6 +228,10 @@ abstract class TetrisBlock extends SpriteComponent
     return isContaining;
 //    return super.containsLocalPoint(localPoint);
   }
+
+  void removeAtY(double y) {
+    print('TetrisBlock.removeAtY $y');
+  }
 }
 
 class TetrisI extends TetrisBlock {
