@@ -3,25 +3,14 @@ import 'package:collection/collection.dart';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
-import 'package:flame/input.dart';
-import 'package:flutter/material.dart' show TextStyle, Colors, KeyEventResult;
 import 'package:flutter/services.dart';
-import 'package:flame/components.dart';
-import 'package:flame/effects.dart';
-import 'package:flame/experimental.dart';
-import 'package:flame/game.dart' hide Viewport;
-import 'package:flame/rendering.dart';
-import 'package:flutter/material.dart' show runApp;
-import 'package:flutter/rendering.dart';
 import 'package:tetris/tetris_game.dart';
 import 'package:tetris/boundaries.dart';
 import 'buttons.dart';
 import 'game_assets.dart';
-import 'rounded_button.dart';
-import 'splash_screen.dart';
 import 'tetris_block.dart';
 
-class Level1Page extends Component with HasGameRef<TetrisGame> {
+class TetrisPage extends Component with HasGameRef<TetrisGame> {
   late final World world;
   late final CameraComponent cameraComponent;
   late final Viewfinder viewfinder;
@@ -34,10 +23,8 @@ class Level1Page extends Component with HasGameRef<TetrisGame> {
 
   final defaultStartPosition = Vector2(250, 70);
 
-
   @override
   Future<void> onLoad() async {
-    final game = findGame()!;
     addAll([
 //      Background(const Color(0xbb2a074f)),
       BackButton(),
@@ -68,15 +55,10 @@ class Level1Page extends Component with HasGameRef<TetrisGame> {
     allBlocks.forEach((element) => element.removeFromParent());
   }
 
-  @override
-  KeyEventResult onKeyEvent(
+  void onKeyboardKey(
     RawKeyEvent event,
-    Set<LogicalKeyboardKey> keysPressed,
   ) {
     final isKeyUp = event is RawKeyUpEvent;
-    if (event.repeat || !isKeyUp) {
-      return game.onKeyEvent(event, keysPressed);
-    }
     if (event.logicalKey == LogicalKeyboardKey.escape) {
       restart();
     }
@@ -118,7 +100,7 @@ class Level1Page extends Component with HasGameRef<TetrisGame> {
     }
 
     if (_currentFallingBlock == null) {
-      return game.onKeyEvent(event, keysPressed);
+      return;
     }
     if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
       _currentFallingBlock!.moveXBy(-50);
@@ -129,7 +111,6 @@ class Level1Page extends Component with HasGameRef<TetrisGame> {
     } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
       _currentFallingBlock?.setHighSpeed();
     }
-    return game.onKeyEvent(event, keysPressed);
   }
 
   void handleBlockFreezed() {

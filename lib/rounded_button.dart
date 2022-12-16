@@ -1,12 +1,6 @@
 import 'package:flame/components.dart';
-import 'package:flame/effects.dart';
 import 'package:flame/experimental.dart';
-import 'package:flame/game.dart';
-import 'package:flame/rendering.dart';
-import 'package:flutter/material.dart' show runApp;
 import 'package:flutter/rendering.dart';
-import 'package:tetris/tetris_game.dart';
-
 class RoundedButton extends PositionComponent with TapCallbacks {
   RoundedButton({
     required this.text,
