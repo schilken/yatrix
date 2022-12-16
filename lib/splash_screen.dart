@@ -13,7 +13,7 @@ class SplashScreen extends Component with TapCallbacks, HasGameRef<TetrisGame> {
     addAll([
       Background(const Color(0xff282828)),
       TextBoxComponent(
-        text: '[Router demo]',
+        text: '[YaTetris]',
         textRenderer: TextPaint(
           style: const TextStyle(
             color: Color(0x66ffffff),
