@@ -4,19 +4,27 @@ import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
 import 'package:flame/input.dart';
-import 'package:flutter/material.dart' hide Draggable, Viewport;
+import 'package:flutter/material.dart' show TextStyle, Colors, KeyEventResult;
 import 'package:flutter/services.dart';
 
 import 'package:tetris/boundaries.dart';
 import 'package:tetris/extensions.dart';
+import 'package:tetris/splash_screen.dart';
 
+import 'level1_page.dart';
+import 'pause_route.dart';
+import 'start_page.dart';
 import 'tetris_block.dart';
 import 'game_assets.dart';
 
 const TextStyle _textStyle = TextStyle(color: Colors.black, fontSize: 2);
 
 class TetrisGame extends FlameGame
-    with HasCollisionDetection, TapDetector, HasDraggables, KeyboardEvents {
+    with
+        HasCollisionDetection,
+        HasDraggables,
+        HasTappableComponents,
+        KeyboardEvents {
   TetrisGame();
   late final World world;
   late final CameraComponent cameraComponent;
@@ -26,6 +34,7 @@ class TetrisGame extends FlameGame
 
   TetrisBlock? _currentFallingBlock;
   bool isGameRunning = false;
+  late final RouterComponent router;
 
   final defaultStartPosition = Vector2(250, 70);
 
@@ -47,6 +56,18 @@ class TetrisGame extends FlameGame
     world.add(Floor(size: Vector2(500, 10), position: Vector2(0, 990)));
     world.add(Side(size: Vector2(10, 900), position: Vector2(-10, 50)));
     world.add(Side(size: Vector2(10, 900), position: Vector2(500, 50)));
+    add(
+      router = RouterComponent(
+        routes: {
+          'splash': Route(SplashScreen.new),
+          'home': Route(StartPage.new),
+          'level1': Route(Level1Page.new),
+          // 'level2': Route(Level2Page.new),
+          'pause': PauseRoute(),
+        },
+        initialRoute: 'splash',
+      ),
+    );
   }
 
   void restart() {
@@ -147,14 +168,14 @@ class TetrisGame extends FlameGame
     }
   }
 
-  @override
-  void onTapDown(TapDownInfo details) {
-    final worldPosition =
-        cameraComponent.toWorld(details.eventPosition.viewport);
-    removeRow(worldPosition.y);
-    dropRowAbove(worldPosition.y - 50);
-    super.onTapDown(details);
-  }
+  // @override
+  // void onTapDown(TapDownInfo details) {
+  //   final worldPosition =
+  //       cameraComponent.toWorld(details.eventPosition.viewport);
+  //   removeRow(worldPosition.y);
+  //   dropRowAbove(worldPosition.y - 50);
+  //   super.onTapDown(details);
+  // }
 
   void dropRowAbove(double y) {
     print('dropRowAbove $y');
