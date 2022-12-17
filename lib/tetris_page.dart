@@ -140,10 +140,10 @@ class TetrisPage extends Component with HasGameRef<TetrisGame> {
   }
 
   Future<void> dropRowAbove(double y) async {
-    print('dropRowAbove $y');
+//    print('dropRowAbove $y');
     for (var x = 25.0; x < 500.0; x += 50.0) {
       final point = Vector2(x, y);
-//      await Future<void>.delayed(Duration(milliseconds: 300));
+//      await Future<void>.delayed(Duration(milliseconds: 1000));
       final block = world.children
           .query<TetrisBlock>()
           .where((block) => block.containsLocalPoint(point))
@@ -162,7 +162,7 @@ class TetrisPage extends Component with HasGameRef<TetrisGame> {
           .where((block) => block.containsLocalPoint(point))
           .firstOrNull;
       if (block != null) {
-        block.removeQuad(Vector2(x, y));
+        block.hideQuad(Vector2(x, y));
       }
     }
   }

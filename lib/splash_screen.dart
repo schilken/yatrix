@@ -3,6 +3,8 @@ import 'package:flame/experimental.dart';
 import 'package:flutter/rendering.dart';
 import 'package:tetris/tetris_game.dart';
 
+import 'background.dart';
+
 class SplashScreen extends Component with TapCallbacks, HasGameRef<TetrisGame> {
   @override
   Future<void> onLoad() async {
@@ -29,12 +31,3 @@ class SplashScreen extends Component with TapCallbacks, HasGameRef<TetrisGame> {
   void onTapUp(TapUpEvent event) => gameRef.router.pushNamed('home');
 }
 
-class Background extends Component {
-  Background(this.color);
-  final Color color;
-
-  @override
-  void render(Canvas canvas) {
-    canvas.drawColor(color, BlendMode.srcATop);
-  }
-}

@@ -9,6 +9,7 @@ import 'package:flame/palette.dart';
 import 'package:flutter/material.dart' hide Draggable;
 import 'package:tetris/boundaries.dart';
 
+import 'background.dart';
 import 'game_assets.dart';
 import 'tetris_game.dart';
 
@@ -30,11 +31,12 @@ class Quad extends PositionComponent with CollisionCallbacks {
     size = Vector2(40, 40);
   }
   CollisionCallback collisionCallback;
+  RectangleHitbox? hitBox;
 
   @override
   Future<void> onLoad() async {
-    debugMode = true;
-    add(RectangleHitbox());
+//    debugMode = true;
+    add(hitBox = RectangleHitbox());
   }
 
   @override
@@ -49,6 +51,13 @@ class Quad extends PositionComponent with CollisionCallbacks {
   bool containsParentPoint(Vector2 parentPoint) {
     final rect = Rect.fromLTWH(position.x, position.y, size.x, size.y);
     return rect.containsPoint(parentPoint);
+  }
+
+  void hide() {
+    print('hide at position $position');
+    hitBox?.removeFromParent();
+    hitBox = null;
+    add(Background(const Color(0xff282828)));
   }
 
   @override
@@ -120,6 +129,10 @@ abstract class TetrisBlock extends SpriteComponent
     print('freezedBlock y: $y');
     if (y <= 75) {
       game.isGameRunning = false;
+    }
+    if (y >= 950) {
+      print('out of area');
+      return;
     }
     Future.delayed(
         Duration(milliseconds: 500), () => game.handleBlockFreezed());
@@ -231,14 +244,13 @@ abstract class TetrisBlock extends SpriteComponent
 //    return super.containsLocalPoint(localPoint);
   }
 
-  void removeQuad(Vector2 globalPoint) {
-    print('TetrisBlock.removeQuad at $globalPoint');
+  void hideQuad(Vector2 globalPoint) {
+//    print('TetrisBlock.hideQuad at $globalPoint');
     final localPoint = parentToLocal(globalPoint);
     final quads = children.query<Quad>();
     for (final quad in quads) {
       if (quad.containsParentPoint(localPoint)) {
-        print('removeFromParent $globalPoint');
-        quad.removeFromParent();
+        quad.hide();
       }
     }
   }
