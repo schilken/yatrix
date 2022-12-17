@@ -164,16 +164,17 @@ abstract class TetrisBlock extends SpriteComponent
   }
 
   void adjustY() {
-//    print('adjustY before: $y');
-    y = (y / 25).floor() * 25.0;
-//    print('adjustY after: $y');
+    print('adjustY before: $y');
+    final tempy = y - yOffset;
+    y = (tempy / 50).floor() * 50.0 + yOffset;
+    print('adjustY after: $y');
   }
 
   void setHighSpeed() {
     if (_velocity.y != 0) {
-      _velocity *= 10;
+      _velocity.y = 1000.0;
     } else {
-      _velocity = Vector2(0, 100);
+      _velocity.y = 100;
     }
   }
 
