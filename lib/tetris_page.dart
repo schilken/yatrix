@@ -49,7 +49,6 @@ class TetrisPage extends Component with HasGameRef<TetrisGame> {
   }
 
   void restart() {
-    print('restart');
     isGameRunning = false;
     final allBlocks = world.children.query<TetrisBlock>();
     allBlocks.forEach((element) => element.removeFromParent());
@@ -140,19 +139,11 @@ class TetrisPage extends Component with HasGameRef<TetrisGame> {
     }
   }
 
-  // @override
-  // void onTapDown(TapDownInfo details) {
-  //   final worldPosition =
-  //       cameraComponent.toWorld(details.eventPosition.viewport);
-  //   removeRow(worldPosition.y);
-  //   dropRowAbove(worldPosition.y - 50);
-  //   super.onTapDown(details);
-  // }
-
-  void dropRowAbove(double y) {
+  Future<void> dropRowAbove(double y) async {
     print('dropRowAbove $y');
     for (var x = 25.0; x < 500.0; x += 50.0) {
       final point = Vector2(x, y);
+//      await Future<void>.delayed(Duration(milliseconds: 300));
       final block = world.children
           .query<TetrisBlock>()
           .where((block) => block.containsLocalPoint(point))
