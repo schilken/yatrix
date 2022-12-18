@@ -23,8 +23,10 @@ class TetrisPage extends Component with HasGameRef<TetrisGame> {
 
   final defaultStartPosition = Vector2(250, 70);
 
+  late bool isRemovingRows;
   @override
   Future<void> onLoad() async {
+    isRemovingRows = false;
     addAll([
 //      Background(const Color(0xbb2a074f)),
       BackButton(),
@@ -113,6 +115,9 @@ class TetrisPage extends Component with HasGameRef<TetrisGame> {
   }
 
   void handleBlockFreezed() {
+    if (isRemovingRows) {
+      return;
+    }
     removeFullRows();
     if (!isGameRunning) {
       print('>>> GAME OVER <<<');
@@ -125,6 +130,7 @@ class TetrisPage extends Component with HasGameRef<TetrisGame> {
   }
 
   void removeFullRows() {
+    isRemovingRows = true;
     final rowFillingMap = createRowFillCounts();
     rowFillingMap.removeWhere((key, value) => value < 10);
     final yOfRows = rowFillingMap.keys;
@@ -137,6 +143,7 @@ class TetrisPage extends Component with HasGameRef<TetrisGame> {
         yAbove -= 50;
       } while (yAbove > 275.0);
     }
+    isRemovingRows = false;
   }
 
   Future<void> dropRowAbove(double y) async {
