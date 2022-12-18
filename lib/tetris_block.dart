@@ -13,8 +13,9 @@ import 'background.dart';
 import 'game_assets.dart';
 import 'tetris_game.dart';
 
-const tiny = 0.05;
 const quadSize = 50.0;
+const quadPadding = 3.0;
+
 
 typedef TetrisBlockTearOff = TetrisBlock Function({
   required Vector2 blockPosition,
@@ -50,7 +51,7 @@ class Quad extends PositionComponent with CollisionCallbacks {
 
   bool containsParentPoint(Vector2 parentPoint) {
     final rect = Rect.fromLTWH(position.x, position.y, size.x, size.y);
-    return rect.containsPoint(parentPoint);
+    return hitBox != null && rect.containsPoint(parentPoint);
   }
 
   void hide() {
@@ -273,10 +274,10 @@ class TetrisI extends TetrisBlock {
   double get yOffset => 25.0;
   @override
   List<Vector2> get quadPositions => [
-        Vector2(5, 5),
-        Vector2(55, 5),
-        Vector2(105, 5),
-        Vector2(155, 5),
+        Vector2(quadPadding, quadPadding),
+        Vector2(quadSize + quadPadding, quadPadding),
+        Vector2(2 * quadSize + quadPadding, quadPadding),
+        Vector2(3 * quadSize + quadPadding, quadPadding),
       ];
 }
 
@@ -298,10 +299,10 @@ class TetrisO extends TetrisBlock {
 
   @override
   List<Vector2> get quadPositions => [
-        Vector2(5, 5),
-        Vector2(55, 5),
-        Vector2(5, 55),
-        Vector2(55, 55),
+        Vector2(quadPadding, quadPadding),
+        Vector2(quadSize + quadPadding, quadPadding),
+        Vector2(quadPadding, quadSize + quadPadding),
+        Vector2(quadSize + quadPadding, quadSize + quadPadding),
       ];
 }
 
@@ -322,10 +323,10 @@ class TetrisJ extends TetrisBlock {
   double get yOffset => 25.0;
   @override
   List<Vector2> get quadPositions => [
-        Vector2(5, 55),
-        Vector2(55, 55),
-        Vector2(105, 55),
-        Vector2(5, 5),
+        Vector2(quadPadding, quadSize + quadPadding),
+        Vector2(quadSize + quadPadding, quadSize + quadPadding),
+        Vector2(2 * quadSize + quadPadding, quadSize + quadPadding),
+        Vector2(quadPadding, quadPadding),
       ];
 }
 
@@ -347,10 +348,10 @@ class TetrisL extends TetrisBlock {
   double get yOffset => 25.0;
   @override
   List<Vector2> get quadPositions => [
-        Vector2(5, 55),
-        Vector2(55, 55),
-        Vector2(105, 55),
-        Vector2(105, 5),
+        Vector2(quadPadding, quadSize + quadPadding),
+        Vector2(quadSize + quadPadding, quadSize + quadPadding),
+        Vector2(2 * quadSize + quadPadding, quadSize + quadPadding),
+        Vector2(2 * quadSize + quadPadding, quadPadding),
       ];
 }
 
@@ -371,10 +372,10 @@ class TetrisT extends TetrisBlock {
   double get yOffset => 25.0;
   @override
   List<Vector2> get quadPositions => [
-        Vector2(5, 55),
-        Vector2(55, 55),
-        Vector2(105, 55),
-        Vector2(55, 5),
+        Vector2(quadPadding, quadSize + quadPadding),
+        Vector2(quadSize + quadPadding, quadSize + quadPadding),
+        Vector2(2 * quadSize + quadPadding, quadSize + quadPadding),
+        Vector2(quadSize + quadPadding, quadPadding),
       ];
 }
 
@@ -395,10 +396,10 @@ class TetrisS extends TetrisBlock {
   double get yOffset => 25.0;
   @override
   List<Vector2> get quadPositions => [
-        Vector2(5, 55),
-        Vector2(55, 55),
-        Vector2(105, 5),
-        Vector2(55, 5),
+        Vector2(quadPadding, quadSize + quadPadding),
+        Vector2(quadSize + quadPadding, quadSize + quadPadding),
+        Vector2(2 * quadSize + quadPadding, quadPadding),
+        Vector2(quadSize + quadPadding, quadPadding),
       ];
 }
 
@@ -419,9 +420,9 @@ class TetrisZ extends TetrisBlock {
   double get yOffset => 25.0;
   @override
   List<Vector2> get quadPositions => [
-        Vector2(5, 5),
-        Vector2(55, 55),
-        Vector2(105, 55),
-        Vector2(55, 5),
+        Vector2(quadPadding, quadPadding),
+        Vector2(quadSize + quadPadding, quadSize + quadPadding),
+        Vector2(2 * quadSize + quadPadding, quadSize + quadPadding),
+        Vector2(quadSize + quadPadding, quadPadding),
       ];
 }
