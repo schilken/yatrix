@@ -129,7 +129,7 @@ class TetrisPage extends Component with HasGameRef<TetrisGame> {
     addRandomBlock();
   }
 
-  void removeFullRows() {
+  void removeFullRows() async {
     isRemovingRows = true;
     final rowFillingMap = createRowFillCounts();
     rowFillingMap.removeWhere((key, value) => value < 10);
@@ -139,6 +139,7 @@ class TetrisPage extends Component with HasGameRef<TetrisGame> {
       removeRow(y.toDouble());
       var yAbove = y.toDouble() - 50;
       do {
+        await Future<void>.delayed(Duration(milliseconds: 300));
         dropRowAbove(yAbove);
         yAbove -= 50;
       } while (yAbove > 275.0);
@@ -146,11 +147,10 @@ class TetrisPage extends Component with HasGameRef<TetrisGame> {
     isRemovingRows = false;
   }
 
-  Future<void> dropRowAbove(double y) async {
+  void dropRowAbove(double y) {
 //    print('dropRowAbove $y');
     for (var x = 25.0; x < 500.0; x += 50.0) {
       final point = Vector2(x, y);
-//      await Future<void>.delayed(Duration(milliseconds: 1000));
       final block = world.children
           .query<TetrisBlock>()
           .where((block) => block.containsLocalPoint(point))
