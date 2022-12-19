@@ -17,9 +17,6 @@ import 'tetris_game.dart';
 const quadSize = 50.0;
 const quadPadding = 3.0;
 
-
-
-
 abstract class TetrisBlock extends SpriteComponent
     with CollisionCallbacks, HasGameRef<TetrisGame> {
   TetrisBlock({
@@ -40,6 +37,7 @@ abstract class TetrisBlock extends SpriteComponent
   double? _lastDeltaX;
   double? _lastRotate;
   PolygonHitbox? hitBox;
+  double? dropDestination;
 
   @override
   Future<void> onLoad() async {
@@ -75,6 +73,9 @@ abstract class TetrisBlock extends SpriteComponent
   void update(double dt) {
     super.update(dt);
     position += _velocity * dt;
+    if (dropDestination != null && dropDestination! > position.y) {
+      _velocity = Vector2.all(0);
+    }
   }
 
   void freezeBlock() {
@@ -105,6 +106,9 @@ abstract class TetrisBlock extends SpriteComponent
     Set<Vector2> intersectionPoints,
     PositionComponent other,
   ) {
+    if (dropDestination != null) {
+      return;
+    }
 //    print('onCollisionStart $other');
     if (_velocity.y == 0 && _lastDeltaX == null && _lastRotate == null) {
       return;
@@ -146,8 +150,10 @@ abstract class TetrisBlock extends SpriteComponent
     }
   }
 
-  void drop() {
-    _velocity.y = 100;
+  void dropOneRow() {
+    dropDestination = y + 50;
+    print('dropDestination: $dropDestination');
+    y = dropDestination!;
   }
 
   factory TetrisBlock.create(String blockType, Vector2 blockPosition) {

@@ -1,17 +1,17 @@
 import 'dart:math';
-
+import 'package:collection/collection.dart';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
 import 'package:flutter/services.dart';
-
-import 'boundaries.dart';
+import 'package:tetris/tetris_game.dart';
+import 'package:tetris/boundaries.dart';
 import 'buttons.dart';
 import 'game_assets.dart';
 import 'tetris_block.dart';
-import 'tetris_game.dart';
+import 'tetris_matrix.dart';
 
-class TetrisConstructPage extends Component with HasGameRef<TetrisGame> {
+class TetrisPlayPage extends Component with HasGameRef<TetrisGame> {
   late final World world;
   late final CameraComponent cameraComponent;
   late final Viewfinder viewfinder;
@@ -97,6 +97,9 @@ class TetrisConstructPage extends Component with HasGameRef<TetrisGame> {
       isGameRunning = true;
       addRandomBlock();
     }
+    if (event.logicalKey == LogicalKeyboardKey.question) {
+      createRowFillCounts();
+    }
 
     if (_currentFallingBlock == null) {
       return;
@@ -113,7 +116,80 @@ class TetrisConstructPage extends Component with HasGameRef<TetrisGame> {
   }
 
   void handleBlockFreezed() {
+    if (isRemovingRows) {
+      return;
+    }
+    final matrix = creatBlockMatrix();
+    print(matrix);
+    removeFullRows();
+    if (!isGameRunning) {
+      print('>>> GAME OVER <<<');
+      return;
+    }
+    if (_currentFallingBlock != null && _currentFallingBlock!.y < 275) {
+      return;
+    }
     addRandomBlock();
+  }
+
+  Future<void> removeFullRows() async {
+    isRemovingRows = true;
+    final rowFillingMap = createRowFillCounts();
+    rowFillingMap.removeWhere((key, value) => value < 10);
+    final yOfRows = rowFillingMap.keys;
+    print('yOfRows: ${yOfRows}');
+    for (final y in yOfRows) {
+      removeRow(y.toDouble());
+      var yAbove = y.toDouble() - 50;
+      moveRowsAbove(yAbove);
+      // do {
+      //   await Future<void>.delayed(Duration(milliseconds: 300));
+      //   moveRowsAbove(yAbove);
+      //   yAbove -= 50;
+      // } while (yAbove > 275.0);
+    }
+    isRemovingRows = false;
+  }
+
+  void moveRowsAbove(double y) {
+//    print('dropRowAbove $y');
+    for (var x = 25.0; x < 500.0; x += 50.0) {
+      final point = Vector2(x, y);
+      final block = world.children
+          .query<TetrisBlock>()
+          .where((block) => block.containsLocalPoint(point))
+          .firstOrNull;
+      if (block != null) {
+        block.dropOneRow();
+      }
+    }
+  }
+
+//   void dropRowAbove(double y) {
+// //    print('dropRowAbove $y');
+//     for (var x = 25.0; x < 500.0; x += 50.0) {
+//       final point = Vector2(x, y);
+//       final block = world.children
+//           .query<TetrisBlock>()
+//           .where((block) => block.containsLocalPoint(point))
+//           .firstOrNull;
+//       if (block != null) {
+//         block.dropOneRow();
+//       }
+//     }
+//   }
+
+  void removeRow(double y) {
+    for (var x = 25.0; x < 500.0; x += 50.0) {
+      final point = Vector2(x, y);
+      final block = world.children
+          .query<TetrisBlock>()
+          .where((block) => block.containsLocalPoint(point))
+          .firstOrNull;
+      if (block != null) {
+        block.hideQuad(Vector2(x, y));
+      }
+    }
   }
 
   void addRandomBlock({Vector2? startPosition}) {
@@ -123,5 +199,37 @@ class TetrisConstructPage extends Component with HasGameRef<TetrisGame> {
     world.add(_currentFallingBlock!);
   }
 
-}
+  Map<int, int> createRowFillCounts() {
+    final rowFillingMap = <int, int>{};
+    for (var y = 925; y > 75; y -= 50) {
+      var fillCount = 0;
+      for (var x = 25.0; x < 500.0; x += 50.0) {
+        final point = Vector2(x, y.toDouble());
+        final blocks =
+            world.children.where((block) => block.containsLocalPoint(point));
+        if (blocks.isNotEmpty) {
+          fillCount++;
+        }
+      }
+      rowFillingMap[y] = fillCount;
+    }
+    return rowFillingMap;
+  }
 
+  TetrisMatrix creatBlockMatrix() {
+    final matrix = TetrisMatrix();
+    for (var i = matrix.rows - 1; i >= 0; i--) {
+      final y = 175.0 + i * 50;
+      for (var j = 0; j < matrix.cols; j++) {
+        final x = 25.0 + j * 50;
+        final point = Vector2(x, y);
+        final blocks =
+            world.children.where((block) => block.containsLocalPoint(point));
+        if (blocks.isNotEmpty) {
+          matrix.add(i, j, 1);
+        }
+      }
+    }
+    return matrix;
+  }
+}

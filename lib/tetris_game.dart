@@ -9,6 +9,7 @@ import 'package:tetris/splash_screen.dart';
 import 'tetris_page.dart';
 import 'pause_route.dart';
 import 'start_page.dart';
+import 'tetris_play_page.dart';
 
 const TextStyle _textStyle = TextStyle(color: Colors.black, fontSize: 2);
 
@@ -21,7 +22,7 @@ class TetrisGame extends FlameGame
   TetrisGame();
   bool isGameRunning = false;
   late final RouterComponent router;
-  TetrisPage? tetrisPage;
+  TetrisConstructPage? tetrisPage;
 
   @override
   Future<void> onLoad() async {
@@ -32,10 +33,10 @@ class TetrisGame extends FlameGame
           'splash': Route(SplashScreen.new),
           'home': Route(StartPage.new),
           'level1': Route(() {
-            tetrisPage = TetrisPage();
+            tetrisPage = TetrisConstructPage();
             return tetrisPage!;
           }),
-          // 'level2': Route(Level2Page.new),
+          'level2': Route(TetrisPlayPage.new),
           'pause': PauseRoute(),
         },
         initialRoute: 'splash',
