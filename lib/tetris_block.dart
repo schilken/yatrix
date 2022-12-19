@@ -11,61 +11,14 @@ import 'package:tetris/boundaries.dart';
 
 import 'background.dart';
 import 'game_assets.dart';
+import 'quadrat.dart';
 import 'tetris_game.dart';
 
 const quadSize = 50.0;
 const quadPadding = 3.0;
 
 
-typedef TetrisBlockTearOff = TetrisBlock Function({
-  required Vector2 blockPosition,
-  Vector2 velocity,
-});
 
-typedef CollisionCallback = void Function(PositionComponent);
-
-class Quad extends PositionComponent with CollisionCallbacks {
-  Quad({
-    super.position,
-    required this.collisionCallback,
-  }) {
-    size = Vector2(40, 40);
-  }
-  CollisionCallback collisionCallback;
-  RectangleHitbox? hitBox;
-
-  @override
-  Future<void> onLoad() async {
-//    debugMode = true;
-    add(hitBox = RectangleHitbox());
-  }
-
-  @override
-  void onCollisionStart(
-    Set<Vector2> intersectionPoints,
-    PositionComponent other,
-  ) {
-    collisionCallback(other);
-    super.onCollisionStart(intersectionPoints, other);
-  }
-
-  bool containsParentPoint(Vector2 parentPoint) {
-    final rect = Rect.fromLTWH(position.x, position.y, size.x, size.y);
-    return hitBox != null && rect.containsPoint(parentPoint);
-  }
-
-  void hide() {
-    print('hide at position $position');
-    hitBox?.removeFromParent();
-    hitBox = null;
-    add(Background(const Color(0xff282828)));
-  }
-
-  @override
-  String toString() {
-    return '$position, $size';
-  }
-}
 
 abstract class TetrisBlock extends SpriteComponent
     with CollisionCallbacks, HasGameRef<TetrisGame> {
@@ -98,7 +51,8 @@ abstract class TetrisBlock extends SpriteComponent
     x += xOffset;
 
     quadPositions.forEach((position) async {
-      final quad = Quad(position: position, collisionCallback: onQuadCollision);
+      final quad =
+          Quadrat(position: position, collisionCallback: onQuadCollision);
       await add(quad);
 //      print('Quad $quad');
     });
@@ -192,6 +146,10 @@ abstract class TetrisBlock extends SpriteComponent
     }
   }
 
+  void drop() {
+    _velocity.y = 100;
+  }
+
   factory TetrisBlock.create(String blockType, Vector2 blockPosition) {
     TetrisBlockTearOff constructorTearOff = TetrisI.new;
     switch (blockType) {
@@ -239,7 +197,7 @@ abstract class TetrisBlock extends SpriteComponent
     final localPoint = parentToLocal(globalPoint);
 
     final isContaining = children.any((quad) {
-      return (quad as Quad).containsParentPoint(localPoint);
+      return (quad as Quadrat).containsParentPoint(localPoint);
     });
     return isContaining;
 //    return super.containsLocalPoint(localPoint);
@@ -248,7 +206,7 @@ abstract class TetrisBlock extends SpriteComponent
   void hideQuad(Vector2 globalPoint) {
 //    print('TetrisBlock.hideQuad at $globalPoint');
     final localPoint = parentToLocal(globalPoint);
-    final quads = children.query<Quad>();
+    final quads = children.query<Quadrat>();
     for (final quad in quads) {
       if (quad.containsParentPoint(localPoint)) {
         quad.hide();

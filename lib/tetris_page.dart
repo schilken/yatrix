@@ -156,7 +156,7 @@ class TetrisPage extends Component with HasGameRef<TetrisGame> {
           .where((block) => block.containsLocalPoint(point))
           .firstOrNull;
       if (block != null) {
-        block.setHighSpeed();
+        block.drop();
       }
     }
   }
