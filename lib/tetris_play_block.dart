@@ -18,6 +18,69 @@ import 'tetris_game.dart';
 const quadSize = 50.0;
 const quadPadding = 3.0;
 
+typedef TetrisPlayBlockTearOff = TetrisPlayBlock Function({
+  required Vector2 blockPosition,
+  required World world,
+  Vector2 velocity,
+});
+
+abstract class TetrisPlayBlock extends TetrisBlock {
+  TetrisPlayBlock(
+      {required super.blockPosition, required this.world, Vector2? velocity});
+
+  World world;
+
+  factory TetrisPlayBlock.create(
+    String blockType,
+    Vector2 blockPosition,
+    World world,
+  ) {
+    TetrisPlayBlockTearOff constructorTearOff = TetrisPlayI.new;
+    switch (blockType) {
+      case 'I':
+        constructorTearOff = TetrisPlayI.new;
+        break;
+      case 'O':
+        constructorTearOff = TetrisPlayO.new;
+        break;
+      case 'J':
+        constructorTearOff = TetrisPlayJ.new;
+        break;
+      case 'L':
+        constructorTearOff = TetrisPlayL.new;
+        break;
+      case 'S':
+        constructorTearOff = TetrisPlayS.new;
+        break;
+      case 'Z':
+        constructorTearOff = TetrisPlayZ.new;
+        break;
+      case 'T':
+        constructorTearOff = TetrisPlayT.new;
+        break;
+    }
+    return constructorTearOff(
+      blockPosition: blockPosition,
+      world: world,
+    );
+  }
+
+  factory TetrisPlayBlock.random(Vector2 blockPosition, World world) {
+    final blockTypes = [
+      'I',
+      'O',
+      'J',
+      'L',
+      'S',
+      'Z',
+      'T',
+    ];
+    final newBlockType =
+        blockTypes[TetrisBlock._random.nextInt(blockTypes.length)];
+    return TetrisPlayBlock.create(newBlockType, blockPosition, world);
+  }
+}
+
 abstract class TetrisBlock extends SpriteComponent
     with CollisionCallbacks, HasGameRef<TetrisGame> {
   TetrisBlock({
@@ -157,48 +220,6 @@ abstract class TetrisBlock extends SpriteComponent
     y = dropDestination!;
   }
 
-  factory TetrisBlock.create(String blockType, Vector2 blockPosition) {
-    TetrisBlockTearOff constructorTearOff = TetrisI.new;
-    switch (blockType) {
-      case 'I':
-        constructorTearOff = TetrisI.new;
-        break;
-      case 'O':
-        constructorTearOff = TetrisO.new;
-        break;
-      case 'J':
-        constructorTearOff = TetrisJ.new;
-        break;
-      case 'L':
-        constructorTearOff = TetrisL.new;
-        break;
-      case 'S':
-        constructorTearOff = TetrisS.new;
-        break;
-      case 'Z':
-        constructorTearOff = TetrisZ.new;
-        break;
-      case 'T':
-        constructorTearOff = TetrisT.new;
-        break;
-    }
-    return constructorTearOff(blockPosition: blockPosition);
-  }
-
-  factory TetrisBlock.random(Vector2 blockPosition) {
-    final blockTypes = [
-      'I',
-      'O',
-      'J',
-      'L',
-      'S',
-      'Z',
-      'T',
-    ];
-    final newBlockType = blockTypes[_random.nextInt(blockTypes.length)];
-    return TetrisBlock.create(newBlockType, blockPosition);
-  }
-
   @override
   bool containsLocalPoint(Vector2 globalPoint) {
     final localPoint = parentToLocal(globalPoint);
@@ -222,9 +243,10 @@ abstract class TetrisBlock extends SpriteComponent
   }
 }
 
-class TetrisI extends TetrisBlock {
-  TetrisI({
+class TetrisPlayI extends TetrisPlayBlock {
+  TetrisPlayI({
     required super.blockPosition,
+    required super.world,
     super.velocity,
   });
   @override
@@ -246,9 +268,10 @@ class TetrisI extends TetrisBlock {
       ];
 }
 
-class TetrisO extends TetrisBlock {
-  TetrisO({
+class TetrisPlayO extends TetrisPlayBlock {
+  TetrisPlayO({
     required super.blockPosition,
+    required super.world,
     super.velocity,
   });
   @override
@@ -271,9 +294,10 @@ class TetrisO extends TetrisBlock {
       ];
 }
 
-class TetrisJ extends TetrisBlock {
-  TetrisJ({
+class TetrisPlayJ extends TetrisPlayBlock {
+  TetrisPlayJ({
     required super.blockPosition,
+    required super.world,
     super.velocity,
   });
   @override
@@ -295,9 +319,10 @@ class TetrisJ extends TetrisBlock {
       ];
 }
 
-class TetrisL extends TetrisBlock {
-  TetrisL({
+class TetrisPlayL extends TetrisPlayBlock {
+  TetrisPlayL({
     required super.blockPosition,
+    required super.world,
     super.velocity,
   });
 
@@ -320,9 +345,10 @@ class TetrisL extends TetrisBlock {
       ];
 }
 
-class TetrisT extends TetrisBlock {
-  TetrisT({
+class TetrisPlayT extends TetrisPlayBlock {
+  TetrisPlayT({
     required super.blockPosition,
+    required super.world,
     super.velocity,
   });
   @override
@@ -344,9 +370,10 @@ class TetrisT extends TetrisBlock {
       ];
 }
 
-class TetrisS extends TetrisBlock {
-  TetrisS({
+class TetrisPlayS extends TetrisPlayBlock {
+  TetrisPlayS({
     required super.blockPosition,
+    required super.world,
     super.velocity,
   });
   @override
@@ -368,9 +395,10 @@ class TetrisS extends TetrisBlock {
       ];
 }
 
-class TetrisZ extends TetrisBlock {
-  TetrisZ({
+class TetrisPlayZ extends TetrisPlayBlock {
+  TetrisPlayZ({
     required super.blockPosition,
+    required super.world,
     super.velocity,
   });
   @override

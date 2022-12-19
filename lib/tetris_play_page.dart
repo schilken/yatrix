@@ -4,12 +4,13 @@ import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
 import 'package:flutter/services.dart';
-import 'package:tetris/tetris_game.dart';
-import 'package:tetris/boundaries.dart';
+import 'boundaries.dart';
 import 'buttons.dart';
 import 'game_assets.dart';
 import 'tetris_block.dart';
+import 'tetris_game.dart';
 import 'tetris_matrix.dart';
+import 'tetris_play_block.dart';
 
 class TetrisPlayPage extends Component with HasGameRef<TetrisGame> {
   late final World world;
@@ -18,7 +19,7 @@ class TetrisPlayPage extends Component with HasGameRef<TetrisGame> {
   late final Viewport viewport;
   Vector2 get visibleGameSize => viewfinder.visibleGameSize!;
 
-  TetrisBlock? _currentFallingBlock;
+  TetrisPlayBlock? _currentFallingBlock;
   bool isGameRunning = false;
   late final RouterComponent router;
 
@@ -53,7 +54,7 @@ class TetrisPlayPage extends Component with HasGameRef<TetrisGame> {
 
   void restart() {
     isGameRunning = false;
-    final allBlocks = world.children.query<TetrisBlock>();
+    final allBlocks = world.children.query<TetrisPlayBlock>();
     allBlocks.forEach((element) => element.removeFromParent());
   }
 
@@ -66,31 +67,38 @@ class TetrisPlayPage extends Component with HasGameRef<TetrisGame> {
     }
 
     if (event.logicalKey == LogicalKeyboardKey.keyO) {
-      _currentFallingBlock = TetrisBlock.create('O', defaultStartPosition);
+      _currentFallingBlock =
+          TetrisPlayBlock.create('O', defaultStartPosition, world);
       world.add(_currentFallingBlock!);
     }
     if (event.logicalKey == LogicalKeyboardKey.keyJ) {
-      _currentFallingBlock = TetrisBlock.create('J', defaultStartPosition);
+      _currentFallingBlock =
+          TetrisPlayBlock.create('J', defaultStartPosition, world);
       world.add(_currentFallingBlock!);
     }
     if (event.logicalKey == LogicalKeyboardKey.keyI) {
-      _currentFallingBlock = TetrisBlock.create('I', defaultStartPosition);
+      _currentFallingBlock =
+          TetrisPlayBlock.create('I', defaultStartPosition, world);
       world.add(_currentFallingBlock!);
     }
     if (event.logicalKey == LogicalKeyboardKey.keyT) {
-      _currentFallingBlock = TetrisBlock.create('T', defaultStartPosition);
+      _currentFallingBlock =
+          TetrisPlayBlock.create('T', defaultStartPosition, world);
       world.add(_currentFallingBlock!);
     }
     if (event.logicalKey == LogicalKeyboardKey.keyS) {
-      _currentFallingBlock = TetrisBlock.create('S', defaultStartPosition);
+      _currentFallingBlock =
+          TetrisPlayBlock.create('S', defaultStartPosition, world);
       world.add(_currentFallingBlock!);
     }
     if (event.logicalKey == LogicalKeyboardKey.keyL) {
-      _currentFallingBlock = TetrisBlock.create('L', defaultStartPosition);
+      _currentFallingBlock =
+          TetrisPlayBlock.create('L', defaultStartPosition, world);
       world.add(_currentFallingBlock!);
     }
     if (event.logicalKey == LogicalKeyboardKey.keyZ) {
-      _currentFallingBlock = TetrisBlock.create('Z', defaultStartPosition);
+      _currentFallingBlock =
+          TetrisPlayBlock.create('Z', defaultStartPosition, world);
       world.add(_currentFallingBlock!);
     }
     if (event.logicalKey == LogicalKeyboardKey.keyR) {
@@ -121,7 +129,7 @@ class TetrisPlayPage extends Component with HasGameRef<TetrisGame> {
     }
     final matrix = creatBlockMatrix();
     print(matrix);
-    removeFullRows();
+//    removeFullRows();
     if (!isGameRunning) {
       print('>>> GAME OVER <<<');
       return;
@@ -132,38 +140,38 @@ class TetrisPlayPage extends Component with HasGameRef<TetrisGame> {
     addRandomBlock();
   }
 
-  Future<void> removeFullRows() async {
-    isRemovingRows = true;
-    final rowFillingMap = createRowFillCounts();
-    rowFillingMap.removeWhere((key, value) => value < 10);
-    final yOfRows = rowFillingMap.keys;
-    print('yOfRows: ${yOfRows}');
-    for (final y in yOfRows) {
-      removeRow(y.toDouble());
-      var yAbove = y.toDouble() - 50;
-      moveRowsAbove(yAbove);
-      // do {
-      //   await Future<void>.delayed(Duration(milliseconds: 300));
-      //   moveRowsAbove(yAbove);
-      //   yAbove -= 50;
-      // } while (yAbove > 275.0);
-    }
-    isRemovingRows = false;
-  }
+  // Future<void> removeFullRows() async {
+  //   isRemovingRows = true;
+  //   final rowFillingMap = createRowFillCounts();
+  //   rowFillingMap.removeWhere((key, value) => value < 10);
+  //   final yOfRows = rowFillingMap.keys;
+  //   print('yOfRows: ${yOfRows}');
+  //   for (final y in yOfRows) {
+  //     removeRow(y.toDouble());
+  //     var yAbove = y.toDouble() - 50;
+  //     moveRowsAbove(yAbove);
+  //     // do {
+  //     //   await Future<void>.delayed(Duration(milliseconds: 300));
+  //     //   moveRowsAbove(yAbove);
+  //     //   yAbove -= 50;
+  //     // } while (yAbove > 275.0);
+  //   }
+  //   isRemovingRows = false;
+  // }
 
-  void moveRowsAbove(double y) {
-//    print('dropRowAbove $y');
-    for (var x = 25.0; x < 500.0; x += 50.0) {
-      final point = Vector2(x, y);
-      final block = world.children
-          .query<TetrisBlock>()
-          .where((block) => block.containsLocalPoint(point))
-          .firstOrNull;
-      if (block != null) {
-        block.dropOneRow();
-      }
-    }
-  }
+//   void moveRowsAbove(double y) {
+// //    print('dropRowAbove $y');
+//     for (var x = 25.0; x < 500.0; x += 50.0) {
+//       final point = Vector2(x, y);
+//       final block = world.children
+//           .query<TetrisBlock>()
+//           .where((block) => block.containsLocalPoint(point))
+//           .firstOrNull;
+//       if (block != null) {
+//         block.dropOneRow();
+//       }
+//     }
+//   }
 
 //   void dropRowAbove(double y) {
 // //    print('dropRowAbove $y');
@@ -179,23 +187,23 @@ class TetrisPlayPage extends Component with HasGameRef<TetrisGame> {
 //     }
 //   }
 
-  void removeRow(double y) {
-    for (var x = 25.0; x < 500.0; x += 50.0) {
-      final point = Vector2(x, y);
-      final block = world.children
-          .query<TetrisBlock>()
-          .where((block) => block.containsLocalPoint(point))
-          .firstOrNull;
-      if (block != null) {
-        block.hideQuad(Vector2(x, y));
-      }
-    }
-  }
+  // void removeRow(double y) {
+  //   for (var x = 25.0; x < 500.0; x += 50.0) {
+  //     final point = Vector2(x, y);
+  //     final block = world.children
+  //         .query<TetrisBlock>()
+  //         .where((block) => block.containsLocalPoint(point))
+  //         .firstOrNull;
+  //     if (block != null) {
+  //       block.hideQuad(Vector2(x, y));
+  //     }
+  //   }
+  // }
 
   void addRandomBlock({Vector2? startPosition}) {
     print('addRandomBlock');
     _currentFallingBlock =
-        TetrisBlock.random(startPosition ?? defaultStartPosition);
+        TetrisPlayBlock.random(startPosition ?? defaultStartPosition, world);
     world.add(_currentFallingBlock!);
   }
 
