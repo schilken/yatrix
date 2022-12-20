@@ -1,16 +1,10 @@
 import 'dart:math';
-import 'dart:ui';
-import 'package:collection/collection.dart';
-import 'package:flame/experimental.dart';
-import 'package:flame/extensions.dart';
+
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/game.dart';
-import 'package:flame/palette.dart';
-import 'package:flutter/material.dart' hide Draggable;
+import 'package:flame/experimental.dart';
 import 'package:tetris/boundaries.dart';
 
-import 'background.dart';
 import 'game_assets.dart';
 import 'quadrat.dart';
 import 'tetris_game.dart';
