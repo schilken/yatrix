@@ -1,7 +1,10 @@
+
+
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/palette.dart';
+import 'package:flutter/rendering.dart';
 
 import 'background.dart';
 import 'tetris_block.dart';
@@ -13,6 +16,17 @@ typedef TetrisBlockTearOff = TetrisBlock Function({
 
 typedef CollisionCallback = void Function(PositionComponent);
 
+enum QuadState {
+  initial('i'),
+  falling('f'),
+  freezed('z'),
+  hidden('h'),
+  dropped('d');
+
+  final String value;
+  const QuadState(this.value);
+}
+
 class Quadrat extends PositionComponent with CollisionCallbacks {
   Quadrat({
     super.position,
@@ -22,7 +36,16 @@ class Quadrat extends PositionComponent with CollisionCallbacks {
   }
   CollisionCallback collisionCallback;
   RectangleHitbox? hitBox;
+  double? dropDestination;
+  var state = QuadState.initial; 
 
+final _textPaint = TextPaint(
+    style: const TextStyle(
+      fontSize: 40,
+      color: Color(0xFFC8FFF5),
+      fontWeight: FontWeight.w800,
+    ),
+  );
   @override
   Future<void> onLoad() async {
 //    debugMode = true;
@@ -47,15 +70,31 @@ class Quadrat extends PositionComponent with CollisionCallbacks {
     print('hide at position $position');
     hitBox?.removeFromParent();
     hitBox = null;
+    state = QuadState.hidden;
     add(Background(
-        paint: BasicPalette.black.paint(), rect: Rect.fromLTWH(0, 0, 50, 50)));
+        paint: PaletteEntry(Color(0x80000000)).paint(),
+        rect: Rect.fromLTWH(0, 0, 50, 50)));
   }
 
   void freeze() {
     print('freeze at position $position');
+    state = QuadState.freezed;
     add(Background(paint: BasicPalette.green.paint()));
   }
 
+  void dropOneRow() {
+    dropDestination = y + 50;
+    print('dropDestination: $dropDestination');
+    y = dropDestination!;
+    state = QuadState.dropped;
+    add(Background(paint: BasicPalette.green.paint()));
+  }
+
+  @override
+  void render(Canvas canvas) {
+//    super.render(canvas);
+    _textPaint.render(canvas, state.value, Vector2(10, -5));
+  }
 
   @override
   String toString() {

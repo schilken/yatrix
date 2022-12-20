@@ -111,7 +111,8 @@ class TetrisPlayPage extends Component
       addRandomBlock();
     }
     if (event.logicalKey == LogicalKeyboardKey.question) {
-      createRowFillCounts();
+      final matrix = creatBlockMatrix();
+      print(matrix);
     }
 
     if (_currentFallingBlock == null) {
@@ -154,26 +155,26 @@ class TetrisPlayPage extends Component
     for (final y in yOfRows) {
       removeRow(y.toDouble());
       var yAbove = y.toDouble() - 50;
-//      moveRowsAbove(yAbove);
-      // do {
-      //   await Future<void>.delayed(Duration(milliseconds: 300));
-      //   moveRowsAbove(yAbove);
-      //   yAbove -= 50;
-      // } while (yAbove > 275.0);
+      moveRowsAbove(yAbove);
+      do {
+        await Future<void>.delayed(Duration(milliseconds: 300));
+        moveRowsAbove(yAbove);
+        yAbove -= 50;
+      } while (yAbove > 275.0);
     }
     isRemovingRows = false;
   }
 
   void moveRowsAbove(double y) {
-//    print('dropRowAbove $y');
+    print('moveRowsAbove $y');
     for (var x = 25.0; x < 500.0; x += 50.0) {
       final point = Vector2(x, y);
-      final block = world.children
-          .query<TetrisBlock>()
-          .where((block) => block.containsLocalPoint(point))
+      final quad = world.children
+          .query<Quadrat>()
+          .where((quad) => quad.containsPoint(point))
           .firstOrNull;
-      if (block != null) {
-        block.dropOneRow();
+      if (quad != null) {
+        quad.dropOneRow();
       }
     }
   }
@@ -218,8 +219,11 @@ class TetrisPlayPage extends Component
       var fillCount = 0;
       for (var x = 25.0; x < 500.0; x += 50.0) {
         final point = Vector2(x, y.toDouble());
-        final quads = world.children.where((quad) => quad.containsPoint(point));
-        if (quads.isNotEmpty) {
+        final quad = world.children
+            .query<Quadrat>()
+            .where((quad) => quad.containsPoint(point))
+            .firstOrNull;
+        if ((quad != null) && quad.state != QuadState.hidden) {
           fillCount++;
         }
       }
@@ -235,9 +239,13 @@ class TetrisPlayPage extends Component
       for (var j = 0; j < matrix.cols; j++) {
         final x = 25.0 + j * 50;
         final point = Vector2(x, y);
-        final quads = world.children.where((quad) => quad.containsPoint(point));
-        if (quads.isNotEmpty) {
-          matrix.add(i, j, 1);
+        final quad = world.children
+            .query<Quadrat>()
+            .where((quad) => quad.containsPoint(point))
+            .firstOrNull;
+
+        if ((quad != null)) {
+          matrix.add(i, j, quad.state.value);
         }
       }
     }

@@ -3,10 +3,10 @@ class TetrisMatrix {
   final cols = 10;
   late final matrix = List.generate(
     rows,
-    (i) => List.generate(cols, (j) => 0),
+    (i) => List.generate(cols, (j) => ' '),
   );
 
-  void add(int i, int j, int value) {
+  void add(int i, int j, String value) {
     matrix[i][j] = value;
   }
 
