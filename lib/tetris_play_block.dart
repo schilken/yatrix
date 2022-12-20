@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
+import 'package:flutter/rendering.dart';
 import 'package:tetris/boundaries.dart';
 
 import 'game_assets.dart';
@@ -121,9 +122,12 @@ abstract class TetrisPlayBlock extends TetrisBlock {
       print('out of area');
       return;
     }
-    markAllQuadsAsFreezed();
-    Future.delayed(
-        Duration(milliseconds: 500), () => game.handleBlockFreezed());
+    Future.delayed(Duration(milliseconds: 500), () {
+      markAllQuadsAsFreezed();
+    });
+    Future.delayed(Duration(milliseconds: 600), () {
+      game.handleBlockFreezed();
+    });
   }
 
   void markAllQuadsAsFreezed() {
@@ -139,6 +143,12 @@ abstract class TetrisPlayBlock extends TetrisBlock {
     }
   }
 
+  @override
+  void render(Canvas canvas) {
+    if (_velocity.y != 0) {
+      super.render(canvas);
+    }
+  }
 }
 
 abstract class TetrisBlock extends SpriteComponent
@@ -206,10 +216,10 @@ abstract class TetrisBlock extends SpriteComponent
   }
 
   void adjustY() {
-    print('adjustY before: $y');
+//    print('adjustY before: $y');
     final tempy = y - yOffset;
     y = (tempy / 50).floor() * 50.0 + yOffset;
-    print('adjustY after: $y');
+//    print('adjustY after: $y');
   }
 
   void setHighSpeed() {
@@ -220,11 +230,11 @@ abstract class TetrisBlock extends SpriteComponent
     }
   }
 
-  void dropOneRow() {
-    dropDestination = y + 50;
-    print('dropDestination: $dropDestination');
-    y = dropDestination!;
-  }
+  // void dropOneRow() {
+  //   dropDestination = y + 50;
+  //   print('dropDestination: $dropDestination');
+  //   y = dropDestination!;
+  // }
 
   @override
   bool containsLocalPoint(Vector2 globalPoint) {
@@ -237,17 +247,16 @@ abstract class TetrisBlock extends SpriteComponent
 //    return super.containsLocalPoint(localPoint);
   }
 
-  void hideQuad(Vector2 globalPoint) {
-//    print('TetrisBlock.hideQuad at $globalPoint');
-    final localPoint = parentToLocal(globalPoint);
-    final quads = children.query<Quadrat>();
-    for (final quad in quads) {
-      if (quad.containsParentPoint(localPoint)) {
-        quad.hide();
-      }
-    }
-  }
-  
+//   void hideQuad(Vector2 globalPoint) {
+// //    print('TetrisBlock.hideQuad at $globalPoint');
+//     final localPoint = parentToLocal(globalPoint);
+//     final quads = children.query<Quadrat>();
+//     for (final quad in quads) {
+//       if (quad.containsParentPoint(localPoint)) {
+//         quad.hide();
+//       }
+//     }
+//   }
 }
 
 class TetrisPlayI extends TetrisPlayBlock {

@@ -222,7 +222,7 @@ class TetrisPlayPage extends Component
         final quad = world.children
             .query<Quadrat>()
             .where((quad) => quad.containsPoint(point))
-            .firstOrNull;
+            .lastOrNull;
         if ((quad != null) && quad.state != QuadState.hidden) {
           fillCount++;
         }
@@ -242,7 +242,7 @@ class TetrisPlayPage extends Component
         final quad = world.children
             .query<Quadrat>()
             .where((quad) => quad.containsPoint(point))
-            .firstOrNull;
+            .lastOrNull;
 
         if ((quad != null)) {
           matrix.add(i, j, quad.state.value);
