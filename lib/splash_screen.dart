@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
+import 'package:flame/palette.dart';
 import 'package:flutter/rendering.dart';
 import 'package:tetris/tetris_game.dart';
 
@@ -9,7 +10,7 @@ class SplashScreen extends Component with TapCallbacks, HasGameRef<TetrisGame> {
   @override
   Future<void> onLoad() async {
     addAll([
-      Background(const Color(0xff282828)),
+      Background(BasicPalette.black.paint()),
       TextBoxComponent(
         text: '[YaTetris]',
         textRenderer: TextPaint(

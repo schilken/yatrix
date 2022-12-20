@@ -1,6 +1,7 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
+import 'package:flame/palette.dart';
 
 import 'background.dart';
 import 'tetris_block.dart';
@@ -46,8 +47,14 @@ class Quadrat extends PositionComponent with CollisionCallbacks {
     print('hide at position $position');
     hitBox?.removeFromParent();
     hitBox = null;
-    add(Background(const Color(0xff282828)));
+    add(Background(BasicPalette.black.paint()));
   }
+
+  void freeze() {
+    print('freeze at position $position');
+    add(Background(BasicPalette.green.paint()));
+  }
+
 
   @override
   String toString() {

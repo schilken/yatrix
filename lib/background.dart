@@ -1,18 +1,17 @@
 import 'dart:ui';
 
 import 'package:flame/components.dart';
-import 'package:flame/palette.dart';
 
 class Background extends Component {
-  Background(this.color);
-  final Color color;
+  Background(this.paint);
+  final Paint paint;
 
   @override
   void render(Canvas canvas) {
-    final rect = Rect.fromLTWH(0, 0, 50, 50);
+    final rect = Rect.fromLTWH(20, 20, 10, 10);
     canvas.drawRect(
       rect,
-      BasicPalette.black.paint(),
+      paint,
     );
   }
 }

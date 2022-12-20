@@ -105,17 +105,14 @@ abstract class TetrisBlock extends SpriteComponent
     sprite = gameAssets.sprites[name];
     anchor = blockAnchor;
     x += xOffset;
-
     quadPositions.forEach((position) async {
       final quad =
           Quadrat(position: position, collisionCallback: onQuadCollision);
       await add(quad);
-//      print('Quad $quad');
     });
   }
 
   void moveXBy(double deltaX) {
-//    print('moveXBy: $deltaX');
     x += deltaX;
     _lastDeltaX = deltaX;
     Future.delayed(const Duration(milliseconds: 100), () => _lastDeltaX = null);
@@ -148,8 +145,16 @@ abstract class TetrisBlock extends SpriteComponent
       print('out of area');
       return;
     }
+    markAllQuadsAsFreezed();
     Future.delayed(
         Duration(milliseconds: 500), () => game.handleBlockFreezed());
+  }
+
+  void markAllQuadsAsFreezed() {
+    final quads = children.query<Quadrat>();
+    for (final quad in quads) {
+      quad.freeze();
+    }
   }
 
   void onQuadCollision(PositionComponent other) {
@@ -235,6 +240,7 @@ abstract class TetrisBlock extends SpriteComponent
       }
     }
   }
+  
 }
 
 class TetrisPlayI extends TetrisPlayBlock {
