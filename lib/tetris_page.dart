@@ -11,7 +11,9 @@ import 'game_assets.dart';
 import 'tetris_block.dart';
 import 'tetris_game.dart';
 
-class TetrisConstructPage extends Component with HasGameRef<TetrisGame> {
+class TetrisConstructPage extends Component
+    with HasGameRef<TetrisGame>
+    implements TetrisPageInterface {
   late final World world;
   late final CameraComponent cameraComponent;
   late final Viewfinder viewfinder;
@@ -113,7 +115,7 @@ class TetrisConstructPage extends Component with HasGameRef<TetrisGame> {
   }
 
   void handleBlockFreezed() {
-    addRandomBlock();
+//    addRandomBlock();
   }
 
   void addRandomBlock({Vector2? startPosition}) {
