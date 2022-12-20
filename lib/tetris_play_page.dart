@@ -8,6 +8,7 @@ import 'package:tetris/tetris_page.dart';
 import 'boundaries.dart';
 import 'buttons.dart';
 import 'game_assets.dart';
+import 'quadrat.dart';
 import 'tetris_game.dart';
 import 'tetris_matrix.dart';
 import 'tetris_play_block.dart';
@@ -58,6 +59,8 @@ class TetrisPlayPage extends Component
     isGameRunning = false;
     final allBlocks = world.children.query<TetrisPlayBlock>();
     allBlocks.forEach((element) => element.removeFromParent());
+    final allQuads = world.children.query<Quadrat>();
+    allQuads.forEach((element) => element.removeFromParent());
   }
 
   void onKeyboardKey(
@@ -131,7 +134,7 @@ class TetrisPlayPage extends Component
     }
     final matrix = creatBlockMatrix();
     print(matrix);
-//    removeFullRows();
+    removeFullRows();
     if (!isGameRunning) {
       print('>>> GAME OVER <<<');
       return;
@@ -142,38 +145,38 @@ class TetrisPlayPage extends Component
     addRandomBlock();
   }
 
-  // Future<void> removeFullRows() async {
-  //   isRemovingRows = true;
-  //   final rowFillingMap = createRowFillCounts();
-  //   rowFillingMap.removeWhere((key, value) => value < 10);
-  //   final yOfRows = rowFillingMap.keys;
-  //   print('yOfRows: ${yOfRows}');
-  //   for (final y in yOfRows) {
-  //     removeRow(y.toDouble());
-  //     var yAbove = y.toDouble() - 50;
-  //     moveRowsAbove(yAbove);
-  //     // do {
-  //     //   await Future<void>.delayed(Duration(milliseconds: 300));
-  //     //   moveRowsAbove(yAbove);
-  //     //   yAbove -= 50;
-  //     // } while (yAbove > 275.0);
-  //   }
-  //   isRemovingRows = false;
-  // }
+  Future<void> removeFullRows() async {
+    isRemovingRows = true;
+    final rowFillingMap = createRowFillCounts();
+    rowFillingMap.removeWhere((key, value) => value < 10);
+    final yOfRows = rowFillingMap.keys;
+    print('yOfRows: ${yOfRows}');
+    for (final y in yOfRows) {
+      removeRow(y.toDouble());
+      var yAbove = y.toDouble() - 50;
+//      moveRowsAbove(yAbove);
+      // do {
+      //   await Future<void>.delayed(Duration(milliseconds: 300));
+      //   moveRowsAbove(yAbove);
+      //   yAbove -= 50;
+      // } while (yAbove > 275.0);
+    }
+    isRemovingRows = false;
+  }
 
-//   void moveRowsAbove(double y) {
-// //    print('dropRowAbove $y');
-//     for (var x = 25.0; x < 500.0; x += 50.0) {
-//       final point = Vector2(x, y);
-//       final block = world.children
-//           .query<TetrisBlock>()
-//           .where((block) => block.containsLocalPoint(point))
-//           .firstOrNull;
-//       if (block != null) {
-//         block.dropOneRow();
-//       }
-//     }
-//   }
+  void moveRowsAbove(double y) {
+//    print('dropRowAbove $y');
+    for (var x = 25.0; x < 500.0; x += 50.0) {
+      final point = Vector2(x, y);
+      final block = world.children
+          .query<TetrisBlock>()
+          .where((block) => block.containsLocalPoint(point))
+          .firstOrNull;
+      if (block != null) {
+        block.dropOneRow();
+      }
+    }
+  }
 
 //   void dropRowAbove(double y) {
 // //    print('dropRowAbove $y');
@@ -189,18 +192,18 @@ class TetrisPlayPage extends Component
 //     }
 //   }
 
-  // void removeRow(double y) {
-  //   for (var x = 25.0; x < 500.0; x += 50.0) {
-  //     final point = Vector2(x, y);
-  //     final block = world.children
-  //         .query<TetrisBlock>()
-  //         .where((block) => block.containsLocalPoint(point))
-  //         .firstOrNull;
-  //     if (block != null) {
-  //       block.hideQuad(Vector2(x, y));
-  //     }
-  //   }
-  // }
+  void removeRow(double y) {
+    for (var x = 25.0; x < 500.0; x += 50.0) {
+      final point = Vector2(x, y);
+      final quad = world.children
+          .query<Quadrat>()
+          .where((block) => block.containsPoint(point))
+          .firstOrNull;
+      if (quad != null) {
+        quad.hide();
+      }
+    }
+  }
 
   void addRandomBlock({Vector2? startPosition}) {
     print('addRandomBlock');
@@ -215,9 +218,8 @@ class TetrisPlayPage extends Component
       var fillCount = 0;
       for (var x = 25.0; x < 500.0; x += 50.0) {
         final point = Vector2(x, y.toDouble());
-        final blocks =
-            world.children.where((block) => block.containsLocalPoint(point));
-        if (blocks.isNotEmpty) {
+        final quads = world.children.where((quad) => quad.containsPoint(point));
+        if (quads.isNotEmpty) {
           fillCount++;
         }
       }
@@ -233,9 +235,8 @@ class TetrisPlayPage extends Component
       for (var j = 0; j < matrix.cols; j++) {
         final x = 25.0 + j * 50;
         final point = Vector2(x, y);
-        final blocks =
-            world.children.where((block) => block.containsLocalPoint(point));
-        if (blocks.isNotEmpty) {
+        final quads = world.children.where((quad) => quad.containsPoint(point));
+        if (quads.isNotEmpty) {
           matrix.add(i, j, 1);
         }
       }

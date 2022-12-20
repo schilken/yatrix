@@ -6,6 +6,7 @@ import 'package:flame/experimental.dart';
 import 'package:tetris/boundaries.dart';
 
 import 'game_assets.dart';
+import 'helpers.dart';
 import 'quadrat.dart';
 import 'tetris_game.dart';
 
@@ -73,6 +74,71 @@ abstract class TetrisPlayBlock extends TetrisBlock {
         blockTypes[TetrisBlock._random.nextInt(blockTypes.length)];
     return TetrisPlayBlock.create(newBlockType, blockPosition, world);
   }
+
+  @override
+  void onCollisionStart(
+    Set<Vector2> intersectionPoints,
+    PositionComponent other,
+  ) {
+    if (dropDestination != null) {
+      return;
+    }
+//    print('onCollisionStart $other');
+    if (_velocity.y == 0 && _lastDeltaX == null && _lastRotate == null) {
+      return;
+    }
+    if (other is Floor && _lastRotate == null) {
+      freezeBlock();
+      return;
+    }
+    if (other is Floor && _lastRotate != null) {
+      angle -= _lastRotate!;
+      _lastRotate = null;
+      return;
+    }
+
+    if (_lastDeltaX != null) {
+      x -= _lastDeltaX!;
+      _lastDeltaX = null;
+    } else if (_lastRotate != null) {
+      angle -= _lastRotate!;
+      _lastRotate = null;
+    } else {
+      freezeBlock();
+    }
+    super.onCollisionStart(intersectionPoints, other);
+  }
+
+  void freezeBlock() {
+    _velocity = Vector2.all(0);
+    _lastDeltaX = null;
+    adjustY();
+    print('freezedBlock y: $y');
+    if (y <= 75) {
+      game.isGameRunning = false;
+    }
+    if (y >= 950) {
+      print('out of area');
+      return;
+    }
+    markAllQuadsAsFreezed();
+    Future.delayed(
+        Duration(milliseconds: 500), () => game.handleBlockFreezed());
+  }
+
+  void markAllQuadsAsFreezed() {
+    final quads = children.query<Quadrat>();
+    for (final quad in quads) {
+      final absolutePosition = quad.absolutePosition;
+      quad.changeParent(world);
+      print(
+          'Helpers.rotCorrection(quad.absoluteAngle): ${Helpers.rotCorrection(quad.absoluteAngle)}');
+      quad.position =
+          absolutePosition + Helpers.rotCorrection(quad.absoluteAngle) * 50;
+      quad.freeze();
+    }
+  }
+
 }
 
 abstract class TetrisBlock extends SpriteComponent
@@ -133,69 +199,10 @@ abstract class TetrisBlock extends SpriteComponent
     }
   }
 
-  void freezeBlock() {
-    _velocity = Vector2.all(0);
-    _lastDeltaX = null;
-    adjustY();
-    print('freezedBlock y: $y');
-    if (y <= 75) {
-      game.isGameRunning = false;
-    }
-    if (y >= 950) {
-      print('out of area');
-      return;
-    }
-    markAllQuadsAsFreezed();
-    Future.delayed(
-        Duration(milliseconds: 500), () => game.handleBlockFreezed());
-  }
-
-  void markAllQuadsAsFreezed() {
-    final quads = children.query<Quadrat>();
-    for (final quad in quads) {
-      quad.freeze();
-    }
-  }
-
   void onQuadCollision(PositionComponent other) {
     print('onQuadCollision $other');
-
-    Set<Vector2> intersectionPoints = {};
+    final intersectionPoints = <Vector2>{};
     onCollisionStart(intersectionPoints, other);
-  }
-
-  @override
-  void onCollisionStart(
-    Set<Vector2> intersectionPoints,
-    PositionComponent other,
-  ) {
-    if (dropDestination != null) {
-      return;
-    }
-//    print('onCollisionStart $other');
-    if (_velocity.y == 0 && _lastDeltaX == null && _lastRotate == null) {
-      return;
-    }
-    if (other is Floor && _lastRotate == null) {
-      freezeBlock();
-      return;
-    }
-    if (other is Floor && _lastRotate != null) {
-      angle -= _lastRotate!;
-      _lastRotate = null;
-      return;
-    }
-
-    if (_lastDeltaX != null) {
-      x -= _lastDeltaX!;
-      _lastDeltaX = null;
-    } else if (_lastRotate != null) {
-      angle -= _lastRotate!;
-      _lastRotate = null;
-    } else {
-      freezeBlock();
-    }
-    super.onCollisionStart(intersectionPoints, other);
   }
 
   void adjustY() {
