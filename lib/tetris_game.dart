@@ -13,6 +13,13 @@ import 'tetris_play_page.dart';
 
 const TextStyle _textStyle = TextStyle(color: Colors.black, fontSize: 2);
 
+abstract class TetrisPageInterface {
+  void handleBlockFreezed();
+  void onKeyboardKey(
+    RawKeyEvent event,
+  );
+}
+
 class TetrisGame extends FlameGame
     with
         HasCollisionDetection,
@@ -22,7 +29,7 @@ class TetrisGame extends FlameGame
   TetrisGame();
   bool isGameRunning = false;
   late final RouterComponent router;
-  TetrisConstructPage? tetrisPage;
+  TetrisPageInterface? tetrisPage;
 
   @override
   Future<void> onLoad() async {
@@ -33,10 +40,15 @@ class TetrisGame extends FlameGame
           'splash': Route(SplashScreen.new),
           'home': Route(StartPage.new),
           'level1': Route(() {
-            tetrisPage = TetrisConstructPage();
-            return tetrisPage!;
+            final tetrisConstructPage = TetrisConstructPage();
+            tetrisPage = tetrisConstructPage;
+            return tetrisConstructPage;
           }),
-          'level2': Route(TetrisPlayPage.new),
+          'level2': Route(() {
+            final tetrisPlayPage = TetrisPlayPage();
+            tetrisPage = tetrisPlayPage;
+            return tetrisPlayPage;
+          }),
           'pause': PauseRoute(),
         },
         initialRoute: 'splash',

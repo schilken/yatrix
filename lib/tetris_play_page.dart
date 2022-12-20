@@ -4,15 +4,17 @@ import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
 import 'package:flutter/services.dart';
+import 'package:tetris/tetris_page.dart';
 import 'boundaries.dart';
 import 'buttons.dart';
 import 'game_assets.dart';
-import 'tetris_block.dart';
 import 'tetris_game.dart';
 import 'tetris_matrix.dart';
 import 'tetris_play_block.dart';
 
-class TetrisPlayPage extends Component with HasGameRef<TetrisGame> {
+class TetrisPlayPage extends Component
+    with HasGameRef<TetrisGame>
+    implements TetrisPageInterface {
   late final World world;
   late final CameraComponent cameraComponent;
   late final Viewfinder viewfinder;
