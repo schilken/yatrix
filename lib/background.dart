@@ -3,14 +3,16 @@ import 'dart:ui';
 import 'package:flame/components.dart';
 
 class Background extends Component {
-  Background(this.paint);
+  Background({
+    required this.paint,
+    this.rect,
+  });
   final Paint paint;
-
+  final Rect? rect;
   @override
   void render(Canvas canvas) {
-    final rect = Rect.fromLTWH(20, 20, 10, 10);
     canvas.drawRect(
-      rect,
+      rect ?? const Rect.fromLTWH(20, 20, 10, 10),
       paint,
     );
   }

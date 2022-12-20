@@ -47,12 +47,13 @@ class Quadrat extends PositionComponent with CollisionCallbacks {
     print('hide at position $position');
     hitBox?.removeFromParent();
     hitBox = null;
-    add(Background(BasicPalette.black.paint()));
+    add(Background(
+        paint: BasicPalette.black.paint(), rect: Rect.fromLTWH(0, 0, 50, 50)));
   }
 
   void freeze() {
     print('freeze at position $position');
-    add(Background(BasicPalette.green.paint()));
+    add(Background(paint: BasicPalette.green.paint()));
   }
 
 

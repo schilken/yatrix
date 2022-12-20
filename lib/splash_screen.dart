@@ -10,7 +10,7 @@ class SplashScreen extends Component with TapCallbacks, HasGameRef<TetrisGame> {
   @override
   Future<void> onLoad() async {
     addAll([
-      Background(BasicPalette.black.paint()),
+      Background(paint: BasicPalette.black.paint()),
       TextBoxComponent(
         text: '[YaTetris]',
         textRenderer: TextPaint(
