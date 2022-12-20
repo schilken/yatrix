@@ -75,22 +75,15 @@ abstract class TetrisBlock extends SpriteComponent
     _velocity = Vector2.all(0);
     _lastDeltaX = null;
     adjustY();
-    print('freezedBlock y: $y');
+//    print('freezedBlock y: $y');
     if (y <= 75) {
       game.isGameRunning = false;
     }
-    if (y >= 950) {
-      print('out of area');
-      return;
-    }
-    Future.delayed(
-        Duration(milliseconds: 500), () => game.handleBlockFreezed());
   }
 
   void onQuadCollision(PositionComponent other) {
-    print('onQuadCollision $other');
-
-    Set<Vector2> intersectionPoints = {};
+//    print('onQuadCollision $other');
+    final intersectionPoints = <Vector2>{};
     onCollisionStart(intersectionPoints, other);
   }
 
@@ -129,10 +122,10 @@ abstract class TetrisBlock extends SpriteComponent
   }
 
   void adjustY() {
-    print('adjustY before: $y');
+//    print('adjustY before: $y');
     final tempy = y - yOffset;
     y = (tempy / 50).floor() * 50.0 + yOffset;
-    print('adjustY after: $y');
+//    print('adjustY after: $y');
   }
 
   void setHighSpeed() {
@@ -141,12 +134,6 @@ abstract class TetrisBlock extends SpriteComponent
     } else {
       _velocity.y = 100;
     }
-  }
-
-  void dropOneRow() {
-    dropDestination = y + 50;
-    print('dropDestination: $dropDestination');
-    y = dropDestination!;
   }
 
   factory TetrisBlock.create(String blockType, Vector2 blockPosition) {
