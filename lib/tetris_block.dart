@@ -43,7 +43,10 @@ abstract class TetrisBlock extends SpriteComponent
 
     quadPositions.forEach((position) async {
       final quad =
-          Quadrat(position: position, collisionCallback: onQuadCollision);
+          Quadrat(
+          position: position,
+          collisionCallback: onQuadCollision,
+          blockType: name);
       await add(quad);
 //      print('Quad $quad');
     });

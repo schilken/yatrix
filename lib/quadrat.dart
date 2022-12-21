@@ -7,6 +7,7 @@ import 'package:flame/palette.dart';
 import 'package:flutter/rendering.dart';
 
 import 'background.dart';
+import 'game_assets.dart';
 import 'tetris_block.dart';
 
 typedef TetrisBlockTearOff = TetrisBlock Function({
@@ -27,10 +28,11 @@ enum QuadState {
   const QuadState(this.value);
 }
 
-class Quadrat extends PositionComponent with CollisionCallbacks {
+class Quadrat extends SpriteComponent with CollisionCallbacks {
   Quadrat({
     super.position,
     required this.collisionCallback,
+    required this.blockType,
   }) {
     size = Vector2(40, 40);
   }
@@ -38,6 +40,7 @@ class Quadrat extends PositionComponent with CollisionCallbacks {
   RectangleHitbox? hitBox;
   double? dropDestination;
   var state = QuadState.initial; 
+  String blockType;
 
 final _textPaint = TextPaint(
     style: const TextStyle(
@@ -46,10 +49,12 @@ final _textPaint = TextPaint(
       fontWeight: FontWeight.w800,
     ),
   );
+
   @override
   Future<void> onLoad() async {
 //    debugMode = true;
     add(hitBox = RectangleHitbox());
+    sprite = gameAssets.sprites['quad-$blockType'];
   }
 
   @override
@@ -77,9 +82,8 @@ final _textPaint = TextPaint(
   }
 
   void freeze() {
-    print('freeze at position $position');
+    print('freeze at position $position $blockType');
     state = QuadState.freezed;
-    add(Background(paint: BasicPalette.green.paint()));
   }
 
   void dropOneRow() {
@@ -92,8 +96,10 @@ final _textPaint = TextPaint(
 
   @override
   void render(Canvas canvas) {
-//    super.render(canvas);
-    _textPaint.render(canvas, state.value, Vector2(10, -5));
+//    _textPaint.render(canvas, state.value, Vector2(10, -5));
+    if (state != QuadState.initial) {
+      super.render(canvas);
+    }
   }
 
   @override

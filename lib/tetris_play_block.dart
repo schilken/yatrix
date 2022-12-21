@@ -135,17 +135,18 @@ abstract class TetrisPlayBlock extends TetrisBlock {
     for (final quad in quads) {
       final absolutePosition = quad.absolutePosition;
       quad.changeParent(world);
-      print(
-          'Helpers.rotCorrection(quad.absoluteAngle): ${Helpers.rotCorrection(quad.absoluteAngle)}');
+      // print(
+      //     'Helpers.rotCorrection(quad.absoluteAngle): ${Helpers.rotCorrection(quad.absoluteAngle)}');
       quad.position =
           absolutePosition + Helpers.rotCorrection(quad.absoluteAngle) * 50;
       quad.freeze();
+      _isFreezed = true;
     }
   }
 
   @override
   void render(Canvas canvas) {
-    if (_velocity.y != 0) {
+    if (!_isFreezed) {
       super.render(canvas);
     }
   }
@@ -172,6 +173,7 @@ abstract class TetrisBlock extends SpriteComponent
   double? _lastRotate;
   PolygonHitbox? hitBox;
   double? dropDestination;
+  bool _isFreezed = false;
 
   @override
   Future<void> onLoad() async {
@@ -183,7 +185,10 @@ abstract class TetrisBlock extends SpriteComponent
     x += xOffset;
     quadPositions.forEach((position) async {
       final quad =
-          Quadrat(position: position, collisionCallback: onQuadCollision);
+          Quadrat(
+          position: position,
+          collisionCallback: onQuadCollision,
+          blockType: name);
       await add(quad);
     });
   }
