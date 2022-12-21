@@ -15,7 +15,13 @@ class GameAssets {
     sprites['tet-S'] = Sprite(await Flame.images.load('tetris-S-plain.png'));
     sprites['tet-Z'] = Sprite(await Flame.images.load('tetris-Z-plain.png'));
     sprites['tet-T'] = Sprite(await Flame.images.load('tetris-T-plain.png'));
+    sprites['quad-tet-O'] = Sprite(await Flame.images.load('quad_o.png'));
+    sprites['quad-tet-J'] = Sprite(await Flame.images.load('quad_j.png'));
+    sprites['quad-tet-L'] = Sprite(await Flame.images.load('quad_l.png'));
+    sprites['quad-tet-I'] = Sprite(await Flame.images.load('quad_i.png'));
+    sprites['quad-tet-S'] = Sprite(await Flame.images.load('quad_s.png'));
     sprites['quad-tet-Z'] = Sprite(await Flame.images.load('quad_z.png'));
+    sprites['quad-tet-T'] = Sprite(await Flame.images.load('quad_t.png'));
   }
 }
 

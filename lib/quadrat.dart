@@ -91,7 +91,7 @@ final _textPaint = TextPaint(
     print('dropDestination: $dropDestination');
     y = dropDestination!;
     state = QuadState.dropped;
-    add(Background(paint: BasicPalette.green.paint()));
+//    add(Background(paint: BasicPalette.green.paint()));
   }
 
   @override
