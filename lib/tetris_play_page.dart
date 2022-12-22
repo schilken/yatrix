@@ -155,10 +155,10 @@ class TetrisPlayPage extends Component
     for (final y in yOfRows) {
       removeRow(y.toDouble());
       var yAbove = y.toDouble() - 50;
-      await Future<void>.delayed(Duration(milliseconds: 300));
+      await Future<void>.delayed(const Duration(milliseconds: 300));
       moveRowsAbove(yAbove);
       do {
-        await Future<void>.delayed(Duration(milliseconds: 50));
+        await Future<void>.delayed(const Duration(milliseconds: 50));
         moveRowsAbove(yAbove);
         yAbove -= 50;
       } while (yAbove > 275.0);

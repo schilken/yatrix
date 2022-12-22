@@ -12,7 +12,7 @@ import 'quadrat.dart';
 import 'tetris_game.dart';
 
 const quadSize = 50.0;
-const quadPadding = 3.0;
+const quadPadding = 5.0;
 
 typedef TetrisPlayBlockTearOff = TetrisPlayBlock Function({
   required Vector2 blockPosition,
@@ -118,16 +118,8 @@ abstract class TetrisPlayBlock extends TetrisBlock {
     if (y <= 75) {
       game.isGameRunning = false;
     }
-    if (y >= 950) {
-      print('out of area');
-      return;
-    }
-    Future.delayed(Duration(milliseconds: 500), () {
-      markAllQuadsAsFreezed();
-    });
-    Future.delayed(Duration(milliseconds: 600), () {
-      game.handleBlockFreezed();
-    });
+    Future.delayed(const Duration(milliseconds: 500), markAllQuadsAsFreezed);
+    Future.delayed(const Duration(milliseconds: 600), game.handleBlockFreezed);
   }
 
   void markAllQuadsAsFreezed() {
@@ -138,7 +130,7 @@ abstract class TetrisPlayBlock extends TetrisBlock {
       // print(
       //     'Helpers.rotCorrection(quad.absoluteAngle): ${Helpers.rotCorrection(quad.absoluteAngle)}');
       quad.position =
-          absolutePosition + Helpers.rotCorrection(quad.absoluteAngle) * 50;
+          absolutePosition + Helpers.rotCorrection(quad.absoluteAngle) * 40;
       quad.freeze();
       _isFreezed = true;
     }
@@ -184,11 +176,11 @@ abstract class TetrisBlock extends SpriteComponent
     anchor = blockAnchor;
     x += xOffset;
     quadPositions.forEach((position) async {
-      final quad =
-          Quadrat(
-          position: position,
-          collisionCallback: onQuadCollision,
-          blockType: name);
+      final quad = Quadrat(
+        position: position,
+        collisionCallback: onQuadCollision,
+        blockType: name,
+      );
       await add(quad);
     });
   }
@@ -215,14 +207,14 @@ abstract class TetrisBlock extends SpriteComponent
   }
 
   void onQuadCollision(PositionComponent other) {
-    print('onQuadCollision $other');
+//    print('onQuadCollision $other');
     final intersectionPoints = <Vector2>{};
     onCollisionStart(intersectionPoints, other);
   }
 
   void adjustY() {
 //    print('adjustY before: $y');
-    final tempy = y - yOffset;
+    final tempy = y - yOffset - 5;
     y = (tempy / 50).floor() * 50.0 + yOffset;
 //    print('adjustY after: $y');
   }
@@ -251,17 +243,6 @@ abstract class TetrisBlock extends SpriteComponent
     return isContaining;
 //    return super.containsLocalPoint(localPoint);
   }
-
-//   void hideQuad(Vector2 globalPoint) {
-// //    print('TetrisBlock.hideQuad at $globalPoint');
-//     final localPoint = parentToLocal(globalPoint);
-//     final quads = children.query<Quadrat>();
-//     for (final quad in quads) {
-//       if (quad.containsParentPoint(localPoint)) {
-//         quad.hide();
-//       }
-//     }
-//   }
 }
 
 class TetrisPlayI extends TetrisPlayBlock {
