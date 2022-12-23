@@ -12,7 +12,9 @@ class SvgButton extends PositionComponent with HasPaint, TapCallbacks {
   VoidCallback onTap;
   final Paint _borderPaint = Paint()
     ..style = PaintingStyle.stroke
-    ..color = const Color(0x88ffffff);
+    ..color = const Color(0x88ffffff)
+    ..strokeWidth = 1.5;
+
 
   SvgButton({
     required this.name,

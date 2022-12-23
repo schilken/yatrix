@@ -28,6 +28,7 @@ class TetrisPlayPage extends Component
   late final RouterComponent router;
 
   final defaultStartPosition = Vector2(250, 70);
+  final xOffset = 50;
 
   late bool isRemovingRows;
   @override
@@ -47,56 +48,57 @@ class TetrisPlayPage extends Component
     await addAll([world, cameraComponent]);
     children.register<World>();
     viewfinder.anchor = Anchor.topCenter;
-    viewfinder.position = Vector2(250, 0);
-    viewfinder.visibleGameSize = Vector2(500, 1000);
+    viewfinder.position = Vector2(300, 0);
+    viewfinder.visibleGameSize = Vector2(600, 1000);
 
-    world.add(Floor(size: Vector2(500, 10), position: Vector2(0, 990)));
-    world.add(Side(size: Vector2(10, 900), position: Vector2(-10, 50)));
-    world.add(Side(size: Vector2(10, 900), position: Vector2(500, 50)));
+    world.add(Floor(size: Vector2(600, 10), position: Vector2(0, 990)));
+    world.add(Side(size: Vector2(10, 900), position: Vector2(40, 50)));
+    world.add(Side(size: Vector2(10, 900), position: Vector2(550, 50)));
   }
 
   @override
   void onGameResize(Vector2 size) {
 //    print('TetrisPlayPage.size: ${size}');
-    final rightButtonX = size.x - 55;
-    const leftButtonX = 15.0;
+    final rightButtonX = size.x - 35;
+    const leftButtonX = 0.0;
+    final buttonSize = Vector2.all(35);
     final allsvgButtons = children.query<SvgButton>();
     allsvgButtons.forEach((button) => button.removeFromParent());
     addAll([
       SvgButton(
         name: 'svg/restart-grey.svg',
         position: Vector2(rightButtonX, 20),
-        size: Vector2.all(50),
+        size: buttonSize,
         onTap: () => handleKey(LogicalKeyboardKey.escape),
       ),
       SvgButton(
         name: 'svg/rotate-left-variant-grey.svg',
         position: Vector2(leftButtonX, 300),
-        size: Vector2.all(50),
+        size: buttonSize,
         onTap: () => handleKey(LogicalKeyboardKey.arrowUp),
       ),
       SvgButton(
         name: 'svg/arrow-left-bold-outline-grey.svg',
         position: Vector2(leftButtonX, 380),
-        size: Vector2.all(50),
+        size: buttonSize,
         onTap: () => handleKey(LogicalKeyboardKey.arrowLeft),
       ),
       SvgButton(
         name: 'svg/rotate-right-variant-grey.svg',
         position: Vector2(rightButtonX, 300),
-        size: Vector2.all(50),
+        size: buttonSize,
         onTap: () => handleKey(LogicalKeyboardKey.keyR),
       ),
       SvgButton(
         name: 'svg/arrow-right-bold-outline-grey.svg',
         position: Vector2(rightButtonX, 380),
-        size: Vector2.all(50),
+        size: buttonSize,
         onTap: () => handleKey(LogicalKeyboardKey.arrowRight),
       ),
       SvgButton(
         name: 'svg/arrow-down-bold-outline-grey.svg',
         position: Vector2(rightButtonX, 460),
-        size: Vector2.all(50),
+        size: buttonSize,
         paint: BasicPalette.white.paint(),
         onTap: () => handleKey(LogicalKeyboardKey.arrowDown),
       ),
@@ -243,7 +245,7 @@ class TetrisPlayPage extends Component
   void moveRowsAbove(double y) {
     print('moveRowsAbove $y');
     for (var x = 25.0; x < 500.0; x += 50.0) {
-      final point = Vector2(x, y);
+      final point = Vector2(xOffset + x, y);
       final quad = world.children
           .query<Quadrat>()
           .where((quad) => quad.containsPoint(point))
@@ -270,7 +272,7 @@ class TetrisPlayPage extends Component
 
   void removeRow(double y) {
     for (var x = 25.0; x < 500.0; x += 50.0) {
-      final point = Vector2(x, y);
+      final point = Vector2(xOffset + x, y);
       final quad = world.children
           .query<Quadrat>()
           .where((block) => block.containsPoint(point))
@@ -293,7 +295,7 @@ class TetrisPlayPage extends Component
     for (var y = 925; y > 75; y -= 50) {
       var fillCount = 0;
       for (var x = 25.0; x < 500.0; x += 50.0) {
-        final point = Vector2(x, y.toDouble());
+        final point = Vector2(xOffset + x, y.toDouble());
         final quad = world.children
             .query<Quadrat>()
             .where((quad) => quad.containsPoint(point))
@@ -313,7 +315,7 @@ class TetrisPlayPage extends Component
       final y = 175.0 + i * 50;
       for (var j = 0; j < matrix.cols; j++) {
         final x = 25.0 + j * 50;
-        final point = Vector2(x, y);
+        final point = Vector2(xOffset + x, y);
         final quad = world.children
             .query<Quadrat>()
             .where((quad) => quad.containsPoint(point))
