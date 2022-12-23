@@ -58,39 +58,47 @@ class TetrisPlayPage extends Component
   @override
   void onGameResize(Vector2 size) {
 //    print('TetrisPlayPage.size: ${size}');
-    final rightButtonX = size.x - 80;
+    final rightButtonX = size.x - 55;
+    const leftButtonX = 15.0;
     final allsvgButtons = children.query<SvgButton>();
     allsvgButtons.forEach((button) => button.removeFromParent());
     addAll([
       SvgButton(
-        name: 'svg/rotate-left-variant-grey.svg',
-        position: Vector2(20, 400),
+        name: 'svg/restart-grey.svg',
+        position: Vector2(rightButtonX, 20),
         size: Vector2.all(50),
-        paint: BasicPalette.white.paint(),
+        onTap: () => handleKey(LogicalKeyboardKey.escape),
+      ),
+      SvgButton(
+        name: 'svg/rotate-left-variant-grey.svg',
+        position: Vector2(leftButtonX, 300),
+        size: Vector2.all(50),
+        onTap: () => handleKey(LogicalKeyboardKey.arrowUp),
       ),
       SvgButton(
         name: 'svg/arrow-left-bold-outline-grey.svg',
-        position: Vector2(20, 460),
+        position: Vector2(leftButtonX, 380),
         size: Vector2.all(50),
-        paint: BasicPalette.white.paint(),
+        onTap: () => handleKey(LogicalKeyboardKey.arrowLeft),
       ),
       SvgButton(
         name: 'svg/rotate-right-variant-grey.svg',
-        position: Vector2(rightButtonX, 400),
+        position: Vector2(rightButtonX, 300),
         size: Vector2.all(50),
-        paint: BasicPalette.white.paint(),
+        onTap: () => handleKey(LogicalKeyboardKey.keyR),
       ),
       SvgButton(
         name: 'svg/arrow-right-bold-outline-grey.svg',
-        position: Vector2(rightButtonX, 460),
+        position: Vector2(rightButtonX, 380),
         size: Vector2.all(50),
-        paint: BasicPalette.white.paint(),
+        onTap: () => handleKey(LogicalKeyboardKey.arrowRight),
       ),
       SvgButton(
         name: 'svg/arrow-down-bold-outline-grey.svg',
-        position: Vector2(rightButtonX, 520),
+        position: Vector2(rightButtonX, 460),
         size: Vector2.all(50),
         paint: BasicPalette.white.paint(),
+        onTap: () => handleKey(LogicalKeyboardKey.arrowDown),
       ),
     ]);
     super.onGameResize(size);
@@ -102,6 +110,31 @@ class TetrisPlayPage extends Component
     allBlocks.forEach((element) => element.removeFromParent());
     final allQuads = world.children.query<Quadrat>();
     allQuads.forEach((element) => element.removeFromParent());
+  }
+
+  void handleKey(LogicalKeyboardKey logicalKey) {
+    if (!isGameRunning) {
+      isGameRunning = true;
+      addRandomBlock();
+      return;
+    }
+    if (logicalKey == LogicalKeyboardKey.escape) {
+      restart();
+    }
+    if (_currentFallingBlock == null) {
+      return;
+    }
+    if (logicalKey == LogicalKeyboardKey.arrowLeft) {
+      _currentFallingBlock!.moveXBy(-50);
+    } else if (logicalKey == LogicalKeyboardKey.arrowRight) {
+      _currentFallingBlock!.moveXBy(50);
+    } else if (logicalKey == LogicalKeyboardKey.arrowUp) {
+      _currentFallingBlock?.rotateBy(-pi / 2);
+    } else if (logicalKey == LogicalKeyboardKey.arrowDown) {
+      _currentFallingBlock?.setHighSpeed();
+    } else if (logicalKey == LogicalKeyboardKey.keyR) {
+      _currentFallingBlock?.rotateBy(pi / 2);
+    }
   }
 
   void onKeyboardKey(

@@ -1,19 +1,22 @@
 import 'dart:ui';
 
 import 'package:flame/components.dart';
+import 'package:flame/experimental.dart';
 import 'package:flame_svg/svg.dart';
 import 'package:flutter/rendering.dart';
 
-class SvgButton extends PositionComponent with HasPaint {
+class SvgButton extends PositionComponent with HasPaint, TapCallbacks {
   /// The wrapped instance of [Svg].
   late Svg _svg;
   String name;
+  VoidCallback onTap;
   final Paint _borderPaint = Paint()
     ..style = PaintingStyle.stroke
     ..color = const Color(0x88ffffff);
 
   SvgButton({
     required this.name,
+    required this.onTap,
     super.position,
     super.size,
     super.scale,
@@ -39,6 +42,11 @@ class SvgButton extends PositionComponent with HasPaint {
       _borderPaint,
     );
     _svg.render(canvas, size, overridePaint: paint);
+  }
+
+  @override
+  void onTapDown(TapDownEvent event) {
+    onTap();
   }
 
   @override
