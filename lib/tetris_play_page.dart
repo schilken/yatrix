@@ -3,12 +3,13 @@ import 'package:collection/collection.dart';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
+import 'package:flame/palette.dart';
 import 'package:flutter/services.dart';
-import 'package:tetris/tetris_page.dart';
 import 'boundaries.dart';
 import 'buttons.dart';
 import 'game_assets.dart';
 import 'quadrat.dart';
+import 'svg_button.dart';
 import 'tetris_game.dart';
 import 'tetris_matrix.dart';
 import 'tetris_play_block.dart';
@@ -33,7 +34,6 @@ class TetrisPlayPage extends Component
   Future<void> onLoad() async {
     isRemovingRows = false;
     addAll([
-//      Background(const Color(0xbb2a074f)),
       BackButton(),
       PauseButton(),
     ]);
@@ -53,6 +53,47 @@ class TetrisPlayPage extends Component
     world.add(Floor(size: Vector2(500, 10), position: Vector2(0, 990)));
     world.add(Side(size: Vector2(10, 900), position: Vector2(-10, 50)));
     world.add(Side(size: Vector2(10, 900), position: Vector2(500, 50)));
+  }
+
+  @override
+  void onGameResize(Vector2 size) {
+//    print('TetrisPlayPage.size: ${size}');
+    final rightButtonX = size.x - 80;
+    final allsvgButtons = children.query<SvgButton>();
+    allsvgButtons.forEach((button) => button.removeFromParent());
+    addAll([
+      SvgButton(
+        name: 'svg/rotate-left-variant-grey.svg',
+        position: Vector2(20, 400),
+        size: Vector2.all(50),
+        paint: BasicPalette.white.paint(),
+      ),
+      SvgButton(
+        name: 'svg/arrow-left-bold-outline-grey.svg',
+        position: Vector2(20, 460),
+        size: Vector2.all(50),
+        paint: BasicPalette.white.paint(),
+      ),
+      SvgButton(
+        name: 'svg/rotate-right-variant-grey.svg',
+        position: Vector2(rightButtonX, 400),
+        size: Vector2.all(50),
+        paint: BasicPalette.white.paint(),
+      ),
+      SvgButton(
+        name: 'svg/arrow-right-bold-outline-grey.svg',
+        position: Vector2(rightButtonX, 460),
+        size: Vector2.all(50),
+        paint: BasicPalette.white.paint(),
+      ),
+      SvgButton(
+        name: 'svg/arrow-down-bold-outline-grey.svg',
+        position: Vector2(rightButtonX, 520),
+        size: Vector2.all(50),
+        paint: BasicPalette.white.paint(),
+      ),
+    ]);
+    super.onGameResize(size);
   }
 
   void restart() {
