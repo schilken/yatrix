@@ -16,7 +16,7 @@ class SplashScreen extends Component with TapCallbacks, HasGameRef<TetrisGame> {
         textRenderer: TextPaint(
           style: const TextStyle(
             color: Color(0x66ffffff),
-            fontSize: 16,
+            fontSize: 32,
           ),
         ),
         align: Anchor.center,

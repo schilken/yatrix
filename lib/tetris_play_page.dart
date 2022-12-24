@@ -4,7 +4,9 @@ import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
 import 'package:flame/palette.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
+import 'package:sprintf/sprintf.dart';
 import 'boundaries.dart';
 import 'buttons.dart';
 import 'game_assets.dart';
@@ -29,8 +31,9 @@ class TetrisPlayPage extends Component
 
   final defaultStartPosition = Vector2(250, 70);
   final xOffset = 50;
-
+  TextComponent? textComponent; 
   late bool isRemovingRows;
+
   @override
   Future<void> onLoad() async {
     isRemovingRows = false;
@@ -49,7 +52,7 @@ class TetrisPlayPage extends Component
     children.register<World>();
     viewfinder.anchor = Anchor.topCenter;
     viewfinder.position = Vector2(300, 0);
-    viewfinder.visibleGameSize = Vector2(600, 1000);
+    viewfinder.visibleGameSize = Vector2(600, 1024);
 
     world.add(Floor(size: Vector2(600, 10), position: Vector2(0, 990)));
     world.add(Side(size: Vector2(10, 900), position: Vector2(40, 50)));
@@ -64,6 +67,21 @@ class TetrisPlayPage extends Component
     final buttonSize = Vector2.all(35);
     final allsvgButtons = children.query<SvgButton>();
     allsvgButtons.forEach((button) => button.removeFromParent());
+//    final allTextComponents = children.query<TextComponent>();
+//    allTextComponents.forEach((component) => component.removeFromParent());
+    textComponent?.removeFromParent();
+    textComponent = TextBoxComponent(
+      text: 'Tap down arrow to start',
+      textRenderer: TextPaint(
+        style: const TextStyle(
+          color: Color(0x66ffffff),
+          fontSize: 16,
+        ),
+      ),
+      align: Anchor.bottomCenter,
+      size: gameRef.canvasSize,
+    );
+
     addAll([
       SvgButton(
         name: 'svg/restart-grey.svg',
@@ -102,8 +120,15 @@ class TetrisPlayPage extends Component
         paint: BasicPalette.white.paint(),
         onTap: () => handleKey(LogicalKeyboardKey.arrowDown),
       ),
+      textComponent!,
     ]);
     super.onGameResize(size);
+  }
+
+  void updatePoints() {
+    final pointString = sprintf('[YaTetris] %04i', [0]);
+    textComponent?.text = pointString;
+    print(pointString);
   }
 
   void restart() {
@@ -220,6 +245,7 @@ class TetrisPlayPage extends Component
       return;
     }
     addRandomBlock();
+    updatePoints();
   }
 
   Future<void> removeFullRows() async {
