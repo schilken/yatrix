@@ -31,8 +31,11 @@ class TetrisPlayPage extends Component
 
   final defaultStartPosition = Vector2(250, 70);
   final xOffset = 50;
-  TextComponent? textComponent; 
+  TextComponent? _textComponent;
+  int _freezedCounter = 0;
   late bool isRemovingRows;
+  double? _droppedAtY;
+  int _removedRows = 0;
 
   @override
   Future<void> onLoad() async {
@@ -69,8 +72,8 @@ class TetrisPlayPage extends Component
     allsvgButtons.forEach((button) => button.removeFromParent());
 //    final allTextComponents = children.query<TextComponent>();
 //    allTextComponents.forEach((component) => component.removeFromParent());
-    textComponent?.removeFromParent();
-    textComponent = TextBoxComponent(
+    _textComponent?.removeFromParent();
+    _textComponent = TextBoxComponent(
       text: 'Tap down arrow to start',
       textRenderer: TextPaint(
         style: const TextStyle(
@@ -120,14 +123,21 @@ class TetrisPlayPage extends Component
         paint: BasicPalette.white.paint(),
         onTap: () => handleKey(LogicalKeyboardKey.arrowDown),
       ),
-      textComponent!,
+      _textComponent!,
     ]);
     super.onGameResize(size);
   }
 
-  void updatePoints() {
-    final pointString = sprintf('[YaTetris] %04i', [0]);
-    textComponent?.text = pointString;
+  void updatePoints(double? freezedAtY) {
+    if (_droppedAtY != null && freezedAtY != null) {
+      final deltaY = freezedAtY - _droppedAtY!;
+      _freezedCounter += deltaY.toInt();
+      _droppedAtY = null;
+    }
+    _freezedCounter++;
+    final pointString =
+        sprintf('[YaTetris] %05i rows:%02i', [_freezedCounter, _removedRows]);
+    _textComponent?.text = pointString;
     print(pointString);
   }
 
@@ -137,12 +147,17 @@ class TetrisPlayPage extends Component
     allBlocks.forEach((element) => element.removeFromParent());
     final allQuads = world.children.query<Quadrat>();
     allQuads.forEach((element) => element.removeFromParent());
+    _removedRows = 0;
+    _droppedAtY = null;
+    _textComponent?.text = 'Tap down arrow to start';
+    _freezedCounter = 0;
   }
 
   void handleKey(LogicalKeyboardKey logicalKey) {
     if (!isGameRunning) {
       isGameRunning = true;
       addRandomBlock();
+      updatePoints(null);
       return;
     }
     if (logicalKey == LogicalKeyboardKey.escape) {
@@ -159,6 +174,7 @@ class TetrisPlayPage extends Component
       _currentFallingBlock?.rotateBy(-pi / 2);
     } else if (logicalKey == LogicalKeyboardKey.arrowDown) {
       _currentFallingBlock?.setHighSpeed();
+      _droppedAtY = _currentFallingBlock?.y;
     } else if (logicalKey == LogicalKeyboardKey.keyR) {
       _currentFallingBlock?.rotateBy(pi / 2);
     }
@@ -209,6 +225,7 @@ class TetrisPlayPage extends Component
     }
     if (event.logicalKey == LogicalKeyboardKey.keyR) {
       isGameRunning = true;
+      updatePoints(null);
       addRandomBlock();
     }
     if (event.logicalKey == LogicalKeyboardKey.question) {
@@ -227,6 +244,7 @@ class TetrisPlayPage extends Component
       _currentFallingBlock?.rotateBy(-pi / 2);
     } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
       _currentFallingBlock?.setHighSpeed();
+      _droppedAtY = _currentFallingBlock?.y;
     }
   }
 
@@ -234,6 +252,7 @@ class TetrisPlayPage extends Component
     if (isRemovingRows) {
       return;
     }
+    updatePoints(_currentFallingBlock?.y);
     final matrix = creatBlockMatrix();
     print(matrix);
     removeFullRows();
@@ -245,7 +264,6 @@ class TetrisPlayPage extends Component
       return;
     }
     addRandomBlock();
-    updatePoints();
   }
 
   Future<void> removeFullRows() async {
@@ -282,21 +300,9 @@ class TetrisPlayPage extends Component
     }
   }
 
-//   void dropRowAbove(double y) {
-// //    print('dropRowAbove $y');
-//     for (var x = 25.0; x < 500.0; x += 50.0) {
-//       final point = Vector2(x, y);
-//       final block = world.children
-//           .query<TetrisBlock>()
-//           .where((block) => block.containsLocalPoint(point))
-//           .firstOrNull;
-//       if (block != null) {
-//         block.dropOneRow();
-//       }
-//     }
-//   }
-
   void removeRow(double y) {
+    _removedRows++;
+    updatePoints(null);
     for (var x = 25.0; x < 500.0; x += 50.0) {
       final point = Vector2(xOffset + x, y);
       final quad = world.children
