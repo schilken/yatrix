@@ -55,11 +55,11 @@ class TetrisPlayPage extends Component
     children.register<World>();
     viewfinder.anchor = Anchor.topCenter;
     viewfinder.position = Vector2(300, 0);
-    viewfinder.visibleGameSize = Vector2(600, 1024);
+    viewfinder.visibleGameSize = Vector2(600, 1224);
 
-    world.add(Floor(size: Vector2(600, 10), position: Vector2(0, 990)));
-    world.add(Side(size: Vector2(10, 900), position: Vector2(40, 50)));
-    world.add(Side(size: Vector2(10, 900), position: Vector2(550, 50)));
+    world.add(Floor(size: Vector2(600, 10), position: Vector2(0, 1190)));
+    world.add(Side(size: Vector2(10, 1100), position: Vector2(40, 50)));
+    world.add(Side(size: Vector2(10, 1100), position: Vector2(550, 50)));
   }
 
   @override
