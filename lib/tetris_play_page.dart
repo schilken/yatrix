@@ -130,13 +130,14 @@ class TetrisPlayPage extends Component
 
   void updatePoints(double? freezedAtY) {
     if (_droppedAtY != null && freezedAtY != null) {
-      final deltaY = freezedAtY - _droppedAtY!;
+      final deltaY = (freezedAtY - _droppedAtY!) / 25;
       _freezedCounter += deltaY.toInt();
       _droppedAtY = null;
     }
     _freezedCounter++;
     final pointString =
-        sprintf('[YaTetris] %05i rows:%02i', [_freezedCounter, _removedRows]);
+        sprintf('[YaTetris] %05i rows:%02i',
+        [_freezedCounter + _removedRows * 100, _removedRows]);
     _textComponent?.text = pointString;
     print(pointString);
   }
