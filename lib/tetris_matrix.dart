@@ -1,5 +1,5 @@
 class TetrisMatrix {
-  final rows = 16;
+  final rows = 21;
   final cols = 10;
   late final matrix = List.generate(
     rows,

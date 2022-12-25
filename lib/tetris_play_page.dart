@@ -36,6 +36,7 @@ class TetrisPlayPage extends Component
   late bool isRemovingRows;
   double? _droppedAtY;
   int _removedRows = 0;
+  static const lowestY = 1125;
 
   @override
   Future<void> onLoad() async {
@@ -325,7 +326,7 @@ class TetrisPlayPage extends Component
 
   Map<int, int> createRowFillCounts() {
     final rowFillingMap = <int, int>{};
-    for (var y = 925; y > 75; y -= 50) {
+    for (var y = lowestY; y > 75; y -= 50) {
       var fillCount = 0;
       for (var x = 25.0; x < 500.0; x += 50.0) {
         final point = Vector2(xOffset + x, y.toDouble());
@@ -345,7 +346,7 @@ class TetrisPlayPage extends Component
   TetrisMatrix creatBlockMatrix() {
     final matrix = TetrisMatrix();
     for (var i = matrix.rows - 1; i >= 0; i--) {
-      final y = 175.0 + i * 50;
+      final y = 125.0 + i * 50;
       for (var j = 0; j < matrix.cols; j++) {
         final x = 25.0 + j * 50;
         final point = Vector2(xOffset + x, y);
