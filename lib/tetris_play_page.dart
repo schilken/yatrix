@@ -270,26 +270,29 @@ class TetrisPlayPage extends Component
 
   Future<void> removeFullRows() async {
     isRemovingRows = true;
+    int removedRows = 0;
     final rowFillingMap = createRowFillCounts();
     rowFillingMap.removeWhere((key, value) => value < 10);
     final yOfRows = rowFillingMap.keys;
     print('yOfRows: ${yOfRows}');
     for (final y in yOfRows) {
-      removeRow(y.toDouble());
-      var yAbove = y.toDouble() - 50;
+      final yAfterDropping = y + removedRows * 50;
+      removeRow(yAfterDropping.toDouble());
+      var yAboveRemovedRow = yAfterDropping.toDouble() - 50;
       await Future<void>.delayed(const Duration(milliseconds: 300));
-      moveRowsAbove(yAbove);
+      moveRowsAbove(yAboveRemovedRow);
       do {
         await Future<void>.delayed(const Duration(milliseconds: 50));
-        moveRowsAbove(yAbove);
-        yAbove -= 50;
-      } while (yAbove > 275.0);
+        moveRowsAbove(yAboveRemovedRow);
+        yAboveRemovedRow -= 50;
+      } while (yAboveRemovedRow > 125.0);
+      removedRows++;
     }
     isRemovingRows = false;
   }
 
   void moveRowsAbove(double y) {
-    print('moveRowsAbove $y');
+//    print('moveRowsAbove $y');
     for (var x = 25.0; x < 500.0; x += 50.0) {
       final point = Vector2(xOffset + x, y);
       final quad = world.children
@@ -303,6 +306,7 @@ class TetrisPlayPage extends Component
   }
 
   void removeRow(double y) {
+    print('removeRow $y');
     _removedRows++;
     updatePoints(null);
     for (var x = 25.0; x < 500.0; x += 50.0) {

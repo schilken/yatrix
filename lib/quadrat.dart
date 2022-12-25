@@ -88,7 +88,7 @@ final _textPaint = TextPaint(
 
   void dropOneRow() {
     dropDestination = y + 50;
-    print('dropDestination: $dropDestination');
+//    print('dropDestination: $dropDestination');
     y = dropDestination!;
     state = QuadState.dropped;
 //    add(Background(paint: BasicPalette.green.paint()));
