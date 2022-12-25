@@ -45,12 +45,17 @@ class TetrisConstructPage extends Component
     await addAll([world, cameraComponent]);
     children.register<World>();
     viewfinder.anchor = Anchor.topCenter;
-    viewfinder.position = Vector2(250, 0);
-    viewfinder.visibleGameSize = Vector2(500, 1000);
 
-    world.add(Floor(size: Vector2(500, 10), position: Vector2(0, 990)));
-    world.add(Side(size: Vector2(10, 900), position: Vector2(-10, 50)));
-    world.add(Side(size: Vector2(10, 900), position: Vector2(500, 50)));
+    viewfinder.position = Vector2(600, 0);
+    viewfinder.visibleGameSize = Vector2(1200, 1224);
+
+    world.add(Floor(size: Vector2(1200, 10), position: Vector2(0, 1190)));
+    world.add(Side(size: Vector2(10, 1100), position: Vector2(40, 50)));
+    world.add(Side(size: Vector2(10, 1100), position: Vector2(1150, 50)));
+
+
+
+
   }
 
   void restart() {
