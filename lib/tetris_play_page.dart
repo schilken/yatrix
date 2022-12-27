@@ -26,7 +26,6 @@ class TetrisPlayPage extends Component
   Vector2 get visibleGameSize => viewfinder.visibleGameSize!;
 
   TetrisPlayBlock? _currentFallingBlock;
-  bool isGameRunning = false;
   late final RouterComponent router;
 
   final defaultStartPosition = Vector2(250, 70);
@@ -132,15 +131,16 @@ class TetrisPlayPage extends Component
       _droppedAtY = null;
     }
     _freezedCounter++;
-    final pointString =
-        sprintf('[YaTetris] %05i rows:%02i',
-        [_freezedCounter + _removedRows * 100, _removedRows]);
+    final pointString = sprintf(
+      '[YaTetris] %05i rows:%02i',
+      [_freezedCounter + _removedRows * 100, _removedRows],
+    );
     _textComponent?.text = pointString;
-    print(pointString);
+//    print(pointString);
   }
 
-  void restart() {
-    isGameRunning = false;
+  void reset() {
+    game.isGameRunning = false;
     final allBlocks = world.children.query<TetrisPlayBlock>();
     allBlocks.forEach((element) => element.removeFromParent());
     final allQuads = world.children.query<Quadrat>();
@@ -149,17 +149,26 @@ class TetrisPlayPage extends Component
     _droppedAtY = null;
     _textComponent?.text = 'Tap down arrow to start';
     _freezedCounter = 0;
+    _currentFallingBlock = null;
+  }
+
+  bool _checkResetOrGameStart(LogicalKeyboardKey logicalKey) {
+    if (logicalKey == LogicalKeyboardKey.escape) {
+      reset();
+      return true;
+    }
+    if (!game.isGameRunning) {
+      game.isGameRunning = true;
+      addRandomBlock();
+      updatePoints(null);
+      return true;
+    }
+    return false;
   }
 
   void handleKey(LogicalKeyboardKey logicalKey) {
-    if (!isGameRunning) {
-      isGameRunning = true;
-      addRandomBlock();
-      updatePoints(null);
+    if (_checkResetOrGameStart(logicalKey)) {
       return;
-    }
-    if (logicalKey == LogicalKeyboardKey.escape) {
-      restart();
     }
     if (_currentFallingBlock == null) {
       return;
@@ -178,17 +187,12 @@ class TetrisPlayPage extends Component
     }
   }
 
+  @override
   void onKeyboardKey(
     RawKeyEvent event,
   ) {
-    if (!isGameRunning) {
-      isGameRunning = true;
-      addRandomBlock();
-      updatePoints(null);
+    if (_checkResetOrGameStart(event.logicalKey)) {
       return;
-    }
-    if (event.logicalKey == LogicalKeyboardKey.escape) {
-      restart();
     }
     if (event.logicalKey == LogicalKeyboardKey.keyO) {
       _currentFallingBlock =
@@ -226,7 +230,7 @@ class TetrisPlayPage extends Component
       world.add(_currentFallingBlock!);
     }
     if (event.logicalKey == LogicalKeyboardKey.keyR) {
-      isGameRunning = true;
+      game.isGameRunning = true;
       updatePoints(null);
       addRandomBlock();
     }
@@ -255,13 +259,14 @@ class TetrisPlayPage extends Component
     // final matrix = creatBlockMatrix();
     // print(matrix);
     removeFullRows();
-    if (!isGameRunning) {
+    if (!game.isGameRunning) {
       print('>>> GAME OVER <<<');
+      gameRef.router.pushNamed('gameOver');
       return;
     }
-    if (_currentFallingBlock != null && _currentFallingBlock!.y < 275) {
-      return;
-    }
+    // if (_currentFallingBlock != null && _currentFallingBlock!.y < 75) {
+    //   return;
+    // }
     addRandomBlock();
   }
 

@@ -21,7 +21,6 @@ class TetrisConstructPage extends Component
   Vector2 get visibleGameSize => viewfinder.visibleGameSize!;
 
   TetrisBlock? _currentFallingBlock;
-  bool isGameRunning = false;
   late final RouterComponent router;
 
   final defaultStartPosition = Vector2(250, 70);
@@ -59,7 +58,7 @@ class TetrisConstructPage extends Component
   }
 
   void restart() {
-    isGameRunning = false;
+    game.isGameRunning = false;
     final allBlocks = world.children.query<TetrisBlock>();
     allBlocks.forEach((element) => element.removeFromParent());
   }
@@ -101,7 +100,7 @@ class TetrisConstructPage extends Component
       world.add(_currentFallingBlock!);
     }
     if (event.logicalKey == LogicalKeyboardKey.keyR) {
-      isGameRunning = true;
+      game.isGameRunning = true;
       addRandomBlock();
     }
 

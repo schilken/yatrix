@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 
 import 'package:tetris/splash_screen.dart';
 
+import 'game_over_route.dart';
 import 'tetris_page.dart';
 import 'pause_route.dart';
 import 'start_page.dart';
@@ -50,6 +51,7 @@ class TetrisGame extends FlameGame
             return tetrisPlayPage;
           }),
           'pause': PauseRoute(),
+          'gameOver': GameOverRoute(),
         },
         initialRoute: 'splash',
       ),
