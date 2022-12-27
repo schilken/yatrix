@@ -38,7 +38,6 @@ class Quadrat extends SpriteComponent with CollisionCallbacks {
   }
   CollisionCallback collisionCallback;
   RectangleHitbox? hitBox;
-  double? dropDestination;
   var state = QuadState.initial; 
   String blockType;
 
@@ -87,11 +86,8 @@ final _textPaint = TextPaint(
   }
 
   void dropOneRow() {
-    dropDestination = y + 50;
-//    print('dropDestination: $dropDestination');
-    y = dropDestination!;
+    y += 50;
     state = QuadState.dropped;
-//    add(Background(paint: BasicPalette.green.paint()));
   }
 
   @override

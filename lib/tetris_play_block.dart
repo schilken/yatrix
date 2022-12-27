@@ -81,9 +81,6 @@ abstract class TetrisPlayBlock extends TetrisBlock {
     Set<Vector2> intersectionPoints,
     PositionComponent other,
   ) {
-    if (dropDestination != null) {
-      return;
-    }
 //    print('onCollisionStart $other');
     if (_velocity.y == 0 && _lastDeltaX == null && _lastRotate == null) {
       return;
@@ -164,7 +161,6 @@ abstract class TetrisBlock extends SpriteComponent
   double? _lastDeltaX;
   double? _lastRotate;
   PolygonHitbox? hitBox;
-  double? dropDestination;
   bool _isFreezed = false;
 
   @override
@@ -201,9 +197,6 @@ abstract class TetrisBlock extends SpriteComponent
   void update(double dt) {
     super.update(dt);
     position += _velocity * dt;
-    if (dropDestination != null && dropDestination! > position.y) {
-      _velocity = Vector2.all(0);
-    }
   }
 
   void onQuadCollision(PositionComponent other) {
@@ -226,12 +219,6 @@ abstract class TetrisBlock extends SpriteComponent
       _velocity.y = 100;
     }
   }
-
-  // void dropOneRow() {
-  //   dropDestination = y + 50;
-  //   print('dropDestination: $dropDestination');
-  //   y = dropDestination!;
-  // }
 
   @override
   bool containsLocalPoint(Vector2 globalPoint) {
