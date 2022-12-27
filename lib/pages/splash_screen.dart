@@ -4,7 +4,7 @@ import 'package:flame/palette.dart';
 import 'package:flutter/rendering.dart';
 import 'package:tetris/tetris_game.dart';
 
-import 'background.dart';
+import '../components/background.dart';
 
 class SplashScreen extends Component with TapCallbacks, HasGameRef<TetrisGame> {
   @override
@@ -31,4 +31,3 @@ class SplashScreen extends Component with TapCallbacks, HasGameRef<TetrisGame> {
   @override
   void onTapUp(TapUpEvent event) => gameRef.router.pushNamed('home');
 }
-

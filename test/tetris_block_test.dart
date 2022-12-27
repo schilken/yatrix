@@ -1,6 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:test/test.dart';
-import 'package:tetris/tetris_block.dart';
+import 'package:tetris/components/tetris_block.dart';
 
 void main() {
   group('TetrisI ', () {

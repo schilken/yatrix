@@ -1,11 +1,11 @@
 import 'dart:math';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:tetris/boundaries.dart';
+import 'package:tetris/components/boundaries.dart';
 
-import 'game_assets.dart';
+import '../game_assets.dart';
 import 'quadrat.dart';
-import 'tetris_game.dart';
+import '../tetris_game.dart';
 
 const quadSize = 50.0;
 const quadPadding = 3.0;
@@ -41,8 +41,7 @@ abstract class TetrisBlock extends SpriteComponent
     x += xOffset;
 
     quadPositions.forEach((position) async {
-      final quad =
-          Quadrat(
+      final quad = Quadrat(
           position: position,
           collisionCallback: onQuadCollision,
           blockType: name);

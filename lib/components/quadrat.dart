@@ -1,5 +1,3 @@
-
-
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
@@ -7,7 +5,7 @@ import 'package:flame/palette.dart';
 import 'package:flutter/rendering.dart';
 
 import 'background.dart';
-import 'game_assets.dart';
+import '../game_assets.dart';
 import 'tetris_block.dart';
 
 typedef TetrisBlockTearOff = TetrisBlock Function({
@@ -38,10 +36,10 @@ class Quadrat extends SpriteComponent with CollisionCallbacks {
   }
   CollisionCallback collisionCallback;
   RectangleHitbox? hitBox;
-  var state = QuadState.initial; 
+  var state = QuadState.initial;
   String blockType;
 
-final _textPaint = TextPaint(
+  final _textPaint = TextPaint(
     style: const TextStyle(
       fontSize: 40,
       color: Color(0xFFC8FFF5),

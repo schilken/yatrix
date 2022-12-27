@@ -5,11 +5,11 @@ import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
 import 'package:flutter/services.dart';
 
-import 'boundaries.dart';
-import 'buttons.dart';
-import 'game_assets.dart';
-import 'tetris_block.dart';
-import 'tetris_game.dart';
+import '../components/boundaries.dart';
+import '../components/buttons.dart';
+import '../components/tetris_block.dart';
+import '../game_assets.dart';
+import '../tetris_game.dart';
 
 class TetrisConstructPage extends Component
     with HasGameRef<TetrisGame>
@@ -51,10 +51,6 @@ class TetrisConstructPage extends Component
     world.add(Floor(size: Vector2(1200, 10), position: Vector2(0, 1190)));
     world.add(Side(size: Vector2(10, 1100), position: Vector2(40, 50)));
     world.add(Side(size: Vector2(10, 1100), position: Vector2(1150, 50)));
-
-
-
-
   }
 
   void restart() {
@@ -128,6 +124,4 @@ class TetrisConstructPage extends Component
         TetrisBlock.random(startPosition ?? defaultStartPosition);
     world.add(_currentFallingBlock!);
   }
-
 }
-

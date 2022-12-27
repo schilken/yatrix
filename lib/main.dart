@@ -1,11 +1,7 @@
-import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:tetris/tetris_game.dart';
+import 'pages/game_page.dart';
 
-import 'game_page.dart';
-
-String link(String example) =>
-    'https://github.com/flame-engine/flame_forge2d/tree/main/example/lib/$example';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,8 +11,10 @@ void main() async {
           child: Builder(builder: (context) {
             return GamePage(
                 game: TetrisGame(
-            ));
-          }),
+            ),
+            );
+          },
+        ),
         ),
       ),
   );

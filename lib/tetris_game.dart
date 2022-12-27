@@ -4,13 +4,13 @@ import 'package:flame/input.dart';
 import 'package:flutter/material.dart' show TextStyle, Colors, KeyEventResult;
 import 'package:flutter/services.dart';
 
-import 'package:tetris/splash_screen.dart';
+import 'package:tetris/pages/splash_screen.dart';
 
-import 'game_over_route.dart';
-import 'tetris_page.dart';
-import 'pause_route.dart';
-import 'start_page.dart';
-import 'tetris_play_page.dart';
+import 'pages/game_over_route.dart';
+import 'pages/tetris_page.dart';
+import 'pages/pause_route.dart';
+import 'pages/start_page.dart';
+import 'pages/tetris_play_page.dart';
 
 const TextStyle _textStyle = TextStyle(color: Colors.black, fontSize: 2);
 

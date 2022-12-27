@@ -7,14 +7,14 @@ import 'package:flame/palette.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:sprintf/sprintf.dart';
-import 'boundaries.dart';
-import 'buttons.dart';
-import 'game_assets.dart';
-import 'quadrat.dart';
-import 'svg_button.dart';
-import 'tetris_game.dart';
-import 'tetris_matrix.dart';
-import 'tetris_play_block.dart';
+import '../components/boundaries.dart';
+import '../components/buttons.dart';
+import '../game_assets.dart';
+import '../components/quadrat.dart';
+import '../components/svg_button.dart';
+import '../tetris_game.dart';
+import '../tetris_matrix.dart';
+import '../components/tetris_play_block.dart';
 
 class TetrisPlayPage extends Component
     with HasGameRef<TetrisGame>
