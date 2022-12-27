@@ -33,14 +33,12 @@ class TetrisPlayPage extends Component
   final xOffset = 50;
   TextComponent? _textComponent;
   int _freezedCounter = 0;
-  late bool isRemovingRows;
   double? _droppedAtY;
   int _removedRows = 0;
   static const lowestY = 1125;
 
   @override
   Future<void> onLoad() async {
-    isRemovingRows = false;
     addAll([
       BackButton(),
       PauseButton(),
@@ -71,8 +69,6 @@ class TetrisPlayPage extends Component
     final buttonSize = Vector2.all(35);
     final allsvgButtons = children.query<SvgButton>();
     allsvgButtons.forEach((button) => button.removeFromParent());
-//    final allTextComponents = children.query<TextComponent>();
-//    allTextComponents.forEach((component) => component.removeFromParent());
     _textComponent?.removeFromParent();
     _textComponent = TextBoxComponent(
       text: 'Tap down arrow to start',
@@ -185,11 +181,15 @@ class TetrisPlayPage extends Component
   void onKeyboardKey(
     RawKeyEvent event,
   ) {
-    final isKeyUp = event is RawKeyUpEvent;
+    if (!isGameRunning) {
+      isGameRunning = true;
+      addRandomBlock();
+      updatePoints(null);
+      return;
+    }
     if (event.logicalKey == LogicalKeyboardKey.escape) {
       restart();
     }
-
     if (event.logicalKey == LogicalKeyboardKey.keyO) {
       _currentFallingBlock =
           TetrisPlayBlock.create('O', defaultStartPosition, world);
@@ -251,12 +251,9 @@ class TetrisPlayPage extends Component
   }
 
   void handleBlockFreezed() {
-    if (isRemovingRows) {
-      return;
-    }
     updatePoints(_currentFallingBlock?.y);
-    final matrix = creatBlockMatrix();
-    print(matrix);
+    // final matrix = creatBlockMatrix();
+    // print(matrix);
     removeFullRows();
     if (!isGameRunning) {
       print('>>> GAME OVER <<<');
@@ -269,7 +266,6 @@ class TetrisPlayPage extends Component
   }
 
   Future<void> removeFullRows() async {
-    isRemovingRows = true;
     int removedRows = 0;
     final rowFillingMap = createRowFillCounts();
     rowFillingMap.removeWhere((key, value) => value < 10);
@@ -288,7 +284,6 @@ class TetrisPlayPage extends Component
       } while (yAboveRemovedRow > 125.0);
       removedRows++;
     }
-    isRemovingRows = false;
   }
 
   void moveRowsAbove(double y) {
@@ -322,7 +317,7 @@ class TetrisPlayPage extends Component
   }
 
   void addRandomBlock({Vector2? startPosition}) {
-    print('addRandomBlock');
+//    print('addRandomBlock');
     _currentFallingBlock =
         TetrisPlayBlock.random(startPosition ?? defaultStartPosition, world);
     world.add(_currentFallingBlock!);

@@ -82,7 +82,7 @@ final _textPaint = TextPaint(
   }
 
   void freeze() {
-    print('freeze at position $position $blockType');
+//    print('freeze at position $position $blockType');
     state = QuadState.freezed;
   }
 
