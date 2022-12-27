@@ -8,8 +8,8 @@ import 'package:tetris/components/boundaries.dart';
 
 import '../game_assets.dart';
 import '../helpers.dart';
-import 'quadrat.dart';
 import '../tetris_game.dart';
+import 'quadrat.dart';
 
 const quadSize = 50.0;
 const quadPadding = 5.0;
@@ -20,7 +20,7 @@ typedef TetrisPlayBlockTearOff = TetrisPlayBlock Function({
   Vector2 velocity,
 });
 
-abstract class TetrisPlayBlock extends TetrisBlock {
+abstract class TetrisPlayBlock extends TetrisBaseBlock {
   TetrisPlayBlock(
       {required super.blockPosition, required this.world, Vector2? velocity});
 
@@ -72,7 +72,7 @@ abstract class TetrisPlayBlock extends TetrisBlock {
       'T',
     ];
     final newBlockType =
-        blockTypes[TetrisBlock._random.nextInt(blockTypes.length)];
+        blockTypes[TetrisBaseBlock._random.nextInt(blockTypes.length)];
     return TetrisPlayBlock.create(newBlockType, blockPosition, world);
   }
 
@@ -141,9 +141,9 @@ abstract class TetrisPlayBlock extends TetrisBlock {
   }
 }
 
-abstract class TetrisBlock extends SpriteComponent
+abstract class TetrisBaseBlock extends SpriteComponent
     with CollisionCallbacks, HasGameRef<TetrisGame> {
-  TetrisBlock({
+  TetrisBaseBlock({
     required this.blockPosition,
     Vector2? velocity,
   }) : _velocity = velocity ?? Vector2(0, 100);
