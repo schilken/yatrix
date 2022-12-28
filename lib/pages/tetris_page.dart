@@ -88,44 +88,45 @@ class TetrisConstructPage extends Component
         name: 'tet-Z',
         position: Vector2(20, yOffset),
         size: size3x2quads,
-        onTap: () => print('button pressed'),
+        onTap: () => addBlock('Z'),
       ),
       PngButton(
         name: 'tet-S',
         position: Vector2(20 + size3x2quads.x + 10, yOffset),
         size: size3x2quads,
-        onTap: () => print('button pressed'),
+        onTap: () => addBlock('S'),
       ),
       PngButton(
         name: 'tet-L',
         position: Vector2(20 + 2 * size3x2quads.x + 2 * 10, yOffset),
         size: size3x2quads,
-        onTap: () => print('button pressed'),
+        onTap: () => addBlock('L'),
       ),
       PngButton(
         name: 'tet-J',
         position: Vector2(20 + 3 * size3x2quads.x + 3 * 10, yOffset),
         size: size3x2quads,
-        onTap: () => print('button pressed'),
+        onTap: () => addBlock('J'),
       ),
       PngButton(
         name: 'tet-T',
         position: Vector2(20 + 4 * size3x2quads.x + 4 * 10, yOffset),
         size: size3x2quads,
-        onTap: () => print('button pressed'),
+        onTap: () => addBlock('T'),
       ),
       PngButton(
         name: 'tet-O',
         position: Vector2(20 + 5 * size3x2quads.x + 5 * 10, yOffset),
         size: size2x2quads,
-        onTap: () => print('button pressed'),
+        onTap: () => addBlock('O'),
       ),
       PngButton(
         name: 'tet-I',
         position: Vector2(20 + 5 * size3x2quads.x + size2x2quads.x + 6 * 10,
             yOffset + quadsize),
         size: size1x4quads,
-        onTap: () => print('button pressed'),
+        onTap: () => addBlock('I'),
+
       ),
     ]);
   }
@@ -145,32 +146,25 @@ class TetrisConstructPage extends Component
     }
 
     if (event.logicalKey == LogicalKeyboardKey.keyO) {
-      _currentFallingBlock = TetrisBlock.create('O', defaultStartPosition);
-      world?.add(_currentFallingBlock!);
+      addBlock('O');
     }
     if (event.logicalKey == LogicalKeyboardKey.keyJ) {
-      _currentFallingBlock = TetrisBlock.create('J', defaultStartPosition);
-      world?.add(_currentFallingBlock!);
+      addBlock('J');
     }
     if (event.logicalKey == LogicalKeyboardKey.keyI) {
-      _currentFallingBlock = TetrisBlock.create('I', defaultStartPosition);
-      world?.add(_currentFallingBlock!);
+      addBlock('I');
     }
     if (event.logicalKey == LogicalKeyboardKey.keyT) {
-      _currentFallingBlock = TetrisBlock.create('T', defaultStartPosition);
-      world?.add(_currentFallingBlock!);
+      addBlock('T');
     }
     if (event.logicalKey == LogicalKeyboardKey.keyS) {
-      _currentFallingBlock = TetrisBlock.create('S', defaultStartPosition);
-      world?.add(_currentFallingBlock!);
+      addBlock('S');
     }
     if (event.logicalKey == LogicalKeyboardKey.keyL) {
-      _currentFallingBlock = TetrisBlock.create('L', defaultStartPosition);
-      world?.add(_currentFallingBlock!);
+      addBlock('L');
     }
     if (event.logicalKey == LogicalKeyboardKey.keyZ) {
-      _currentFallingBlock = TetrisBlock.create('Z', defaultStartPosition);
-      world?.add(_currentFallingBlock!);
+      addBlock('Z');
     }
     if (event.logicalKey == LogicalKeyboardKey.keyR) {
       game.isGameRunning = true;
@@ -189,6 +183,11 @@ class TetrisConstructPage extends Component
     } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
       _currentFallingBlock?.setHighSpeed();
     }
+  }
+
+  void addBlock(String name) {
+    _currentFallingBlock = TetrisBlock.create(name, defaultStartPosition);
+    world?.add(_currentFallingBlock!);
   }
 
   void handleBlockFreezed() {
