@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
 import 'package:flame/input.dart';
+import 'package:flame/palette.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/services.dart';
 
@@ -23,23 +24,50 @@ class TetrisConstructPage extends Component
   Viewport? viewport;
   Floor floor = Floor(size: Vector2(10, 10), position: Vector2(10, 10));
   Vector2 get visibleGameSize => viewfinder!.visibleGameSize!;
-
+  JoystickComponent? _joystick;
   TetrisBlock? _currentFallingBlock;
   late final RouterComponent router;
 
   Vector2 defaultStartPosition = Vector2(250, 70);
 
   late bool isRemovingRows;
+  late Timer joystickPoller;
 
   @override
   Future<void> onLoad() async {
-    print('onLoad');
+    print('TetrisConstructPage.onLoad');
     isRemovingRows = false;
     addAll([
       BackButton(),
       PauseButton(),
     ]);
+    joystickPoller = Timer(
+      0.2,
+      repeat: true,
+      onTick: () {
+        final direction = _joystick?.direction;
+        if (direction == JoystickDirection.left) {
+          _currentFallingBlock?.moveXBy(-50);
+        }
+        if (direction == JoystickDirection.right) {
+          _currentFallingBlock?.moveXBy(50);
+        }
+        if (direction == JoystickDirection.up) {
+          _currentFallingBlock?.rotateBy(-pi / 2);
+        }
+        if (direction == JoystickDirection.down) {
+          _currentFallingBlock?.setHighSpeed();
+        }
+      },
+    );
+    joystickPoller.start();
     //debugMode = true;
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    joystickPoller.update(dt);
   }
 
   @override
@@ -76,13 +104,23 @@ class TetrisConstructPage extends Component
   void addButtons(Vector2 size) {
     final allsvgButtons = children.query<PngButton>();
     allsvgButtons.forEach((button) => button.removeFromParent());
-    final quadsize = min(25.0, (size.x - 20 - 6 * 10 - 20) / 21);
+    _joystick?.removeFromParent();
+    final quadsize = min(25.0, (size.x - 20 - 6 * 10 - 20 - 50) / 21);
     print('quadsize: ${size.x}  $quadsize');
     final size3x2quads = Vector2(3 * quadsize, 2 * quadsize);
     final size2x2quads = Vector2(2 * quadsize, 2 * quadsize);
     final size1x4quads = Vector2(4 * quadsize, quadsize);
-
     final yOffset = size.y - 30 - quadSize;
+
+    final knobPaint = BasicPalette.blue.withAlpha(200).paint();
+    final backgroundPaint = BasicPalette.blue.withAlpha(100).paint();
+    _joystick = JoystickComponent(
+      knob: CircleComponent(radius: 10, paint: knobPaint),
+      background: CircleComponent(radius: 25, paint: backgroundPaint),
+//      margin: const EdgeInsets.only(left: 40, bottom: 40),
+      position: Vector2(size.x - 40, size.y - 50),
+    );
+
     addAll([
       PngButton(
         name: 'tet-Z',
@@ -126,8 +164,8 @@ class TetrisConstructPage extends Component
             yOffset + quadsize),
         size: size1x4quads,
         onTap: () => addBlock('I'),
-
       ),
+      _joystick!,
     ]);
   }
 
