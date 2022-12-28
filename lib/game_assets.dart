@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
@@ -6,6 +8,7 @@ final gameAssets = GameAssets();
 
 class GameAssets {
   Map<String, Sprite> sprites = {};
+
 
   Future<void> preCache() async {
     sprites['tet-O'] = Sprite(await Flame.images.load('tetris-O-plain.png'));

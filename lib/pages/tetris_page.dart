@@ -3,10 +3,13 @@ import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
+import 'package:flame/input.dart';
+import 'package:flame/widgets.dart';
 import 'package:flutter/services.dart';
 
 import '../components/boundaries.dart';
 import '../components/buttons.dart';
+import '../components/png_button.dart';
 import '../components/tetris_block.dart';
 import '../game_assets.dart';
 import '../tetris_game.dart';
@@ -37,7 +40,6 @@ class TetrisConstructPage extends Component
       PauseButton(),
     ]);
     //debugMode = true;
-    await gameAssets.preCache();
   }
 
   @override
@@ -62,12 +64,70 @@ class TetrisConstructPage extends Component
     floor.removeFromParent();
     floor = Floor(
       size: Vector2(gameSizeX - 20, 10),
-      position: Vector2(10, gameSizeY - 100),
+      position: Vector2(10, gameSizeY - 150),
     );
     world?.add(floor);
     defaultStartPosition = Vector2(gameSizeX / 2, 70);
     // world.add(Side(size: Vector2(10, 1100), position: Vector2(40, 50)));
     // world.add(Side(size: Vector2(10, 1100), position: Vector2(1150, 50)));
+    addButtons(size);
+  }
+
+  void addButtons(Vector2 size) {
+    final allsvgButtons = children.query<PngButton>();
+    allsvgButtons.forEach((button) => button.removeFromParent());
+    final quadsize = min(25.0, (size.x - 20 - 6 * 10 - 20) / 21);
+    print('quadsize: ${size.x}  $quadsize');
+    final size3x2quads = Vector2(3 * quadsize, 2 * quadsize);
+    final size2x2quads = Vector2(2 * quadsize, 2 * quadsize);
+    final size1x4quads = Vector2(4 * quadsize, quadsize);
+
+    final yOffset = size.y - 30 - quadSize;
+    addAll([
+      PngButton(
+        name: 'tet-Z',
+        position: Vector2(20, yOffset),
+        size: size3x2quads,
+        onTap: () => print('button pressed'),
+      ),
+      PngButton(
+        name: 'tet-S',
+        position: Vector2(20 + size3x2quads.x + 10, yOffset),
+        size: size3x2quads,
+        onTap: () => print('button pressed'),
+      ),
+      PngButton(
+        name: 'tet-L',
+        position: Vector2(20 + 2 * size3x2quads.x + 2 * 10, yOffset),
+        size: size3x2quads,
+        onTap: () => print('button pressed'),
+      ),
+      PngButton(
+        name: 'tet-J',
+        position: Vector2(20 + 3 * size3x2quads.x + 3 * 10, yOffset),
+        size: size3x2quads,
+        onTap: () => print('button pressed'),
+      ),
+      PngButton(
+        name: 'tet-T',
+        position: Vector2(20 + 4 * size3x2quads.x + 4 * 10, yOffset),
+        size: size3x2quads,
+        onTap: () => print('button pressed'),
+      ),
+      PngButton(
+        name: 'tet-O',
+        position: Vector2(20 + 5 * size3x2quads.x + 5 * 10, yOffset),
+        size: size2x2quads,
+        onTap: () => print('button pressed'),
+      ),
+      PngButton(
+        name: 'tet-I',
+        position: Vector2(20 + 5 * size3x2quads.x + size2x2quads.x + 6 * 10,
+            yOffset + quadsize),
+        size: size1x4quads,
+        onTap: () => print('button pressed'),
+      ),
+    ]);
   }
 
   void restart() {

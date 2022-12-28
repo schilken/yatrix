@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 
 import 'package:tetris/pages/splash_screen.dart';
 
+import 'game_assets.dart';
 import 'pages/game_over_route.dart';
 import 'pages/tetris_page.dart';
 import 'pages/pause_route.dart';
@@ -35,6 +36,7 @@ class TetrisGame extends FlameGame
   @override
   Future<void> onLoad() async {
     //debugMode = true;
+    await gameAssets.preCache();
     add(
       router = RouterComponent(
         routes: {

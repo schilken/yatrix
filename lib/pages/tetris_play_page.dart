@@ -43,7 +43,6 @@ class TetrisPlayPage extends Component
       PauseButton(),
     ]);
     //debugMode = true;
-    await gameAssets.preCache();
     world = World();
     cameraComponent = CameraComponent(world: world);
     viewport = cameraComponent.viewport;
