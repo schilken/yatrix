@@ -5,13 +5,14 @@ import 'package:flutter/rendering.dart';
 import 'package:tetris/tetris_game.dart';
 
 import '../components/background.dart';
+import '../components/buttons.dart';
 
-class HighScorePage extends Component
-    with TapCallbacks, HasGameRef<TetrisGame> {
+class HighScorePage extends Component with HasGameRef<TetrisGame> {
   @override
   Future<void> onLoad() async {
     addAll([
       Background(paint: BasicPalette.black.paint()),
+      BackButton(),
       TextBoxComponent(
         text: 'High Score',
         textRenderer: TextPaint(
@@ -25,10 +26,4 @@ class HighScorePage extends Component
       ),
     ]);
   }
-
-  @override
-  bool containsLocalPoint(Vector2 point) => true;
-
-  @override
-  void onTapUp(TapUpEvent event) => gameRef.router.pushNamed('home');
 }
