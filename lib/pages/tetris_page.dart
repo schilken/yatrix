@@ -3,16 +3,13 @@ import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
-import 'package:flame/input.dart';
 import 'package:flame/palette.dart';
-import 'package:flame/widgets.dart';
 import 'package:flutter/services.dart';
 
 import '../components/boundaries.dart';
 import '../components/buttons.dart';
 import '../components/png_button.dart';
 import '../components/tetris_block.dart';
-import '../game_assets.dart';
 import '../tetris_game.dart';
 
 class TetrisConstructPage extends Component

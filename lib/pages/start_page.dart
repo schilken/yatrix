@@ -5,6 +5,12 @@ import 'package:tetris/tetris_game.dart';
 import '../components/rounded_button.dart';
 
 class StartPage extends Component with HasGameRef<TetrisGame> {
+  late final TextComponent _logo;
+  late final RoundedButton _button1;
+  late final RoundedButton _button2;
+  late final RoundedButton _button3;
+  late final RoundedButton _button4;
+
   StartPage() {
     addAll([
       _logo = TextComponent(
@@ -30,12 +36,20 @@ class StartPage extends Component with HasGameRef<TetrisGame> {
         color: const Color(0xffdebe6c),
         borderColor: const Color(0xfffff4c7),
       ),
+      _button3 = RoundedButton(
+        text: 'High Score',
+        action: () => gameRef.router.pushNamed('highScore'),
+        color: const Color(0xffdebe6c),
+        borderColor: const Color(0xfffff4c7),
+      ),
+      _button4 = RoundedButton(
+        text: 'Help',
+        action: () => gameRef.router.pushNamed('help'),
+        color: const Color(0xffdebe6c),
+        borderColor: const Color(0xfffff4c7),
+      ),
     ]);
   }
-
-  late final TextComponent _logo;
-  late final RoundedButton _button1;
-  late final RoundedButton _button2;
 
   @override
   void onGameResize(Vector2 size) {
@@ -43,5 +57,7 @@ class StartPage extends Component with HasGameRef<TetrisGame> {
     _logo.position = Vector2(size.x / 2, size.y / 3);
     _button1.position = Vector2(size.x / 2, _logo.y + 80);
     _button2.position = Vector2(size.x / 2, _logo.y + 140);
+    _button3.position = Vector2(size.x / 2, _logo.y + 200);
+    _button4.position = Vector2(size.x / 2, _logo.y + 260);
   }
 }
