@@ -10,6 +10,7 @@ import 'game_assets.dart';
 import 'pages/game_over_route.dart';
 import 'pages/help_page.dart';
 import 'pages/high_score_page.dart';
+import 'pages/settings_page.dart';
 import 'pages/tetris_page.dart';
 import 'pages/pause_route.dart';
 import 'pages/start_page.dart';
@@ -44,20 +45,21 @@ class TetrisGame extends FlameGame
         routes: {
           'splash': Route(SplashScreen.new),
           'home': Route(StartPage.new),
-          'level1': Route(() {
-            final tetrisConstructPage = TetrisConstructPage();
-            tetrisPage = tetrisConstructPage;
-            return tetrisConstructPage;
-          }),
-          'level2': Route(() {
+          'play': Route(() {
             final tetrisPlayPage = TetrisPlayPage();
             tetrisPage = tetrisPlayPage;
             return tetrisPlayPage;
           }),
-          'pause': PauseRoute(),
-          'gameOver': GameOverRoute(),
+          'construct': Route(() {
+            final tetrisConstructPage = TetrisConstructPage();
+            tetrisPage = tetrisConstructPage;
+            return tetrisConstructPage;
+          }),
+          'settings': Route(SettingsPage.new),
           'highScore': Route(HighScorePage.new),
           'help': Route(HelpPage.new),
+          'pause': PauseRoute(),
+          'gameOver': GameOverRoute(),
         },
         initialRoute: 'splash',
       ),
