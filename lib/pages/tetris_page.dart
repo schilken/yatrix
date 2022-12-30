@@ -12,6 +12,21 @@ import '../components/png_button.dart';
 import '../components/tetris_block.dart';
 import '../tetris_game.dart';
 
+class Debouncer {
+  Debouncer(this.callback);
+  VoidCallback callback;
+
+  int delayTicks = 0;
+
+  void tick() {
+    print('delayTicks: ${delayTicks}');
+    if (--delayTicks < 0) {
+      callback();
+      delayTicks = 2;
+    }
+  }
+}
+
 class TetrisConstructPage extends Component
     with HasGameRef<TetrisGame>
     implements TetrisPageInterface {
@@ -23,22 +38,21 @@ class TetrisConstructPage extends Component
   Vector2 get visibleGameSize => viewfinder!.visibleGameSize!;
   JoystickComponent? _joystick;
   TetrisBlock? _currentFallingBlock;
-  late final RouterComponent router;
-
   Vector2 defaultStartPosition = Vector2(250, 70);
 
-  late bool isRemovingRows;
-  late Timer joystickPoller;
+  late final RouterComponent router;
+  late Timer _joystickPoller;
+  late Debouncer _rotater;
 
   @override
   Future<void> onLoad() async {
     print('TetrisConstructPage.onLoad');
-    isRemovingRows = false;
+    _rotater = Debouncer(() => _currentFallingBlock?.rotateBy(-pi / 2));
     addAll([
       BackButton(),
       PauseButton(),
     ]);
-    joystickPoller = Timer(
+    _joystickPoller = Timer(
       0.2,
       repeat: true,
       onTick: () {
@@ -50,21 +64,21 @@ class TetrisConstructPage extends Component
           _currentFallingBlock?.moveXBy(50);
         }
         if (direction == JoystickDirection.up) {
-          _currentFallingBlock?.rotateBy(-pi / 2);
+          _rotater.tick();
         }
         if (direction == JoystickDirection.down) {
           _currentFallingBlock?.setHighSpeed();
         }
       },
     );
-    joystickPoller.start();
+    _joystickPoller.start();
     //debugMode = true;
   }
 
   @override
   void update(double dt) {
     super.update(dt);
-    joystickPoller.update(dt);
+    _joystickPoller.update(dt);
   }
 
   @override
