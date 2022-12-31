@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:flame/components.dart';
@@ -15,6 +16,15 @@ import '../components/svg_button.dart';
 import '../tetris_game.dart';
 import '../tetris_matrix.dart';
 import '../components/tetris_play_block.dart';
+
+enum GameCommand {
+  left,
+  right,
+  up,
+  down,
+  reset,
+  pause,
+}
 
 class TetrisPlayPage extends Component
     with HasGameRef<TetrisGame>
@@ -57,6 +67,7 @@ class TetrisPlayPage extends Component
     world.add(Floor(size: Vector2(600, 10), position: Vector2(0, 1190)));
     world.add(Side(size: Vector2(10, 1100), position: Vector2(40, 50)));
     world.add(Side(size: Vector2(10, 1100), position: Vector2(550, 50)));
+    initGameController();
   }
 
   @override
@@ -85,42 +96,74 @@ class TetrisPlayPage extends Component
         name: 'svg/restart-grey.svg',
         position: Vector2(rightButtonX, 20),
         size: buttonSize,
-        onTap: () => handleKey(LogicalKeyboardKey.escape),
+        onTap: () => handleGameCommand(GameCommand.reset),
       ),
       SvgButton(
         name: 'svg/rotate-left-variant-grey.svg',
         position: Vector2(leftButtonX, 300),
         size: buttonSize,
-        onTap: () => handleKey(LogicalKeyboardKey.arrowUp),
+        onTap: () => handleGameCommand(GameCommand.up),
       ),
       SvgButton(
         name: 'svg/arrow-left-bold-outline-grey.svg',
         position: Vector2(leftButtonX, 380),
         size: buttonSize,
-        onTap: () => handleKey(LogicalKeyboardKey.arrowLeft),
+        onTap: () => handleGameCommand(GameCommand.left),
       ),
-      SvgButton(
-        name: 'svg/rotate-right-variant-grey.svg',
-        position: Vector2(rightButtonX, 300),
-        size: buttonSize,
-        onTap: () => handleKey(LogicalKeyboardKey.keyR),
-      ),
+      // SvgButton(
+      //   name: 'svg/rotate-right-variant-grey.svg',
+      //   position: Vector2(rightButtonX, 300),
+      //   size: buttonSize,
+      //   onTap: () => handleGameCommand(GameCommand.keyR),
+      // ),
       SvgButton(
         name: 'svg/arrow-right-bold-outline-grey.svg',
         position: Vector2(rightButtonX, 380),
         size: buttonSize,
-        onTap: () => handleKey(LogicalKeyboardKey.arrowRight),
+        onTap: () => handleGameCommand(GameCommand.right),
       ),
       SvgButton(
         name: 'svg/arrow-down-bold-outline-grey.svg',
         position: Vector2(rightButtonX, 460),
         size: buttonSize,
         paint: BasicPalette.white.paint(),
-        onTap: () => handleKey(LogicalKeyboardKey.arrowDown),
+        onTap: () => handleGameCommand(GameCommand.down),
       ),
       _textComponent!,
     ]);
     super.onGameResize(size);
+  }
+
+  void initGameController() {
+    if (gameRef.keyboardGameController != null) {
+      gameRef.keyboardGameController!.commandStream.listen(handleGameCommand);
+    }
+  }
+
+  void handleGameCommand(GameCommand command) {
+    print('gameCommand: $command');
+    if (command == GameCommand.reset) {
+      reset();
+      if (!game.isGameRunning) {
+        game.isGameRunning = true;
+        addRandomBlock();
+        updatePoints(null);
+      }
+      return;
+    }
+    if (_currentFallingBlock == null) {
+      return;
+    }
+    if (command == GameCommand.left) {
+      _currentFallingBlock!.moveXBy(-50);
+    } else if (command == GameCommand.right) {
+      _currentFallingBlock!.moveXBy(50);
+    } else if (command == GameCommand.up) {
+      _currentFallingBlock?.rotateBy(-pi / 2);
+    } else if (command == GameCommand.down) {
+      _currentFallingBlock?.setHighSpeed();
+      _droppedAtY = _currentFallingBlock?.y;
+    }
   }
 
   void updatePoints(double? freezedAtY) {
@@ -163,27 +206,6 @@ class TetrisPlayPage extends Component
       return true;
     }
     return false;
-  }
-
-  void handleKey(LogicalKeyboardKey logicalKey) {
-    if (_checkResetOrGameStart(logicalKey)) {
-      return;
-    }
-    if (_currentFallingBlock == null) {
-      return;
-    }
-    if (logicalKey == LogicalKeyboardKey.arrowLeft) {
-      _currentFallingBlock!.moveXBy(-50);
-    } else if (logicalKey == LogicalKeyboardKey.arrowRight) {
-      _currentFallingBlock!.moveXBy(50);
-    } else if (logicalKey == LogicalKeyboardKey.arrowUp) {
-      _currentFallingBlock?.rotateBy(-pi / 2);
-    } else if (logicalKey == LogicalKeyboardKey.arrowDown) {
-      _currentFallingBlock?.setHighSpeed();
-      _droppedAtY = _currentFallingBlock?.y;
-    } else if (logicalKey == LogicalKeyboardKey.keyR) {
-      _currentFallingBlock?.rotateBy(pi / 2);
-    }
   }
 
   @override
@@ -236,20 +258,6 @@ class TetrisPlayPage extends Component
     if (event.logicalKey == LogicalKeyboardKey.question) {
       final matrix = creatBlockMatrix();
       print(matrix);
-    }
-
-    if (_currentFallingBlock == null) {
-      return;
-    }
-    if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-      _currentFallingBlock!.moveXBy(-50);
-    } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-      _currentFallingBlock!.moveXBy(50);
-    } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-      _currentFallingBlock?.rotateBy(-pi / 2);
-    } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
-      _currentFallingBlock?.setHighSpeed();
-      _droppedAtY = _currentFallingBlock?.y;
     }
   }
 

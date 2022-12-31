@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
 import 'package:flame/input.dart';
@@ -25,6 +27,40 @@ abstract class TetrisPageInterface {
   );
 }
 
+abstract class GameController {
+  Stream<GameCommand> get commandStream;
+}
+
+class KeyboardGameController implements GameController {
+  final _controller = StreamController<GameCommand>();
+
+  void onKeyEvent(
+    RawKeyEvent event,
+    Set<LogicalKeyboardKey> keysPressed,
+  ) {
+    final isKeyUp = event is RawKeyUpEvent;
+    if (event.repeat || !isKeyUp) {
+      return;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.escape) {
+      _controller.sink.add(GameCommand.reset);
+    } else if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
+      _controller.sink.add(GameCommand.left);
+    } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
+      _controller.sink.add(GameCommand.right);
+    } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+      _controller.sink.add(GameCommand.up);
+    } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+      _controller.sink.add(GameCommand.down);
+    }
+  }
+
+  @override
+  Stream<GameCommand> get commandStream => _controller.stream;
+
+  // TODO: close streamController
+}
+
 class TetrisGame extends FlameGame
     with
         HasCollisionDetection,
@@ -35,6 +71,7 @@ class TetrisGame extends FlameGame
   bool isGameRunning = false;
   late final RouterComponent router;
   TetrisPageInterface? tetrisPage;
+  KeyboardGameController? keyboardGameController;
 
   @override
   Future<void> onLoad() async {
@@ -64,6 +101,7 @@ class TetrisGame extends FlameGame
         initialRoute: 'splash',
       ),
     );
+    keyboardGameController = KeyboardGameController();
   }
 
   @override
@@ -71,6 +109,7 @@ class TetrisGame extends FlameGame
     RawKeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
   ) {
+    keyboardGameController?.onKeyEvent(event, keysPressed);
     final isKeyUp = event is RawKeyUpEvent;
     if (event.repeat || !isKeyUp) {
       return super.onKeyEvent(event, keysPressed);
