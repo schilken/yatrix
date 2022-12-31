@@ -144,11 +144,12 @@ class TetrisPlayPage extends Component
     print('gameCommand: $command');
     if (command == GameCommand.reset) {
       reset();
-      if (!game.isGameRunning) {
-        game.isGameRunning = true;
-        addRandomBlock();
-        updatePoints(null);
-      }
+      return;
+    }
+    if (!game.isGameRunning) {
+      game.isGameRunning = true;
+      addRandomBlock();
+      updatePoints(null);
       return;
     }
     if (_currentFallingBlock == null) {
