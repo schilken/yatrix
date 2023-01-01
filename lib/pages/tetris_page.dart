@@ -30,7 +30,7 @@ class Debouncer {
 
 class TetrisConstructPage extends Component
     with
-        HasGameRef<TetrisGame> //, GameControllerMixin
+        HasGameRef<TetrisGame>, GameControllerMixin
     implements TetrisPageInterface {
   World? world;
   CameraComponent? cameraComponent;
@@ -39,12 +39,17 @@ class TetrisConstructPage extends Component
   Floor floor = Floor(size: Vector2(10, 10), position: Vector2(10, 10));
   Vector2 get visibleGameSize => viewfinder!.visibleGameSize!;
   JoystickComponent? _joystick;
-  TetrisBaseBlock? _currentFallingBlock;
   Vector2 defaultStartPosition = Vector2(250, 70);
 
   late final RouterComponent router;
   late Timer _joystickPoller;
   late Debouncer _rotater;
+
+  TetrisBaseBlock? _currentFallingBlock;
+  TetrisBaseBlock? get currentFallingBlock => _currentFallingBlock;
+
+  double? _droppedAtY;
+  set droppedAtY(double y) => _droppedAtY = y;
 
   @override
   Future<void> onLoad() async {
@@ -75,6 +80,7 @@ class TetrisConstructPage extends Component
     );
     _joystickPoller.start();
     //debugMode = true;
+    initGameController();
   }
 
   @override
@@ -182,58 +188,11 @@ class TetrisConstructPage extends Component
     ]);
   }
 
-  void restart() {
+  @override
+  void reset() {
     game.isGameRunning = false;
     final allBlocks = world?.children.query<TetrisBaseBlock>();
     allBlocks?.forEach((element) => element.removeFromParent());
-  }
-
-  void onKeyboardKey(
-    RawKeyEvent event,
-  ) {
-    final isKeyUp = event is RawKeyUpEvent;
-    if (event.logicalKey == LogicalKeyboardKey.escape) {
-      restart();
-    }
-
-    if (event.logicalKey == LogicalKeyboardKey.keyO) {
-      addBlock('O');
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyJ) {
-      addBlock('J');
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyI) {
-      addBlock('I');
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyT) {
-      addBlock('T');
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyS) {
-      addBlock('S');
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyL) {
-      addBlock('L');
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyZ) {
-      addBlock('Z');
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyR) {
-      game.isGameRunning = true;
-      addRandomBlock();
-    }
-
-    if (_currentFallingBlock == null) {
-      return;
-    }
-    if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-      _currentFallingBlock!.moveXBy(-50);
-    } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-      _currentFallingBlock!.moveXBy(50);
-    } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-      _currentFallingBlock?.rotateBy(-pi / 2);
-    } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
-      _currentFallingBlock?.setHighSpeed();
-    }
   }
 
   void addBlock(String name) {
@@ -252,4 +211,6 @@ class TetrisConstructPage extends Component
         TetrisPlayBlock.random(startPosition ?? defaultStartPosition, world!);
     world?.add(_currentFallingBlock!);
   }
+
+  void updatePoints(double? freezedAtY) {}
 }

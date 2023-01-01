@@ -37,8 +37,8 @@ class TetrisPlayPage extends Component
   int _removedRows = 0;
   static const lowestY = 1125;
 
-  TetrisPlayBlock? _currentFallingBlock;
-  TetrisPlayBlock? get currentFallingBlock => _currentFallingBlock;
+  TetrisBaseBlock? _currentFallingBlock;
+  TetrisBaseBlock? get currentFallingBlock => _currentFallingBlock;
 
   double? _droppedAtY;
   set droppedAtY(double y) => _droppedAtY = y;

@@ -4,7 +4,7 @@ import 'package:tetris/components/tetris_play_block.dart';
 import '../tetris_game.dart';
 
 mixin GameControllerMixin {
-  TetrisPlayBlock? get currentFallingBlock;
+  TetrisBaseBlock? get currentFallingBlock;
   TetrisGame get game;
   void reset();
   void addRandomBlock();

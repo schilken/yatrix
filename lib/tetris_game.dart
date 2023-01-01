@@ -22,9 +22,6 @@ const TextStyle _textStyle = TextStyle(color: Colors.black, fontSize: 2);
 
 abstract class TetrisPageInterface {
   void handleBlockFreezed();
-  void onKeyboardKey(
-    RawKeyEvent event,
-  );
 }
 
 enum GameCommand {
@@ -67,11 +64,26 @@ class KeyboardGameController implements GameController {
       _controller.sink.add(GameCommand.up);
     } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
       _controller.sink.add(GameCommand.down);
+    } else if (event.logicalKey == LogicalKeyboardKey.keyO) {
+      _controller.sink.add(GameCommand.O);
+    } else if (event.logicalKey == LogicalKeyboardKey.keyJ) {
+      _controller.sink.add(GameCommand.J);
+    } else if (event.logicalKey == LogicalKeyboardKey.keyI) {
+      _controller.sink.add(GameCommand.I);
+    } else if (event.logicalKey == LogicalKeyboardKey.keyT) {
+      _controller.sink.add(GameCommand.T);
+    } else if (event.logicalKey == LogicalKeyboardKey.keyS) {
+      _controller.sink.add(GameCommand.S);
+    } else if (event.logicalKey == LogicalKeyboardKey.keyL) {
+      _controller.sink.add(GameCommand.L);
+    } else if (event.logicalKey == LogicalKeyboardKey.keyZ) {
+      _controller.sink.add(GameCommand.Z);
     }
   }
 
   @override
-  Stream<GameCommand> get commandStream => _controller.stream;
+  Stream<GameCommand> get commandStream =>
+      _controller.stream.asBroadcastStream();
 
   // TODO: close streamController
 }
@@ -125,13 +137,6 @@ class TetrisGame extends FlameGame
     Set<LogicalKeyboardKey> keysPressed,
   ) {
     keyboardGameController?.onKeyEvent(event, keysPressed);
-    final isKeyUp = event is RawKeyUpEvent;
-    if (event.repeat || !isKeyUp) {
-      return super.onKeyEvent(event, keysPressed);
-    }
-    tetrisPage?.onKeyboardKey(
-      event,
-    );
     return super.onKeyEvent(event, keysPressed);
   }
 
