@@ -42,8 +42,9 @@ abstract class TetrisBaseBlock extends SpriteComponent
   double? _lastRotate;
   PolygonHitbox? hitBox;
   bool _isFreezed = false;
-
   World? world;
+  // if world == null, then we are in Contruction Mode
+  bool get isConstructionMode => world == null;
 
   factory TetrisBaseBlock.create(
     String blockType,
@@ -134,7 +135,7 @@ abstract class TetrisBaseBlock extends SpriteComponent
     if (y <= 75) {
       game.isGameRunning = false;
     }
-    if (world != null) {
+    if (!isConstructionMode) {
       Future.delayed(const Duration(milliseconds: 500), markAllQuadsAsFreezed);
     }
     Future.delayed(const Duration(milliseconds: 600), game.handleBlockFreezed);
@@ -156,7 +157,7 @@ abstract class TetrisBaseBlock extends SpriteComponent
 
   @override
   void render(Canvas canvas) {
-    if (!_isFreezed) {
+    if (!_isFreezed || isConstructionMode) {
       super.render(canvas);
     }
   }

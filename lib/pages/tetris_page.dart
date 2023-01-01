@@ -196,18 +196,20 @@ class TetrisConstructPage extends Component
     allBlocks?.forEach((element) => element.removeFromParent());
   }
 
+  @override
   void addBlock(String name) {
     _currentFallingBlock =
-        TetrisBaseBlock.create(name, defaultStartPosition, world!);
+        TetrisBaseBlock.create(name, defaultStartPosition, null);
     world?.add(_currentFallingBlock!);
   }
 
+  @override
   void handleBlockFreezed() {
 //    addRandomBlock();
   }
 
+  @override
   void addRandomBlock({Vector2? startPosition}) {
-    print('addRandomBlock');
     _currentFallingBlock =
         TetrisBaseBlock.random(
       startPosition ?? defaultStartPosition,
@@ -216,5 +218,6 @@ class TetrisConstructPage extends Component
     world?.add(_currentFallingBlock!);
   }
 
+  @override
   void updatePoints(double? freezedAtY) {}
 }
