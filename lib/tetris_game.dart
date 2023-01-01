@@ -27,6 +27,21 @@ abstract class TetrisPageInterface {
   );
 }
 
+enum GameCommand {
+  left,
+  right,
+  up,
+  down,
+  reset,
+  pause,
+  O,
+  L,
+  J,
+  S,
+  Z,
+  T,
+  I,
+}
 abstract class GameController {
   Stream<GameCommand> get commandStream;
 }

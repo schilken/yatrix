@@ -6,9 +6,9 @@ import 'package:flutter/rendering.dart';
 
 import 'background.dart';
 import '../game_assets.dart';
-import 'tetris_block.dart';
+import 'tetris_play_block.dart';
 
-typedef TetrisBlockTearOff = TetrisBlock Function({
+typedef TetrisBlockTearOff = TetrisBaseBlock Function({
   required Vector2 blockPosition,
   Vector2 velocity,
 });

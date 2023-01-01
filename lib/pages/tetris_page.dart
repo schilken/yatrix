@@ -8,8 +8,9 @@ import 'package:flutter/services.dart';
 
 import '../components/boundaries.dart';
 import '../components/buttons.dart';
+import '../components/game_controller_mixin.dart';
 import '../components/png_button.dart';
-import '../components/tetris_block.dart';
+import '../components/tetris_play_block.dart';
 import '../tetris_game.dart';
 
 class Debouncer {
@@ -28,7 +29,8 @@ class Debouncer {
 }
 
 class TetrisConstructPage extends Component
-    with HasGameRef<TetrisGame>
+    with
+        HasGameRef<TetrisGame> //, GameControllerMixin
     implements TetrisPageInterface {
   World? world;
   CameraComponent? cameraComponent;
@@ -37,7 +39,7 @@ class TetrisConstructPage extends Component
   Floor floor = Floor(size: Vector2(10, 10), position: Vector2(10, 10));
   Vector2 get visibleGameSize => viewfinder!.visibleGameSize!;
   JoystickComponent? _joystick;
-  TetrisBlock? _currentFallingBlock;
+  TetrisBaseBlock? _currentFallingBlock;
   Vector2 defaultStartPosition = Vector2(250, 70);
 
   late final RouterComponent router;
@@ -121,7 +123,7 @@ class TetrisConstructPage extends Component
     final size3x2quads = Vector2(3 * quadsize, 2 * quadsize);
     final size2x2quads = Vector2(2 * quadsize, 2 * quadsize);
     final size1x4quads = Vector2(4 * quadsize, quadsize);
-    final yOffset = size.y - 30 - quadSize;
+    final yOffset = size.y - 30 - quadsize;
 
     final knobPaint = BasicPalette.blue.withAlpha(200).paint();
     final backgroundPaint = BasicPalette.blue.withAlpha(100).paint();
@@ -182,7 +184,7 @@ class TetrisConstructPage extends Component
 
   void restart() {
     game.isGameRunning = false;
-    final allBlocks = world?.children.query<TetrisBlock>();
+    final allBlocks = world?.children.query<TetrisBaseBlock>();
     allBlocks?.forEach((element) => element.removeFromParent());
   }
 
@@ -235,7 +237,8 @@ class TetrisConstructPage extends Component
   }
 
   void addBlock(String name) {
-    _currentFallingBlock = TetrisBlock.create(name, defaultStartPosition);
+    _currentFallingBlock =
+        TetrisPlayBlock.create(name, defaultStartPosition, world!);
     world?.add(_currentFallingBlock!);
   }
 
@@ -246,7 +249,7 @@ class TetrisConstructPage extends Component
   void addRandomBlock({Vector2? startPosition}) {
     print('addRandomBlock');
     _currentFallingBlock =
-        TetrisBlock.random(startPosition ?? defaultStartPosition);
+        TetrisPlayBlock.random(startPosition ?? defaultStartPosition, world!);
     world?.add(_currentFallingBlock!);
   }
 }

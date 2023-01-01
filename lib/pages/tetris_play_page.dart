@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:sprintf/sprintf.dart';
 import '../components/boundaries.dart';
 import '../components/buttons.dart';
+import '../components/game_controller_mixin.dart';
 import '../game_assets.dart';
 import '../components/quadrat.dart';
 import '../components/svg_button.dart';
@@ -17,17 +18,9 @@ import '../tetris_game.dart';
 import '../tetris_matrix.dart';
 import '../components/tetris_play_block.dart';
 
-enum GameCommand {
-  left,
-  right,
-  up,
-  down,
-  reset,
-  pause,
-}
 
 class TetrisPlayPage extends Component
-    with HasGameRef<TetrisGame>
+    with HasGameRef<TetrisGame>, GameControllerMixin
     implements TetrisPageInterface {
   late final World world;
   late final CameraComponent cameraComponent;
@@ -35,16 +28,20 @@ class TetrisPlayPage extends Component
   late final Viewport viewport;
   Vector2 get visibleGameSize => viewfinder.visibleGameSize!;
 
-  TetrisPlayBlock? _currentFallingBlock;
   late final RouterComponent router;
 
   final defaultStartPosition = Vector2(250, 70);
   final xOffset = 50;
   TextComponent? _textComponent;
   int _freezedCounter = 0;
-  double? _droppedAtY;
   int _removedRows = 0;
   static const lowestY = 1125;
+
+  TetrisPlayBlock? _currentFallingBlock;
+  TetrisPlayBlock? get currentFallingBlock => _currentFallingBlock;
+
+  double? _droppedAtY;
+  set droppedAtY(double y) => _droppedAtY = y;
 
   @override
   Future<void> onLoad() async {
@@ -134,38 +131,52 @@ class TetrisPlayPage extends Component
     super.onGameResize(size);
   }
 
-  void initGameController() {
-    if (gameRef.keyboardGameController != null) {
-      gameRef.keyboardGameController!.commandStream.listen(handleGameCommand);
-    }
-  }
+  // void initGameController() {
+  //   if (gameRef.keyboardGameController != null) {
+  //     gameRef.keyboardGameController!.commandStream.listen(handleGameCommand);
+  //   }
+  // }
 
-  void handleGameCommand(GameCommand command) {
-    print('gameCommand: $command');
-    if (command == GameCommand.reset) {
-      reset();
-      return;
-    }
-    if (!game.isGameRunning) {
-      game.isGameRunning = true;
-      addRandomBlock();
-      updatePoints(null);
-      return;
-    }
-    if (_currentFallingBlock == null) {
-      return;
-    }
-    if (command == GameCommand.left) {
-      _currentFallingBlock!.moveXBy(-50);
-    } else if (command == GameCommand.right) {
-      _currentFallingBlock!.moveXBy(50);
-    } else if (command == GameCommand.up) {
-      _currentFallingBlock?.rotateBy(-pi / 2);
-    } else if (command == GameCommand.down) {
-      _currentFallingBlock?.setHighSpeed();
-      _droppedAtY = _currentFallingBlock?.y;
-    }
-  }
+  // void handleGameCommand(GameCommand command) {
+  //   print('gameCommand: $command');
+  //   if (command == GameCommand.reset) {
+  //     reset();
+  //     return;
+  //   }
+  //   if (!game.isGameRunning) {
+  //     game.isGameRunning = true;
+  //     addRandomBlock();
+  //     updatePoints(null);
+  //     return;
+  //   }
+  //   if (_currentFallingBlock == null) {
+  //     return;
+  //   }
+  //   if (command == GameCommand.left) {
+  //     _currentFallingBlock!.moveXBy(-50);
+  //   } else if (command == GameCommand.right) {
+  //     _currentFallingBlock!.moveXBy(50);
+  //   } else if (command == GameCommand.up) {
+  //     _currentFallingBlock?.rotateBy(-pi / 2);
+  //   } else if (command == GameCommand.down) {
+  //     _currentFallingBlock?.setHighSpeed();
+  //     _droppedAtY = _currentFallingBlock?.y;
+  //   } else if (command == GameCommand.O) {
+  //     addBlock('O');
+  //   } else if (command == GameCommand.J) {
+  //     addBlock('J');
+  //   } else if (command == GameCommand.I) {
+  //     addBlock('I');
+  //   } else if (command == GameCommand.T) {
+  //     addBlock('T');
+  //   } else if (command == GameCommand.S) {
+  //     addBlock('S');
+  //   } else if (command == GameCommand.L) {
+  //     addBlock('L');
+  //   } else if (command == GameCommand.Z) {
+  //     addBlock('Z');
+  //   }
+  // }
 
   void updatePoints(double? freezedAtY) {
     if (_droppedAtY != null && freezedAtY != null) {
@@ -213,53 +224,54 @@ class TetrisPlayPage extends Component
   void onKeyboardKey(
     RawKeyEvent event,
   ) {
-    if (_checkResetOrGameStart(event.logicalKey)) {
-      return;
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyO) {
-      _currentFallingBlock =
-          TetrisPlayBlock.create('O', defaultStartPosition, world);
-      world.add(_currentFallingBlock!);
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyJ) {
-      _currentFallingBlock =
-          TetrisPlayBlock.create('J', defaultStartPosition, world);
-      world.add(_currentFallingBlock!);
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyI) {
-      _currentFallingBlock =
-          TetrisPlayBlock.create('I', defaultStartPosition, world);
-      world.add(_currentFallingBlock!);
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyT) {
-      _currentFallingBlock =
-          TetrisPlayBlock.create('T', defaultStartPosition, world);
-      world.add(_currentFallingBlock!);
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyS) {
-      _currentFallingBlock =
-          TetrisPlayBlock.create('S', defaultStartPosition, world);
-      world.add(_currentFallingBlock!);
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyL) {
-      _currentFallingBlock =
-          TetrisPlayBlock.create('L', defaultStartPosition, world);
-      world.add(_currentFallingBlock!);
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyZ) {
-      _currentFallingBlock =
-          TetrisPlayBlock.create('Z', defaultStartPosition, world);
-      world.add(_currentFallingBlock!);
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyR) {
-      game.isGameRunning = true;
-      updatePoints(null);
-      addRandomBlock();
-    }
-    if (event.logicalKey == LogicalKeyboardKey.question) {
-      final matrix = creatBlockMatrix();
-      print(matrix);
-    }
+  }
+
+  // @override
+  // void onKeyboardKey(
+  //   RawKeyEvent event,
+  // ) {
+  //   if (_checkResetOrGameStart(event.logicalKey)) {
+  //     return;
+  //   }
+  //   if (event.logicalKey == LogicalKeyboardKey.keyO) {
+  //     addBlock('O');
+  //   }
+  //   if (event.logicalKey == LogicalKeyboardKey.keyJ) {
+  //     addBlock('J');
+  //   }
+  //   if (event.logicalKey == LogicalKeyboardKey.keyI) {
+  //     addBlock('I');
+  //   }
+  //   if (event.logicalKey == LogicalKeyboardKey.keyT) {
+  //     addBlock('T');
+  //   }
+  //   if (event.logicalKey == LogicalKeyboardKey.keyS) {
+  //     addBlock('S');
+  //   }
+  //   if (event.logicalKey == LogicalKeyboardKey.keyL) {
+  //     addBlock('L');
+  //   }
+  //   if (event.logicalKey == LogicalKeyboardKey.keyZ) {
+  //     addBlock('Z');
+  //   }
+  //   if (event.logicalKey == LogicalKeyboardKey.keyR) {
+  //     game.isGameRunning = true;
+  //     updatePoints(null);
+  //     addRandomBlock();
+  //   }
+  //   if (event.logicalKey == LogicalKeyboardKey.question) {
+  //     final matrix = creatBlockMatrix();
+  //     print(matrix);
+  //   }
+  // }
+
+  void addBlock(String name) {
+    _currentFallingBlock = TetrisPlayBlock.create(
+      name,
+      defaultStartPosition,
+      world,
+    );
+    world.add(_currentFallingBlock!);
   }
 
   void handleBlockFreezed() {

@@ -1,12 +1,12 @@
 import 'package:flame/components.dart';
 import 'package:test/test.dart';
-import 'package:tetris/components/tetris_block.dart';
+import 'package:tetris/components/tetris_play_block.dart';
 
 void main() {
-  group('TetrisI ', () {
+  group('TetrisPlayI ', () {
     test('calculates Y 553 modulo(floor) to 550 ', () {
       final startPosition = Vector2(5 * 100.0, 553);
-      final sut = TetrisI(blockPosition: startPosition);
+      final sut = TetrisPlayI(blockPosition: startPosition);
       sut.onLoad();
       sut.adjustY();
       expect(sut.y, 550);
@@ -14,7 +14,7 @@ void main() {
 
     test('calculates Y 925 modulo(floor) to 925 ', () {
       final startPosition = Vector2(25.0, 925.0);
-      final sut = TetrisI(blockPosition: startPosition);
+      final sut = TetrisPlayI(blockPosition: startPosition);
       sut.onLoad();
       sut.adjustY();
       expect(sut.y, 925);
@@ -22,7 +22,7 @@ void main() {
 
     test('containsLocalPoint', () {
       final startPosition = Vector2(25.0, 925.0);
-      final sut = TetrisI(blockPosition: startPosition);
+      final sut = TetrisPlayI(blockPosition: startPosition);
       sut.onLoad();
       sut.adjustY();
       final isFound = sut.containsLocalPoint(Vector2(25, 925));
@@ -31,7 +31,7 @@ void main() {
 
     test('hitbox containsLocalPoint 75/25', () {
       final startPosition = Vector2(25.0, 925.0);
-      final sut = TetrisI(blockPosition: startPosition);
+      final sut = TetrisPlayI(blockPosition: startPosition);
       sut.onLoad();
       sut.adjustY();
       final isFound = sut.hitBox!.containsLocalPoint(Vector2(75, 25));
@@ -40,7 +40,7 @@ void main() {
 
     test('hitbox containsLocalPoint 25/75', () {
       final startPosition = Vector2(25.0, 925.0);
-      final sut = TetrisI(blockPosition: startPosition);
+      final sut = TetrisPlayI(blockPosition: startPosition);
       sut.onLoad();
       sut.adjustY();
       final isFound = sut.hitBox!.containsLocalPoint(Vector2(75, 25));
@@ -49,7 +49,7 @@ void main() {
 
     test('hitbox containsLocalPoint 125/75', () {
       final startPosition = Vector2(25.0, 925.0);
-      final sut = TetrisI(blockPosition: startPosition);
+      final sut = TetrisPlayI(blockPosition: startPosition);
       sut.onLoad();
       sut.adjustY();
       final isFound = sut.hitBox!.containsLocalPoint(Vector2(125, 25));
@@ -58,7 +58,7 @@ void main() {
 
     test('hitbox containsLocalPoint 175/75', () {
       final startPosition = Vector2(25.0, 925.0);
-      final sut = TetrisI(blockPosition: startPosition);
+      final sut = TetrisPlayI(blockPosition: startPosition);
       sut.onLoad();
       sut.adjustY();
       final isFound = sut.hitBox!.containsLocalPoint(Vector2(175, 25));
@@ -67,7 +67,7 @@ void main() {
 
     test('hitbox containsLocalPoint -5/25 is false', () {
       final startPosition = Vector2(25.0, 925.0);
-      final sut = TetrisI(blockPosition: startPosition);
+      final sut = TetrisPlayI(blockPosition: startPosition);
       sut.onLoad();
       sut.adjustY();
       final isFound = sut.hitBox!.containsLocalPoint(Vector2(-5, 25));
@@ -76,7 +76,7 @@ void main() {
 
     test('hitbox containsLocalPoint 205/25 is false', () {
       final startPosition = Vector2(25.0, 925.0);
-      final sut = TetrisI(blockPosition: startPosition);
+      final sut = TetrisPlayI(blockPosition: startPosition);
       sut.onLoad();
       sut.adjustY();
       final isFound = sut.hitBox!.containsLocalPoint(Vector2(205, 25));
@@ -85,7 +85,7 @@ void main() {
 
     test('hitbox containsLocalPoint 0/25 is false', () {
       final startPosition = Vector2(25.0, 925.0);
-      final sut = TetrisI(blockPosition: startPosition);
+      final sut = TetrisPlayI(blockPosition: startPosition);
       sut.onLoad();
       sut.adjustY();
       final isFound = sut.hitBox!.containsLocalPoint(Vector2(-1, 25));
@@ -94,7 +94,7 @@ void main() {
 
     test('hitbox containsLocalPoint 200/25 is false', () {
       final startPosition = Vector2(25.0, 925.0);
-      final sut = TetrisI(blockPosition: startPosition);
+      final sut = TetrisPlayI(blockPosition: startPosition);
       sut.onLoad();
       sut.adjustY();
       final isFound = sut.hitBox!.containsLocalPoint(Vector2(195, 25));
