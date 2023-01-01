@@ -2,8 +2,6 @@ import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
-import 'package:flame_svg/svg.dart';
-import 'package:flutter/rendering.dart';
 import 'package:tetris/game_assets.dart';
 
 class PngButton extends PositionComponent with HasPaint, TapCallbacks {
@@ -43,10 +41,10 @@ class PngButton extends PositionComponent with HasPaint, TapCallbacks {
 
   @override
   void render(Canvas canvas) {
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(size.toRect(), const Radius.circular(8)),
-      _borderPaint,
-    );
+    // canvas.drawRRect(
+    //   RRect.fromRectAndRadius(size.toRect(), const Radius.circular(8)),
+    //   _borderPaint,
+    // );
     canvas.drawImageRect(_image, originalSize.toRect(), size.toRect(), paint);
   }
 
