@@ -17,7 +17,6 @@ const quadPadding = 5.0;
 typedef TetrisBaseBlockTearOff = TetrisBaseBlock Function({
   required Vector2 blockPosition,
   World? world,
-  Vector2 velocity,
 });
 
 abstract class TetrisBaseBlock extends SpriteComponent
@@ -25,8 +24,7 @@ abstract class TetrisBaseBlock extends SpriteComponent
   TetrisBaseBlock({
     required this.blockPosition,
     this.world,
-    Vector2? velocity,
-  }) : _velocity = velocity ?? Vector2(0, 100);
+  }) : _velocity = Vector2(0, 100);
 
   Vector2 _velocity;
   Vector2 blockPosition;
@@ -235,7 +233,6 @@ class TetrisPlayI extends TetrisBaseBlock {
   TetrisPlayI({
     required super.blockPosition,
     super.world,
-    super.velocity,
   });
   @override
   Vector2 get blockSize => Vector2(4 * quadSize, quadSize);
@@ -260,7 +257,6 @@ class TetrisPlayO extends TetrisBaseBlock {
   TetrisPlayO({
     required super.blockPosition,
     super.world,
-    super.velocity,
   });
   @override
   Vector2 get blockSize => Vector2(2 * quadSize, 2 * quadSize);
@@ -286,7 +282,6 @@ class TetrisPlayJ extends TetrisBaseBlock {
   TetrisPlayJ({
     required super.blockPosition,
     super.world,
-    super.velocity,
   });
   @override
   Vector2 get blockSize => Vector2(3 * quadSize, 2 * quadSize);
@@ -311,7 +306,6 @@ class TetrisPlayL extends TetrisBaseBlock {
   TetrisPlayL({
     required super.blockPosition,
     super.world,
-    super.velocity,
   });
 
   @override
@@ -337,7 +331,6 @@ class TetrisPlayT extends TetrisBaseBlock {
   TetrisPlayT({
     required super.blockPosition,
     super.world,
-    super.velocity,
   });
   @override
   Vector2 get blockSize => Vector2(3 * quadSize, 2 * quadSize);
@@ -362,7 +355,6 @@ class TetrisPlayS extends TetrisBaseBlock {
   TetrisPlayS({
     required super.blockPosition,
     super.world,
-    super.velocity,
   });
   @override
   Vector2 get blockSize => Vector2(3 * quadSize, 2 * quadSize);
@@ -387,7 +379,6 @@ class TetrisPlayZ extends TetrisBaseBlock {
   TetrisPlayZ({
     required super.blockPosition,
     super.world,
-    super.velocity,
   });
   @override
   Vector2 get blockSize => Vector2(3 * quadSize, 2 * quadSize);
