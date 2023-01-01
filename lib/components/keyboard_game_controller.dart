@@ -27,7 +27,7 @@ abstract class GameController {
 }
 
 class KeyboardGameController implements GameController {
-  final _controller = StreamController<GameCommand>();
+  final _controller = StreamController<GameCommand>.broadcast();
 
   void onKeyEvent(
     RawKeyEvent event,
@@ -66,7 +66,7 @@ class KeyboardGameController implements GameController {
 
   @override
   Stream<GameCommand> get commandStream =>
-      _controller.stream.asBroadcastStream();
+      _controller.stream;
 
   // TODO: close streamController
 }
