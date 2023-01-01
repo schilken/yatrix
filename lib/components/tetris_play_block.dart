@@ -38,10 +38,9 @@ abstract class TetrisBaseBlock extends SpriteComponent
   String get name;
   double? _lastDeltaX;
   double? _lastRotate;
-  PolygonHitbox? hitBox;
   bool _isFreezed = false;
   World? world;
-  // if world == null, then we are in Contruction Mode
+  // if world == null, then we are in Construction Mode
   bool get isConstructionMode => world == null;
 
   factory TetrisBaseBlock.create(

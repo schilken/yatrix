@@ -106,7 +106,7 @@ class TetrisConstructPage extends Component
     final ratio = size.x / size.y;
     const gameSizeY = 1225.0;
     final gameSizeX = gameSizeY * ratio;
-    print('onGameResize  size: $size  $gameSizeX,gameSizeY');
+//    print('onGameResize  size: $size  $gameSizeX,gameSizeY');
     viewfinder!.position = Vector2(gameSizeX / 2, 0);
     viewfinder!.visibleGameSize = Vector2(gameSizeX, gameSizeY);
     floor.removeFromParent();
@@ -181,7 +181,7 @@ class TetrisConstructPage extends Component
       PngButton(
         name: 'tet-I',
         position: Vector2(20 + 5 * size3x2quads.x + size2x2quads.x + 6 * 10,
-            yOffset + quadsize),
+            yOffset),
         size: size1x4quads,
         onTap: () => addBlock('I'),
       ),
