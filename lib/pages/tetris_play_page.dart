@@ -11,6 +11,7 @@ import 'package:sprintf/sprintf.dart';
 import '../components/boundaries.dart';
 import '../components/buttons.dart';
 import '../components/game_controller_mixin.dart';
+import '../components/keyboard_game_controller.dart';
 import '../game_assets.dart';
 import '../components/quadrat.dart';
 import '../components/svg_button.dart';
