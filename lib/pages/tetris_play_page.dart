@@ -196,7 +196,7 @@ class TetrisPlayPage extends Component
 
   void reset() {
     game.isGameRunning = false;
-    final allBlocks = world.children.query<TetrisPlayBlock>();
+    final allBlocks = world.children.query<TetrisBaseBlock>();
     allBlocks.forEach((element) => element.removeFromParent());
     final allQuads = world.children.query<Quadrat>();
     allQuads.forEach((element) => element.removeFromParent());
@@ -267,7 +267,7 @@ class TetrisPlayPage extends Component
   // }
 
   void addBlock(String name) {
-    _currentFallingBlock = TetrisPlayBlock.create(
+    _currentFallingBlock = TetrisBaseBlock.create(
       name,
       defaultStartPosition,
       world,
@@ -345,7 +345,7 @@ class TetrisPlayPage extends Component
   void addRandomBlock({Vector2? startPosition}) {
 //    print('addRandomBlock');
     _currentFallingBlock =
-        TetrisPlayBlock.random(startPosition ?? defaultStartPosition, world);
+        TetrisBaseBlock.random(startPosition ?? defaultStartPosition, world);
     world.add(_currentFallingBlock!);
   }
 

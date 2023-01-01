@@ -14,24 +14,43 @@ import 'quadrat.dart';
 const quadSize = 50.0;
 const quadPadding = 5.0;
 
-typedef TetrisPlayBlockTearOff = TetrisPlayBlock Function({
+typedef TetrisBaseBlockTearOff = TetrisBaseBlock Function({
   required Vector2 blockPosition,
-  required World world,
+  World? world,
   Vector2 velocity,
 });
 
-abstract class TetrisPlayBlock extends TetrisBaseBlock {
-  TetrisPlayBlock(
-      {required super.blockPosition, required this.world, Vector2? velocity});
+abstract class TetrisBaseBlock extends SpriteComponent
+    with CollisionCallbacks, HasGameRef<TetrisGame> {
+  TetrisBaseBlock({
+    required this.blockPosition,
+    this.world,
+    Vector2? velocity,
+  }) : _velocity = velocity ?? Vector2(0, 100);
 
-  World world;
+  Vector2 _velocity;
+  Vector2 blockPosition;
 
-  factory TetrisPlayBlock.create(
+  static final Random _random = Random();
+  Vector2 get blockSize;
+  Anchor get blockAnchor;
+  List<Vector2> get quadPositions;
+  double get xOffset;
+  double get yOffset;
+  String get name;
+  double? _lastDeltaX;
+  double? _lastRotate;
+  PolygonHitbox? hitBox;
+  bool _isFreezed = false;
+
+  World? world;
+
+  factory TetrisBaseBlock.create(
     String blockType,
     Vector2 blockPosition,
-    World world,
+    World? world,
   ) {
-    TetrisPlayBlockTearOff constructorTearOff = TetrisPlayI.new;
+    TetrisBaseBlockTearOff constructorTearOff = TetrisPlayI.new;
     switch (blockType) {
       case 'I':
         constructorTearOff = TetrisPlayI.new;
@@ -61,7 +80,7 @@ abstract class TetrisPlayBlock extends TetrisBaseBlock {
     );
   }
 
-  factory TetrisPlayBlock.random(Vector2 blockPosition, World world) {
+  factory TetrisBaseBlock.random(Vector2 blockPosition, World? world) {
     final blockTypes = [
       'I',
       'O',
@@ -73,7 +92,7 @@ abstract class TetrisPlayBlock extends TetrisBaseBlock {
     ];
     final newBlockType =
         blockTypes[TetrisBaseBlock._random.nextInt(blockTypes.length)];
-    return TetrisPlayBlock.create(newBlockType, blockPosition, world);
+    return TetrisBaseBlock.create(newBlockType, blockPosition, world);
   }
 
   @override
@@ -115,7 +134,9 @@ abstract class TetrisPlayBlock extends TetrisBaseBlock {
     if (y <= 75) {
       game.isGameRunning = false;
     }
-    Future.delayed(const Duration(milliseconds: 500), markAllQuadsAsFreezed);
+    if (world != null) {
+      Future.delayed(const Duration(milliseconds: 500), markAllQuadsAsFreezed);
+    }
     Future.delayed(const Duration(milliseconds: 600), game.handleBlockFreezed);
   }
 
@@ -123,7 +144,7 @@ abstract class TetrisPlayBlock extends TetrisBaseBlock {
     final quads = children.query<Quadrat>();
     for (final quad in quads) {
       final absolutePosition = quad.absolutePosition;
-      quad.changeParent(world);
+      quad.changeParent(world!);
       // print(
       //     'Helpers.rotCorrection(quad.absoluteAngle): ${Helpers.rotCorrection(quad.absoluteAngle)}');
       quad.position =
@@ -139,29 +160,6 @@ abstract class TetrisPlayBlock extends TetrisBaseBlock {
       super.render(canvas);
     }
   }
-}
-
-abstract class TetrisBaseBlock extends SpriteComponent
-    with CollisionCallbacks, HasGameRef<TetrisGame> {
-  TetrisBaseBlock({
-    required this.blockPosition,
-    Vector2? velocity,
-  }) : _velocity = velocity ?? Vector2(0, 100);
-
-  Vector2 _velocity;
-  Vector2 blockPosition;
-
-  static final Random _random = Random();
-  Vector2 get blockSize;
-  Anchor get blockAnchor;
-  List<Vector2> get quadPositions;
-  double get xOffset;
-  double get yOffset;
-  String get name;
-  double? _lastDeltaX;
-  double? _lastRotate;
-  PolygonHitbox? hitBox;
-  bool _isFreezed = false;
 
   @override
   Future<void> onLoad() async {
@@ -232,10 +230,10 @@ abstract class TetrisBaseBlock extends SpriteComponent
   }
 }
 
-class TetrisPlayI extends TetrisPlayBlock {
+class TetrisPlayI extends TetrisBaseBlock {
   TetrisPlayI({
     required super.blockPosition,
-    required super.world,
+    super.world,
     super.velocity,
   });
   @override
@@ -257,10 +255,10 @@ class TetrisPlayI extends TetrisPlayBlock {
       ];
 }
 
-class TetrisPlayO extends TetrisPlayBlock {
+class TetrisPlayO extends TetrisBaseBlock {
   TetrisPlayO({
     required super.blockPosition,
-    required super.world,
+    super.world,
     super.velocity,
   });
   @override
@@ -283,10 +281,10 @@ class TetrisPlayO extends TetrisPlayBlock {
       ];
 }
 
-class TetrisPlayJ extends TetrisPlayBlock {
+class TetrisPlayJ extends TetrisBaseBlock {
   TetrisPlayJ({
     required super.blockPosition,
-    required super.world,
+    super.world,
     super.velocity,
   });
   @override
@@ -308,10 +306,10 @@ class TetrisPlayJ extends TetrisPlayBlock {
       ];
 }
 
-class TetrisPlayL extends TetrisPlayBlock {
+class TetrisPlayL extends TetrisBaseBlock {
   TetrisPlayL({
     required super.blockPosition,
-    required super.world,
+    super.world,
     super.velocity,
   });
 
@@ -334,10 +332,10 @@ class TetrisPlayL extends TetrisPlayBlock {
       ];
 }
 
-class TetrisPlayT extends TetrisPlayBlock {
+class TetrisPlayT extends TetrisBaseBlock {
   TetrisPlayT({
     required super.blockPosition,
-    required super.world,
+    super.world,
     super.velocity,
   });
   @override
@@ -359,10 +357,10 @@ class TetrisPlayT extends TetrisPlayBlock {
       ];
 }
 
-class TetrisPlayS extends TetrisPlayBlock {
+class TetrisPlayS extends TetrisBaseBlock {
   TetrisPlayS({
     required super.blockPosition,
-    required super.world,
+    super.world,
     super.velocity,
   });
   @override
@@ -384,10 +382,10 @@ class TetrisPlayS extends TetrisPlayBlock {
       ];
 }
 
-class TetrisPlayZ extends TetrisPlayBlock {
+class TetrisPlayZ extends TetrisBaseBlock {
   TetrisPlayZ({
     required super.blockPosition,
-    required super.world,
+    super.world,
     super.velocity,
   });
   @override

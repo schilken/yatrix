@@ -198,7 +198,7 @@ class TetrisConstructPage extends Component
 
   void addBlock(String name) {
     _currentFallingBlock =
-        TetrisPlayBlock.create(name, defaultStartPosition, world!);
+        TetrisBaseBlock.create(name, defaultStartPosition, world!);
     world?.add(_currentFallingBlock!);
   }
 
@@ -209,7 +209,10 @@ class TetrisConstructPage extends Component
   void addRandomBlock({Vector2? startPosition}) {
     print('addRandomBlock');
     _currentFallingBlock =
-        TetrisPlayBlock.random(startPosition ?? defaultStartPosition, world!);
+        TetrisBaseBlock.random(
+      startPosition ?? defaultStartPosition,
+      null,
+    );
     world?.add(_currentFallingBlock!);
   }
 
