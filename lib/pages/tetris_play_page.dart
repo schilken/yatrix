@@ -188,6 +188,17 @@ class TetrisPlayPage extends Component
     _currentFallingBlock = null;
   }
 
+@override
+  bool startGameIfNotRunning() {
+    if (!game.isGameRunning) {
+      game.isGameRunning = true;
+      addRandomBlock();
+      updatePoints(null);
+      return true;
+    }
+    return false;
+  }
+
   bool _checkResetOrGameStart(LogicalKeyboardKey logicalKey) {
     if (logicalKey == LogicalKeyboardKey.escape) {
       reset();

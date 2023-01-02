@@ -6,8 +6,8 @@ import 'keyboard_game_controller.dart';
 
 mixin GameControllerMixin {
   TetrisBaseBlock? get currentFallingBlock;
-  TetrisGame get game;
   void reset();
+  bool startGameIfNotRunning();
   void addRandomBlock();
   void updatePoints(double? freezedAtY);
   void addBlock(String name);
@@ -25,10 +25,7 @@ mixin GameControllerMixin {
       reset();
       return;
     }
-    if (!game.isGameRunning) {
-      game.isGameRunning = true;
-      addRandomBlock();
-      updatePoints(null);
+    if (startGameIfNotRunning()) {
       return;
     }
     if (currentFallingBlock == null) {

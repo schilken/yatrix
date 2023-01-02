@@ -196,6 +196,11 @@ class TetrisConstructPage extends Component
     allBlocks?.forEach((element) => element.removeFromParent());
   }
 
+@override
+  bool startGameIfNotRunning() {
+    return false;
+  }
+
   @override
   void addBlock(String name) {
     _currentFallingBlock =
