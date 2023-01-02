@@ -70,7 +70,7 @@ class GameOverPage extends Component with TapCallbacks, HasGameRef<TetrisGame> {
         color: const Color(0xffdebe6c),
         borderColor: const Color(0xfffff4c7),
         size: Vector2(220, 40),
-      )..position = game.canvasSize / 2 + Vector2(0, 70 + 70),
+      )..position = game.canvasSize / 2 + Vector2(0, 70 + 70 + 30),
     ]);
   }
 
