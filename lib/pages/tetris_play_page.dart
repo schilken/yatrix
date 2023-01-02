@@ -74,10 +74,10 @@ class TetrisPlayPage extends Component
   @override
   void onGameResize(Vector2 size) {
 //    print('TetrisPlayPage.size: ${size}');
-    final rightButtonX = size.x - 35;
-    const leftButtonX = 0.0;
+    const buttonGapX = 10.0;
+    const leftButtonX = buttonGapX;
+    final rightButtonX = size.x - 35 - buttonGapX;
     final buttonSize = Vector2.all(35);
-    final buttonGapX = 10;
     final allsvgButtons = children.query<SvgButton>();
     allsvgButtons.forEach((button) => button.removeFromParent());
     _textComponent?.removeFromParent();
@@ -147,12 +147,12 @@ class TetrisPlayPage extends Component
     ]);
     if (fourButtons == null) {
       fourButtons ??= FourButtonsGameController(
-//      position: Vector2(size.x - 2 * 35, size.y - 2 * 35),
       buttonSize: Vector2.all(35),
     );
       add(fourButtons!);
     }
-    fourButtons?.position = Vector2(size.x - 2 * 35, size.y - 2 * 35);
+    fourButtons?.position =
+        Vector2(size.x - 2 * 35 - buttonGapX, size.y - 2 * 35 - buttonGapX);
     super.onGameResize(size);
   }
 
