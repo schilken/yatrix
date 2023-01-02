@@ -30,24 +30,28 @@ class StartPage extends Component with HasGameRef<TetrisGame> {
         action: () => gameRef.router.pushNamed('play'),
         color: const Color(0xffadde6c),
         borderColor: const Color(0xfffff4c7),
+        size: Vector2(150, 40),
       ),
       _constructButton = RoundedButton(
         text: 'Construct',
         action: () => gameRef.router.pushNamed('construct'),
         color: const Color(0xffdebe6c),
         borderColor: const Color(0xffedffab),
+        size: Vector2(150, 40),
       ),
       _settingsButton = RoundedButton(
         text: 'Settings',
         action: () => gameRef.router.pushNamed('settings'),
         color: const Color(0xffdebe6c),
         borderColor: const Color(0xfffff4c7),
+        size: Vector2(150, 40),
       ),
       _highScoreButton = RoundedButton(
         text: 'High Score',
         action: () => gameRef.router.pushNamed('highScore'),
         color: const Color(0xffdebe6c),
         borderColor: const Color(0xfffff4c7),
+        size: Vector2(150, 40),
       ),
       // _helpButton = RoundedButton(
       //   text: 'Help',

@@ -1,9 +1,13 @@
+import 'dart:ui';
+
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame/rendering.dart';
 import 'package:tetris/tetris_game.dart';
+
+import '../components/rounded_button.dart';
 
 class GameOverRoute extends Route {
   GameOverRoute()
@@ -60,6 +64,13 @@ class GameOverPage extends Component with TapCallbacks, HasGameRef<TetrisGame> {
         position: game.canvasSize / 2 + Vector2(0, 70),
         anchor: Anchor.center,
       ),
+      RoundedButton(
+        text: 'Add to High Score',
+        action: () => gameRef.router.pushNamed('highScore'),
+        color: const Color(0xffdebe6c),
+        borderColor: const Color(0xfffff4c7),
+        size: Vector2(220, 40),
+      )..position = game.canvasSize / 2 + Vector2(0, 70 + 70),
     ]);
   }
 
