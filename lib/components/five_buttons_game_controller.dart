@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
@@ -6,9 +7,9 @@ import 'package:flutter/services.dart';
 import 'keyboard_game_controller.dart';
 import 'svg_button.dart';
 
-class FourButtonsGameController extends PositionComponent
+class FiveButtonsGameController extends PositionComponent
     implements GameController {
-  FourButtonsGameController({
+  FiveButtonsGameController({
     super.position,
     required this.buttonSize,
   });
