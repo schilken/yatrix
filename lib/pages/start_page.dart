@@ -10,7 +10,7 @@ class StartPage extends Component with HasGameRef<TetrisGame> {
   late final RoundedButton _constructButton;
   late final RoundedButton _settingsButton;
   late final RoundedButton _highScoreButton;
-  late final RoundedButton _helpButton;
+//  late final RoundedButton _helpButton;
 
   StartPage() {
     addAll([
@@ -49,12 +49,12 @@ class StartPage extends Component with HasGameRef<TetrisGame> {
         color: const Color(0xffdebe6c),
         borderColor: const Color(0xfffff4c7),
       ),
-      _helpButton = RoundedButton(
-        text: 'Help',
-        action: () => gameRef.router.pushNamed('help'),
-        color: const Color(0xffdebe6c),
-        borderColor: const Color(0xfffff4c7),
-      ),
+      // _helpButton = RoundedButton(
+      //   text: 'Help',
+      //   action: () => gameRef.router.pushNamed('help'),
+      //   color: const Color(0xffdebe6c),
+      //   borderColor: const Color(0xfffff4c7),
+      // ),
     ]);
   }
 
@@ -66,6 +66,6 @@ class StartPage extends Component with HasGameRef<TetrisGame> {
     _constructButton.position = Vector2(size.x / 2, _logo.y + 140);
     _highScoreButton.position = Vector2(size.x / 2, _logo.y + 200);
     _settingsButton.position = Vector2(size.x / 2, _logo.y + 260);
-    _helpButton.position = Vector2(size.x / 2, _logo.y + 320);
+//    _helpButton.position = Vector2(size.x / 2, _logo.y + 320);
   }
 }
