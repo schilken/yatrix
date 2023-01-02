@@ -148,7 +148,8 @@ class TetrisPlayPage extends Component
       );
       add(threeButtons!);
     }
-    threeButtons?.position = Vector2(size.x - 2 * 35 - buttonGapX, buttonGapX);
+    threeButtons?.position =
+        Vector2(size.x - 2 * 35 - 2 * buttonGapX, buttonGapX);
     super.onGameResize(size);
   }
 
