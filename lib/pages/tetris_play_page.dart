@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:sprintf/sprintf.dart';
 import '../components/boundaries.dart';
 import '../components/buttons.dart';
-import '../components/four_buttons_game_controller.dart';
+import '../components/five_buttons_game_controller.dart';
 import '../components/game_controller_mixin.dart';
 import '../components/keyboard_game_controller.dart';
 import '../game_assets.dart';
@@ -39,7 +39,7 @@ class TetrisPlayPage extends Component
   int _removedRows = 0;
   static const lowestY = 1125;
 
-  FourButtonsGameController? fourButtons;
+  FiveButtonsGameController? fourButtons;
 
   TetrisBaseBlock? _currentFallingBlock;
   TetrisBaseBlock? get currentFallingBlock => _currentFallingBlock;
@@ -146,7 +146,7 @@ class TetrisPlayPage extends Component
       _textComponent!,
     ]);
     if (fourButtons == null) {
-      fourButtons ??= FourButtonsGameController(
+      fourButtons ??= FiveButtonsGameController(
       buttonSize: Vector2.all(35),
     );
       add(fourButtons!);
