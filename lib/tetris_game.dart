@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
 import 'package:flame/input.dart';
-import 'package:flutter/material.dart' show TextStyle, Colors, KeyEventResult;
+import 'package:flutter/material.dart'
+    show TextStyle, Colors, KeyEventResult, TextField, Center, Material;
 import 'package:flutter/services.dart';
+import 'package:flutter/src/widgets/basic.dart';
 
 import 'package:tetris/pages/splash_screen.dart';
 
@@ -18,6 +20,7 @@ import 'pages/tetris_page.dart';
 import 'pages/pause_route.dart';
 import 'pages/start_page.dart';
 import 'pages/tetris_play_page.dart';
+import 'pages/username_dialog.dart';
 
 const TextStyle _textStyle = TextStyle(color: Colors.black, fontSize: 2);
 
@@ -56,10 +59,15 @@ class TetrisGame extends FlameGame
             return tetrisConstructPage;
           }),
           'settings': Route(SettingsPage.new),
-          'highScore': Route(HighScorePage.new),
+//          'highScore': Route(HighScorePage.new),
           'help': Route(HelpPage.new),
           'pause': PauseRoute(),
           'gameOver': GameOverRoute(),
+          'highScore': OverlayRoute(
+            (context, game) {
+              return UsernameDialog(game: this);
+            },
+          ),  
         },
         initialRoute: 'splash',
       ),
