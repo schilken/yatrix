@@ -161,10 +161,12 @@ class TetrisPlayPage extends Component
     }
     _freezedCounter++;
     final pointString = sprintf(
-      '[YaTetris] %05i rows:%02i',
+      '[YaTetris] %06i rows:%03i',
       [_freezedCounter + _removedRows * 100, _removedRows],
     );
     _textComponent?.text = pointString;
+    game.score = sprintf('Points: %06i\nRows:%03i',
+        [_freezedCounter + _removedRows * 100, _removedRows]);
 //    print(pointString);
   }
 

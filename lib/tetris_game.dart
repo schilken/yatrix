@@ -34,6 +34,7 @@ class TetrisGame extends FlameGame
   late final RouterComponent router;
   TetrisPageInterface? tetrisPage;
   KeyboardGameController? keyboardGameController;
+  String score = '';
 
   @override
   Future<void> onLoad() async {

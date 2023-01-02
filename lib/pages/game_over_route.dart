@@ -6,7 +6,12 @@ import 'package:flame/rendering.dart';
 import 'package:tetris/tetris_game.dart';
 
 class GameOverRoute extends Route {
-  GameOverRoute() : super(GameOverPage.new, transparent: true);
+  GameOverRoute()
+      : super(
+          GameOverPage.new,
+          transparent: true,
+          maintainState: false,
+        );
 
   @override
   void onPush(Route? previousRoute) {
@@ -26,9 +31,14 @@ class GameOverRoute extends Route {
 }
 
 class GameOverPage extends Component with TapCallbacks, HasGameRef<TetrisGame> {
+
+  GameOverPage() {
+    print('GameOverPage.constructor');
+  }
+
   @override
   Future<void> onLoad() async {
-    final game = findGame()!;
+    print('GameOverPage.onLoad');
     addAll([
       TextComponent(
         text: 'GAME OVER!',
@@ -45,6 +55,11 @@ class GameOverPage extends Component with TapCallbacks, HasGameRef<TetrisGame> {
           )
         ],
       ),
+      TextComponent(
+        text: game.score,
+        position: game.canvasSize / 2 + Vector2(0, 70),
+        anchor: Anchor.center,
+      ),
     ]);
   }
 
@@ -52,5 +67,5 @@ class GameOverPage extends Component with TapCallbacks, HasGameRef<TetrisGame> {
   bool containsLocalPoint(Vector2 point) => true;
 
   @override
-  void onTapUp(TapUpEvent event) => gameRef.router.pop();
+  void onTapUp(TapUpEvent event) => game.router.pop();
 }
