@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
@@ -8,17 +8,17 @@ import 'package:flame/palette.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:sprintf/sprintf.dart';
+
 import '../components/boundaries.dart';
 import '../components/buttons.dart';
 import '../components/five_buttons_game_controller.dart';
 import '../components/game_controller_mixin.dart';
 import '../components/keyboard_game_controller.dart';
-import '../game_assets.dart';
 import '../components/quadrat.dart';
 import '../components/svg_button.dart';
+import '../components/tetris_play_block.dart';
 import '../tetris_game.dart';
 import '../tetris_matrix.dart';
-import '../components/tetris_play_block.dart';
 
 
 class TetrisPlayPage extends Component
@@ -42,9 +42,11 @@ class TetrisPlayPage extends Component
   FiveButtonsGameController? fourButtons;
 
   TetrisBaseBlock? _currentFallingBlock;
+  @override
   TetrisBaseBlock? get currentFallingBlock => _currentFallingBlock;
 
   double? _droppedAtY;
+  @override
   set droppedAtY(double y) => _droppedAtY = y;
 
   @override
@@ -156,53 +158,7 @@ class TetrisPlayPage extends Component
     super.onGameResize(size);
   }
 
-  // void initGameController() {
-  //   if (gameRef.keyboardGameController != null) {
-  //     gameRef.keyboardGameController!.commandStream.listen(handleGameCommand);
-  //   }
-  // }
-
-  // void handleGameCommand(GameCommand command) {
-  //   print('gameCommand: $command');
-  //   if (command == GameCommand.reset) {
-  //     reset();
-  //     return;
-  //   }
-  //   if (!game.isGameRunning) {
-  //     game.isGameRunning = true;
-  //     addRandomBlock();
-  //     updatePoints(null);
-  //     return;
-  //   }
-  //   if (_currentFallingBlock == null) {
-  //     return;
-  //   }
-  //   if (command == GameCommand.left) {
-  //     _currentFallingBlock!.moveXBy(-50);
-  //   } else if (command == GameCommand.right) {
-  //     _currentFallingBlock!.moveXBy(50);
-  //   } else if (command == GameCommand.up) {
-  //     _currentFallingBlock?.rotateBy(-pi / 2);
-  //   } else if (command == GameCommand.down) {
-  //     _currentFallingBlock?.setHighSpeed();
-  //     _droppedAtY = _currentFallingBlock?.y;
-  //   } else if (command == GameCommand.O) {
-  //     addBlock('O');
-  //   } else if (command == GameCommand.J) {
-  //     addBlock('J');
-  //   } else if (command == GameCommand.I) {
-  //     addBlock('I');
-  //   } else if (command == GameCommand.T) {
-  //     addBlock('T');
-  //   } else if (command == GameCommand.S) {
-  //     addBlock('S');
-  //   } else if (command == GameCommand.L) {
-  //     addBlock('L');
-  //   } else if (command == GameCommand.Z) {
-  //     addBlock('Z');
-  //   }
-  // }
-
+  @override
   void updatePoints(double? freezedAtY) {
     if (_droppedAtY != null && freezedAtY != null) {
       final deltaY = (freezedAtY - _droppedAtY!) / 25;
@@ -218,6 +174,7 @@ class TetrisPlayPage extends Component
 //    print(pointString);
   }
 
+  @override
   void reset() {
     game.isGameRunning = false;
     final allBlocks = world.children.query<TetrisBaseBlock>();
@@ -246,50 +203,6 @@ class TetrisPlayPage extends Component
   }
 
   @override
-  void onKeyboardKey(
-    RawKeyEvent event,
-  ) {
-  }
-
-  // @override
-  // void onKeyboardKey(
-  //   RawKeyEvent event,
-  // ) {
-  //   if (_checkResetOrGameStart(event.logicalKey)) {
-  //     return;
-  //   }
-  //   if (event.logicalKey == LogicalKeyboardKey.keyO) {
-  //     addBlock('O');
-  //   }
-  //   if (event.logicalKey == LogicalKeyboardKey.keyJ) {
-  //     addBlock('J');
-  //   }
-  //   if (event.logicalKey == LogicalKeyboardKey.keyI) {
-  //     addBlock('I');
-  //   }
-  //   if (event.logicalKey == LogicalKeyboardKey.keyT) {
-  //     addBlock('T');
-  //   }
-  //   if (event.logicalKey == LogicalKeyboardKey.keyS) {
-  //     addBlock('S');
-  //   }
-  //   if (event.logicalKey == LogicalKeyboardKey.keyL) {
-  //     addBlock('L');
-  //   }
-  //   if (event.logicalKey == LogicalKeyboardKey.keyZ) {
-  //     addBlock('Z');
-  //   }
-  //   if (event.logicalKey == LogicalKeyboardKey.keyR) {
-  //     game.isGameRunning = true;
-  //     updatePoints(null);
-  //     addRandomBlock();
-  //   }
-  //   if (event.logicalKey == LogicalKeyboardKey.question) {
-  //     final matrix = creatBlockMatrix();
-  //     print(matrix);
-  //   }
-  // }
-
   void addBlock(String name) {
     _currentFallingBlock = TetrisBaseBlock.create(
       name,
@@ -299,6 +212,7 @@ class TetrisPlayPage extends Component
     world.add(_currentFallingBlock!);
   }
 
+  @override
   void handleBlockFreezed() {
     updatePoints(_currentFallingBlock?.y);
     // final matrix = creatBlockMatrix();
@@ -316,7 +230,7 @@ class TetrisPlayPage extends Component
   }
 
   Future<void> removeFullRows() async {
-    int removedRows = 0;
+    var removedRows = 0;
     final rowFillingMap = createRowFillCounts();
     rowFillingMap.removeWhere((key, value) => value < 10);
     final yOfRows = rowFillingMap.keys;
@@ -366,6 +280,7 @@ class TetrisPlayPage extends Component
     }
   }
 
+  @override
   void addRandomBlock({Vector2? startPosition}) {
 //    print('addRandomBlock');
     _currentFallingBlock =
@@ -404,7 +319,7 @@ class TetrisPlayPage extends Component
             .where((quad) => quad.containsPoint(point))
             .firstOrNull;
 
-        if ((quad != null)) {
+        if (quad != null) {
           matrix.add(i, j, quad.state.value);
         }
       }
