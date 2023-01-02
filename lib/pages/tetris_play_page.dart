@@ -17,9 +17,9 @@ import '../components/keyboard_game_controller.dart';
 import '../components/quadrat.dart';
 import '../components/svg_button.dart';
 import '../components/tetris_play_block.dart';
+import '../components/three_buttons_game_controller.dart';
 import '../tetris_game.dart';
 import '../tetris_matrix.dart';
-
 
 class TetrisPlayPage extends Component
     with HasGameRef<TetrisGame>, GameControllerMixin
@@ -39,7 +39,8 @@ class TetrisPlayPage extends Component
   int _removedRows = 0;
   static const lowestY = 1125;
 
-  FiveButtonsGameController? fourButtons;
+  FiveButtonsGameController? fiveButtons;
+  ThreeButtonsGameController? threeButtons;
 
   TetrisBaseBlock? _currentFallingBlock;
   @override
@@ -70,7 +71,11 @@ class TetrisPlayPage extends Component
     world.add(Floor(size: Vector2(600, 10), position: Vector2(0, 1190)));
     world.add(Side(size: Vector2(10, 1100), position: Vector2(40, 50)));
     world.add(Side(size: Vector2(10, 1100), position: Vector2(550, 50)));
-    initGameControllers([game.keyboardGameController!, fourButtons!]);
+    initGameControllers([
+      game.keyboardGameController!,
+      fiveButtons!,
+      threeButtons!,
+    ]);
   }
 
   @override
@@ -96,24 +101,6 @@ class TetrisPlayPage extends Component
     );
 
     addAll([
-      SvgButton(
-        name: 'svg/help.svg',
-        position: Vector2(rightButtonX - 2 * buttonSize.x - 2 * buttonGapX, 20),
-        size: buttonSize,
-        onTap: () => handleGameCommand(GameCommand.reset),
-      ),
-      SvgButton(
-        name: 'svg/cog-outline.svg',
-        position: Vector2(rightButtonX - buttonSize.x - buttonGapX, 20),
-        size: buttonSize,
-        onTap: () => handleGameCommand(GameCommand.reset),
-      ),
-      SvgButton(
-        name: 'svg/restart-grey.svg',
-        position: Vector2(rightButtonX, 20),
-        size: buttonSize,
-        onTap: () => handleGameCommand(GameCommand.reset),
-      ),
       SvgButton(
         name: 'svg/rotate-left-variant-grey.svg',
         position: Vector2(leftButtonX, 300),
@@ -147,14 +134,21 @@ class TetrisPlayPage extends Component
       ),
       _textComponent!,
     ]);
-    if (fourButtons == null) {
-      fourButtons ??= FiveButtonsGameController(
-      buttonSize: Vector2.all(35),
-    );
-      add(fourButtons!);
+    if (fiveButtons == null) {
+      fiveButtons = FiveButtonsGameController(
+        buttonSize: Vector2.all(35),
+      );
+      add(fiveButtons!);
     }
-    fourButtons?.position =
+    fiveButtons?.position =
         Vector2(size.x - 2 * 35 - buttonGapX, size.y - 2 * 35 - buttonGapX);
+    if (threeButtons == null) {
+      threeButtons = ThreeButtonsGameController(
+        buttonSize: Vector2.all(35),
+      );
+      add(threeButtons!);
+    }
+    threeButtons?.position = Vector2(size.x - 2 * 35 - buttonGapX, buttonGapX);
     super.onGameResize(size);
   }
 
@@ -188,7 +182,7 @@ class TetrisPlayPage extends Component
     _currentFallingBlock = null;
   }
 
-@override
+  @override
   bool startGameIfNotRunning() {
     if (!game.isGameRunning) {
       game.isGameRunning = true;
@@ -199,19 +193,11 @@ class TetrisPlayPage extends Component
     return false;
   }
 
-  bool _checkResetOrGameStart(LogicalKeyboardKey logicalKey) {
-    if (logicalKey == LogicalKeyboardKey.escape) {
-      reset();
-      return true;
-    }
-    if (!game.isGameRunning) {
-      game.isGameRunning = true;
-      addRandomBlock();
-      updatePoints(null);
-      return true;
-    }
-    return false;
-  }
+  @override
+  void showHelp() {}
+
+  @override
+  void showSettings() {}
 
   @override
   void addBlock(String name) {
