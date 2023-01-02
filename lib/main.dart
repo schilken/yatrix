@@ -7,6 +7,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: SafeArea(
           child: Builder(builder: (context) {
             return GamePage(
