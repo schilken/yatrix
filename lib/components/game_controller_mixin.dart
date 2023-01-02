@@ -13,10 +13,10 @@ mixin GameControllerMixin {
   void addBlock(String name);
   set droppedAtY(double y);
 
-  void initGameController() {
-    if (game.keyboardGameController != null) {
-      game.keyboardGameController!.commandStream.listen(handleGameCommand);
-    }
+  void initGameControllers(List<GameController> gameControllers) {
+    gameControllers.forEach((controller) {
+      controller.commandStream.listen(handleGameCommand);
+    });
   }
 
   void handleGameCommand(GameCommand command) {
@@ -40,6 +40,8 @@ mixin GameControllerMixin {
       currentFallingBlock!.moveXBy(50);
     } else if (command == GameCommand.up) {
       currentFallingBlock?.rotateBy(-pi / 2);
+    } else if (command == GameCommand.rotateClockwise) {
+      currentFallingBlock?.rotateBy(pi / 2);
     } else if (command == GameCommand.down) {
       currentFallingBlock?.setHighSpeed();
       droppedAtY = currentFallingBlock!.y;

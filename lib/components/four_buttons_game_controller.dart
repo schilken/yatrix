@@ -22,9 +22,15 @@ class FourButtonsGameController extends PositionComponent
     addAll([
       SvgButton(
         name: 'svg/rotate-left-variant-grey.svg',
-        position: Vector2(0, -35),
+        position: Vector2(-20, -37),
         size: buttonSize,
         onTap: () => _controller.sink.add(GameCommand.up),
+      ),
+      SvgButton(
+        name: 'svg/rotate-right-variant-grey.svg',
+        position: Vector2(20, -37),
+        size: buttonSize,
+        onTap: () => _controller.sink.add(GameCommand.rotateClockwise),
       ),
       SvgButton(
         name: 'svg/arrow-left-bold-outline-grey.svg',

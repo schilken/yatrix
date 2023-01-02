@@ -68,7 +68,7 @@ class TetrisPlayPage extends Component
     world.add(Floor(size: Vector2(600, 10), position: Vector2(0, 1190)));
     world.add(Side(size: Vector2(10, 1100), position: Vector2(40, 50)));
     world.add(Side(size: Vector2(10, 1100), position: Vector2(550, 50)));
-    initGameController();
+    initGameControllers([game.keyboardGameController!, fourButtons!]);
   }
 
   @override
@@ -111,12 +111,12 @@ class TetrisPlayPage extends Component
         size: buttonSize,
         onTap: () => handleGameCommand(GameCommand.left),
       ),
-      // SvgButton(
-      //   name: 'svg/rotate-right-variant-grey.svg',
-      //   position: Vector2(rightButtonX, 300),
-      //   size: buttonSize,
-      //   onTap: () => handleGameCommand(GameCommand.keyR),
-      // ),
+      SvgButton(
+        name: 'svg/rotate-right-variant-grey.svg',
+        position: Vector2(rightButtonX, 300),
+        size: buttonSize,
+        onTap: () => handleGameCommand(GameCommand.rotateClockwise),
+      ),
       SvgButton(
         name: 'svg/arrow-right-bold-outline-grey.svg',
         position: Vector2(rightButtonX, 380),
@@ -132,12 +132,14 @@ class TetrisPlayPage extends Component
       ),
       _textComponent!,
     ]);
-    fourButtons?.removeFromParent();
-    fourButtons = FourButtonsGameController(
-      position: Vector2(size.x - 2 * 35, size.y - 2 * 35),
+    if (fourButtons == null) {
+      fourButtons ??= FourButtonsGameController(
+//      position: Vector2(size.x - 2 * 35, size.y - 2 * 35),
       buttonSize: Vector2.all(35),
     );
-    add(fourButtons!);    
+      add(fourButtons!);
+    }
+    fourButtons?.position = Vector2(size.x - 2 * 35, size.y - 2 * 35);
     super.onGameResize(size);
   }
 

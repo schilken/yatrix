@@ -81,7 +81,7 @@ class TetrisConstructPage extends Component
     );
     _joystickPoller.start();
     //debugMode = true;
-    initGameController();
+    initGameControllers([game.keyboardGameController!]);
   }
 
   @override

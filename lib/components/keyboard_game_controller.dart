@@ -20,6 +20,7 @@ enum GameCommand {
   Z,
   T,
   I,
+  rotateClockwise,
 }
 
 abstract class GameController {
@@ -61,7 +62,11 @@ class KeyboardGameController implements GameController {
       _controller.sink.add(GameCommand.L);
     } else if (event.logicalKey == LogicalKeyboardKey.keyZ) {
       _controller.sink.add(GameCommand.Z);
+    } else if (event.logicalKey == LogicalKeyboardKey.keyR) {
+      _controller.sink.add(GameCommand.rotateClockwise);
     }
+
+    
   }
 
   @override
