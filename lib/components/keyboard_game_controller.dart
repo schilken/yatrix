@@ -21,6 +21,8 @@ enum GameCommand {
   T,
   I,
   rotateClockwise,
+  help,
+  settings,
 }
 
 abstract class GameController {

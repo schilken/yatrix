@@ -77,6 +77,7 @@ class TetrisPlayPage extends Component
     final rightButtonX = size.x - 35;
     const leftButtonX = 0.0;
     final buttonSize = Vector2.all(35);
+    final buttonGapX = 10;
     final allsvgButtons = children.query<SvgButton>();
     allsvgButtons.forEach((button) => button.removeFromParent());
     _textComponent?.removeFromParent();
@@ -93,6 +94,18 @@ class TetrisPlayPage extends Component
     );
 
     addAll([
+      SvgButton(
+        name: 'svg/help.svg',
+        position: Vector2(rightButtonX - 2 * buttonSize.x - 2 * buttonGapX, 20),
+        size: buttonSize,
+        onTap: () => handleGameCommand(GameCommand.reset),
+      ),
+      SvgButton(
+        name: 'svg/cog-outline.svg',
+        position: Vector2(rightButtonX - buttonSize.x - buttonGapX, 20),
+        size: buttonSize,
+        onTap: () => handleGameCommand(GameCommand.reset),
+      ),
       SvgButton(
         name: 'svg/restart-grey.svg',
         position: Vector2(rightButtonX, 20),
