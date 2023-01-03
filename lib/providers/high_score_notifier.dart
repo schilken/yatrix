@@ -41,7 +41,6 @@ class HighScoreNotifier extends Notifier<HighScoreState> {
   }
 
   void setCurrentScore(String newValue) {
-    print('HighScoreNotifier newValue: $newValue');
     state = state.copyWith(currentScore: newValue);
   }
 
@@ -50,9 +49,13 @@ class HighScoreNotifier extends Notifier<HighScoreState> {
     state = state.copyWith(userName: name);
   }
 
-  Future<void> addScore(String folder) async {
-    await _preferencesRepository.addScore(folder);
+  Future<void> addScore(String score) async {
+    await _preferencesRepository.addScore(score);
     state = state.copyWith(scores: _preferencesRepository.scores);
+  }
+
+  void addCurrentScore() {
+    addScore(state.currentScore);
   }
 }
 

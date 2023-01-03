@@ -58,7 +58,7 @@ class HighScoresPage extends ConsumerWidget {
             TextField(),
             SizedBox(height: 24),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: ref.read(highScoreNotifier.notifier).addCurrentScore,
               child: Text('Save  Points: ${highScore.currentScore}'),
             )
           ],
