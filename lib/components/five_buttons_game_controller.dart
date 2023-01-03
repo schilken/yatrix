@@ -19,31 +19,31 @@ class FiveButtonsGameController extends PositionComponent
     addAll([
       SvgButton(
         name: 'svg/rotate-left-variant-grey.svg',
-        position: Vector2(-20, -37),
+        position: Vector2(-20, -20),
         size: buttonSize,
         onTap: () => _controller.sink.add(GameCommand.up),
       ),
       SvgButton(
         name: 'svg/rotate-right-variant-grey.svg',
-        position: Vector2(20, -37),
+        position: Vector2(20, -20),
         size: buttonSize,
         onTap: () => _controller.sink.add(GameCommand.rotateClockwise),
       ),
       SvgButton(
         name: 'svg/arrow-left-bold-outline-grey.svg',
-        position: Vector2(-35, 0),
+        position: Vector2(-40, 20),
         size: buttonSize,
         onTap: () => _controller.sink.add(GameCommand.left),
       ),
       SvgButton(
         name: 'svg/arrow-right-bold-outline-grey.svg',
-        position: Vector2(35, 0),
+        position: Vector2(40, 20),
         size: buttonSize,
         onTap: () => _controller.sink.add(GameCommand.right),
       ),
       SvgButton(
         name: 'svg/arrow-down-bold-outline-grey.svg',
-        position: Vector2(0, 35),
+        position: Vector2(0, 20),
         size: buttonSize,
         onTap: () => _controller.sink.add(GameCommand.down),
       ),
