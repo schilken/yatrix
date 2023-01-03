@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tetris/tetris_game.dart';
 import 'pages/game_page.dart';
-import 'providers.dart';
+import 'providers/providers.dart';
 
 
 void main() async {

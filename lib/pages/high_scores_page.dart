@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../providers.dart';
+import '../providers/providers.dart';
 import '../tetris_game.dart';
 
 class HighScoresPage extends ConsumerWidget {
