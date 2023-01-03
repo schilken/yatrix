@@ -10,7 +10,7 @@ class HighScoresPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final highScore = ref.read(highScoreNotifier);
+    final highScore = ref.watch(highScoreNotifier);
     return Material(
       child: Container(
         color: Color.fromARGB(255, 20, 20, 20),

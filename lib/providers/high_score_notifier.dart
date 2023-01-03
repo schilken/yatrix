@@ -54,8 +54,12 @@ class HighScoreNotifier extends Notifier<HighScoreState> {
     state = state.copyWith(scores: _preferencesRepository.scores);
   }
 
-  void addCurrentScore() {
-    addScore(state.currentScore);
+  Future<void> addCurrentScore() async {
+    await addScore(state.currentScore);
+    state = state.copyWith(
+      currentScore: '',
+      scores: _preferencesRepository.scores,
+    );
   }
 }
 
