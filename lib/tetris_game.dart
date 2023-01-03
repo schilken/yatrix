@@ -14,13 +14,13 @@ import 'components/keyboard_game_controller.dart';
 import 'game_assets.dart';
 import 'pages/game_over_route.dart';
 import 'pages/help_page.dart';
-import 'pages/high_score_page.dart';
+import 'pages/high_scores_page.dart';
 import 'pages/settings_page.dart';
 import 'pages/tetris_page.dart';
 import 'pages/pause_route.dart';
 import 'pages/start_page.dart';
 import 'pages/tetris_play_page.dart';
-import 'pages/username_dialog.dart';
+import 'pages/high_scores_page.dart';
 
 const TextStyle _textStyle = TextStyle(color: Colors.black, fontSize: 2);
 
@@ -65,7 +65,7 @@ class TetrisGame extends FlameGame
           'gameOver': GameOverRoute(),
           'highScore': OverlayRoute(
             (context, game) {
-              return UsernameDialog(game: this);
+              return HighScoresPage(game: this);
             },
           ),  
         },

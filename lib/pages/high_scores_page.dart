@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../providers.dart';
 import '../tetris_game.dart';
 
-class UsernameDialog extends StatelessWidget {
-  UsernameDialog({super.key, required this.game});
+class HighScoresPage extends ConsumerWidget {
+  HighScoresPage({super.key, required this.game});
   TetrisGame game;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settings = ref.read(settingsNotifier);
     return Material(
       child: Container(
         color: Color.fromARGB(255, 20, 20, 20),
@@ -29,11 +32,12 @@ class UsernameDialog extends StatelessWidget {
             SizedBox(height: 32),
             Expanded(
               child: ListView.builder(
-                itemCount: 10,
+                itemCount: settings.scores.length,
                 itemBuilder: (context, index) {
+                  final score = settings.scores[index];
                   return ListTile(
                       title: Text(
-                    'Entry $index',
+                    score,
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.white60,
@@ -44,13 +48,12 @@ class UsernameDialog extends StatelessWidget {
             ),
             SizedBox(height: 32),
             Text(
-              'User Name',
+              'User Name → ${settings.userName}',
               textAlign: TextAlign.start,
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.white60,
               ),
-
             ),
             TextField(),
             SizedBox(height: 24),

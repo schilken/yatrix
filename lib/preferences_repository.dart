@@ -13,11 +13,12 @@ class PreferencesRepository {
   }
 
   String get userName {
-    return _prefs.getString('userName') ?? '';
+    return _prefs.getString('userName') ?? 'User 1';
   }
 
   List<String> get scores {
-    final scores = _prefs.getStringList('scores') ?? [];
+    final scores =
+        _prefs.getStringList('scores') ?? ['User 0 - 0 Points and 0 Rows'];
     return scores;
   }
 
