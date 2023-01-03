@@ -15,6 +15,7 @@ class FiveButtonsGameController extends PositionComponent
 
   @override
   Future<void> onLoad() async {
+    priority = 200;
     addAll([
       SvgButton(
         name: 'svg/rotate-left-variant-grey.svg',

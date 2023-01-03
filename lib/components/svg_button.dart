@@ -35,7 +35,7 @@ class SvgButton extends PositionComponent with HasPaint, TapCallbacks {
   Future<void> onLoad() async {
 //    debugMode = true;
     _svg = await Svg.load(name);
-    paint = Paint()..color = const Color(0x80ffffff);
+//    paint = Paint()..color = const Color(0x80ffffff);
   }
 
   @override
