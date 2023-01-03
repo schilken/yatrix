@@ -3,33 +3,33 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'providers.dart';
 
-class SettingsState {
+class HighScoreState {
   List<String> scores;
   String userName;
 
-  SettingsState({
+  HighScoreState({
     required this.scores,
     required this.userName,
   });
 
-  SettingsState copyWith({
+  HighScoreState copyWith({
     List<String>? scores,
     String? userName,
   }) {
-    return SettingsState(
+    return HighScoreState(
       scores: scores ?? this.scores,
       userName: userName ?? this.userName,
     );
   }
 }
 
-class SettingsNotifier extends Notifier<SettingsState> {
+class HighScoreNotifier extends Notifier<HighScoreState> {
   late PreferencesRepository _preferencesRepository;
 
   @override
-  SettingsState build() {
+  HighScoreState build() {
     _preferencesRepository = ref.read(preferencesRepositoryProvider);
-    return SettingsState(
+    return HighScoreState(
       scores: _preferencesRepository.scores,
       userName: _preferencesRepository.userName,
     );
@@ -47,4 +47,4 @@ class SettingsNotifier extends Notifier<SettingsState> {
 }
 
 final settingsNotifier =
-    NotifierProvider<SettingsNotifier, SettingsState>(SettingsNotifier.new);
+    NotifierProvider<HighScoreNotifier, HighScoreState>(HighScoreNotifier.new);
