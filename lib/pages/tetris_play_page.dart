@@ -90,7 +90,7 @@ class TetrisPlayPage extends Component
       textRenderer: TextPaint(
         style: const TextStyle(
           color: Color(0x66ffffff),
-          fontSize: 16,
+          fontSize: 20,
         ),
       ),
       position: Vector2(30, size.y - 60),
