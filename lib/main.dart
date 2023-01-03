@@ -20,9 +20,7 @@ void main() async {
         home: SafeArea(
           child: Builder(
             builder: (context) {
-              return GamePage(
-                game: TetrisGame(),
-              );
+              return GamePage();
             },
           ),
         ),

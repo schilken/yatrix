@@ -7,7 +7,7 @@ import 'package:flutter/material.dart'
     show TextStyle, Colors, KeyEventResult, TextField, Center, Material;
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/basic.dart';
-
+import 'package:flutter_riverpod/src/consumer.dart';
 import 'package:tetris/pages/splash_screen.dart';
 
 import 'components/keyboard_game_controller.dart';
@@ -15,16 +15,14 @@ import 'game_assets.dart';
 import 'pages/game_over_route.dart';
 import 'pages/help_page.dart';
 import 'pages/high_scores_page.dart';
-import 'pages/settings_page.dart';
-import 'pages/tetris_page.dart';
 import 'pages/pause_route.dart';
+import 'pages/settings_page.dart';
 import 'pages/start_page.dart';
+import 'pages/tetris_page.dart';
 import 'pages/tetris_play_page.dart';
-import 'pages/high_scores_page.dart';
+import 'providers/providers.dart';
 
 const TextStyle _textStyle = TextStyle(color: Colors.black, fontSize: 2);
-
-
 
 class TetrisGame extends FlameGame
     with
@@ -32,12 +30,21 @@ class TetrisGame extends FlameGame
         HasDraggables,
         HasTappableComponents,
         KeyboardEvents {
-  TetrisGame();
+  TetrisGame({required this.widgetRef});
+
   bool isGameRunning = false;
   late final RouterComponent router;
   TetrisPageInterface? tetrisPage;
   KeyboardGameController? keyboardGameController;
-  String score = '';
+  WidgetRef widgetRef;
+  String _score = '';
+
+  set score(String newValue) {
+    _score = newValue;
+    widgetRef.read(highScoreNotifier.notifier).setCurrentScore(newValue);
+  }
+
+  String get score => _score;
 
   @override
   Future<void> onLoad() async {

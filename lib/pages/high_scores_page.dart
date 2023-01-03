@@ -10,7 +10,7 @@ class HighScoresPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final settings = ref.read(settingsNotifier);
+    final highScore = ref.read(highScoreNotifier);
     return Material(
       child: Container(
         color: Color.fromARGB(255, 20, 20, 20),
@@ -32,9 +32,9 @@ class HighScoresPage extends ConsumerWidget {
             SizedBox(height: 32),
             Expanded(
               child: ListView.builder(
-                itemCount: settings.scores.length,
+                itemCount: highScore.scores.length,
                 itemBuilder: (context, index) {
-                  final score = settings.scores[index];
+                  final score = highScore.scores[index];
                   return ListTile(
                       title: Text(
                     score,
@@ -48,16 +48,19 @@ class HighScoresPage extends ConsumerWidget {
             ),
             SizedBox(height: 32),
             Text(
-              'User Name → ${settings.userName}',
+              'User Name → ${highScore.userName}',
               textAlign: TextAlign.start,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20,
                 color: Colors.white60,
               ),
             ),
             TextField(),
             SizedBox(height: 24),
-            ElevatedButton(onPressed: () {}, child: Text('Save  Points: 12000'))
+            ElevatedButton(
+              onPressed: () {},
+              child: Text('Save  Points: ${highScore.currentScore}'),
+            )
           ],
         ),
       ),

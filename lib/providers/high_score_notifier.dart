@@ -4,19 +4,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'providers.dart';
 
 class HighScoreState {
+  String currentScore;
   List<String> scores;
   String userName;
 
   HighScoreState({
+    required this.currentScore,
     required this.scores,
     required this.userName,
   });
 
   HighScoreState copyWith({
+    String? currentScore,
     List<String>? scores,
     String? userName,
   }) {
     return HighScoreState(
+      currentScore: currentScore ?? this.currentScore,
       scores: scores ?? this.scores,
       userName: userName ?? this.userName,
     );
@@ -30,9 +34,15 @@ class HighScoreNotifier extends Notifier<HighScoreState> {
   HighScoreState build() {
     _preferencesRepository = ref.read(preferencesRepositoryProvider);
     return HighScoreState(
+      currentScore: '',
       scores: _preferencesRepository.scores,
       userName: _preferencesRepository.userName,
     );
+  }
+
+  void setCurrentScore(String newValue) {
+    print('HighScoreNotifier newValue: $newValue');
+    state = state.copyWith(currentScore: newValue);
   }
 
   Future<void> setuserName(String name) async {
@@ -46,5 +56,5 @@ class HighScoreNotifier extends Notifier<HighScoreState> {
   }
 }
 
-final settingsNotifier =
+final highScoreNotifier =
     NotifierProvider<HighScoreNotifier, HighScoreState>(HighScoreNotifier.new);

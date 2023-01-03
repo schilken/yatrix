@@ -1,20 +1,16 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tetris/tetris_game.dart';
 
-import 'game_page.dart';
-
-class GamePage extends StatelessWidget {
-  GamePage({Key? key, required this.game}) : super(key: key);
-
-  final TetrisGame game;
+class GamePage extends ConsumerWidget {
+  const GamePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GameWidget(
-      game: TetrisGame(
-      ),
-      loadingBuilder: (context) => Center(
+      game: TetrisGame(widgetRef: ref),
+      loadingBuilder: (context) => const Center(
         child: CircularProgressIndicator(),
       ),
     );
