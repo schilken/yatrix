@@ -37,7 +37,7 @@ class TetrisPlayPage extends Component
   TextComponent? _textComponent;
   int _freezedCounter = 0;
   int _removedRows = 0;
-  static const lowestY = 1125;
+  static const lowestY = 1075;
 
   FiveButtonsGameController? fiveButtons;
   ThreeButtonsGameController? threeButtons;
@@ -68,9 +68,9 @@ class TetrisPlayPage extends Component
     viewfinder.position = Vector2(300, 0);
     viewfinder.visibleGameSize = Vector2(600, 1224);
 
-    world.add(Floor(size: Vector2(600, 10), position: Vector2(0, 1190)));
-    world.add(Side(size: Vector2(10, 1100), position: Vector2(40, 50)));
-    world.add(Side(size: Vector2(10, 1100), position: Vector2(550, 50)));
+    world.add(Floor(size: Vector2(600, 10), position: Vector2(0, 1140)));
+    world.add(Side(size: Vector2(10, 1050), position: Vector2(40, 50)));
+    world.add(Side(size: Vector2(10, 1050), position: Vector2(550, 50)));
     initGameControllers([
       game.keyboardGameController!,
       fiveButtons!,
@@ -82,9 +82,6 @@ class TetrisPlayPage extends Component
   void onGameResize(Vector2 size) {
 //    print('TetrisPlayPage.size: ${size}');
     const buttonGapX = 10.0;
-    const leftButtonX = buttonGapX;
-    final rightButtonX = size.x - 35 - buttonGapX;
-    final buttonSize = Vector2.all(35);
     final allsvgButtons = children.query<SvgButton>();
     allsvgButtons.forEach((button) => button.removeFromParent());
     _textComponent?.removeFromParent();
@@ -96,44 +93,10 @@ class TetrisPlayPage extends Component
           fontSize: 16,
         ),
       ),
-      align: Anchor.bottomCenter,
+      position: Vector2(30, size.y - 60),
       size: gameRef.canvasSize,
     );
-
-    addAll([
-      SvgButton(
-        name: 'svg/rotate-left-variant-grey.svg',
-        position: Vector2(leftButtonX, 300),
-        size: buttonSize,
-        onTap: () => handleGameCommand(GameCommand.up),
-      ),
-      SvgButton(
-        name: 'svg/arrow-left-bold-outline-grey.svg',
-        position: Vector2(leftButtonX, 380),
-        size: buttonSize,
-        onTap: () => handleGameCommand(GameCommand.left),
-      ),
-      SvgButton(
-        name: 'svg/rotate-right-variant-grey.svg',
-        position: Vector2(rightButtonX, 300),
-        size: buttonSize,
-        onTap: () => handleGameCommand(GameCommand.rotateClockwise),
-      ),
-      SvgButton(
-        name: 'svg/arrow-right-bold-outline-grey.svg',
-        position: Vector2(rightButtonX, 380),
-        size: buttonSize,
-        onTap: () => handleGameCommand(GameCommand.right),
-      ),
-      SvgButton(
-        name: 'svg/arrow-down-bold-outline-grey.svg',
-        position: Vector2(rightButtonX, 460),
-        size: buttonSize,
-        paint: BasicPalette.white.paint(),
-        onTap: () => handleGameCommand(GameCommand.down),
-      ),
-      _textComponent!,
-    ]);
+    add(_textComponent!);
     if (fiveButtons == null) {
       fiveButtons = FiveButtonsGameController(
         buttonSize: Vector2.all(35),
@@ -141,7 +104,7 @@ class TetrisPlayPage extends Component
       add(fiveButtons!);
     }
     fiveButtons?.position =
-        Vector2(size.x - 2 * 35 - buttonGapX, size.y - 2 * 35 - buttonGapX);
+        Vector2(size.x - 2 * 35 - buttonGapX, size.y - 35 - buttonGapX);
     if (threeButtons == null) {
       threeButtons = ThreeButtonsGameController(
         buttonSize: Vector2.all(35),
@@ -162,7 +125,7 @@ class TetrisPlayPage extends Component
     }
     _freezedCounter++;
     final pointString = sprintf(
-      '[YaTetris] %06i rows:%03i',
+      'Points: %06i\nRows:%03i',
       [_freezedCounter + _removedRows * 100, _removedRows],
     );
     _textComponent?.text = pointString;
