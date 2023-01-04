@@ -19,8 +19,19 @@ class HighScoresPage extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ElevatedButton(
-                onPressed: () => game.router.pop(), child: Text('<')),
+            SizedBox(height: 10),
+            Row(
+              children: [
+                OutlinedButton(
+                  onPressed: () => game.router.pop(),
+                  child: Text('<'),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.white60,
+                    side: BorderSide(width: 1.0, color: Colors.white60),
+                  ),
+                ),
+              ],
+            ),
             SizedBox(height: 64),
             Text(
               'High Scores',
@@ -57,9 +68,22 @@ class HighScoresPage extends ConsumerWidget {
             ),
             TextField(),
             SizedBox(height: 24),
-            ElevatedButton(
+            Text(
+              highScore.currentScore,
+              textAlign: TextAlign.start,
+              style: const TextStyle(
+                fontSize: 20,
+                color: Colors.white60,
+              ),
+            ),
+            SizedBox(height: 12),
+            OutlinedButton(
               onPressed: ref.read(highScoreNotifier.notifier).addCurrentScore,
-              child: Text('Save  Points: ${highScore.currentScore}'),
+              child: Text('Save Score'),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.white60,
+                side: BorderSide(width: 1.0, color: Colors.white60),
+              ),
             )
           ],
         ),
