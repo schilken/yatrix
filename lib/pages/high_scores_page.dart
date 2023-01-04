@@ -4,12 +4,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/providers.dart';
 import '../tetris_game.dart';
 
-class HighScoresPage extends ConsumerWidget {
+class HighScoresPage extends ConsumerStatefulWidget {
   HighScoresPage({super.key, required this.game});
   TetrisGame game;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HighScoresPage> createState() => _HighScoresPageState();
+}
+
+class _HighScoresPageState extends ConsumerState<HighScoresPage> {
+  @override
+  Widget build(BuildContext context) {
     final highScore = ref.watch(highScoreNotifier);
     return Material(
       child: Container(
@@ -23,11 +28,11 @@ class HighScoresPage extends ConsumerWidget {
             Row(
               children: [
                 OutlinedButton(
-                  onPressed: () => game.router.pop(),
+                  onPressed: () => widget.game.router.pop(),
                   child: Text('<'),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.white60,
-                    side: BorderSide(width: 1.0, color: Colors.white60),
+                    side: BorderSide(color: Colors.white60),
                   ),
                 ),
               ],
@@ -76,14 +81,14 @@ class HighScoresPage extends ConsumerWidget {
                 color: Colors.white60,
               ),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             OutlinedButton(
               onPressed: ref.read(highScoreNotifier.notifier).addCurrentScore,
-              child: Text('Save Score'),
               style: OutlinedButton.styleFrom(
                 foregroundColor: Colors.white60,
-                side: BorderSide(width: 1.0, color: Colors.white60),
+                side: const BorderSide(color: Colors.white60),
               ),
+              child: Text('Save Score'),
             )
           ],
         ),
