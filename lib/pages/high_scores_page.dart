@@ -13,6 +13,20 @@ class HighScoresPage extends ConsumerStatefulWidget {
 }
 
 class _HighScoresPageState extends ConsumerState<HighScoresPage> {
+
+  late TextEditingController _textEditingController;
+  late ScrollController _scrollController;
+  late FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _textEditingController = TextEditingController();
+    _scrollController = ScrollController();
+    _focusNode = FocusNode();
+    _textEditingController.text = ref.read(highScoreNotifier).userName;
+  }
+
   @override
   Widget build(BuildContext context) {
     final highScore = ref.watch(highScoreNotifier);
@@ -63,15 +77,27 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
               ),
             ),
             SizedBox(height: 32),
-            Text(
-              'User Name → ${highScore.userName}',
-              textAlign: TextAlign.start,
+            TextField(
+              controller: _textEditingController,
+              focusNode: _focusNode,
+              autofocus: true,
+              autocorrect: false,
+              cursorColor: Colors.white60,
               style: const TextStyle(
                 fontSize: 20,
                 color: Colors.white60,
               ),
+              decoration: InputDecoration(
+                hintText: 'Enter Your Name',
+                hintStyle: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.white60,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white60),
+                ),
+              ),
             ),
-            TextField(),
             SizedBox(height: 24),
             Text(
               highScore.currentScore,
@@ -83,7 +109,9 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
             ),
             const SizedBox(height: 12),
             OutlinedButton(
-              onPressed: ref.read(highScoreNotifier.notifier).addCurrentScore,
+              onPressed: () => ref
+                  .read(highScoreNotifier.notifier)
+                  .addCurrentScoreFor(userName: _textEditingController.text),
               style: OutlinedButton.styleFrom(
                 foregroundColor: Colors.white60,
                 side: const BorderSide(color: Colors.white60),

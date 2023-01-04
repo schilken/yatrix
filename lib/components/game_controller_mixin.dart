@@ -22,7 +22,7 @@ mixin GameControllerMixin {
   }
 
   void handleGameCommand(GameCommand command) {
-    print('gameCommand: $command');
+//    print('gameCommand: $command');
     if (command == GameCommand.reset) {
       reset();
       return;
