@@ -51,7 +51,7 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
                 ),
               ],
             ),
-            SizedBox(height: 64),
+            SizedBox(height: 32),
             Text(
               'High Scores',
               style: TextStyle(
@@ -59,24 +59,7 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
                 color: Colors.white60,
               ),
             ),
-            SizedBox(height: 32),
-            Expanded(
-              child: ListView.builder(
-                itemCount: highScore.scores.length,
-                itemBuilder: (context, index) {
-                  final score = highScore.scores[index];
-                  return ListTile(
-                      title: Text(
-                    score,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white60,
-                    ),
-                  ));
-                },
-              ),
-            ),
-            SizedBox(height: 32),
+            SizedBox(height: 24),
             TextField(
               controller: _textEditingController,
               focusNode: _focusNode,
@@ -98,7 +81,7 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
                 ),
               ),
             ),
-            SizedBox(height: 24),
+            SizedBox(height: 12),
             Text(
               highScore.currentScore,
               textAlign: TextAlign.start,
@@ -117,7 +100,26 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
                 side: const BorderSide(color: Colors.white60),
               ),
               child: Text('Save Score'),
-            )
+            ),
+            SizedBox(height: 32),
+            Expanded(
+              child: ListView.builder(
+                itemCount: highScore.scores.length,
+                itemBuilder: (context, index) {
+                  final score = highScore.scores[index];
+                  return ListTile(
+                      title: Text(
+                    score,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white60,
+                    ),
+                  ));
+                },
+              ),
+            ),
+            SizedBox(height: 32),
+  
           ],
         ),
       ),
