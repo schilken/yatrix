@@ -68,7 +68,7 @@ class TetrisPlayPage extends Component
     viewfinder.position = Vector2(300, 0);
     viewfinder.visibleGameSize = Vector2(600, 1224);
 
-    world.add(Floor(size: Vector2(600, 10), position: Vector2(0, 1140)));
+    world.add(Floor(size: Vector2(600, 10), position: Vector2(0, 1070)));
     world.add(Side(size: Vector2(10, 1050), position: Vector2(40, 50)));
     world.add(Side(size: Vector2(10, 1050), position: Vector2(550, 50)));
     initGameControllers([
@@ -93,7 +93,7 @@ class TetrisPlayPage extends Component
           fontSize: 20,
         ),
       ),
-      position: Vector2(30, size.y - 60),
+      position: Vector2(30, size.y - 2 * 35 - buttonGapX),
       size: gameRef.canvasSize,
     );
     add(_textComponent!);
@@ -104,7 +104,7 @@ class TetrisPlayPage extends Component
       add(fiveButtons!);
     }
     fiveButtons?.position =
-        Vector2(size.x - 2 * 35 - buttonGapX, size.y - 35 - buttonGapX);
+        Vector2(size.x - 2 * 35 - buttonGapX, size.y - 2 * 35 - buttonGapX);
     if (threeButtons == null) {
       threeButtons = ThreeButtonsGameController(
         buttonSize: Vector2.all(35),
