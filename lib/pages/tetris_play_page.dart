@@ -197,7 +197,7 @@ class TetrisPlayPage extends Component
     final rowFillingMap = createRowFillCounts();
     rowFillingMap.removeWhere((key, value) => value < 10);
     final yOfRows = rowFillingMap.keys;
-    print('yOfRows: ${yOfRows}');
+//    print('yOfRows: ${yOfRows}');
     for (final y in yOfRows) {
       final yAfterDropping = y + removedRows * 50;
       removeRow(yAfterDropping.toDouble());

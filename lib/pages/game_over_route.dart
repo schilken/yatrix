@@ -36,13 +36,8 @@ class GameOverRoute extends Route {
 
 class GameOverPage extends Component with TapCallbacks, HasGameRef<TetrisGame> {
 
-  GameOverPage() {
-    print('GameOverPage.constructor');
-  }
-
   @override
   Future<void> onLoad() async {
-    print('GameOverPage.onLoad');
     addAll([
       TextComponent(
         text: 'GAME OVER!',
