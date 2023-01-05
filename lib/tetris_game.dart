@@ -70,8 +70,7 @@ class TetrisGame extends FlameGame
             tetrisPage = tetrisConstructPage;
             return tetrisConstructPage;
           }),
-          'settings': Route(SettingsPage.new),
-//          'highScore': Route(HighScorePage.new),
+          'settings': OverlayRoute((context, game) => SettingsPage(game: this)),
           'help': Route(HelpPage.new),
           'pause': PauseRoute(),
           'credits': Route(CreditsPage.new),
