@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
 import 'package:flame/palette.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:sprintf/sprintf.dart';
@@ -146,11 +147,14 @@ class TetrisPlayPage extends Component
     _textComponent?.text = 'Tap down arrow to start';
     _freezedCounter = 0;
     _currentFallingBlock = null;
+    game.backgroundMusicStop();
+
   }
 
   @override
   bool startGameIfNotRunning() {
     if (!game.isGameRunning) {
+      game.backgroundMusicStart();
       game.isGameRunning = true;
       addRandomBlock();
       updatePoints(null);

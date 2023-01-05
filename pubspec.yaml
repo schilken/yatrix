@@ -32,5 +32,5 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
-    - assets/audio/
+    - assets/audio/music_zapsplat_game_music_childrens_soft_warm_cuddly_calm_015.mp3
     - assets/svg/

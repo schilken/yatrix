@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
 import 'package:flame/input.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart'
     show TextStyle, Colors, KeyEventResult, TextField, Center, Material;
 import 'package:flutter/services.dart';
@@ -39,6 +40,9 @@ class TetrisGame extends FlameGame
   KeyboardGameController? keyboardGameController;
   WidgetRef widgetRef;
   String _score = '';
+  String backgroundMusicName =
+      'music_zapsplat_game_music_childrens_soft_warm_cuddly_calm_015.mp3';
+  double backgroundMusicVolume = 0.25;
 
   set score(String newValue) {
     _score = newValue;
@@ -82,6 +86,8 @@ class TetrisGame extends FlameGame
       ),
     );
     keyboardGameController = KeyboardGameController();
+    FlameAudio.bgm.initialize();
+    await FlameAudio.audioCache.load(backgroundMusicName);
   }
 
   @override
@@ -96,5 +102,14 @@ class TetrisGame extends FlameGame
   void handleBlockFreezed() {
     tetrisPage?.handleBlockFreezed();
   }
+
+  void backgroundMusicStart() {
+    FlameAudio.bgm.play(backgroundMusicName, volume: backgroundMusicVolume);
+  }
+
+  void backgroundMusicStop() {
+    FlameAudio.bgm.stop();
+  }
+
 
 }
