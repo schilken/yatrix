@@ -8,6 +8,20 @@ class PreferencesRepository {
 
   PreferencesRepository(this._prefs);
 
+  Future<void> setMusicVolume(double volume) async {
+    await _prefs.setDouble('musicVolume', volume);
+  }
+
+  double get musicVolume => _prefs.getDouble('musicVolume') ?? 0.25;
+
+  Future<void> setSoundEffectsVolume(double volume) async {
+    await _prefs.setDouble('soundEffectsVolume', volume);
+  }
+
+  double get soundEffectsVolume =>
+      _prefs.getDouble('soundEffectsVolume') ?? 0.25;
+
+
   Future<void> setUserName(String name) async {
     await _prefs.setString('userName', name);
   }
@@ -26,6 +40,7 @@ class PreferencesRepository {
     scores.add(folder);
     await _prefs.setStringList('scores', scores);
   }
+
 }
 
 final preferencesRepositoryProvider = Provider<PreferencesRepository>(

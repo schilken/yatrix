@@ -28,7 +28,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final highScore = ref.watch(highScoreNotifier);
+    final settings = ref.watch(settingsNotifier);
     return Material(
       child: Container(
         color: Color.fromARGB(255, 20, 20, 20),
@@ -58,7 +58,51 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 color: Colors.white60,
               ),
             ),
-            SizedBox(height: 24),
+            SizedBox(height: 48),
+            Text(
+              'Background Music Volume',
+              style: TextStyle(
+                fontSize: 24,
+                color: Colors.white60,
+              ),
+            ),
+            SizedBox(height: 12),
+            SizedBox(
+              width: 250.0,
+              child: Slider(
+                value: settings.musicVolume,
+                label: '${settings.musicVolume * 10}',
+                divisions: 10,
+                onChanged: (double newMusicVolume) {
+                  widget.game.setBackgroundMusicVolume(newMusicVolume);
+                  ref
+                      .read(settingsNotifier.notifier)
+                      .setMusicVolume(newMusicVolume);
+                },
+              ),
+            ),
+            Text(
+              'Sound EffectsVolume',
+              style: TextStyle(
+                fontSize: 24,
+                color: Colors.white60,
+              ),
+            ),
+            SizedBox(height: 12),
+            SizedBox(
+              width: 250.0,
+              child: Slider(
+                value: settings.soundEffectsVolume,
+                label: '${settings.soundEffectsVolume * 10}',
+                divisions: 10,
+                onChanged: (double newSoundEffectsVolume) {
+                  widget.game.setSoundEffectsVolume(newSoundEffectsVolume);
+                  ref
+                      .read(settingsNotifier.notifier)
+                      .setSoundEffectsVolume(newSoundEffectsVolume);
+                },
+              ),
+            ),    
           ],
         ),
       ),

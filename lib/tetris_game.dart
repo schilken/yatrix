@@ -110,5 +110,15 @@ class TetrisGame extends FlameGame
     FlameAudio.bgm.stop();
   }
 
+  void setBackgroundMusicVolume(double newVolume) {
+    backgroundMusicVolume = newVolume;
+    FlameAudio.bgm.audioPlayer.setVolume(newVolume);
+  }
+
+  void setSoundEffectsVolume(double newVolume) {
+    // backgroundMusicVolume = newVolume;
+    // FlameAudio.bgm.audioPlayer.setVolume(newVolume);
+  }
+
 
 }
