@@ -10,7 +10,7 @@ class Boundary extends PositionComponent with CollisionCallbacks {
     super.position,
   });
 
-  final Paint hitboxPaint = BasicPalette.green.paint()
+  final Paint hitboxPaint = BasicPalette.white.paint()
     ..style = PaintingStyle.stroke;
 
   void adjustY() {
