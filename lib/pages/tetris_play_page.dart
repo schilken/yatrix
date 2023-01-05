@@ -37,7 +37,7 @@ class TetrisPlayPage extends Component
   TextComponent? _textComponent;
   int _freezedCounter = 0;
   int _removedRows = 0;
-  static const lowestY = 1075;
+  static const lowestY = 1025;
 
   FiveButtonsGameController? fiveButtons;
   ThreeButtonsGameController? threeButtons;
@@ -68,9 +68,9 @@ class TetrisPlayPage extends Component
     viewfinder.position = Vector2(300, 0);
     viewfinder.visibleGameSize = Vector2(600, 1224);
 
-    world.add(Floor(size: Vector2(600, 10), position: Vector2(0, 1070)));
-    world.add(Side(size: Vector2(10, 1050), position: Vector2(40, 50)));
-    world.add(Side(size: Vector2(10, 1050), position: Vector2(550, 50)));
+    world.add(Floor(size: Vector2(520, 10), position: Vector2(40, 1050)));
+    world.add(Side(size: Vector2(10, 950), position: Vector2(40, 100)));
+    world.add(Side(size: Vector2(10, 950), position: Vector2(550, 100)));
     initGameControllers([
       game.keyboardGameController!,
       fiveButtons!,
@@ -86,7 +86,7 @@ class TetrisPlayPage extends Component
     allsvgButtons.forEach((button) => button.removeFromParent());
     _textComponent?.removeFromParent();
     _textComponent = TextBoxComponent(
-      text: 'Tap down arrow to start',
+      text: 'Tap button to start ->',
       textRenderer: TextPaint(
         style: const TextStyle(
           color: Color(0x66ffffff),
@@ -104,7 +104,7 @@ class TetrisPlayPage extends Component
       add(fiveButtons!);
     }
     fiveButtons?.position =
-        Vector2(size.x - 2 * 35 - buttonGapX, size.y - 2 * 35 - buttonGapX);
+        Vector2(size.x - 2 * 35 - 2 * buttonGapX, size.y - 2 * 35 - buttonGapX);
     if (threeButtons == null) {
       threeButtons = ThreeButtonsGameController(
         buttonSize: Vector2.all(35),
