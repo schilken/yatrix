@@ -63,6 +63,7 @@ class HighScoreNotifier extends Notifier<HighScoreState> {
   }
 
   Future<void> addCurrentScoreFor({required String userName}) async {
+    await setuserName(userName);
     await addScore('$userName\n${state.currentScore}');
     state = HighScoreState(
       userName: userName,

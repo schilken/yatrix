@@ -5,14 +5,16 @@ import 'package:flutter/rendering.dart';
 import 'package:tetris/tetris_game.dart';
 
 import '../components/background.dart';
+import '../components/buttons.dart';
 
-class SplashScreen extends Component with TapCallbacks, HasGameRef<TetrisGame> {
+class CreditsPage extends Component with HasGameRef<TetrisGame> {
   @override
   Future<void> onLoad() async {
     addAll([
       Background(paint: BasicPalette.black.paint()),
+      BackButton(),
       TextBoxComponent(
-        text: '[YaTrix]',
+        text: 'Credits',
         textRenderer: TextPaint(
           style: const TextStyle(
             color: Color(0x66ffffff),
@@ -24,10 +26,4 @@ class SplashScreen extends Component with TapCallbacks, HasGameRef<TetrisGame> {
       ),
     ]);
   }
-
-  @override
-  bool containsLocalPoint(Vector2 point) => true;
-
-  @override
-  void onTapUp(TapUpEvent event) => gameRef.router.pushNamed('home');
 }

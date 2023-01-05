@@ -16,18 +16,18 @@ class ThreeButtonsGameController extends PositionComponent
   @override
   Future<void> onLoad() async {
     addAll([
-      SvgButton(
-        name: 'svg/help.svg',
-        position: Vector2(-35 - 10, 0),
-        size: buttonSize,
-        onTap: () => _controller.sink.add(GameCommand.help),
-      ),
-      SvgButton(
-        name: 'svg/cog-outline.svg',
-        position: Vector2(0, 0),
-        size: buttonSize,
-        onTap: () => _controller.sink.add(GameCommand.settings),
-      ),
+      // SvgButton(
+      //   name: 'svg/help.svg',
+      //   position: Vector2(-35 - 10, 0),
+      //   size: buttonSize,
+      //   onTap: () => _controller.sink.add(GameCommand.help),
+      // ),
+      // SvgButton(
+      //   name: 'svg/cog-outline.svg',
+      //   position: Vector2(0, 0),
+      //   size: buttonSize,
+      //   onTap: () => _controller.sink.add(GameCommand.settings),
+      // ),
       SvgButton(
         name: 'svg/restart-grey.svg',
         position: Vector2(35 + 10, 0),

@@ -10,12 +10,16 @@ class StartPage extends Component with HasGameRef<TetrisGame> {
   late final RoundedButton _constructButton;
   late final RoundedButton _settingsButton;
   late final RoundedButton _highScoreButton;
-//  late final RoundedButton _helpButton;
+  late final RoundedButton _helpButton;
+  late final RoundedButton _creditsButton;
+
+  static const yStartOffset = 100;
+  static const yDelta = 60;
 
   StartPage() {
     addAll([
       _logo = TextComponent(
-        text: 'YaTetris',
+        text: '[YaTriX]',
         textRenderer: TextPaint(
           style: const TextStyle(
             fontSize: 64,
@@ -53,23 +57,34 @@ class StartPage extends Component with HasGameRef<TetrisGame> {
         borderColor: const Color(0xfffff4c7),
         size: Vector2(150, 40),
       ),
-      // _helpButton = RoundedButton(
-      //   text: 'Help',
-      //   action: () => gameRef.router.pushNamed('help'),
-      //   color: const Color(0xffdebe6c),
-      //   borderColor: const Color(0xfffff4c7),
-      // ),
+      _helpButton = RoundedButton(
+        text: 'Help',
+        action: () => gameRef.router.pushNamed('help'),
+        color: const Color(0xffdebe6c),
+        borderColor: const Color(0xfffff4c7),
+        size: Vector2(150, 40),
+      ),
+      _creditsButton = RoundedButton(
+        text: 'Credits',
+        action: () => gameRef.router.pushNamed('credits'),
+        color: const Color(0xffdebe6c),
+        borderColor: const Color(0xfffff4c7),
+        size: Vector2(150, 40),
+      ),
+
     ]);
   }
 
   @override
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
-    _logo.position = Vector2(size.x / 2, size.y / 3);
-    _playButton.position = Vector2(size.x / 2, _logo.y + 80);
-    _constructButton.position = Vector2(size.x / 2, _logo.y + 140);
-    _highScoreButton.position = Vector2(size.x / 2, _logo.y + 200);
-    _settingsButton.position = Vector2(size.x / 2, _logo.y + 260);
-//    _helpButton.position = Vector2(size.x / 2, _logo.y + 320);
+    double yPosition = size.y / 4;
+    _logo.position = Vector2(size.x / 2, yPosition);
+    _playButton.position = Vector2(size.x / 2, yPosition += yStartOffset);
+    _constructButton.position = Vector2(size.x / 2, yPosition += yDelta);
+    _highScoreButton.position = Vector2(size.x / 2, yPosition += yDelta);
+    _settingsButton.position = Vector2(size.x / 2, yPosition += yDelta);
+    _helpButton.position = Vector2(size.x / 2, yPosition += yDelta);
+    _creditsButton.position = Vector2(size.x / 2, yPosition += yDelta);
   }
 }
