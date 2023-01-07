@@ -234,6 +234,7 @@ class TetrisPlayPage extends Component
 
   void removeRow(double y) {
     print('removeRow $y');
+    game.playSoundEffect(SoundEffects.removingFilledRow);
     _removedRows++;
     updatePoints(null);
     for (var x = 25.0; x < 500.0; x += 50.0) {

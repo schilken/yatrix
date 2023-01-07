@@ -27,9 +27,18 @@ import 'providers/providers.dart';
 const TextStyle _textStyle = TextStyle(color: Colors.black, fontSize: 2);
 
 enum SoundEffects {
-  freezedBlock,
-  removingFilledRow,
-  droppingBlock,
+  freezedBlock('pha.mp3'),
+  removingFilledRow(
+    'zapsplat_fantasy_magic_chime_ping_wand_fairy_godmother_013_38299.mp3',
+  ),
+  droppingBlock('zapsplat_sound_design_transition_whoosh_fast_airy_002_74584');
+
+  final String name;
+
+  const SoundEffects(this.name);
+
+  static List<String> get allNames =>
+      values.map((entry) => entry.name).toList(); 
 }
 
 class TetrisGame extends FlameGame
@@ -49,7 +58,6 @@ class TetrisGame extends FlameGame
   String backgroundMusicName =
       'music_zapsplat_game_music_childrens_soft_warm_cuddly_calm_015.mp3';
   double backgroundMusicVolume = 0.25;
-  String sfx1Name = 'pha.mp3';
   double sfxVolume = 0.5;
 
   set score(String newValue) {
@@ -98,8 +106,8 @@ class TetrisGame extends FlameGame
 
   Future<void> initAudio() async {
     FlameAudio.bgm.initialize();
-    await FlameAudio.audioCache.loadAll([backgroundMusicName, sfx1Name]);
-    FlameAudio.createPool(sfx1Name, maxPlayers: 2);
+    final sfxNames = SoundEffects.allNames;
+    await FlameAudio.audioCache.loadAll([backgroundMusicName, ...sfxNames]);
   }
 
   @override
@@ -133,17 +141,7 @@ class TetrisGame extends FlameGame
   }
 
   void playSoundEffect(SoundEffects soundEffect) {
-    switch (soundEffect) {
-      case SoundEffects.freezedBlock:
-        FlameAudio.play(sfx1Name, volume: sfxVolume);
-        break;
-      case SoundEffects.removingFilledRow:
-        // TODO: Handle this case.
-        break;
-      case SoundEffects.droppingBlock:
-        // TODO: Handle this case.
-        break;
-    }
+    FlameAudio.play(soundEffect.name, volume: sfxVolume);
   }
 
 }
