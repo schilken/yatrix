@@ -182,6 +182,7 @@ class TetrisPlayPage extends Component
   @override
   void handleBlockFreezed() {
     updatePoints(_currentFallingBlock?.y);
+    game.playSoundEffect(SoundEffects.freezedBlock);
     // final matrix = creatBlockMatrix();
     // print(matrix);
     removeFullRows();

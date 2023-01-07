@@ -26,6 +26,12 @@ import 'providers/providers.dart';
 
 const TextStyle _textStyle = TextStyle(color: Colors.black, fontSize: 2);
 
+enum SoundEffects {
+  freezedBlock,
+  removingFilledRow,
+  droppingBlock,
+}
+
 class TetrisGame extends FlameGame
     with
         HasCollisionDetection,
@@ -43,6 +49,8 @@ class TetrisGame extends FlameGame
   String backgroundMusicName =
       'music_zapsplat_game_music_childrens_soft_warm_cuddly_calm_015.mp3';
   double backgroundMusicVolume = 0.25;
+  String sfx1Name = 'pha.mp3';
+  double sfxVolume = 0.5;
 
   set score(String newValue) {
     _score = newValue;
@@ -85,8 +93,13 @@ class TetrisGame extends FlameGame
       ),
     );
     keyboardGameController = KeyboardGameController();
+    await initAudio();
+  }
+
+  Future<void> initAudio() async {
     FlameAudio.bgm.initialize();
-    await FlameAudio.audioCache.load(backgroundMusicName);
+    await FlameAudio.audioCache.loadAll([backgroundMusicName, sfx1Name]);
+    FlameAudio.createPool(sfx1Name, maxPlayers: 2);
   }
 
   @override
@@ -116,9 +129,21 @@ class TetrisGame extends FlameGame
   }
 
   void setSoundEffectsVolume(double newVolume) {
-    // backgroundMusicVolume = newVolume;
-    // FlameAudio.bgm.audioPlayer.setVolume(newVolume);
+    sfxVolume = newVolume;
   }
 
+  void playSoundEffect(SoundEffects soundEffect) {
+    switch (soundEffect) {
+      case SoundEffects.freezedBlock:
+        FlameAudio.play(sfx1Name, volume: sfxVolume);
+        break;
+      case SoundEffects.removingFilledRow:
+        // TODO: Handle this case.
+        break;
+      case SoundEffects.droppingBlock:
+        // TODO: Handle this case.
+        break;
+    }
+  }
 
 }
