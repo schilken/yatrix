@@ -87,7 +87,9 @@ class TetrisGame extends FlameGame
             final tetrisConstructPage = TetrisConstructPage();
             tetrisPage = tetrisConstructPage;
             return tetrisConstructPage;
-          }),
+            },
+            maintainState: false,
+          ),
           'settings': OverlayRoute((context, game) => SettingsPage(game: this)),
           'help': Route(HelpPage.new),
           'pause': PauseRoute(),

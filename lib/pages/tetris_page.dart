@@ -87,6 +87,13 @@ class TetrisConstructPage extends Component
   }
 
   @override
+  void onRemove() {
+    reset();
+    closeGameControllers();
+    super.onRemove();
+  }
+
+  @override
   void update(double dt) {
     super.update(dt);
     _joystickPoller.update(dt);
@@ -94,6 +101,7 @@ class TetrisConstructPage extends Component
 
   @override
   void onGameResize(Vector2 size) {
+    super.onGameResize(size);
     world?.removeFromParent();
     world = World();
     cameraComponent = CameraComponent(world: world!);

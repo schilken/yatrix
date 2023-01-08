@@ -79,7 +79,6 @@ class TetrisPlayPage extends Component
 
   @override
   void onRemove() {
-    print('TetrisPlayPage.onRemove');
     reset();
     closeGameControllers();
     super.onRemove();
@@ -87,7 +86,6 @@ class TetrisPlayPage extends Component
 
   @override
   void onGameResize(Vector2 size) {
-    print('TetrisPlayPage.size: ${size}');
     const buttonGapX = 10.0;
     final allsvgButtons = children.query<SvgButton>();
     allsvgButtons.forEach((button) => button.removeFromParent());
