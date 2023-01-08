@@ -4,10 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
-import 'package:flame/palette.dart';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter/services.dart';
 import 'package:sprintf/sprintf.dart';
 
 import '../components/boundaries.dart';
@@ -53,6 +50,7 @@ class TetrisPlayPage extends Component
 
   @override
   Future<void> onLoad() async {
+    print('TetrisPlayPage.onLoad');
     addAll([
       BackButton(),
       PauseButton(),
@@ -80,8 +78,16 @@ class TetrisPlayPage extends Component
   }
 
   @override
+  void onRemove() {
+    print('TetrisPlayPage.onRemove');
+    reset();
+    closeGameControllers();
+    super.onRemove();
+  }
+
+  @override
   void onGameResize(Vector2 size) {
-//    print('TetrisPlayPage.size: ${size}');
+    print('TetrisPlayPage.size: ${size}');
     const buttonGapX = 10.0;
     final allsvgButtons = children.query<SvgButton>();
     allsvgButtons.forEach((button) => button.removeFromParent());
@@ -131,12 +137,14 @@ class TetrisPlayPage extends Component
     );
     _textComponent?.text = pointString;
     game.score = sprintf('Points: %06i\nRows:%03i',
-        [_freezedCounter + _removedRows * 100, _removedRows]);
+      [_freezedCounter + _removedRows * 100, _removedRows],
+    );
 //    print(pointString);
   }
 
   @override
   void reset() {
+    print('TetrisPlayPage.reset');
     game.isGameRunning = false;
     final allBlocks = world.children.query<TetrisBaseBlock>();
     allBlocks.forEach((element) => element.removeFromParent());
@@ -148,7 +156,6 @@ class TetrisPlayPage extends Component
     _freezedCounter = 0;
     _currentFallingBlock = null;
     game.backgroundMusicStop();
-
   }
 
   @override

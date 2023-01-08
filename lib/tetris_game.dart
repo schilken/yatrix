@@ -80,7 +80,9 @@ class TetrisGame extends FlameGame
             final tetrisPlayPage = TetrisPlayPage();
             tetrisPage = tetrisPlayPage;
             return tetrisPlayPage;
-          }),
+            },
+            maintainState: false,
+          ),
           'construct': Route(() {
             final tetrisConstructPage = TetrisConstructPage();
             tetrisPage = tetrisConstructPage;

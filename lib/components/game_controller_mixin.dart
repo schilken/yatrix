@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:tetris/components/tetris_play_block.dart';
 
@@ -14,15 +15,22 @@ mixin GameControllerMixin {
   void updatePoints(double? freezedAtY);
   void addBlock(String name);
   set droppedAtY(double y);
+  List<StreamSubscription> subscriptions = [];
 
   void initGameControllers(List<GameController> gameControllers) {
     gameControllers.forEach((controller) {
-      controller.commandStream.listen(handleGameCommand);
+      subscriptions.add(
+        controller.commandStream.listen(handleGameCommand),
+      );
     });
   }
 
+  void closeGameControllers() {
+    subscriptions.forEach((subscription) => subscription.cancel());
+  }
+
   void handleGameCommand(GameCommand command) {
-//    print('gameCommand: $command');
+    print('gameCommand: $command');
     if (command == GameCommand.reset) {
       reset();
       return;
