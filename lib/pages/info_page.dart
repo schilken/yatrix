@@ -102,6 +102,10 @@ These versions are also free without ads or in app purchases.
                     fontSize: 16,
                     color: Colors.white60,
                   ),
+                  listBullet: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white60,
+                  ),
                 ),
               ),
             ),
