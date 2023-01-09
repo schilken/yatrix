@@ -58,8 +58,8 @@ class StartPage extends Component with HasGameRef<TetrisGame> {
         size: Vector2(150, 40),
       ),
       _helpButton = RoundedButton(
-        text: 'Help',
-        action: () => gameRef.router.pushNamed('help'),
+        text: 'Info',
+        action: () => gameRef.router.pushNamed('info'),
         color: const Color(0xffdebe6c),
         borderColor: const Color(0xfffff4c7),
         size: Vector2(150, 40),

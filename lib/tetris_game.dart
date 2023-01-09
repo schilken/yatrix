@@ -15,6 +15,7 @@ import 'pages/credits_page.dart';
 import 'pages/game_over_route.dart';
 import 'pages/help_page.dart';
 import 'pages/high_scores_page.dart';
+import 'pages/info_page.dart';
 import 'pages/pause_route.dart';
 import 'pages/settings_page.dart';
 import 'pages/splash_screen.dart';
@@ -92,7 +93,11 @@ class TetrisGame extends FlameGame
             maintainState: false,
           ),
           'settings': OverlayRoute((context, game) => SettingsPage(game: this)),
-          'help': Route(HelpPage.new),
+          'info': OverlayRoute(
+            (context, game) {
+              return InfoPage(game: this);
+            },
+          ),
           'pause': PauseRoute(),
           'credits': Route(CreditsPage.new),
           'gameOver': GameOverRoute(),

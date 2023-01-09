@@ -31,6 +31,7 @@ class CreditsPage extends Component with HasGameRef<TetrisGame> {
             '- flame_svg\n'
             '- flame_audio\n'
             '- flutter_riverpod\n'
+            '- flutter_markdown\n'
             '- shared_preferences\n'
             '- sprintf\n',
         textRenderer: _box,
