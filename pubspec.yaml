@@ -1,5 +1,5 @@
-name: tetris
-description: Flame Forge2D (box2d) samples
+name: yatrix
+description: yet another Tetris clone
 
 publish_to: 'none'
 

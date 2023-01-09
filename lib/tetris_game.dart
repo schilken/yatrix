@@ -7,9 +7,7 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart'
     show TextStyle, Colors, KeyEventResult, TextField, Center, Material;
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/basic.dart';
-import 'package:flutter_riverpod/src/consumer.dart';
-import 'package:tetris/pages/splash_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'components/keyboard_game_controller.dart';
 import 'game_assets.dart';
@@ -19,6 +17,7 @@ import 'pages/help_page.dart';
 import 'pages/high_scores_page.dart';
 import 'pages/pause_route.dart';
 import 'pages/settings_page.dart';
+import 'pages/splash_screen.dart';
 import 'pages/start_page.dart';
 import 'pages/tetris_page.dart';
 import 'pages/tetris_play_page.dart';
