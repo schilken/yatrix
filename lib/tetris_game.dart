@@ -59,6 +59,7 @@ class TetrisGame extends FlameGame
       'music_zapsplat_game_music_childrens_soft_warm_cuddly_calm_015.mp3';
   double backgroundMusicVolume = 0.25;
   double sfxVolume = 0.5;
+  bool showFps = true;
 
   set score(String newValue) {
     _score = newValue;

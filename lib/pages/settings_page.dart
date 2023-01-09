@@ -73,6 +73,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 value: settings.musicVolume,
                 label: '${settings.musicVolume * 10}',
                 divisions: 10,
+                thumbColor: Colors.white54,
+                activeColor: Colors.white70,
                 onChanged: (double newMusicVolume) {
                   widget.game.setBackgroundMusicVolume(newMusicVolume);
                   ref
@@ -95,6 +97,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 value: settings.soundEffectsVolume,
                 label: '${settings.soundEffectsVolume * 10}',
                 divisions: 10,
+                thumbColor: Colors.white54,
+                activeColor: Colors.white70,
                 onChanged: (double newSoundEffectsVolume) {
                   widget.game.setSoundEffectsVolume(newSoundEffectsVolume);
                   ref
@@ -102,7 +106,41 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       .setSoundEffectsVolume(newSoundEffectsVolume);
                 },
               ),
-            ),    
+            ),
+            SizedBox(height: 24),
+            Row(
+              children: [
+                Text(
+                  'Show FPS',
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.white60,
+                  ),
+                ),
+                Spacer(),
+                Switch(
+                  // This bool value toggles the switch.
+                  value: ref.read(settingsNotifier).showFps,
+                  // inactiveThumbColor: Colors.white24,
+                  // inactiveTrackColor: Colors.white24,
+                  thumbColor: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.selected)) {
+                      return Colors.white70;
+                    }
+                    return Colors.grey;
+                  }),
+                  trackColor: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                    return Colors.grey.shade600;
+                  }),
+                  onChanged: (value) {
+                    ref.read(settingsNotifier.notifier).setShowFps(value);
+                    widget.game.showFps = value;
+                  },
+                ),
+              ],
+            ),
           ],
         ),
       ),

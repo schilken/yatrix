@@ -57,10 +57,17 @@ class TetrisPlayPage extends Component
     addAll([
       BackButton(),
       PauseButton(),
-      FpsTextComponent(
-        position: Vector2(10, 70),
-        anchor: Anchor.topLeft,
-      ),
+      if (game.showFps)
+        FpsTextComponent(
+          position: Vector2(10, 70),
+          anchor: Anchor.topLeft,
+          textRenderer: TextPaint(
+            style: const TextStyle(
+              color: Color(0x66ffffff),
+              fontSize: 14,
+            ),
+          ),
+        ),
     ]);
     //debugMode = true;
     world = World();
@@ -110,15 +117,14 @@ class TetrisPlayPage extends Component
       size: gameRef.canvasSize,
     );
     add(_textComponent!);
-    final fiveButtonSize = (size.x < 600) ? Vector2.all(35) : Vector2.all(70); 
+    final fiveButtonSize = (size.x < 600) ? Vector2.all(35) : Vector2.all(70);
     if (fiveButtons == null) {
       fiveButtons = FiveButtonsGameController(
         buttonSize: fiveButtonSize,
       );
       add(fiveButtons!);
     }
-    fiveButtons?.position =
-        Vector2(
+    fiveButtons?.position = Vector2(
       size.x - 2 * fiveButtonSize.x - 2 * buttonGapX,
       size.y - 2 * fiveButtonSize.y - buttonGapX,
     );
@@ -147,7 +153,8 @@ class TetrisPlayPage extends Component
       [_freezedCounter + _removedRows * 100, _removedRows],
     );
     _textComponent?.text = pointString;
-    game.score = sprintf('Points: %06i\nRows:%03i',
+    game.score = sprintf(
+      'Points: %06i\nRows:%03i',
       [_freezedCounter + _removedRows * 100, _removedRows],
     );
 //    print(pointString);

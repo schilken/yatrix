@@ -30,6 +30,14 @@ class PreferencesRepository {
     return _prefs.getString('userName') ?? 'User 1';
   }
 
+  Future<void> setShowFps(bool show) async {
+    await _prefs.setBool('showFps', show);
+  }
+
+  bool get showFps {
+    return _prefs.getBool('showFps') ?? true;
+  }
+
   List<String> get scores {
     final scores = _prefs.getStringList('scores') ?? ['User 0 - 0 Points'];
     return scores;
