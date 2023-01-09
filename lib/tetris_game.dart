@@ -31,7 +31,8 @@ enum SoundEffects {
   removingFilledRow(
     'zapsplat_fantasy_magic_chime_ping_wand_fairy_godmother_013_38299.mp3',
   ),
-  droppingBlock('zapsplat_sound_design_transition_whoosh_fast_airy_002_74584');
+  droppingBlock(
+      'zapsplat_sound_design_transition_whoosh_fast_airy_002_74584.mp3');
 
   final String name;
 
