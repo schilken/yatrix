@@ -2,7 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/rendering.dart';
-import 'package:tetris/tetris_game.dart';
+import '../tetris_game.dart';
 
 import '../components/background.dart';
 

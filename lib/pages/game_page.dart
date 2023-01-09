@@ -1,7 +1,7 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tetris/tetris_game.dart';
+import '../tetris_game.dart';
 
 class GamePage extends ConsumerWidget {
   const GamePage({super.key});

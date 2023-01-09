@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:tetris/components/tetris_play_block.dart';
 
 import '../tetris_game.dart';
 import 'keyboard_game_controller.dart';
+import 'tetris_play_block.dart';
 
 mixin GameControllerMixin {
   TetrisBaseBlock? get currentFallingBlock;

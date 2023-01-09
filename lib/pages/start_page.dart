@@ -1,6 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flutter/rendering.dart';
-import 'package:tetris/tetris_game.dart';
+import '../tetris_game.dart';
 
 import '../components/rounded_button.dart';
 

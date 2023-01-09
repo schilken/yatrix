@@ -4,11 +4,11 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flutter/rendering.dart';
-import 'package:tetris/components/boundaries.dart';
 
 import '../game_assets.dart';
 import '../helpers.dart';
 import '../tetris_game.dart';
+import 'boundaries.dart';
 import 'quadrat.dart';
 
 const quadSize = 50.0;

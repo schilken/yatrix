@@ -2,7 +2,8 @@ import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flutter/rendering.dart';
-import 'package:tetris/tetris_game.dart';
+
+import '../tetris_game.dart';
 
 abstract class SimpleButton extends PositionComponent with TapCallbacks {
   SimpleButton(this._iconPath, {super.position}) : super(size: Vector2.all(40));

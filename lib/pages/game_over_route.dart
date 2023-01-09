@@ -5,7 +5,7 @@ import 'package:flame/effects.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame/rendering.dart';
-import 'package:tetris/tetris_game.dart';
+import '../tetris_game.dart';
 
 import '../components/rounded_button.dart';
 
