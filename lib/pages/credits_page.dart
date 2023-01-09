@@ -23,23 +23,22 @@ class CreditsPage extends Component with HasGameRef<TetrisGame> {
       ),
       _textBox = TextBoxComponent(
         text: 'This game is created with Flutter and Flame-Engine.\n\n'
-            'The Background Music is from\nhttps://www.zapsplat.com\n\n'
+            'The Background Music is from\nhttps://www.zapsplat.com.\n\n'
             'The Icons are taken from\n'
             'https://materialdesignicons.com\n\n'
             'These packages are used: \n'
-            '- flutter_riverpod\n'
-            '- shared_preferences\n'
             '- flame\n'
             '- flame_svg\n'
             '- flame_audio\n'
+            '- flutter_riverpod\n'
+            '- shared_preferences\n'
             '- sprintf\n',
         textRenderer: _box,
         boxConfig: TextBoxConfig(
-          maxWidth: 400,
           timePerChar: 0.05,
           growingBox: true,
         ),
-        size: Vector2(400, 400),
+        size: Vector2(350, 400),
       ),
     ]);
   }
@@ -48,8 +47,8 @@ class CreditsPage extends Component with HasGameRef<TetrisGame> {
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
     var yPosition = size.y / 4;
-    _title.position = Vector2(size.x / 2 - _title.size.x / 2, yPosition);
-    _textBox.position = Vector2(size.x / 2 - 200, yPosition += 100);
+    _title.position = Vector2(20, yPosition);
+    _textBox.position = Vector2(20, yPosition += 80);
   }
 
   @override
