@@ -107,6 +107,7 @@ class TetrisGame extends FlameGame
     );
     keyboardGameController = KeyboardGameController();
     await initAudio();
+    showFps = widgetRef.read(settingsNotifier).showFps;
   }
 
   Future<void> initAudio() async {
