@@ -46,7 +46,10 @@ class TetrisPlayPage extends Component
 
   double? _droppedAtY;
   @override
-  set droppedAtY(double y) => _droppedAtY = y;
+  set droppedAtY(double y) {
+    game.playSoundEffect(SoundEffects.droppingBlock);
+    _droppedAtY = y;
+  }
 
   @override
   Future<void> onLoad() async {
@@ -54,6 +57,10 @@ class TetrisPlayPage extends Component
     addAll([
       BackButton(),
       PauseButton(),
+      FpsTextComponent(
+        position: Vector2(10, 70),
+        anchor: Anchor.topLeft,
+      ),
     ]);
     //debugMode = true;
     world = World();
