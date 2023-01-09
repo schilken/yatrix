@@ -113,6 +113,9 @@ class TetrisGame extends FlameGame
     FlameAudio.bgm.initialize();
     final sfxNames = SoundEffects.allNames;
     await FlameAudio.audioCache.loadAll([backgroundMusicName, ...sfxNames]);
+    final settings = widgetRef.read(settingsNotifier);
+    setBackgroundMusicVolume(settings.musicVolume);
+    setSoundEffectsVolume(settings.soundEffectsVolume);
   }
 
   @override
