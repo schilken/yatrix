@@ -35,6 +35,10 @@ class ScoreItem {
 
   factory ScoreItem.fromJson(String source) =>
       ScoreItem.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() =>
+      'ScoreItem(userName: $userName, points: $points, rows: $rows)';
 }
 
 class HighScoreState {
