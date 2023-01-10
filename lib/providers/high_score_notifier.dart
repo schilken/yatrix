@@ -1,15 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'providers.dart';
 
+@immutable
 class ScoreItem {
-  String userName;
-  int points;
-  int rows;
-  ScoreItem({
+  final String userName;
+  final int points;
+  final int rows;
+  const ScoreItem({
     required this.userName,
     required this.points,
     required this.rows,
@@ -39,6 +41,20 @@ class ScoreItem {
   @override
   String toString() =>
       'ScoreItem(userName: $userName, points: $points, rows: $rows)';
+
+  @override
+  bool operator ==(covariant ScoreItem other) {
+    if (identical(this, other)) {
+      return true;
+    }
+
+    return other.userName == userName &&
+        other.points == points &&
+        other.rows == rows;
+  }
+
+  @override
+  int get hashCode => userName.hashCode ^ points.hashCode ^ rows.hashCode;
 }
 
 class HighScoreState {
@@ -77,7 +93,10 @@ class HighScoreNotifier extends Notifier<HighScoreState> {
         points: 0,
         rows: 0,
       ),
-      scores: _preferencesRepository.scores.map(ScoreItem.fromJson).toList(),
+      scores: _preferencesRepository.scores.map(ScoreItem.fromJson).toList()
+        ..sort(
+          (e1, e2) => e2.points.compareTo(e1.points),
+        ),
       userName: _preferencesRepository.userName,
     );
   }
@@ -106,7 +125,10 @@ class HighScoreNotifier extends Notifier<HighScoreState> {
     state = HighScoreState(
       userName: userName,
       currentScore: state.currentScore,
-      scores: _preferencesRepository.scores.map(ScoreItem.fromJson).toList(),
+      scores: _preferencesRepository.scores.map(ScoreItem.fromJson).toList()
+        ..sort(
+          (e1, e2) => e2.points.compareTo(e1.points),
+        ),
     );
   }
 }

@@ -40,11 +40,8 @@ void main() {
     test('userName', () {
 //      mockPreferencesRepository = MockPreferencesRepository();
       mockSharedPreferences = MockSharedPreferences();
-
       when(() => mockSharedPreferences.getString('userName'))
           .thenReturn('aTestUser');
-      when(() => mockSharedPreferences.getStringList('scores'))
-          .thenReturn(testScores);
       final container = makeProviderContainer(mockSharedPreferences);
 //      final listener = Listener<HighScoreState>();
       // listen to the provider and call [listener] whenever its value changes
@@ -57,7 +54,7 @@ void main() {
       expect(userName, 'aTestUser');
     });
 
-    test('scores are sorted', () {
+    test('scores are sorted descending by points', () {
       mockSharedPreferences = MockSharedPreferences();
 
       when(() => mockSharedPreferences.getString('userName'))
@@ -66,16 +63,26 @@ void main() {
           .thenReturn(testScores);
       final container = makeProviderContainer(mockSharedPreferences);
       final scores = container.read(highScoreNotifier).scores;
-      print(scores);
+//      print(scoreItems);
+      expect(
+        scores,
+        scoreItems
+          ..sort(
+            (e1, e2) => e2.points.compareTo(e1.points),
+          ),
+      );
     });
   });
 }
 
+
+final scoreItems = [
+  const ScoreItem(userName: 'user1', points: 1000, rows: 10),
+  const ScoreItem(userName: 'user4', points: 4000, rows: 40),
+  const ScoreItem(userName: 'user3', points: 3000, rows: 30),
+  const ScoreItem(userName: 'user2', points: 2000, rows: 20),
+];
+
 List<String> get testScores {
-  final scores = <String>[];
-  scores.add(ScoreItem(userName: 'user1', points: 1000, rows: 10).toJson());
-  scores.add(ScoreItem(userName: 'user4', points: 4000, rows: 40).toJson());
-  scores.add(ScoreItem(userName: 'user3', points: 3000, rows: 30).toJson());
-  scores.add(ScoreItem(userName: 'user2', points: 2000, rows: 20).toJson());
-  return scores;
+  return scoreItems.map((item) => item.toJson()).toList();
 }
