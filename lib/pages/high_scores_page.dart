@@ -13,7 +13,6 @@ class HighScoresPage extends ConsumerStatefulWidget {
 }
 
 class _HighScoresPageState extends ConsumerState<HighScoresPage> {
-
   late TextEditingController _textEditingController;
   late ScrollController _scrollController;
   late FocusNode _focusNode;
@@ -60,27 +59,28 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
               ),
             ),
             SizedBox(height: 24),
-            TextField(
-              controller: _textEditingController,
-              focusNode: _focusNode,
-              autofocus: true,
-              autocorrect: false,
-              cursorColor: Colors.white60,
-              style: const TextStyle(
-                fontSize: 20,
-                color: Colors.white60,
-              ),
-              decoration: InputDecoration(
-                hintText: 'Enter Your Name',
-                hintStyle: const TextStyle(
+            if (widget.game.isGameOver)
+              TextField(
+                controller: _textEditingController,
+                focusNode: _focusNode,
+                autofocus: true,
+                autocorrect: false,
+                cursorColor: Colors.white60,
+                style: const TextStyle(
                   fontSize: 20,
                   color: Colors.white60,
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white60),
+                decoration: InputDecoration(
+                  hintText: 'Enter Your Name',
+                  hintStyle: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.white60,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white60),
+                  ),
                 ),
               ),
-            ),
             SizedBox(height: 12),
             Text(
               highScore.currentScore,
@@ -91,16 +91,19 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
               ),
             ),
             const SizedBox(height: 12),
-            OutlinedButton(
-              onPressed: () => ref
-                  .read(highScoreNotifier.notifier)
-                  .addCurrentScoreFor(userName: _textEditingController.text),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.white60,
-                side: const BorderSide(color: Colors.white60),
+            if (widget.game.isGameOver)
+              OutlinedButton(
+                onPressed: () {
+                  widget.game.isGameOver = false;
+                  ref.read(highScoreNotifier.notifier).addCurrentScoreFor(
+                      userName: _textEditingController.text);
+                },
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.white60,
+                  side: const BorderSide(color: Colors.white60),
+                ),
+                child: Text('Save Score'),
               ),
-              child: Text('Save Score'),
-            ),
             SizedBox(height: 32),
             Expanded(
               child: ListView.builder(
@@ -119,7 +122,6 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
               ),
             ),
             SizedBox(height: 32),
-  
           ],
         ),
       ),

@@ -61,6 +61,7 @@ class TetrisGame extends FlameGame
   double backgroundMusicVolume = 0.25;
   double sfxVolume = 0.5;
   bool showFps = true;
+  bool isGameOver = false;
 
   set score(String newValue) {
     _score = newValue;

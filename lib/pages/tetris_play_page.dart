@@ -181,6 +181,7 @@ class TetrisPlayPage extends Component
     if (!game.isGameRunning) {
       game.backgroundMusicStart();
       game.isGameRunning = true;
+      game.isGameOver = false;
       addRandomBlock();
       updatePoints(null);
       return true;
@@ -213,7 +214,8 @@ class TetrisPlayPage extends Component
     removeFullRows();
     if (!game.isGameRunning) {
       print('>>> GAME OVER <<<');
-      gameRef.router.pushNamed('gameOver');
+      game.isGameOver = true;
+      game.router.pushNamed('gameOver');
       return;
     }
     // if (_currentFallingBlock != null && _currentFallingBlock!.y < 75) {
