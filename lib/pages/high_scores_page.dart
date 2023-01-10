@@ -31,7 +31,7 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
     final highScore = ref.watch(highScoreNotifier);
     return Material(
       child: Container(
-        color: Color.fromARGB(255, 20, 20, 20),
+        color: Color.fromARGB(200, 20, 20, 20),
         padding: const EdgeInsets.fromLTRB(60.0, 0, 60, 30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -85,12 +85,12 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
             if (widget.game.isGameOver)
               Text(
                 'Points: ${widget.game.points}\nRows: ${widget.game.rows}',
-              textAlign: TextAlign.start,
-              style: const TextStyle(
-                fontSize: 20,
-                color: Colors.white60,
+                textAlign: TextAlign.start,
+                style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.white60,
+                ),
               ),
-            ),
             const SizedBox(height: 12),
             if (widget.game.isGameOver)
               OutlinedButton(
@@ -112,20 +112,23 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
                 itemBuilder: (context, index) {
                   final score = highScore.scores[index];
                   return ListTile(
-                      title: Text(
+                    textColor: Colors.white60,
+                    tileColor: Colors.grey,
+                    title: Text(
                       score.userName,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white60,
-                    ),
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
                     ),
                     subtitle: Text(
                       'Points: ${score.points}\nRows: ${score.rows}',
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.white60,
                       ),
                     ),
+                    shape: new RoundedRectangleBorder(
+                        side: BorderSide(width: 2, color: Colors.amberAccent),
+                        borderRadius: new BorderRadius.circular(15.0)),
                   );
                 },
               ),
