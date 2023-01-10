@@ -82,8 +82,9 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
                 ),
               ),
             SizedBox(height: 12),
-            Text(
-              highScore.currentScore,
+            if (widget.game.isGameOver)
+              Text(
+                'Points: ${widget.game.points}\nRows: ${widget.game.rows}',
               textAlign: TextAlign.start,
               style: const TextStyle(
                 fontSize: 20,
@@ -112,12 +113,20 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
                   final score = highScore.scores[index];
                   return ListTile(
                       title: Text(
-                    score,
+                      score.userName,
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.white60,
                     ),
-                  ));
+                    ),
+                    subtitle: Text(
+                      'Points: ${score.points}\nRows: ${score.rows}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white60,
+                      ),
+                    ),
+                  );
                 },
               ),
             ),

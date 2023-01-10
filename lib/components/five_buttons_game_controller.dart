@@ -11,11 +11,12 @@ class FiveButtonsGameController extends PositionComponent
   });
 
   final Vector2 buttonSize;
-  final _controller = StreamController<GameCommand>.broadcast();
+  late StreamController<GameCommand> _controller;
 
   @override
   Future<void> onLoad() async {
     priority = 200;
+    _controller = StreamController<GameCommand>.broadcast();
     addAll([
       SvgButton(
         name: 'svg/rotate-left-variant-grey.svg',

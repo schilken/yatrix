@@ -153,11 +153,8 @@ class TetrisPlayPage extends Component
       [_freezedCounter + _removedRows * 100, _removedRows],
     );
     _textComponent?.text = pointString;
-    game.score = sprintf(
-      'Points: %06i\nRows:%03i',
-      [_freezedCounter + _removedRows * 100, _removedRows],
-    );
-//    print(pointString);
+    game.setScoreValues(
+        points: _freezedCounter + _removedRows * 100, rows: _removedRows);
   }
 
   @override
@@ -170,7 +167,7 @@ class TetrisPlayPage extends Component
     allQuads.forEach((element) => element.removeFromParent());
     _removedRows = 0;
     _droppedAtY = null;
-    _textComponent?.text = 'Tap down arrow to start';
+    _textComponent?.text = 'Tap button to start ->';
     _freezedCounter = 0;
     _currentFallingBlock = null;
     game.backgroundMusicStop();

@@ -55,7 +55,7 @@ class GameOverPage extends Component with TapCallbacks, HasGameRef<TetrisGame> {
         ],
       ),
       TextComponent(
-        text: game.score,
+        text: 'Points: ${game.points}\nRows: ${game.rows}',
         position: game.canvasSize / 2 + Vector2(0, 70),
         anchor: Anchor.center,
       ),

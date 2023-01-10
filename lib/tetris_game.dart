@@ -55,7 +55,6 @@ class TetrisGame extends FlameGame
   TetrisPageInterface? tetrisPage;
   KeyboardGameController? keyboardGameController;
   WidgetRef widgetRef;
-  String _score = '';
   String backgroundMusicName =
       'music_zapsplat_game_music_childrens_soft_warm_cuddly_calm_015.mp3';
   double backgroundMusicVolume = 0.25;
@@ -63,12 +62,15 @@ class TetrisGame extends FlameGame
   bool showFps = true;
   bool isGameOver = false;
 
-  set score(String newValue) {
-    _score = newValue;
-    widgetRef.read(highScoreNotifier.notifier).setCurrentScore(newValue);
+  int _rows = 0;
+  int _points = 0;
+  void setScoreValues({required int points, required int rows}) {
+    _points = points;
+    _rows = rows;
+    widgetRef.read(highScoreNotifier.notifier).setScoreValues(points, rows);
   }
-
-  String get score => _score;
+  int get points => _points;
+  int get rows => _rows;
 
   @override
   Future<void> onLoad() async {

@@ -39,7 +39,7 @@ class PreferencesRepository {
   }
 
   List<String> get scores {
-    final scores = _prefs.getStringList('scores') ?? ['User 0 - 0 Points'];
+    final scores = _prefs.getStringList('scores') ?? [];
     return scores;
   }
 
