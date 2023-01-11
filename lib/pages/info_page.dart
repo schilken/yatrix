@@ -9,20 +9,33 @@ class InfoPage extends StatelessWidget {
   final TetrisGame game;
   final markdown = '''
 
-# About YaTrix
-
-## The Name
-Yet Another Tetris
+# About YaTriX
 
 ## What
-YaTris is just another Tetris like game. Therefore the name YaTrix = **Y**et **A**nother Tet**ris**.
+YaTriX is just another Tetris like game. Therefore the name YaTrix = **Y**et **A**nother Tet**ris**.
 
 ## How
-It's coded in Dart using the Flame-Engine on top of Flutter.
+This version is quite similar to all other Tetris-Clones: 
+
+  Just try to fill full rows by moving the falling blocks left or right.
+
+When a block touches any other block or the floor, you have half a second to move it to another position.
+After that, it splits up in the containing squares and is fixed. 
+
+For the high score your points are calculated like this: 
+- Each filled row counts 200 points.
+- The earlier you drop the block with the down button, the more points you get.
+
+## The Mosaic
+The mosaic page came up as a by-product. 
+Here you can position the blocks as you like.
+The current block can also be moved up.
 
 ## Why
-Tetris is one of the most played games of all time. It was programmed for more than xx devices.
-Because I'm ecploring the Flame-Engine, I chose Tetris as a nice challenge to make it run on the 
+Tetris is one of the most played games of all time. 
+According to Wikipedia, it has been sold more than 425 million times and was programmed for more than 65 platforms. 
+Look up Wikipedia to read more about this fascinating game.
+Because I'm exploring Dart, Flutter and Flame-Engine, I chose Tetris as a nice challenge to make it run on the 
 Flame-Engine.
 
 ## Who
