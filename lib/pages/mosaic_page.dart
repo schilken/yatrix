@@ -30,7 +30,7 @@ class Debouncer {
   }
 }
 
-class TetrisConstructPage extends Component
+class MosaicPage extends Component
     with HasGameRef<TetrisGame>, GameControllerMixin
     implements TetrisPageInterface {
   World? world;
@@ -56,7 +56,7 @@ class TetrisConstructPage extends Component
 
   @override
   Future<void> onLoad() async {
-    print('TetrisConstructPage.onLoad');
+    print('MosaicPage.onLoad');
     _rotater = Debouncer(() => _currentFallingBlock?.rotateBy(-pi / 2));
     addAll([
       BackButton(),

@@ -37,8 +37,8 @@ class StartPage extends Component with HasGameRef<TetrisGame> {
         size: Vector2(150, 40),
       ),
       _constructButton = RoundedButton(
-        text: 'Construct',
-        action: () => gameRef.router.pushNamed('construct'),
+        text: 'Mosaic',
+        action: () => gameRef.router.pushNamed('mosaic'),
         color: const Color(0xffdebe6c),
         borderColor: const Color(0xffedffab),
         size: Vector2(150, 40),

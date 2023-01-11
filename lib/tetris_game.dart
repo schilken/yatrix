@@ -20,7 +20,7 @@ import 'pages/pause_route.dart';
 import 'pages/settings_page.dart';
 import 'pages/splash_screen.dart';
 import 'pages/start_page.dart';
-import 'pages/tetris_page.dart';
+import 'pages/mosaic_page.dart';
 import 'pages/tetris_play_page.dart';
 import 'providers/providers.dart';
 
@@ -52,7 +52,7 @@ class TetrisGame extends FlameGame
 
   bool isGameRunning = false;
   late final RouterComponent router;
-  TetrisPageInterface? tetrisPage;
+  TetrisPageInterface? gamePage;
   KeyboardGameController? keyboardGameController;
   WidgetRef widgetRef;
   String backgroundMusicName =
@@ -83,15 +83,16 @@ class TetrisGame extends FlameGame
           'home': Route(StartPage.new),
           'play': Route(() {
             final tetrisPlayPage = TetrisPlayPage();
-            tetrisPage = tetrisPlayPage;
+              gamePage = tetrisPlayPage;
             return tetrisPlayPage;
             },
             maintainState: false,
           ),
-          'construct': Route(() {
-            final tetrisConstructPage = TetrisConstructPage();
-            tetrisPage = tetrisConstructPage;
-            return tetrisConstructPage;
+          'constmosaicruct': Route(
+            () {
+              final mosaicPage = MosaicPage();
+              gamePage = mosaicPage;
+              return mosaicPage;
             },
             maintainState: false,
           ),
@@ -137,7 +138,7 @@ class TetrisGame extends FlameGame
   }
 
   void handleBlockFreezed() {
-    tetrisPage?.handleBlockFreezed();
+    gamePage?.handleBlockFreezed();
   }
 
   void backgroundMusicStart() {
