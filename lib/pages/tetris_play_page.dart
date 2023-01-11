@@ -159,7 +159,7 @@ class TetrisPlayPage extends Component
 
   @override
   void reset() {
-    print('TetrisPlayPage.reset');
+//    print('TetrisPlayPage.reset');
     game.isGameRunning = false;
     final allBlocks = world.children.query<TetrisBaseBlock>();
     allBlocks.forEach((element) => element.removeFromParent());
@@ -257,7 +257,7 @@ class TetrisPlayPage extends Component
   }
 
   void removeRow(double y) {
-    print('removeRow $y');
+//    print('removeRow $y');
     game.playSoundEffect(SoundEffects.removingFilledRow);
     _removedRows++;
     updatePoints(null);

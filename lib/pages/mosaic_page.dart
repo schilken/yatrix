@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 
 import '../components/boundaries.dart';
 import '../components/buttons.dart';
+import '../components/five_buttons_game_controller.dart';
 import '../components/game_controller_mixin.dart';
 import '../components/keyboard_game_controller.dart';
 import '../components/png_button.dart';
@@ -53,6 +54,7 @@ class MosaicPage extends Component
   set droppedAtY(double y) => _droppedAtY = y;
 
   ThreeButtonsGameController? threeButtons;
+  FiveButtonsGameController? fiveButtons;
 
   @override
   Future<void> onLoad() async {
@@ -83,7 +85,11 @@ class MosaicPage extends Component
     );
     _joystickPoller.start();
     //debugMode = true;
-    initGameControllers([game.keyboardGameController!, threeButtons!]);
+    initGameControllers([
+      game.keyboardGameController!,
+      threeButtons!,
+      fiveButtons!,
+    ]);
   }
 
   @override
@@ -130,6 +136,18 @@ class MosaicPage extends Component
     // world.add(Side(size: Vector2(10, 1100), position: Vector2(40, 50)));
     // world.add(Side(size: Vector2(10, 1100), position: Vector2(1150, 50)));
     addButtons(size);
+    final fiveButtonSize = (size.x < 600) ? Vector2.all(35) : Vector2.all(70);
+    if (fiveButtons == null) {
+      fiveButtons = FiveButtonsGameController(
+        buttonSize: fiveButtonSize,
+      );
+      add(fiveButtons!);
+    }
+    fiveButtons?.position = Vector2(
+      size.x - 2 * fiveButtonSize.x - 2 * buttonGapX,
+      size.y - 2 * fiveButtonSize.y - buttonGapX,
+    );
+    fiveButtons?.size = fiveButtonSize;    
     if (threeButtons == null) {
       threeButtons = ThreeButtonsGameController(
         buttonSize: Vector2.all(35),
@@ -144,12 +162,13 @@ class MosaicPage extends Component
     final allsvgButtons = children.query<PngButton>();
     allsvgButtons.forEach((button) => button.removeFromParent());
     _joystick?.removeFromParent();
-    final quadsize = min(25.0, (size.x - 20 - 6 * 10 - 20 - 50) / 21);
+    final quadsize = min(25.0, (size.x - 20 - 6 * 10 - 20 - 50) / 14);
     print('quadsize: ${size.x}  $quadsize');
     final size3x2quads = Vector2(3 * quadsize, 2 * quadsize);
     final size2x2quads = Vector2(2 * quadsize, 2 * quadsize);
     final size1x4quads = Vector2(4 * quadsize, quadsize);
-    final yOffset = size.y - 30 - quadsize;
+    final yOffsetRow1 = size.y - 30 - 3 * quadsize - 10;
+    final yOffsetRow2 = size.y - 30 - quadsize;
 
     final knobPaint = BasicPalette.blue.withAlpha(200).paint();
     final backgroundPaint = BasicPalette.blue.withAlpha(100).paint();
@@ -163,48 +182,57 @@ class MosaicPage extends Component
     addAll([
       PngButton(
         name: 'tet-Z',
-        position: Vector2(20, yOffset),
+        position: Vector2(20, yOffsetRow1),
         size: size3x2quads,
         onTap: () => addBlock('Z'),
       ),
       PngButton(
         name: 'tet-S',
-        position: Vector2(20 + size3x2quads.x + 10, yOffset),
+        position: Vector2(20 + size3x2quads.x + 10, yOffsetRow1),
         size: size3x2quads,
         onTap: () => addBlock('S'),
       ),
       PngButton(
         name: 'tet-L',
-        position: Vector2(20 + 2 * size3x2quads.x + 2 * 10, yOffset),
+        position: Vector2(20 + 2 * size3x2quads.x + 2 * 10, yOffsetRow1),
         size: size3x2quads,
         onTap: () => addBlock('L'),
       ),
       PngButton(
         name: 'tet-J',
-        position: Vector2(20 + 3 * size3x2quads.x + 3 * 10, yOffset),
+        position: Vector2(20 + 3 * size3x2quads.x + 3 * 10, yOffsetRow1),
         size: size3x2quads,
         onTap: () => addBlock('J'),
       ),
+      // second row of buttons
       PngButton(
         name: 'tet-T',
-        position: Vector2(20 + 4 * size3x2quads.x + 4 * 10, yOffset),
+        position: Vector2(20, yOffsetRow2),
         size: size3x2quads,
         onTap: () => addBlock('T'),
       ),
       PngButton(
         name: 'tet-O',
-        position: Vector2(20 + 5 * size3x2quads.x + 5 * 10, yOffset),
+        position: Vector2(20 + size3x2quads.x + 10, yOffsetRow2),
         size: size2x2quads,
         onTap: () => addBlock('O'),
       ),
       PngButton(
         name: 'tet-I',
         position:
-            Vector2(20 + 5 * size3x2quads.x + size2x2quads.x + 6 * 10, yOffset),
+            Vector2(20 + size3x2quads.x + size2x2quads.x + 2 * 10, yOffsetRow2),
         size: size1x4quads,
         onTap: () => addBlock('I'),
       ),
-      _joystick!,
+      PngButton(
+        name: 'tet-O',
+        position: Vector2(
+            20 + size3x2quads.x + size2x2quads.x + size1x4quads.x + 3 * 10,
+            yOffsetRow2),
+        size: size2x2quads,
+        onTap: addRandomBlock,
+      ),
+//      _joystick!,
     ]);
   }
 

@@ -88,7 +88,7 @@ class TetrisGame extends FlameGame
             },
             maintainState: false,
           ),
-          'constmosaicruct': Route(
+          'mosaic': Route(
             () {
               final mosaicPage = MosaicPage();
               gamePage = mosaicPage;

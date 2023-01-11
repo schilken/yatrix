@@ -26,10 +26,12 @@ For the high score your points are calculated like this:
 - Each filled row counts 200 points.
 - The earlier you drop the block with the down button, the more points you get.
 
+On desktop you can control the game also with the arrow keys on the keyboard.
+
 ## The Mosaic
 The mosaic page came up as a by-product. 
-Here you can position the blocks as you like.
-The current block can also be moved up.
+Here you can select the falling blocks as you like.
+On Desktop choose the keys S, Z, J, L, T, O and I on the keyboard
 
 ## Why
 Tetris is one of the most played games of all time. 
