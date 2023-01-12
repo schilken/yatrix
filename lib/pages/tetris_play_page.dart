@@ -71,6 +71,7 @@ class TetrisPlayPage extends Component
     ]);
     //debugMode = true;
     world = World();
+    children.register<Quadrat>();
     cameraComponent = CameraComponent(world: world);
     viewport = cameraComponent.viewport;
     viewfinder = cameraComponent.viewfinder;
@@ -158,7 +159,7 @@ class TetrisPlayPage extends Component
   }
 
   @override
-  void reset() {
+  void reset() async {
 //    print('TetrisPlayPage.reset');
     game.isGameRunning = false;
     final allBlocks = world.children.query<TetrisBaseBlock>();
@@ -186,11 +187,11 @@ class TetrisPlayPage extends Component
     return false;
   }
 
-  @override
-  void showHelp() {}
+  // @override
+  // void showHelp() {}
 
-  @override
-  void showSettings() {}
+  // @override
+  // void showSettings() {}
 
   @override
   void addBlock(String name) {
@@ -275,9 +276,13 @@ class TetrisPlayPage extends Component
 //    print('removeRow $y');
     game.playSoundEffect(SoundEffects.removingFilledRow);
     _removedRows++;
-    for (final quad in findQuadsInRow(y)) {
+    await removeQuads(findQuadsInRow(y));
+  }
+
+  Future<void> removeQuads(List<Quadrat> quads, {int delay = 20}) async {
+    for (final quad in quads) {
       quad.removeAnimated();
-      await Future<void>.delayed(const Duration(milliseconds: 20));
+      await Future<void>.delayed(Duration(milliseconds: delay));
     }
   }
 
