@@ -256,11 +256,8 @@ class TetrisPlayPage extends Component
     }
   }
 
-  Future<void> removeRow(double y) async {
-//    print('removeRow $y');
-    game.playSoundEffect(SoundEffects.removingFilledRow);
-    _removedRows++;
-    updatePoints(null);
+  List<Quadrat> findQuadsInRow(double y) {
+    final quads = <Quadrat>[];
     for (var x = 25.0; x < 500.0; x += 50.0) {
       final point = Vector2(xOffset + x, y);
       final quad = world.children
@@ -268,15 +265,24 @@ class TetrisPlayPage extends Component
           .where((block) => block.containsPoint(point))
           .firstOrNull;
       if (quad != null) {
-        quad.removeAnimated();
+        quads.add(quad);
       }
-      await Future<void>.delayed(const Duration(milliseconds: 10));
+    }
+    return quads;
+  }
+
+  Future<void> removeRow(double y) async {
+//    print('removeRow $y');
+    game.playSoundEffect(SoundEffects.removingFilledRow);
+    _removedRows++;
+    for (final quad in findQuadsInRow(y)) {
+      quad.removeAnimated();
+      await Future<void>.delayed(const Duration(milliseconds: 20));
     }
   }
 
   @override
   void addRandomBlock({Vector2? startPosition}) {
-//    print('addRandomBlock');
     _currentFallingBlock =
         TetrisBaseBlock.random(startPosition ?? defaultStartPosition, world);
     world.add(_currentFallingBlock!);
