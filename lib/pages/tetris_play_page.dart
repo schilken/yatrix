@@ -164,8 +164,11 @@ class TetrisPlayPage extends Component
     game.isGameRunning = false;
     final allBlocks = world.children.query<TetrisBaseBlock>();
     allBlocks.forEach((element) => element.removeFromParent());
-    final allQuads = world.children.query<Quadrat>();
-    allQuads.forEach((element) => element.removeFromParent());
+    List<Quadrat> allQuads;
+    do {
+      allQuads = world.children.query<Quadrat>();
+      await removeQuads(allQuads, delay: 10);
+    } while (allQuads.isNotEmpty);
     _removedRows = 0;
     _droppedAtY = null;
     _textComponent?.text = 'Tap button to start ->';
@@ -276,15 +279,23 @@ class TetrisPlayPage extends Component
 //    print('removeRow $y');
     game.playSoundEffect(SoundEffects.removingFilledRow);
     _removedRows++;
-    await removeQuads(findQuadsInRow(y));
+    await removeQuads2(findQuadsInRow(y));
   }
 
-  Future<void> removeQuads(List<Quadrat> quads, {int delay = 20}) async {
+  Future<void> removeQuads2(List<Quadrat> quads, {int delay = 20}) async {
     for (final quad in quads) {
       quad.removeAnimated();
       await Future<void>.delayed(Duration(milliseconds: delay));
     }
   }
+
+  Future<void> removeQuads(List<Quadrat> quads, {int delay = 20}) async {
+    for (final quad in quads) {
+      world.remove(quad);
+      await Future<void>.delayed(Duration(milliseconds: delay));
+    }
+  }
+
 
   @override
   void addRandomBlock({Vector2? startPosition}) {
