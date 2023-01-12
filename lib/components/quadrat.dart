@@ -1,7 +1,9 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/palette.dart';
+import 'package:flutter/animation.dart';
 import 'package:flutter/rendering.dart';
 
 import 'background.dart';
@@ -36,16 +38,16 @@ class Quadrat extends SpriteComponent with CollisionCallbacks {
   }
   CollisionCallback collisionCallback;
   RectangleHitbox? hitBox;
-  var state = QuadState.initial;
+  QuadState state = QuadState.initial;
   String blockType;
 
-  final _textPaint = TextPaint(
-    style: const TextStyle(
-      fontSize: 40,
-      color: Color(0xFFC8FFF5),
-      fontWeight: FontWeight.w800,
-    ),
-  );
+  // final _textPaint = TextPaint(
+  //   style: const TextStyle(
+  //     fontSize: 40,
+  //     color: Color(0xFFC8FFF5),
+  //     fontWeight: FontWeight.w800,
+  //   ),
+  // );
 
   @override
   Future<void> onLoad() async {
@@ -68,15 +70,28 @@ class Quadrat extends SpriteComponent with CollisionCallbacks {
     return hitBox != null && rect.containsPoint(parentPoint);
   }
 
-  void hide() {
-    print('hide at position $position');
-    hitBox?.removeFromParent();
-    hitBox = null;
-    state = QuadState.hidden;
-    add(Background(
-        paint: PaletteEntry(Color(0x80000000)).paint(),
-        rect: Rect.fromLTWH(0, 0, 50, 50)));
+  // void hide() {
+  //   print('hide at position $position');
+  //   hitBox?.removeFromParent();
+  //   hitBox = null;
+  //   state = QuadState.hidden;
+  //   add(Background(
+  //       paint: PaletteEntry(Color(0x80000000)).paint(),
+  //       rect: Rect.fromLTWH(0, 0, 50, 50)));
+  // }
+
+  void removeAnimated() {
+    anchor = Anchor.bottomCenter;
+    y += 50.0;
+    add(
+      ScaleEffect.to(
+        Vector2(1, 0.1),
+        EffectController(duration: 0.2, curve: Curves.easeOut),
+        onComplete: removeFromParent,
+      ),
+    );
   }
+
 
   void freeze() {
 //    print('freeze at position $position $blockType');

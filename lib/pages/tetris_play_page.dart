@@ -229,9 +229,9 @@ class TetrisPlayPage extends Component
 //    print('yOfRows: ${yOfRows}');
     for (final y in yOfRows) {
       final yAfterDropping = y + removedRows * 50;
-      removeRow(yAfterDropping.toDouble());
+      await removeRow(yAfterDropping.toDouble());
       var yAboveRemovedRow = yAfterDropping.toDouble() - 50;
-      await Future<void>.delayed(const Duration(milliseconds: 300));
+      await Future<void>.delayed(const Duration(milliseconds: 200));
       moveRowsAbove(yAboveRemovedRow);
       do {
         await Future<void>.delayed(const Duration(milliseconds: 50));
@@ -256,7 +256,7 @@ class TetrisPlayPage extends Component
     }
   }
 
-  void removeRow(double y) {
+  Future<void> removeRow(double y) async {
 //    print('removeRow $y');
     game.playSoundEffect(SoundEffects.removingFilledRow);
     _removedRows++;
@@ -268,8 +268,9 @@ class TetrisPlayPage extends Component
           .where((block) => block.containsPoint(point))
           .firstOrNull;
       if (quad != null) {
-        quad.removeFromParent();
+        quad.removeAnimated();
       }
+      await Future<void>.delayed(const Duration(milliseconds: 10));
     }
   }
 
