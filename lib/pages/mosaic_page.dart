@@ -225,7 +225,7 @@ class MosaicPage extends Component
         onTap: () => addBlock('I'),
       ),
       PngButton(
-        name: 'tet-O',
+        name: 'dice',
         position: Vector2(
             20 + size3x2quads.x + size2x2quads.x + size1x4quads.x + 3 * 10,
             yOffsetRow2),
