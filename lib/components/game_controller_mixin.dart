@@ -9,8 +9,6 @@ mixin GameControllerMixin {
   TetrisBaseBlock? get currentFallingBlock;
   void reset();
   bool startGameIfNotRunning();
-  void showHelp();
-  void showSettings();
   void addRandomBlock();
   void updatePoints(double? freezedAtY);
   void addBlock(String name);
@@ -35,16 +33,19 @@ mixin GameControllerMixin {
       reset();
       return;
     }
-    if (command == GameCommand.help) {
-      showHelp();
-      return;
-    }
-    if (command == GameCommand.settings) {
-      showSettings();
-      return;
-    }
+    // if (command == GameCommand.help) {
+    //   showHelp();
+    //   return;
+    // }
+    // if (command == GameCommand.settings) {
+    //   showSettings();
+    //   return;
+    // }
     if (startGameIfNotRunning()) {
       return;
+    }
+    if (command == GameCommand.random) {
+      addRandomBlock();
     }
 
     if (currentFallingBlock == null) {
@@ -75,6 +76,6 @@ mixin GameControllerMixin {
       addBlock('L');
     } else if (command == GameCommand.Z) {
       addBlock('Z');
-    }
+    } 
   }
 }

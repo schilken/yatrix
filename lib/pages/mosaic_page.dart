@@ -129,14 +129,14 @@ class MosaicPage extends Component
     floor.removeFromParent();
     floor = Floor(
       size: Vector2(gameSizeX - 20, 10),
-      position: Vector2(10, gameSizeY - 150),
+      position: Vector2(10, gameSizeY - 200),
     );
     world?.add(floor);
     defaultStartPosition = Vector2(gameSizeX / 2, 70);
     // world.add(Side(size: Vector2(10, 1100), position: Vector2(40, 50)));
     // world.add(Side(size: Vector2(10, 1100), position: Vector2(1150, 50)));
     addButtons(size);
-    final fiveButtonSize = (size.x < 600) ? Vector2.all(35) : Vector2.all(70);
+    final fiveButtonSize = (size.x < 600) ? Vector2.all(35) : Vector2.all(50);
     if (fiveButtons == null) {
       fiveButtons = FiveButtonsGameController(
         buttonSize: fiveButtonSize,
@@ -145,7 +145,7 @@ class MosaicPage extends Component
     }
     fiveButtons?.position = Vector2(
       size.x - 2 * fiveButtonSize.x - 2 * buttonGapX,
-      size.y - 2 * fiveButtonSize.y - buttonGapX,
+      size.y - 2 * fiveButtonSize.y,
     );
     fiveButtons?.size = fiveButtonSize;    
     if (threeButtons == null) {
@@ -255,11 +255,11 @@ class MosaicPage extends Component
     world?.add(_currentFallingBlock!);
   }
 
-  @override
-  void showHelp() {}
+  // @override
+  // void showHelp() {}
 
-  @override
-  void showSettings() {}
+  // @override
+  // void showSettings() {}
 
   @override
   void handleBlockFreezed() {
@@ -268,6 +268,7 @@ class MosaicPage extends Component
 
   @override
   void addRandomBlock({Vector2? startPosition}) {
+    print('addRandomBlock');
     _currentFallingBlock = TetrisBaseBlock.random(
       startPosition ?? defaultStartPosition,
       null,
