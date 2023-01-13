@@ -276,10 +276,11 @@ class TetrisPlayPage extends Component
 //    print('removeRow $y');
     game.playSoundEffect(SoundEffects.removingFilledRow);
     _removedRows++;
-    await removeQuads2(findQuadsInRow(y));
+    await removeQuadsAnimated(findQuadsInRow(y));
   }
 
-  Future<void> removeQuads2(List<Quadrat> quads, {int delay = 20}) async {
+  Future<void> removeQuadsAnimated(List<Quadrat> quads,
+      {int delay = 20}) async {
     for (final quad in quads) {
       quad.removeAnimated();
       await Future<void>.delayed(Duration(milliseconds: delay));
