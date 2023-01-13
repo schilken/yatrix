@@ -164,11 +164,8 @@ class TetrisPlayPage extends Component
     game.isGameRunning = false;
     final allBlocks = world.children.query<TetrisBaseBlock>();
     allBlocks.forEach((element) => element.removeFromParent());
-    List<Quadrat> allQuads;
-    do {
-      allQuads = world.children.query<Quadrat>();
-      await removeQuads(allQuads, delay: 10);
-    } while (allQuads.isNotEmpty);
+    List<Quadrat> allQuads = world.children.query<Quadrat>();
+    await removeQuads(allQuads, delay: 10);
     _removedRows = 0;
     _droppedAtY = null;
     _textComponent?.text = 'Tap button to start ->';
@@ -290,7 +287,8 @@ class TetrisPlayPage extends Component
   }
 
   Future<void> removeQuads(List<Quadrat> quads, {int delay = 20}) async {
-    for (final quad in quads) {
+    final clonedList = [...quads];
+    for (final quad in clonedList) {
       world.remove(quad);
       await Future<void>.delayed(Duration(milliseconds: delay));
     }
