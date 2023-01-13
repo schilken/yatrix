@@ -23,12 +23,13 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     _textEditingController = TextEditingController();
     _scrollController = ScrollController();
     _focusNode = FocusNode();
-    _textEditingController.text = ref.read(highScoreNotifier).userName;
+    _textEditingController.text = ref.read(settingsNotifier).remotePeerId;
   }
 
   @override
   Widget build(BuildContext context) {
     final settings = ref.watch(settingsNotifier);
+    _textEditingController.text = settings.remotePeerId;
     return Material(
       child: Container(
         color: Color.fromARGB(255, 20, 20, 20),
@@ -58,7 +59,96 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 color: Colors.white60,
               ),
             ),
-            SizedBox(height: 48),
+            SizedBox(height: 32),
+            Row(
+              children: [
+                Text(
+                  'Enable Peer Server',
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.white60,
+                  ),
+                ),
+                Spacer(),
+                Switch(
+                  // This bool value toggles the switch.
+                  value: ref.read(settingsNotifier).activatePeerServer,
+                  // inactiveThumbColor: Colors.white24,
+                  // inactiveTrackColor: Colors.white24,
+                  thumbColor: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.selected)) {
+                      return Colors.white70;
+                    }
+                    return Colors.grey;
+                  }),
+                  trackColor: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                    return Colors.grey.shade600;
+                  }),
+                  onChanged: (value) {
+                    ref
+                        .read(settingsNotifier.notifier)
+                        .setActivatePeerServer(value);
+                    widget.game.showFps = value;
+                  },
+                ),
+              ],
+            ),
+            if (!ref.watch(settingsNotifier).activatePeerServer) ...[
+              Text(
+                'If you want to connect to your player buddy\'s server, enter their Id here.',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white60,
+                ),
+              ),
+              SizedBox(height: 8),
+              TextField(
+                controller: _textEditingController,
+                focusNode: _focusNode,
+                autofocus: true,
+                autocorrect: false,
+                cursorColor: Colors.white60,
+                style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.white60,
+                ),
+                decoration: InputDecoration(
+                  hintText: 'Enter ID of your Server',
+                  hintStyle: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.white60,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white60),
+                  ),
+                ),
+              ),
+              SizedBox(height: 12),
+              OutlinedButton(
+                onPressed: () {
+                  widget.game.isGameOver = false;
+                  ref
+                      .read(settingsNotifier.notifier)
+                      .connect(remotePeerId: _textEditingController.text);
+                },
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.white60,
+                  side: const BorderSide(color: Colors.white60),
+                ),
+                child: Text('Connect'),
+              ),
+            ],
+            if (ref.watch(settingsNotifier).activatePeerServer)
+              Text(
+                'You are the server. Tell your player buddy this Server ID: ${ref.watch(settingsNotifier).localPeerId}',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white60,
+                ),
+              ),
+            SizedBox(height: 24),
             Text(
               'Background Music Volume',
               style: TextStyle(
@@ -141,6 +231,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 ),
               ],
             ),
+            SizedBox(height: 24),
+
           ],
         ),
       ),
