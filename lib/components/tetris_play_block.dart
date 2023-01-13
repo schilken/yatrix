@@ -12,7 +12,7 @@ import 'boundaries.dart';
 import 'quadrat.dart';
 
 const quadSize = 50.0;
-const quadPadding = 5.0;
+const quadPadding = 1.0;
 
 typedef TetrisBaseBlockTearOff = TetrisBaseBlock Function({
   required Vector2 blockPosition,
@@ -146,7 +146,9 @@ abstract class TetrisBaseBlock extends SpriteComponent
       // print(
       //     'Helpers.rotCorrection(quad.absoluteAngle): ${Helpers.rotCorrection(quad.absoluteAngle)}');
       quad.position =
-          absolutePosition + Helpers.rotCorrection(quad.absoluteAngle) * 40;
+          absolutePosition +
+          Helpers.rotCorrection(quad.absoluteAngle) *
+              (quadSize - 2 * quadPadding);
       quad.freeze();
       _isFreezed = true;
     }
@@ -203,7 +205,7 @@ abstract class TetrisBaseBlock extends SpriteComponent
 
   void adjustY() {
 //    print('adjustY before: $y');
-    final tempy = y - yOffset - 5;
+    final tempy = y - yOffset - quadPadding;
     y = (tempy / 50).floor() * 50.0 + yOffset;
 //    print('adjustY after: $y');
   }

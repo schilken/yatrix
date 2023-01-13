@@ -34,7 +34,10 @@ class Quadrat extends SpriteComponent with CollisionCallbacks {
     required this.collisionCallback,
     required this.blockType,
   }) {
-    size = Vector2(40, 40);
+    size = Vector2(
+      quadSize - 2 * quadPadding,
+      quadSize - 2 * quadPadding,
+    );
   }
   CollisionCallback collisionCallback;
   RectangleHitbox? hitBox;
