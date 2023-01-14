@@ -10,8 +10,10 @@ class PeerPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final peerState = ref.watch(peerNotifier);
-
+    final peerAsyncState = ref.watch(peerNotifier);
+    final isActive = peerAsyncState.hasValue
+        ? peerAsyncState?.value?.activatePeerServer ?? false
+        : false;
     return Material(
       child: Container(
         color: Color.fromARGB(255, 20, 20, 20),
@@ -54,7 +56,7 @@ class PeerPage extends ConsumerWidget {
                 Spacer(),
                 Switch(
                   // This bool value toggles the switch.
-                  value: peerState.activatePeerServer,
+                  value: isActive,
                   // inactiveThumbColor: Colors.white24,
                   // inactiveTrackColor: Colors.white24,
                   thumbColor: MaterialStateProperty.resolveWith<Color>(
@@ -78,10 +80,10 @@ class PeerPage extends ConsumerWidget {
               ],
             ),
             SizedBox(height: 12),
-            if (!peerState.activatePeerServer) PeerClientSection(),
-            if (peerState.activatePeerServer)
+            if (!isActive) PeerClientSection(),
+            if (isActive)
               Text(
-                'You are the server. Tell your player buddy this Server ID: ${peerState.localPeerId}',
+                'You are the server. Tell your player buddy this Server ID: ${peerAsyncState?.value?.localPeerId ?? ""}',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.white60,
@@ -112,11 +114,12 @@ class _PeerClientSectionState extends ConsumerState<PeerClientSection> {
     _textEditingController = TextEditingController();
     _scrollController = ScrollController();
     _focusNode = FocusNode();
-    _textEditingController.text = ref.read(peerNotifier).remotePeerId;
+    _textEditingController.text = ''; //ref.read(peerNotifier).remotePeerId;
   }
 
   @override
   Widget build(BuildContext context) {
+    final peerConnectState = ref.watch(peerConnectNotifier);
     return Column(children: [
       Text(
         'If you want to connect to your player buddy\'s server, enter their Id here.',
@@ -148,18 +151,42 @@ class _PeerClientSectionState extends ConsumerState<PeerClientSection> {
         ),
       ),
       SizedBox(height: 24),
-      OutlinedButton(
-        onPressed: () {
-          ref
-              .read(peerNotifier.notifier)
-              .connect(remotePeerId: _textEditingController.text);
-        },
-        style: OutlinedButton.styleFrom(
-          foregroundColor: Colors.white60,
-          side: const BorderSide(color: Colors.white60),
+      if (peerConnectState.connectState == ConnectState.notConnected)
+        OutlinedButton(
+          onPressed: () {
+            ref
+                .read(peerConnectNotifier.notifier)
+                .connect(remotePeerId: _textEditingController.text);
+          },
+          style: OutlinedButton.styleFrom(
+            foregroundColor: Colors.white60,
+            side: const BorderSide(color: Colors.white60),
+          ),
+          child: Text('Connect'),
         ),
-        child: Text('Connect'),
-      ),
+      if (peerConnectState.connectState == ConnectState.connecting ||
+          peerConnectState.connectState == ConnectState.connected)
+        Text(
+          peerConnectState.message,
+          style: TextStyle(
+            fontSize: 16,
+            color: Colors.white60,
+          ),
+        ),
+      SizedBox(height: 24),
+      if (peerConnectState.connectState == ConnectState.connected)
+        OutlinedButton(
+          onPressed: () {
+            ref.read(peerConnectNotifier.notifier).disConnect();
+          },
+          style: OutlinedButton.styleFrom(
+            foregroundColor: Colors.white60,
+            side: const BorderSide(color: Colors.white60),
+          ),
+          child: Text('Disconnect'),
+        ),
+
+
     ]);
   }
 }
