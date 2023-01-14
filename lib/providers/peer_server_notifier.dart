@@ -8,7 +8,8 @@ import 'providers.dart';
 enum ServerState {
   notStarted,
   starting,
-  started,
+  listening,
+  connected,
   error,
 }
 
@@ -52,12 +53,16 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
   void start() async {
     state = state.copyWith(
         serverState: ServerState.starting,
-        message: 'starting Server with ID ${state.serverPeerId}');
+        message: 'Server is starting with ID ${state.serverPeerId}');
     print('PeerServerNotifier.start → ${state.serverPeerId}');
     await Future<void>.delayed(Duration(milliseconds: 1000));
     state = state.copyWith(
-        serverState: ServerState.started,
-        message: 'started server with ${state.serverPeerId}');
+        serverState: ServerState.listening,
+        message: 'Server is listening with ${state.serverPeerId}');
+    await Future<void>.delayed(Duration(milliseconds: 5000));
+    state = state.copyWith(
+        serverState: ServerState.connected,
+        message: 'Server is connected to client');
   }
 
   void stop() {

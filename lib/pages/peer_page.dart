@@ -231,7 +231,8 @@ class PeerServerSection extends ConsumerWidget {
           ),
       ],
       if (peerServerState.serverState == ServerState.starting ||
-          peerServerState.serverState == ServerState.started)
+          peerServerState.serverState == ServerState.listening ||
+          peerServerState.serverState == ServerState.connected)
         Text(
           peerServerState.message,
           style: TextStyle(
@@ -240,10 +241,12 @@ class PeerServerSection extends ConsumerWidget {
           ),
         ),
       SizedBox(height: 8),
-      if (peerServerState.serverState == ServerState.starting)
+      if (peerServerState.serverState == ServerState.starting ||
+          peerServerState.serverState == ServerState.listening)
         CircularProgressIndicator(),
       SizedBox(height: 24),
-      if (peerServerState.serverState == ServerState.started)
+      if (peerServerState.serverState == ServerState.listening ||
+          peerServerState.serverState == ServerState.connected)
         OutlinedButton(
           onPressed: ref.read(peerServerNotifier.notifier).stop,
           style: OutlinedButton.styleFrom(
