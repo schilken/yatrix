@@ -173,6 +173,9 @@ class _PeerClientSectionState extends ConsumerState<PeerClientSection> {
             color: Colors.white60,
           ),
         ),
+      SizedBox(height: 8),
+      if (peerConnectState.connectState == ConnectState.connecting)
+        CircularProgressIndicator(),
       SizedBox(height: 24),
       if (peerConnectState.connectState == ConnectState.connected)
         OutlinedButton(
