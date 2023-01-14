@@ -39,10 +39,13 @@ class PeerServerState {
 
 class PeerServerNotifier extends Notifier<PeerServerState> {
   late PreferencesRepository _preferencesRepository;
+  late PeerService _peerService;
+  late Stream<String> _receivedStrings;
 
   @override
   PeerServerState build() {
     _preferencesRepository = ref.read(preferencesRepositoryProvider);
+    _peerService = ref.read(peerServiceProvider);
     return PeerServerState(
       serverState: ServerState.notStarted,
       serverPeerId: '141414',
@@ -51,18 +54,20 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
   }
 
   void start() async {
+    try {
+      _receivedStrings = _peerService.startServer(state.serverPeerId);
+    } on Exception catch (e, s) {
+      print('exception: $e, $s');
+    }
+
     state = state.copyWith(
         serverState: ServerState.starting,
         message: 'Server is starting with ID ${state.serverPeerId}');
-    print('PeerServerNotifier.start → ${state.serverPeerId}');
-    await Future<void>.delayed(Duration(milliseconds: 1000));
-    state = state.copyWith(
-        serverState: ServerState.listening,
-        message: 'Server is listening with ${state.serverPeerId}');
-    await Future<void>.delayed(Duration(milliseconds: 5000));
-    state = state.copyWith(
-        serverState: ServerState.connected,
-        message: 'Server is connected to client');
+    _receivedStrings.listen((message) {
+      print('PeerServerNotifier.listen: $message');
+      state =
+          state.copyWith(serverState: ServerState.connected, message: message);
+    });    
   }
 
   void stop() {
