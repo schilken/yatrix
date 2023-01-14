@@ -117,7 +117,8 @@ class _PeerClientSectionState extends ConsumerState<PeerClientSection> {
   Widget build(BuildContext context) {
     final peerConnectState = ref.watch(peerClientNotifier);
     return Column(children: [
-      if (peerConnectState.clientState == ClientState.notConnected) ...[
+      if (peerConnectState.clientState == ClientState.notConnected ||
+          peerConnectState.clientState == ClientState.error) ...[
       Text(
         'If you want to connect to your player buddy\'s server, enter their Id here.',
         style: TextStyle(
@@ -148,8 +149,19 @@ class _PeerClientSectionState extends ConsumerState<PeerClientSection> {
         ),
       ),
       ],
+      if (peerConnectState.clientState == ClientState.error) ...[
+        SizedBox(height: 8),
+        Text(
+          peerConnectState.message,
+          style: TextStyle(
+            fontSize: 16,
+            color: Colors.red,
+          ),
+        ),
+      ],
       SizedBox(height: 24),
-      if (peerConnectState.clientState == ClientState.notConnected)
+      if (peerConnectState.clientState == ClientState.notConnected ||
+          peerConnectState.clientState == ClientState.error)
         OutlinedButton(
           onPressed: () {
             ref

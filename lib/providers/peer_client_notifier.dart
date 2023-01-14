@@ -52,6 +52,12 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
   }
 
   Future<void> connect({required String remotePeerId}) async {
+    if (remotePeerId.length < 5) {
+      state = state.copyWith(
+          clientState: ClientState.error,
+          message: 'ID must be a 5 digit number');
+      return;
+    }
     _remotePeerId = remotePeerId;
     state = state.copyWith(
         clientState: ClientState.connecting,
