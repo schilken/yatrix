@@ -71,6 +71,7 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
   }
 
   void stop() {
+    _peerService.stopServer();
     state = state.copyWith(
       serverState: ServerState.notStarted,
       message: '',
