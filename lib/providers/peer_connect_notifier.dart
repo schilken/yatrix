@@ -5,47 +5,47 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'providers.dart';
 
-enum ConnectState {
+enum ClientState {
   notConnected,
   connecting,
   connected,
   error,
 }
 
-class PeerConnectState {
+class PeerClientState {
   String remotePeerId;
-  ConnectState connectState;
+  ClientState clientState;
   String message;
 
-  PeerConnectState({
+  PeerClientState({
     required this.remotePeerId,
-    required this.connectState,
+    required this.clientState,
     required this.message,
   });
 
-  PeerConnectState copyWith({
+  PeerClientState copyWith({
     String? remotePeerId,
-    ConnectState? connectState,
+    ClientState? clientState,
     String? message,
   }) {
-    return PeerConnectState(
+    return PeerClientState(
       remotePeerId: remotePeerId ?? this.remotePeerId,
-      connectState: connectState ?? this.connectState,
+      clientState: clientState ?? this.clientState,
       message: message ?? this.message,
     );
   }
 }
 
-class PeerConnectNotifier extends Notifier<PeerConnectState> {
+class PeerClientNotifier extends Notifier<PeerClientState> {
   late PreferencesRepository _preferencesRepository;
 
   String _remotePeerId = '';
 
   @override
-  PeerConnectState build() {
+  PeerClientState build() {
     _preferencesRepository = ref.read(preferencesRepositoryProvider);
-    return PeerConnectState(
-      connectState: ConnectState.notConnected,
+    return PeerClientState(
+      clientState: ClientState.notConnected,
       remotePeerId: _remotePeerId,
       message: '',
     );
@@ -54,23 +54,23 @@ class PeerConnectNotifier extends Notifier<PeerConnectState> {
   Future<void> connect({required String remotePeerId}) async {
     _remotePeerId = remotePeerId;
     state = state.copyWith(
-        connectState: ConnectState.connecting,
+        clientState: ClientState.connecting,
         message: 'connecting to $remotePeerId');
     print('PeerConnectNotifier.connect → $remotePeerId');
     await Future<void>.delayed(Duration(milliseconds: 1000));
     state = state.copyWith(
-        connectState: ConnectState.connected,
+        clientState: ClientState.connected,
         message: 'connected with $remotePeerId');
   }
 
   void disConnect() {
     state = state.copyWith(
-      connectState: ConnectState.notConnected,
+      clientState: ClientState.notConnected,
       message: '',
     );
   }
 }
 
-final peerConnectNotifier =
-    NotifierProvider<PeerConnectNotifier, PeerConnectState>(
-        PeerConnectNotifier.new);
+final peerClientNotifier =
+    NotifierProvider<PeerClientNotifier, PeerClientState>(
+        PeerClientNotifier.new);
