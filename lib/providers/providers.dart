@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 export 'high_score_notifier.dart';
 export 'preferences_repository.dart';
 export 'settings_notifier.dart';
+export 'peer_notifier.dart';
 
 final sharedPreferencesProvider = Provider<SharedPreferences>(
   (ref) => throw UnimplementedError(),

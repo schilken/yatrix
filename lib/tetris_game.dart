@@ -17,6 +17,7 @@ import 'pages/help_page.dart';
 import 'pages/high_scores_page.dart';
 import 'pages/info_page.dart';
 import 'pages/pause_route.dart';
+import 'pages/peer_page.dart';
 import 'pages/settings_page.dart';
 import 'pages/splash_screen.dart';
 import 'pages/start_page.dart';
@@ -97,6 +98,7 @@ class TetrisGame extends FlameGame
             maintainState: false,
           ),
           'settings': OverlayRoute((context, game) => SettingsPage(game: this)),
+          'peer': OverlayRoute((context, game) => PeerPage(game: this)),
           'info': OverlayRoute(
             (context, game) {
               return InfoPage(game: this);

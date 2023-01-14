@@ -9,6 +9,7 @@ class StartPage extends Component with HasGameRef<TetrisGame> {
   late final RoundedButton _playButton;
   late final RoundedButton _constructButton;
   late final RoundedButton _settingsButton;
+  late final RoundedButton _peerButton;
   late final RoundedButton _highScoreButton;
   late final RoundedButton _helpButton;
   late final RoundedButton _creditsButton;
@@ -50,6 +51,13 @@ class StartPage extends Component with HasGameRef<TetrisGame> {
         borderColor: const Color(0xfffff4c7),
         size: Vector2(150, 40),
       ),
+      _peerButton = RoundedButton(
+        text: 'Peer',
+        action: () => gameRef.router.pushNamed('peer'),
+        color: const Color(0xffdebe6c),
+        borderColor: const Color(0xfffff4c7),
+        size: Vector2(150, 40),
+      ),
       _highScoreButton = RoundedButton(
         text: 'High Score',
         action: () => gameRef.router.pushNamed('highScore'),
@@ -78,12 +86,13 @@ class StartPage extends Component with HasGameRef<TetrisGame> {
   @override
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
-    double yPosition = size.y / 4;
+    double yPosition = size.y / 5;
     _logo.position = Vector2(size.x / 2, yPosition);
     _playButton.position = Vector2(size.x / 2, yPosition += yStartOffset);
     _constructButton.position = Vector2(size.x / 2, yPosition += yDelta);
     _highScoreButton.position = Vector2(size.x / 2, yPosition += yDelta);
     _settingsButton.position = Vector2(size.x / 2, yPosition += yDelta);
+    _peerButton.position = Vector2(size.x / 2, yPosition += yDelta);
     _helpButton.position = Vector2(size.x / 2, yPosition += yDelta);
     _creditsButton.position = Vector2(size.x / 2, yPosition += yDelta);
   }
