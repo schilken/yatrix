@@ -17,17 +17,18 @@ class PeerService {
       throw Exception('creation failed');
     }
     _streamController = StreamController<String>();
-    _peer!.on<DataConnection>("connection").listen((event) {
+
+    _peer!.on<DataConnection>('connection').listen((event) {
       conn = event;
 //      print('server got an connection: $event');
       _streamController.add('connection opened');
 
-      conn.on<dynamic>("data").listen((dynamic data) {
+      conn.on<dynamic>('data').listen((dynamic data) {
 //        print('server received data: $data');
         _streamController.add(data.toString());
       });
 
-      conn.on<dynamic>("close").listen((dynamic _) {
+      conn.on<dynamic>('close').listen((dynamic _) {
 //        print('server received close');
         _streamController.add('connection closed');
         connected = false;
@@ -42,22 +43,52 @@ class PeerService {
     _streamController.close();
   }
 
-  void connectToServer(String id) {
-    _peer = Peer();
+  Future<void> initPeer() async {
+    _peer = Peer(options: PeerOptions(debug: LogLevel.All));
     if (_peer == null) {
       throw Exception('creation failed');
     }
-    conn = _peer!.connect(id);
-
-    conn.on<String>("open").listen((name) {
-      print('open: $name');
-      conn.send("hi!");
-    });
-
-    conn.on<String>("data").listen((data) {
-      print('client received data: $data');
-    });
+    await Future<void>.delayed(Duration(milliseconds: 300));
   }
+
+  Stream<String> connectToServer(String id) {
+    _streamController = StreamController<String>();
+
+    _peer!.on<dynamic>('open').listen((dynamic name) {
+      connected = true;
+      print('peer.open: $name');
+      _streamController.add('peer initialized');
+    });
+
+    final connection =
+        _peer!.connect(id, options: PeerConnectOption(reliable: true));
+    conn = connection;
+
+    conn.on<dynamic>('open').listen((dynamic event) {
+      connected = true;
+      _streamController.add('connection opened');
+//      print('conn.open: $event');
+
+      conn.on<dynamic>('data').listen((dynamic data) {
+//        print('client received data: $data');
+        _streamController.add(data.toString());
+    });
+
+      connection.on<dynamic>('close').listen((dynamic _) {
+//        print('client received close');
+        _streamController.add('connection closed');
+        connected = false;
+      });
+    });
+
+    return _streamController.stream;
+  }
+
+  void disconnect() {
+    _peer?.dispose();
+    _streamController.close();
+  }
+
 }
 
 final peerServiceProvider = Provider<PeerService>(

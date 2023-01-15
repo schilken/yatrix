@@ -187,7 +187,8 @@ class _PeerClientSectionState extends ConsumerState<PeerClientSection> {
       if (peerConnectState.clientState == ClientState.connecting)
         CircularProgressIndicator(),
       SizedBox(height: 24),
-      if (peerConnectState.clientState == ClientState.connected)
+      if (peerConnectState.clientState == ClientState.connected ||
+          peerConnectState.clientState == ClientState.connecting)
         OutlinedButton(
           onPressed: () {
             ref.read(peerClientNotifier.notifier).disConnect();

@@ -61,8 +61,8 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
     }
 
     state = state.copyWith(
-        serverState: ServerState.starting,
-        message: 'Server is starting with ID ${state.serverPeerId}');
+        serverState: ServerState.listening,
+        message: 'Server is listening on ID ${state.serverPeerId}');
     _receivedStrings.listen((message) {
       print('PeerServerNotifier.listen: $message');
       state =

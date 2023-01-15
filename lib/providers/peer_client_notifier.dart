@@ -38,12 +38,14 @@ class PeerClientState {
 
 class PeerClientNotifier extends Notifier<PeerClientState> {
   late PreferencesRepository _preferencesRepository;
-
+  late PeerService _peerService;
+  late Stream<String> _receivedStrings;
   String _remotePeerId = '';
 
   @override
   PeerClientState build() {
     _preferencesRepository = ref.read(preferencesRepositoryProvider);
+    _peerService = ref.read(peerServiceProvider);
     return PeerClientState(
       clientState: ClientState.notConnected,
       remotePeerId: _remotePeerId,
@@ -59,17 +61,32 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
       return;
     }
     _remotePeerId = remotePeerId;
+    try {
+      await _peerService.initPeer();
+      _receivedStrings = _peerService.connectToServer(remotePeerId);
+    } on Exception catch (e, s) {
+      print('exception: $e, $s');
+    }
     state = state.copyWith(
         clientState: ClientState.connecting,
-        message: 'connecting to $remotePeerId');
+      message: 'connecting to $remotePeerId',
+    );
     print('PeerConnectNotifier.connect → $remotePeerId');
-    await Future<void>.delayed(Duration(milliseconds: 1000));
-    state = state.copyWith(
-        clientState: ClientState.connected,
-        message: 'connected with $remotePeerId');
+    // await Future<void>.delayed(Duration(milliseconds: 1000));
+    // state = state.copyWith(
+    //     clientState: ClientState.connected,
+    //     message: 'connected with $remotePeerId');
+
+    _receivedStrings.listen((message) {
+      print('PeerClientNotifier.listen: $message');
+      state =
+          state.copyWith(clientState: ClientState.connected, message: message);
+    });    
+
   }
 
   void disConnect() {
+    _peerService.disconnect();
     state = state.copyWith(
       clientState: ClientState.notConnected,
       message: '',
