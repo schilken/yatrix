@@ -231,6 +231,7 @@ class _PeerClientSectionState extends ConsumerState<PeerClientSection> {
             ref
                 .read(peerServiceProvider)
                 .sendMessage(_messageEditingController.text);
+            _messageEditingController.text = '';
           },
           style: OutlinedButton.styleFrom(
             foregroundColor: Colors.white60,
