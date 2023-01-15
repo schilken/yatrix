@@ -100,17 +100,19 @@ class PeerClientSection extends ConsumerStatefulWidget {
 }
 
 class _PeerClientSectionState extends ConsumerState<PeerClientSection> {
-  late TextEditingController _textEditingController;
+  late TextEditingController _idEditingController;
+  late TextEditingController _messageEditingController;
   late ScrollController _scrollController;
   late FocusNode _focusNode;
 
   @override
   void initState() {
     super.initState();
-    _textEditingController = TextEditingController();
+    _idEditingController = TextEditingController();
+    _messageEditingController = TextEditingController();
     _scrollController = ScrollController();
     _focusNode = FocusNode();
-    _textEditingController.text = ''; //ref.read(peerNotifier).remotePeerId;
+    _idEditingController.text = ''; //ref.read(peerNotifier).remotePeerId;
   }
 
   @override
@@ -128,7 +130,7 @@ class _PeerClientSectionState extends ConsumerState<PeerClientSection> {
       ),
       SizedBox(height: 24),
       TextField(
-        controller: _textEditingController,
+          controller: _idEditingController,
         focusNode: _focusNode,
         autofocus: true,
         autocorrect: false,
@@ -166,7 +168,7 @@ class _PeerClientSectionState extends ConsumerState<PeerClientSection> {
           onPressed: () {
             ref
                 .read(peerClientNotifier.notifier)
-                .connect(remotePeerId: _textEditingController.text);
+                .connect(remotePeerId: _idEditingController.text);
           },
           style: OutlinedButton.styleFrom(
             foregroundColor: Colors.white60,
@@ -200,6 +202,43 @@ class _PeerClientSectionState extends ConsumerState<PeerClientSection> {
           child: Text('Disconnect'),
         ),
 
+      if (peerConnectState.clientState == ClientState.connected) ...[
+        SizedBox(height: 24),
+        TextField(
+          controller: _messageEditingController,
+          focusNode: _focusNode,
+          autofocus: true,
+          autocorrect: false,
+          cursorColor: Colors.white60,
+          style: const TextStyle(
+            fontSize: 14,
+            color: Colors.white60,
+          ),
+          decoration: InputDecoration(
+            hintText: 'Enter your message',
+            hintStyle: const TextStyle(
+              fontSize: 14,
+              color: Colors.white60,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white60),
+            ),
+          ),
+        ),
+        SizedBox(height: 12),
+        OutlinedButton(
+          onPressed: () {
+            ref
+                .read(peerServiceProvider)
+                .sendMessage(_messageEditingController.text);
+          },
+          style: OutlinedButton.styleFrom(
+            foregroundColor: Colors.white60,
+            side: const BorderSide(color: Colors.white60),
+          ),
+          child: Text('Send message to Peer'),
+        ),
+      ],
 
     ]);
   }

@@ -84,6 +84,10 @@ class PeerService {
     _streamController?.close();
   }
 
+  void sendMessage(String message) {
+    conn.send(message);
+  }
+
 }
 
 final peerServiceProvider = Provider<PeerService>(
