@@ -255,6 +255,9 @@ class MosaicPage extends Component
     world?.add(_currentFallingBlock!);
   }
 
+  @override
+  void debugAction() {}
+
   // @override
   // void showHelp() {}
 

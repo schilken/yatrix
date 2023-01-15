@@ -51,14 +51,23 @@ class PeerService {
   }
 
   Future<void> initPeer() async {
+    final completer = Completer<void>();
     _streamController?.close();
     _streamController ??= StreamController<String>();
     _streamController?.add('peer initializing...');
+    final startTime = DateTime.now();
     _peer = Peer(options: PeerOptions(debug: LogLevel.All));
     if (_peer == null) {
       throw Exception('creation failed');
     }
-    await Future<void>.delayed(Duration(milliseconds: 300));
+    await Future<void>.delayed(Duration(milliseconds: 1000));
+    // _peer!.on<dynamic>('open').listen((dynamic id) {
+    //   final delta = DateTime.now().difference(startTime);
+    //   _streamController?.add('received open after ${delta.inMilliseconds}');
+    //   print('on-open: $id after ${delta.inMilliseconds} ms');
+    //   completer.complete;
+    // });
+    // return completer.future;
   }
 
   Stream<String> connectToServer(String id) {

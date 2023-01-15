@@ -13,6 +13,7 @@ mixin GameControllerMixin {
   void updatePoints(double? freezedAtY);
   void addBlock(String name);
   set droppedAtY(double y);
+  void debugAction();
   List<StreamSubscription> subscriptions = [];
 
   void initGameControllers(List<GameController> gameControllers) {
@@ -76,6 +77,8 @@ mixin GameControllerMixin {
       addBlock('L');
     } else if (command == GameCommand.Z) {
       addBlock('Z');
+    } else if (command == GameCommand.debug) {
+      debugAction();
     } 
   }
 }

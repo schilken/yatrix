@@ -101,9 +101,13 @@ class Quadrat extends SpriteComponent with CollisionCallbacks {
     state = QuadState.freezed;
   }
 
-  void dropOneRow() {
+  void moveOneStepDown() {
     y += 50;
     state = QuadState.dropped;
+  }
+
+  void moveOneStepUp() {
+    y -= 50;
   }
 
   @override

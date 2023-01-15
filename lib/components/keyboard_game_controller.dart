@@ -24,6 +24,7 @@ enum GameCommand {
   help,
   settings,
   random,
+  debug,
 }
 
 abstract class GameController {
@@ -69,8 +70,9 @@ class KeyboardGameController implements GameController {
       _controller.sink.add(GameCommand.rotateClockwise);
     } else if (event.logicalKey == LogicalKeyboardKey.space) {
       _controller.sink.add(GameCommand.random);
+    } else if (event.logicalKey == LogicalKeyboardKey.keyA) {
+      _controller.sink.add(GameCommand.debug);
     }
-
     
   }
 

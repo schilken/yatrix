@@ -19,6 +19,11 @@ import '../components/three_buttons_game_controller.dart';
 import '../tetris_game.dart';
 import '../tetris_matrix.dart';
 
+enum Direction {
+  up,
+  down,
+}
+
 class TetrisPlayPage extends Component
     with HasGameRef<TetrisGame>, GameControllerMixin
     implements TetrisPageInterface {
@@ -233,17 +238,35 @@ class TetrisPlayPage extends Component
       await removeRow(yAfterDropping.toDouble());
       var yAboveRemovedRow = yAfterDropping.toDouble() - 50;
       await Future<void>.delayed(const Duration(milliseconds: 200));
-      moveRowsAbove(yAboveRemovedRow);
+      moveRow(yAboveRemovedRow, Direction.down);
       do {
         await Future<void>.delayed(const Duration(milliseconds: 50));
-        moveRowsAbove(yAboveRemovedRow);
+        moveRow(yAboveRemovedRow, Direction.down);
         yAboveRemovedRow -= 50;
       } while (yAboveRemovedRow > 125.0);
       removedRows++;
     }
   }
 
-  void moveRowsAbove(double y) {
+  @override
+  void debugAction() {
+    insertEmptyRow();
+  }
+
+  Future<void> insertEmptyRow() async {
+    var yAboveInsertedRow = 175.0;
+    do {
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+      print('insertEmptyRow $yAboveInsertedRow');
+      moveRow(yAboveInsertedRow, Direction.up);
+      yAboveInsertedRow += 50;
+    } while (yAboveInsertedRow < 1075.0);
+  }
+
+  void moveRow(
+    double y,
+    Direction upDown,
+  ) {
 //    print('moveRowsAbove $y');
     for (var x = 25.0; x < 500.0; x += 50.0) {
       final point = Vector2(xOffset + x, y);
@@ -252,7 +275,11 @@ class TetrisPlayPage extends Component
           .where((quad) => quad.containsPoint(point))
           .firstOrNull;
       if (quad != null) {
-        quad.dropOneRow();
+        if (upDown == Direction.down) {
+          quad.moveOneStepDown();
+        } else {
+          quad.moveOneStepUp();
+        }
       }
     }
   }
