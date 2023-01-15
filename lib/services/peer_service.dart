@@ -6,7 +6,7 @@ import 'package:peerdart/peerdart.dart';
 class PeerService {
   Peer? _peer;
   late DataConnection conn;
-  late StreamController<String> _streamController;
+  StreamController<String>? _streamController;
   bool connected = false;
 
   Stream<String> startServer(String id) {
@@ -16,34 +16,37 @@ class PeerService {
     if (_peer == null) {
       throw Exception('creation failed');
     }
-    _streamController = StreamController<String>();
+    _streamController ??= StreamController<String>();
 
     _peer!.on<DataConnection>('connection').listen((event) {
       conn = event;
 //      print('server got an connection: $event');
-      _streamController.add('connection opened');
+      _streamController?.add('connection opened');
 
       conn.on<dynamic>('data').listen((dynamic data) {
 //        print('server received data: $data');
-        _streamController.add(data.toString());
+        _streamController?.add(data.toString());
       });
 
       conn.on<dynamic>('close').listen((dynamic _) {
 //        print('server received close');
-        _streamController.add('connection closed');
+        _streamController?.add('connection closed');
         connected = false;
       });
       connected = true;
     });
-    return _streamController.stream;
+    return _streamController!.stream;
   }
 
   void stopServer() {
     _peer?.dispose();
-    _streamController.close();
+    _streamController?.close();
   }
 
   Future<void> initPeer() async {
+    _streamController?.close();
+    _streamController ??= StreamController<String>();
+    _streamController?.add('peer initializing...');
     _peer = Peer(options: PeerOptions(debug: LogLevel.All));
     if (_peer == null) {
       throw Exception('creation failed');
@@ -52,41 +55,33 @@ class PeerService {
   }
 
   Stream<String> connectToServer(String id) {
-    _streamController = StreamController<String>();
-
-    _peer!.on<dynamic>('open').listen((dynamic name) {
-      connected = true;
-      print('peer.open: $name');
-      _streamController.add('peer initialized');
-    });
-
     final connection =
         _peer!.connect(id, options: PeerConnectOption(reliable: true));
     conn = connection;
 
     conn.on<dynamic>('open').listen((dynamic event) {
       connected = true;
-      _streamController.add('connection opened');
+      _streamController?.add('connection opened');
 //      print('conn.open: $event');
 
       conn.on<dynamic>('data').listen((dynamic data) {
 //        print('client received data: $data');
-        _streamController.add(data.toString());
+        _streamController?.add(data.toString());
     });
 
       connection.on<dynamic>('close').listen((dynamic _) {
 //        print('client received close');
-        _streamController.add('connection closed');
+        _streamController?.add('connection closed');
         connected = false;
       });
     });
 
-    return _streamController.stream;
+    return _streamController!.stream;
   }
 
   void disconnect() {
     _peer?.dispose();
-    _streamController.close();
+    _streamController?.close();
   }
 
 }
