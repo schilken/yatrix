@@ -39,6 +39,9 @@ class PeerNotifier extends Notifier<PeerState> {
 
   void setIsEnabled(bool isEnabled) {
     state = state.copyWith(isEnabled: isEnabled);
+    if (isEnabled) {
+      _peerService.initPeer();
+    } 
   }
 
   void setIsServer(bool isServer) {

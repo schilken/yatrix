@@ -47,8 +47,7 @@ class PeerPage extends ConsumerWidget {
               ),
             ),
             SizedBox(height: 48),
-            if (peerConnectState.clientState == ClientState.notConnected &&
-                peerServerState.serverState == ServerState.notStarted) ...[
+            ...[
             Row(
               children: [
                 Text(
@@ -77,11 +76,6 @@ class PeerPage extends ConsumerWidget {
                     }),
                     onChanged: (value) {
                       ref.read(peerNotifier.notifier).setIsEnabled(value);
-                      if (value) {
-                        ref.read(peerServiceProvider).initPeer();
-                      } else {
-                        ref.read(peerServiceProvider).disposePeer();
-                      }
                     },
                   ),
                 ],
@@ -125,8 +119,8 @@ class PeerPage extends ConsumerWidget {
             ),
             ],
             SizedBox(height: 12),
-            if (isEnabled && !isServer) PeerClientSection(),
-            if (isEnabled && isServer) PeerServerSection()
+            if (isEnabled && !isServer) PeerClientView(),
+            if (isEnabled && isServer) PeerServerView()
           ],
         ),
       ),
@@ -134,14 +128,14 @@ class PeerPage extends ConsumerWidget {
   }
 }
 
-class PeerClientSection extends ConsumerStatefulWidget {
-  const PeerClientSection({super.key});
+class PeerClientView extends ConsumerStatefulWidget {
+  const PeerClientView({super.key});
 
   @override
-  ConsumerState<PeerClientSection> createState() => _PeerClientSectionState();
+  ConsumerState<PeerClientView> createState() => _PeerClientViewState();
 }
 
-class _PeerClientSectionState extends ConsumerState<PeerClientSection> {
+class _PeerClientViewState extends ConsumerState<PeerClientView> {
   late TextEditingController _idEditingController;
   late TextEditingController _messageEditingController;
   late ScrollController _scrollController;
@@ -235,6 +229,7 @@ class _PeerClientSectionState extends ConsumerState<PeerClientSection> {
           peerConnectState.clientState == ClientState.connecting)
         OutlinedButton(
           onPressed: () {
+            ref.read(peerNotifier.notifier).setIsEnabled(false);
             ref.read(peerClientNotifier.notifier).disConnect();
           },
           style: OutlinedButton.styleFrom(
@@ -287,8 +282,8 @@ class _PeerClientSectionState extends ConsumerState<PeerClientSection> {
   }
 }
 
-class PeerServerSection extends ConsumerWidget {
-  const PeerServerSection({super.key});
+class PeerServerView extends ConsumerWidget {
+  const PeerServerView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -296,7 +291,7 @@ class PeerServerSection extends ConsumerWidget {
     return Column(children: [
       if (peerServerState.serverState == ServerState.notStarted) ...[
         Text(
-          'You are the server. Tell your player buddy this Server ID: ${peerServerState.serverPeerId}',
+          'You are the server. Start the server and tell your player buddy the Server ID.',
           style: TextStyle(
             fontSize: 16,
             color: Colors.white60,
@@ -331,7 +326,10 @@ class PeerServerSection extends ConsumerWidget {
       if (peerServerState.serverState == ServerState.listening ||
           peerServerState.serverState == ServerState.connected)
         OutlinedButton(
-          onPressed: ref.read(peerServerNotifier.notifier).stop,
+          onPressed: () {
+            ref.read(peerServerNotifier.notifier).stop();
+            ref.read(peerNotifier.notifier).setIsEnabled(false);
+          },
           style: OutlinedButton.styleFrom(
             foregroundColor: Colors.white60,
             side: const BorderSide(color: Colors.white60),
