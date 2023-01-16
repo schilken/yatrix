@@ -52,7 +52,7 @@ class StartPage extends Component with HasGameRef<TetrisGame> {
         size: Vector2(150, 40),
       ),
       _peerButton = RoundedButton(
-        text: 'Peer',
+        text: 'Two-Players',
         action: () => gameRef.router.pushNamed('peer'),
         color: const Color(0xffdebe6c),
         borderColor: const Color(0xfffff4c7),

@@ -62,7 +62,7 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
     }
     _remotePeerId = remotePeerId;
     try {
-      await _peerService.initPeer();
+//      await _peerService.initPeer();
       _receivedStrings = _peerService.connectToServer(remotePeerId);
     } on Exception catch (e, s) {
       print('exception: $e, $s');
@@ -86,7 +86,7 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
   }
 
   void disConnect() {
-    _peerService.disconnect();
+    _peerService.disposePeer();
     state = state.copyWith(
       clientState: ClientState.notConnected,
       message: '',

@@ -4,9 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/providers.dart';
 import '../tetris_game.dart';
 
-final peerSwitchProvider = StateProvider<bool>((ref) {
-  return false;
-});
 
 class PeerPage extends ConsumerWidget {
   PeerPage({super.key, required this.game});
@@ -14,9 +11,12 @@ class PeerPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final peerSwitchState = ref.watch(peerSwitchProvider);
+    
+    final peerState = ref.watch(peerNotifier);
     final peerConnectState = ref.watch(peerClientNotifier);
     final peerServerState = ref.watch(peerServerNotifier);
+    final isEnabled = peerState.isEnabled;
+    final isServer = peerState.isServer;
     return Material(
       child: Container(
         color: Color.fromARGB(255, 20, 20, 20),
@@ -40,7 +40,7 @@ class PeerPage extends ConsumerWidget {
             ),
             SizedBox(height: 32),
             Text(
-              'Peer Configuration',
+              'Two-Players Configuration',
               style: TextStyle(
                 fontSize: 32,
                 color: Colors.white60,
@@ -52,7 +52,49 @@ class PeerPage extends ConsumerWidget {
             Row(
               children: [
                 Text(
-                  'This is the Peer Server',
+                    'Two-Player Mode',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white60,
+                    ),
+                  ),
+                  Spacer(),
+                  Switch(
+                    // This bool value toggles the switch.
+                    value: peerState.isEnabled,
+                    // inactiveThumbColor: Colors.white24,
+                    // inactiveTrackColor: Colors.white24,
+                    thumbColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.selected)) {
+                        return Colors.white70;
+                      }
+                      return Colors.grey;
+                    }),
+                    trackColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      return Colors.grey.shade600;
+                    }),
+                    onChanged: (value) {
+                      ref.read(peerNotifier.notifier).setIsEnabled(value);
+                      if (value) {
+                        ref.read(peerServiceProvider).initPeer();
+                      } else {
+                        ref.read(peerServiceProvider).disposePeer();
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ],
+            SizedBox(height: 12),
+            if (isEnabled &&
+                peerConnectState.clientState == ClientState.notConnected &&
+                peerServerState.serverState == ServerState.notStarted) ...[
+              Row(
+                children: [
+                  Text(
+                    'Enable Two-Player-Server',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white60,
@@ -61,7 +103,7 @@ class PeerPage extends ConsumerWidget {
                 Spacer(),
                 Switch(
                   // This bool value toggles the switch.
-                    value: peerSwitchState,
+                    value: isServer,
                   // inactiveThumbColor: Colors.white24,
                   // inactiveTrackColor: Colors.white24,
                   thumbColor: MaterialStateProperty.resolveWith<Color>(
@@ -76,15 +118,15 @@ class PeerPage extends ConsumerWidget {
                     return Colors.grey.shade600;
                   }),
                   onChanged: (value) {
-                      ref.read(peerSwitchProvider.notifier).state = value;
-                    game.showFps = value;
+                      ref.read(peerNotifier.notifier).setIsServer(value);
                   },
                 ),
               ],
             ),
             ],
             SizedBox(height: 12),
-            if (!peerSwitchState) PeerClientSection() else PeerServerSection()
+            if (isEnabled && !isServer) PeerClientSection(),
+            if (isEnabled && isServer) PeerServerSection()
           ],
         ),
       ),

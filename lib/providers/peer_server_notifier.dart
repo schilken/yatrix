@@ -48,14 +48,14 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
     _peerService = ref.read(peerServiceProvider);
     return PeerServerState(
       serverState: ServerState.notStarted,
-      serverPeerId: '141414',
+      serverPeerId: _peerService.localPeerId.toString(),
       message: '',
     );
   }
 
   void start() async {
     try {
-      _receivedStrings = _peerService.startServer(state.serverPeerId);
+      _receivedStrings = _peerService.startServer();
     } on Exception catch (e, s) {
       print('exception: $e, $s');
     }
@@ -71,7 +71,7 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
   }
 
   void stop() {
-    _peerService.stopServer();
+    _peerService.disposePeer();
     state = state.copyWith(
       serverState: ServerState.notStarted,
       message: '',
