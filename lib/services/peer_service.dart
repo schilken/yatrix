@@ -22,13 +22,6 @@ class PeerService {
 
   Stream<String> startServer() {
     initStreamController();
-    // _peer = Peer(
-    //   id: id,
-    // ); // options: PeerOptions(debug: LogLevel.All));
-    // if (_peer == null) {
-    //   throw Exception('creation failed');
-    // }
-
     _peer!.on<DataConnection>('connection').listen((event) {
       conn = event;
 //      print('server got an connection: $event');
@@ -54,14 +47,8 @@ class PeerService {
     return _streamController!.stream;
   }
 
-  // void stopServer() {
-  //   _peer?.dispose();
-  //   _streamController?.close();
-  //   _streamController = null;
-  // }
-
   void disposePeer() {
-    print('disposePeer');
+//    print('disposePeer');
     _peer?.dispose();
     _streamController?.close();
     _streamController = null;
@@ -73,7 +60,7 @@ class PeerService {
   }
 
   void initStreamController() {
-    print('initStreamController');
+//    print('initStreamController');
     _streamController?.close();
     _streamController ??= StreamController<String>();
   }
@@ -83,21 +70,11 @@ class PeerService {
   }
 
   Future<void> initPeer() async {
-//    final completer = Completer<void>();
-    final startTime = DateTime.now();
     _peer =
         Peer(id: _peerId.toString(), options: PeerOptions(debug: LogLevel.All));
     if (_peer == null) {
       throw Exception('creation failed');
     }
-//    await Future<void>.delayed(Duration(milliseconds: 1000));
-    // _peer!.on<dynamic>('open').listen((dynamic id) {
-    //   final delta = DateTime.now().difference(startTime);
-    //   _streamController?.add('received open after ${delta.inMilliseconds}');
-    //   print('on-open: $id after ${delta.inMilliseconds} ms');
-    //   completer.complete;
-    // });
-    // return completer.future;
   }
 
   Stream<String> connectToServer(String id) {
@@ -125,12 +102,6 @@ class PeerService {
 
     return _streamController!.stream;
   }
-
-  // void disconnect() {
-  //   _peer?.dispose();
-  //   _streamController?.close();
-  //   _streamController = null;
-  // }
 
   void sendMessage(String message) {
     conn.send(message);
