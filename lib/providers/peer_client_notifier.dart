@@ -34,6 +34,10 @@ class PeerClientState {
       message: message ?? this.message,
     );
   }
+
+  @override
+  String toString() =>
+      'PeerClientState(remotePeerId: $remotePeerId, clientState: $clientState, message: $message)';
 }
 
 class PeerClientNotifier extends Notifier<PeerClientState> {

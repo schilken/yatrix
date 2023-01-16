@@ -26,18 +26,36 @@ class PeerState {
 class PeerNotifier extends Notifier<PeerState> {
   late PreferencesRepository _preferencesRepository;
   late PeerService _peerService;
+  late PeerClientState _peerClientState;
+  late PeerServerState _peerServerState;
+
+  PeerNotifier() {
+    print('PeerNotifier.constructor');
+  }
+
+  bool _isEnabled = false;
+  bool _isServer = false;
+
 
   @override
   PeerState build() {
     _preferencesRepository = ref.read(preferencesRepositoryProvider);
     _peerService = ref.read(peerServiceProvider);
+    _peerClientState = ref.watch(peerClientNotifier);
+    _peerServerState = ref.watch(peerServerNotifier);
+    if (_peerClientState.clientState == ClientState.notConnected &&
+        _peerServerState.serverState == ServerState.notStarted) {
+      _isEnabled = false;
+    }
+    print('PeerNotifier.build $_peerClientState → _isEnabled = $_isEnabled');
     return PeerState(
-      isEnabled: false,
-      isServer: false,
+      isEnabled: _isEnabled,
+      isServer: _isServer,
     );
   }
 
   void setIsEnabled(bool isEnabled) {
+    _isEnabled = isEnabled;
     state = state.copyWith(isEnabled: isEnabled);
     if (isEnabled) {
       _peerService.initPeer();
@@ -45,6 +63,7 @@ class PeerNotifier extends Notifier<PeerState> {
   }
 
   void setIsServer(bool isServer) {
+    _isServer = isServer;
     state = state.copyWith(isServer: isServer);
   }
 

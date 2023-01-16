@@ -153,10 +153,10 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
 
   @override
   Widget build(BuildContext context) {
-    final peerConnectState = ref.watch(peerClientNotifier);
+    final peerClientState = ref.watch(peerClientNotifier);
     return Column(children: [
-      if (peerConnectState.clientState == ClientState.notConnected ||
-          peerConnectState.clientState == ClientState.error) ...[
+      if (peerClientState.clientState == ClientState.notConnected ||
+          peerClientState.clientState == ClientState.error) ...[
       Text(
         'If you want to connect to your player buddy\'s server, enter their Id here.',
         style: TextStyle(
@@ -187,10 +187,10 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
         ),
       ),
       ],
-      if (peerConnectState.clientState == ClientState.error) ...[
+      if (peerClientState.clientState == ClientState.error) ...[
         SizedBox(height: 8),
         Text(
-          peerConnectState.message,
+          peerClientState.message,
           style: TextStyle(
             fontSize: 16,
             color: Colors.red,
@@ -198,8 +198,8 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
         ),
       ],
       SizedBox(height: 24),
-      if (peerConnectState.clientState == ClientState.notConnected ||
-          peerConnectState.clientState == ClientState.error)
+      if (peerClientState.clientState == ClientState.notConnected ||
+          peerClientState.clientState == ClientState.error)
         OutlinedButton(
           onPressed: () {
             ref
@@ -212,21 +212,21 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
           ),
           child: Text('Connect'),
         ),
-      if (peerConnectState.clientState == ClientState.connecting ||
-          peerConnectState.clientState == ClientState.connected)
+      if (peerClientState.clientState == ClientState.connecting ||
+          peerClientState.clientState == ClientState.connected)
         Text(
-          peerConnectState.message,
+          peerClientState.message,
           style: TextStyle(
             fontSize: 16,
             color: Colors.white60,
           ),
         ),
       SizedBox(height: 8),
-      if (peerConnectState.clientState == ClientState.connecting)
+      if (peerClientState.clientState == ClientState.connecting)
         CircularProgressIndicator(),
       SizedBox(height: 24),
-      if (peerConnectState.clientState == ClientState.connected ||
-          peerConnectState.clientState == ClientState.connecting)
+      if (peerClientState.clientState == ClientState.connected ||
+          peerClientState.clientState == ClientState.connecting)
         OutlinedButton(
           onPressed: () {
             ref.read(peerNotifier.notifier).setIsEnabled(false);
@@ -239,7 +239,7 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
           child: Text('Disconnect'),
         ),
 
-      if (peerConnectState.clientState == ClientState.connected) ...[
+      if (peerClientState.clientState == ClientState.connected) ...[
         SizedBox(height: 24),
         TextField(
           controller: _messageEditingController,
