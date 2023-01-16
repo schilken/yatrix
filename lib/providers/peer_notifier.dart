@@ -48,7 +48,6 @@ class PeerNotifier extends Notifier<PeerState> {
     state = state.copyWith(isServer: isServer);
   }
 
-
 }
 
 final peerNotifier =

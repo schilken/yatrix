@@ -88,7 +88,7 @@ class PeerPage extends ConsumerWidget {
               Row(
                 children: [
                   Text(
-                    'Enable Two-Player-Server',
+                    'Acticate Two-Player-Server',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white60,

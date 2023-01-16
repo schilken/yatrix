@@ -41,6 +41,7 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
   late PreferencesRepository _preferencesRepository;
   late PeerService _peerService;
   late Stream<String> _receivedStrings;
+  StreamSubscription? _streamSubscription;
 
   @override
   PeerServerState build() {
@@ -63,10 +64,14 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
     state = state.copyWith(
         serverState: ServerState.listening,
         message: 'Server is listening on ID ${state.serverPeerId}');
-    _receivedStrings.listen((message) {
+    _streamSubscription = _receivedStrings.listen((message) {
       print('PeerServerNotifier.listen: $message');
       state =
           state.copyWith(serverState: ServerState.connected, message: message);
+    });
+    _streamSubscription?.onDone(() {
+      print('_streamSubscription onDone');
+      stop();
     });    
   }
 

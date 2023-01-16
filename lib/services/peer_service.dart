@@ -41,6 +41,10 @@ class PeerService {
 //        print('server received close');
         _streamController?.add('connection closed');
         connected = false;
+        Future<void>.delayed(
+          Duration(milliseconds: 100),
+          _streamController?.close,
+        );
       });
       connected = true;
     });
@@ -48,7 +52,7 @@ class PeerService {
   }
 
   void disposePeer() {
-//    print('disposePeer');
+    print('disposePeer');
     _peer?.dispose();
     _streamController?.close();
     _streamController = null;
@@ -86,17 +90,18 @@ class PeerService {
     conn.on<dynamic>('open').listen((dynamic event) {
       connected = true;
       _streamController?.add('connection opened');
-//      print('conn.open: $event');
 
       conn.on<dynamic>('data').listen((dynamic data) {
-//        print('client received data: $data');
         _streamController?.add(data.toString());
     });
 
       connection.on<dynamic>('close').listen((dynamic _) {
-//        print('client received close');
         _streamController?.add('connection closed');
         connected = false;
+        Future<void>.delayed(
+          Duration(milliseconds: 100),
+          _streamController?.close,
+        );
       });
     });
 

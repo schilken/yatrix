@@ -40,6 +40,7 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
   late PreferencesRepository _preferencesRepository;
   late PeerService _peerService;
   late Stream<String> _receivedStrings;
+  StreamSubscription? _streamSubscription;
   String _remotePeerId = '';
 
   @override
@@ -77,11 +78,15 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
     //     clientState: ClientState.connected,
     //     message: 'connected with $remotePeerId');
 
-    _receivedStrings.listen((message) {
+    _streamSubscription = _receivedStrings.listen((message) {
       print('PeerClientNotifier.listen: $message');
       state =
           state.copyWith(clientState: ClientState.connected, message: message);
     });    
+    _streamSubscription?.onDone(() {
+      print('disConnect onDone');
+      disConnect();
+    });
 
   }
 
