@@ -67,7 +67,7 @@ These versions are also free without ads or in app purchases.
     return Material(
       child: Container(
         color: Color.fromARGB(255, 20, 20, 20),
-        padding: const EdgeInsets.fromLTRB(60.0, 0, 60, 30),
+        padding: const EdgeInsets.fromLTRB(12.0, 0, 12, 30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -48,8 +48,8 @@ class CreditsPage extends Component with HasGameRef<TetrisGame> {
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
     var yPosition = size.y / 4;
-    _title.position = Vector2(20, yPosition);
-    _textBox.position = Vector2(20, yPosition += 80);
+    _title.position = Vector2(12, yPosition);
+    _textBox.position = Vector2(12, yPosition += 80);
   }
 
   @override
@@ -62,13 +62,13 @@ class CreditsPage extends Component with HasGameRef<TetrisGame> {
 }
 
 final _regularTextStyle =
-    TextStyle(fontSize: 18, color: BasicPalette.white.color);
+    TextStyle(fontSize: 16, color: BasicPalette.white.color);
 final _regular = TextPaint(style: _regularTextStyle);
 final _box = _regular.copyWith(
   (style) => style.copyWith(
     color: Colors.lightGreenAccent,
     fontFamily: 'monospace',
-    letterSpacing: 2.0,
+    letterSpacing: 1.5,
   ),
 );
 
