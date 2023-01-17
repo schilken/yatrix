@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/providers.dart';
 import '../tetris_game.dart';
 
-
 class PeerPage extends ConsumerWidget {
   PeerPage({super.key, required this.game});
   TetrisGame game;
@@ -45,9 +44,9 @@ class PeerPage extends ConsumerWidget {
             ),
             SizedBox(height: 48),
             ...[
-            Row(
-              children: [
-                Text(
+              Row(
+                children: [
+                  Text(
                     'Two-Player Mode',
                     style: textTheme.headline5,
                   ),
@@ -84,13 +83,13 @@ class PeerPage extends ConsumerWidget {
                   Text(
                     'Acticate Two-Player-Server',
                     style: textTheme.headline5,
-                ),
-                Spacer(),
-                Switch(
-                  // This bool value toggles the switch.
+                  ),
+                  Spacer(),
+                  Switch(
+                    // This bool value toggles the switch.
                     value: isServer,
-                  // inactiveThumbColor: Colors.white24,
-                  // inactiveTrackColor: Colors.white24,
+                    // inactiveThumbColor: Colors.white24,
+                    // inactiveTrackColor: Colors.white24,
                     // thumbColor: MaterialStateProperty.resolveWith<Color>(
                     //     (Set<MaterialState> states) {
                     //   if (states.contains(MaterialState.selected)) {
@@ -102,12 +101,12 @@ class PeerPage extends ConsumerWidget {
                     //     (Set<MaterialState> states) {
                     //   return Colors.grey.shade600;
                     // }),
-                  onChanged: (value) {
+                    onChanged: (value) {
                       ref.read(peerNotifier.notifier).setIsServer(value);
-                  },
-                ),
-              ],
-            ),
+                    },
+                  ),
+                ],
+              ),
             ],
             SizedBox(height: 12),
             if (isEnabled && !isServer) PeerClientView(),
@@ -144,48 +143,43 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     final peerClientState = ref.watch(peerClientNotifier);
     return Column(children: [
       if (peerClientState.clientState == ClientState.notConnected ||
           peerClientState.clientState == ClientState.error) ...[
-      Text(
-        'If you want to connect to your player buddy\'s server, enter their Id here.',
-        style: TextStyle(
-          fontSize: 16,
-          color: Colors.white60,
+        Text(
+          'If you want to connect to your player buddy\'s server, enter their Id here.',
+          style: textTheme.headline6,
         ),
-      ),
-      SizedBox(height: 24),
-      TextField(
+        SizedBox(height: 24),
+        TextField(
           controller: _idEditingController,
-        focusNode: _focusNode,
-        autofocus: true,
-        autocorrect: false,
-        cursorColor: Colors.white60,
-        style: const TextStyle(
-          fontSize: 20,
-          color: Colors.white60,
-        ),
-        decoration: InputDecoration(
-          hintText: 'Enter ID of your Server',
-          hintStyle: const TextStyle(
-            fontSize: 16,
+          focusNode: _focusNode,
+          autofocus: true,
+          autocorrect: false,
+          cursorColor: Colors.white60,
+          style: const TextStyle(
+            fontSize: 20,
             color: Colors.white60,
           ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white60),
+          decoration: InputDecoration(
+            hintText: 'Enter ID of your Server',
+            hintStyle: const TextStyle(
+              fontSize: 16,
+              color: Colors.white60,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white60),
+            ),
           ),
         ),
-      ),
       ],
       if (peerClientState.clientState == ClientState.error) ...[
         SizedBox(height: 8),
         Text(
           peerClientState.message,
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.red,
-          ),
+          style: textTheme.headline6?.copyWith(color: Colors.red),
         ),
       ],
       SizedBox(height: 24),
@@ -207,10 +201,7 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
           peerClientState.clientState == ClientState.connected)
         Text(
           peerClientState.message,
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.white60,
-          ),
+          style: textTheme.headline6,
         ),
       SizedBox(height: 8),
       if (peerClientState.clientState == ClientState.connecting)
@@ -229,7 +220,6 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
           ),
           child: Text('Disconnect'),
         ),
-
       if (peerClientState.clientState == ClientState.connected) ...[
         SizedBox(height: 24),
         TextField(
@@ -238,16 +228,10 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
           autofocus: true,
           autocorrect: false,
           cursorColor: Colors.white60,
-          style: const TextStyle(
-            fontSize: 14,
-            color: Colors.white60,
-          ),
+          style: textTheme.bodyLarge,
           decoration: InputDecoration(
             hintText: 'Enter your message',
-            hintStyle: const TextStyle(
-              fontSize: 14,
-              color: Colors.white60,
-            ),
+            hintStyle: textTheme.bodyLarge,
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white60),
             ),
@@ -268,7 +252,6 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
           child: Text('Send message to Peer'),
         ),
       ],
-
     ]);
   }
 }
@@ -278,15 +261,13 @@ class PeerServerView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final textTheme = Theme.of(context).textTheme;
     final peerServerState = ref.watch(peerServerNotifier);
     return Column(children: [
       if (peerServerState.serverState == ServerState.notStarted) ...[
         Text(
           'You are the server. Start the server and tell your player buddy the Server ID.',
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.white60,
-          ),
+          style: textTheme.headline6,
         ),
         SizedBox(height: 24),
         if (peerServerState.serverState == ServerState.notStarted)
@@ -304,10 +285,7 @@ class PeerServerView extends ConsumerWidget {
           peerServerState.serverState == ServerState.connected)
         Text(
           peerServerState.message,
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.white60,
-          ),
+          style: textTheme.headline6,
         ),
       SizedBox(height: 8),
       if (peerServerState.serverState == ServerState.starting ||

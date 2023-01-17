@@ -48,6 +48,10 @@ class CustomTheme {
           fontSize: 24,
           color: Colors.white60,
         ),
+        headline6: TextStyle(
+          fontSize: 16,
+          color: Colors.white60,
+        ),
       ),
       sliderTheme: SliderThemeData(
         activeTrackColor: Colors.white,
