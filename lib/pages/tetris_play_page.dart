@@ -252,6 +252,12 @@ class TetrisPlayPage extends Component
   }
 
   @override
+  Future<void> handlePeerCommand(String command) async {
+    await insertEmptyRow();
+    insertRow(emptySlot: _random.nextInt(10));
+  }
+
+  @override
   Future<void> debugAction() async {
     await insertEmptyRow();
     insertRow(emptySlot: _random.nextInt(11));

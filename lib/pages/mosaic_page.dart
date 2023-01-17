@@ -258,6 +258,11 @@ class MosaicPage extends Component
   @override
   void debugAction() {}
 
+  @override
+  void handlePeerCommand(String command) {
+    print('handlePeerCommand: ${handlePeerCommand}');
+  }  
+
   // @override
   // void showHelp() {}
 

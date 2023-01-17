@@ -6,21 +6,29 @@ import 'providers.dart';
 class PeerState {
   bool isEnabled;
   bool isServer;
+  String message;
 
   PeerState({
     required this.isEnabled,
     required this.isServer,
+    required this.message,
   });
 
   PeerState copyWith({
     bool? isEnabled,
     bool? isServer,
+    String? message,
   }) {
     return PeerState(
       isEnabled: isEnabled ?? this.isEnabled,
       isServer: isServer ?? this.isServer,
+      message: message ?? this.message,
     );
   }
+
+  @override
+  String toString() => 'PeerState(isEnabled: $isEnabled, isServer: $isServer, '
+      'message: $message)';
 }
 
 class PeerNotifier extends Notifier<PeerState> {
@@ -47,10 +55,14 @@ class PeerNotifier extends Notifier<PeerState> {
         _peerServerState.serverState == ServerState.notStarted) {
       _isEnabled = false;
     }
-    print('PeerNotifier.build $_peerClientState → _isEnabled = $_isEnabled');
+    print('PeerNotifier.build $_peerClientState $_peerServerState');
+    final message = _peerClientState.clientState == ClientState.connected
+        ? _peerClientState.message
+        : _peerServerState.message; 
     return PeerState(
       isEnabled: _isEnabled,
       isServer: _isServer,
+      message: message,
     );
   }
 

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 
 abstract class TetrisPageInterface {
   void handleBlockFreezed();
+  void handlePeerCommand(String command);
 }
 
 enum GameCommand {

@@ -20,7 +20,7 @@ void main() async {
         home: SafeArea(
           child: Builder(
             builder: (context) {
-              return const GamePage();
+              return GamePage();
             },
           ),
         ),

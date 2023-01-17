@@ -40,7 +40,7 @@ enum SoundEffects {
   const SoundEffects(this.name);
 
   static List<String> get allNames =>
-      values.map((entry) => entry.name).toList(); 
+      values.map((entry) => entry.name).toList();
 }
 
 class TetrisGame extends FlameGame
@@ -70,6 +70,7 @@ class TetrisGame extends FlameGame
     _rows = rows;
     widgetRef.read(highScoreNotifier.notifier).setScoreValues(points, rows);
   }
+
   int get points => _points;
   int get rows => _rows;
 
@@ -82,10 +83,11 @@ class TetrisGame extends FlameGame
         routes: {
           'splash': Route(SplashScreen.new),
           'home': Route(StartPage.new),
-          'play': Route(() {
-            final tetrisPlayPage = TetrisPlayPage();
+          'play': Route(
+            () {
+              final tetrisPlayPage = TetrisPlayPage();
               gamePage = tetrisPlayPage;
-            return tetrisPlayPage;
+              return tetrisPlayPage;
             },
             maintainState: false,
           ),
@@ -111,7 +113,7 @@ class TetrisGame extends FlameGame
             (context, game) {
               return HighScoresPage(game: this);
             },
-          ),  
+          ),
         },
         initialRoute: 'splash',
       ),
@@ -120,6 +122,7 @@ class TetrisGame extends FlameGame
     await initAudio();
     showFps = widgetRef.read(settingsNotifier).showFps;
   }
+
 
   Future<void> initAudio() async {
     FlameAudio.bgm.initialize();
@@ -143,6 +146,10 @@ class TetrisGame extends FlameGame
     gamePage?.handleBlockFreezed();
   }
 
+  void handlePeerCommand(String command) {
+    gamePage?.handlePeerCommand(command);
+  }
+
   void backgroundMusicStart() {
     FlameAudio.bgm.play(backgroundMusicName, volume: backgroundMusicVolume);
   }
@@ -163,5 +170,4 @@ class TetrisGame extends FlameGame
   void playSoundEffect(SoundEffects soundEffect) {
     FlameAudio.play(soundEffect.name, volume: sfxVolume);
   }
-
 }
