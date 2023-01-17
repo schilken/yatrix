@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:flame/components.dart';
@@ -6,6 +7,7 @@ import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
 import 'package:flutter/painting.dart';
 import 'package:sprintf/sprintf.dart';
+import 'package:yatrix/game_assets.dart';
 
 import '../components/boundaries.dart';
 import '../components/buttons.dart';
@@ -40,7 +42,8 @@ class TetrisPlayPage extends Component
   TextComponent? _textComponent;
   int _freezedCounter = 0;
   int _removedRows = 0;
-  static const lowestY = 1025;
+  static const bottomRowY = 1025;
+  final _random = Random();
 
   FiveButtonsGameController? fiveButtons;
   ThreeButtonsGameController? threeButtons;
@@ -249,15 +252,34 @@ class TetrisPlayPage extends Component
   }
 
   @override
-  void debugAction() {
-    insertEmptyRow();
+  Future<void> debugAction() async {
+    await insertEmptyRow();
+    insertRow(emptySlot: _random.nextInt(11));
+  }
+
+  Future<void> insertRow({required int emptySlot}) async {
+    for (var ix = 0; ix < 10; ix++) {
+      if (ix == emptySlot) {
+        continue;
+      }
+      final position =
+          Vector2(xOffset + ix * 50, bottomRowY.toDouble() - 25 + quadPadding);
+      final randomBlockName = gameAssets.allBlockNames[_random.nextInt(7)];
+      final quad = Quadrat(
+        position: position,
+        collisionCallback: (_) {},
+        blockType: randomBlockName,
+      );
+      await world.add(quad);
+      quad.freeze();
+    }
   }
 
   Future<void> insertEmptyRow() async {
     var yAboveInsertedRow = 175.0;
     do {
       await Future<void>.delayed(const Duration(milliseconds: 50));
-      print('insertEmptyRow $yAboveInsertedRow');
+//      print('insertEmptyRow $yAboveInsertedRow');
       moveRow(yAboveInsertedRow, Direction.up);
       yAboveInsertedRow += 50;
     } while (yAboveInsertedRow < 1075.0);
@@ -322,7 +344,6 @@ class TetrisPlayPage extends Component
     }
   }
 
-
   @override
   void addRandomBlock({Vector2? startPosition}) {
     _currentFallingBlock =
@@ -332,7 +353,7 @@ class TetrisPlayPage extends Component
 
   Map<int, int> createRowFillCounts() {
     final rowFillingMap = <int, int>{};
-    for (var y = lowestY; y > 75; y -= 50) {
+    for (var y = bottomRowY; y > 75; y -= 50) {
       var fillCount = 0;
       for (var x = 25.0; x < 500.0; x += 50.0) {
         final point = Vector2(xOffset + x, y.toDouble());

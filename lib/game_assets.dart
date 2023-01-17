@@ -8,7 +8,8 @@ final gameAssets = GameAssets();
 
 class GameAssets {
   Map<String, Sprite> sprites = {};
-
+  List<String> get allBlockNames =>
+      sprites.keys.where((key) => key.startsWith('tet-')).toList();
 
   Future<void> preCache() async {
     sprites['tet-O'] = Sprite(await Flame.images.load('tetris-O-plain.png'));
