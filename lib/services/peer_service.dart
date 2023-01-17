@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:peerdart/peerdart.dart';
@@ -30,11 +29,6 @@ class PeerService {
       conn.on<dynamic>('data').listen((dynamic data) {
 //        print('server received data: $data');
         _streamController?.add(data.toString());
-        BotToast.showText(
-          text: data.toString(),
-          duration: const Duration(seconds: 3),
-          align: const Alignment(0, 0.3),
-        );
       });
 
       conn.on<dynamic>('close').listen((dynamic _) {
@@ -56,11 +50,6 @@ class PeerService {
     _peer?.dispose();
     _streamController?.close();
     _streamController = null;
-    BotToast.showText(
-      text: 'Two-Player Mode finished',
-      duration: const Duration(seconds: 3),
-      align: const Alignment(0, 0.3),
-    );
   }
 
   void initStreamController() {
