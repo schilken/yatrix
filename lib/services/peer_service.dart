@@ -11,7 +11,7 @@ class PeerService {
   Peer? _peer;
   late DataConnection conn;
   StreamController<String>? _streamController;
-  bool connected = false;
+  bool isConnected = false;
 
   PeerService() {
     _setRandomPeerId();
@@ -34,13 +34,13 @@ class PeerService {
       conn.on<dynamic>('close').listen((dynamic _) {
 //        print('server received close');
         _streamController?.add('connection closed');
-        connected = false;
+        isConnected = false;
         Future<void>.delayed(
           Duration(milliseconds: 100),
           _streamController?.close,
         );
       });
-      connected = true;
+      isConnected = true;
     });
     return _streamController!.stream;
   }
@@ -77,16 +77,16 @@ class PeerService {
     conn = connection;
 
     conn.on<dynamic>('open').listen((dynamic event) {
-      connected = true;
+      isConnected = true;
       _streamController?.add('connection opened');
 
       conn.on<dynamic>('data').listen((dynamic data) {
         _streamController?.add(data.toString());
-    });
+      });
 
       connection.on<dynamic>('close').listen((dynamic _) {
         _streamController?.add('connection closed');
-        connected = false;
+        isConnected = false;
         Future<void>.delayed(
           Duration(milliseconds: 100),
           _streamController?.close,
@@ -98,9 +98,10 @@ class PeerService {
   }
 
   void sendMessage(String message) {
-    conn.send(message);
+    if (isConnected) {
+      conn.send(message);
+    }
   }
-
 }
 
 final peerServiceProvider = Provider<PeerService>(
