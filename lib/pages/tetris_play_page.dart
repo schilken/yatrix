@@ -224,9 +224,6 @@ class TetrisPlayPage extends Component
       game.router.pushNamed('gameOver');
       return;
     }
-    // if (_currentFallingBlock != null && _currentFallingBlock!.y < 75) {
-    //   return;
-    // }
     addRandomBlock();
   }
 
@@ -332,6 +329,7 @@ class TetrisPlayPage extends Component
 //    print('removeRow $y');
     game.playSoundEffect(SoundEffects.removingFilledRow);
     _removedRows++;
+    game.rowWasRemoved();
     await removeQuadsAnimated(findQuadsInRow(y));
   }
 

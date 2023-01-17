@@ -151,6 +151,10 @@ class TetrisGame extends FlameGame
     }
   }
 
+  void rowWasRemoved() {
+    widgetRef.read(peerServiceProvider).sendMessage('@i3');
+  }
+
   void backgroundMusicStart() {
     FlameAudio.bgm.play(backgroundMusicName, volume: backgroundMusicVolume);
   }
