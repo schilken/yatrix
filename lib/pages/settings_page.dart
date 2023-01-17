@@ -10,6 +10,7 @@ class SettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final textTheme = Theme.of(context).textTheme;
     final settings = ref.watch(settingsNotifier);
 
     return Material(
@@ -36,18 +37,12 @@ class SettingsPage extends ConsumerWidget {
             SizedBox(height: 48),
             Text(
               'Settings',
-              style: TextStyle(
-                fontSize: 32,
-                color: Colors.white60,
-              ),
+              style: textTheme.headline4,
             ),
             SizedBox(height: 48),
             Text(
               'Background Music Volume',
-              style: TextStyle(
-                fontSize: 24,
-                color: Colors.white60,
-              ),
+              style: textTheme.headline5,
             ),
             SizedBox(height: 12),
             SizedBox(
@@ -56,8 +51,8 @@ class SettingsPage extends ConsumerWidget {
                 value: settings.musicVolume,
                 label: '${settings.musicVolume * 10}',
                 divisions: 10,
-                thumbColor: Colors.white54,
-                activeColor: Colors.white70,
+                // thumbColor: Colors.white54,
+                // activeColor: Colors.white70,
                 onChanged: (double newMusicVolume) {
                   game.setBackgroundMusicVolume(newMusicVolume);
                   ref
@@ -69,10 +64,7 @@ class SettingsPage extends ConsumerWidget {
             SizedBox(height: 24),
             Text(
               'Sound EffectsVolume',
-              style: TextStyle(
-                fontSize: 24,
-                color: Colors.white60,
-              ),
+              style: textTheme.headline5,
             ),
             SizedBox(height: 12),
             SizedBox(
@@ -81,8 +73,8 @@ class SettingsPage extends ConsumerWidget {
                 value: settings.soundEffectsVolume,
                 label: '${settings.soundEffectsVolume * 10}',
                 divisions: 10,
-                thumbColor: Colors.white54,
-                activeColor: Colors.white70,
+                // thumbColor: Colors.white54,
+                // activeColor: Colors.white70,
                 onChanged: (double newSoundEffectsVolume) {
                   game.setSoundEffectsVolume(newSoundEffectsVolume);
                   ref
@@ -96,10 +88,7 @@ class SettingsPage extends ConsumerWidget {
               children: [
                 Text(
                   'Show FPS',
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.white60,
-                  ),
+                  style: textTheme.headline5,
                 ),
                 Spacer(),
                 Switch(
@@ -107,17 +96,17 @@ class SettingsPage extends ConsumerWidget {
                   value: ref.read(settingsNotifier).showFps,
                   // inactiveThumbColor: Colors.white24,
                   // inactiveTrackColor: Colors.white24,
-                  thumbColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.selected)) {
-                      return Colors.white70;
-                    }
-                    return Colors.grey;
-                  }),
-                  trackColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                    return Colors.grey.shade600;
-                  }),
+                  // thumbColor: MaterialStateProperty.resolveWith<Color>(
+                  //     (Set<MaterialState> states) {
+                  //   if (states.contains(MaterialState.selected)) {
+                  //     return Colors.white70;
+                  //   }
+                  //   return Colors.grey;
+                  // }),
+                  // trackColor: MaterialStateProperty.resolveWith<Color>(
+                  //     (Set<MaterialState> states) {
+                  //   return Colors.grey.shade600;
+                  // }),
                   onChanged: (value) {
                     ref.read(settingsNotifier.notifier).setShowFps(value);
                     game.showFps = value;

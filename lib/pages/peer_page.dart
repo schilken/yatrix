@@ -11,7 +11,7 @@ class PeerPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    
+    final textTheme = Theme.of(context).textTheme;
     final peerState = ref.watch(peerNotifier);
     final peerConnectState = ref.watch(peerClientNotifier);
     final peerServerState = ref.watch(peerServerNotifier);
@@ -41,10 +41,7 @@ class PeerPage extends ConsumerWidget {
             SizedBox(height: 32),
             Text(
               'Two-Players Configuration',
-              style: TextStyle(
-                fontSize: 32,
-                color: Colors.white60,
-              ),
+              style: textTheme.headline4,
             ),
             SizedBox(height: 48),
             ...[
@@ -52,10 +49,7 @@ class PeerPage extends ConsumerWidget {
               children: [
                 Text(
                     'Two-Player Mode',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white60,
-                    ),
+                    style: textTheme.headline5,
                   ),
                   Spacer(),
                   Switch(
@@ -63,17 +57,17 @@ class PeerPage extends ConsumerWidget {
                     value: peerState.isEnabled,
                     // inactiveThumbColor: Colors.white24,
                     // inactiveTrackColor: Colors.white24,
-                    thumbColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.selected)) {
-                        return Colors.white70;
-                      }
-                      return Colors.grey;
-                    }),
-                    trackColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                      return Colors.grey.shade600;
-                    }),
+                    // thumbColor: MaterialStateProperty.resolveWith<Color>(
+                    //     (Set<MaterialState> states) {
+                    //   if (states.contains(MaterialState.selected)) {
+                    //     return Colors.white70;
+                    //   }
+                    //   return Colors.grey;
+                    // }),
+                    // trackColor: MaterialStateProperty.resolveWith<Color>(
+                    //     (Set<MaterialState> states) {
+                    //   return Colors.grey.shade600;
+                    // }),
                     onChanged: (value) {
                       ref.read(peerNotifier.notifier).setIsEnabled(value);
                     },
@@ -89,10 +83,7 @@ class PeerPage extends ConsumerWidget {
                 children: [
                   Text(
                     'Acticate Two-Player-Server',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white60,
-                  ),
+                    style: textTheme.headline5,
                 ),
                 Spacer(),
                 Switch(
@@ -100,17 +91,17 @@ class PeerPage extends ConsumerWidget {
                     value: isServer,
                   // inactiveThumbColor: Colors.white24,
                   // inactiveTrackColor: Colors.white24,
-                  thumbColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.selected)) {
-                      return Colors.white70;
-                    }
-                    return Colors.grey;
-                  }),
-                  trackColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                    return Colors.grey.shade600;
-                  }),
+                    // thumbColor: MaterialStateProperty.resolveWith<Color>(
+                    //     (Set<MaterialState> states) {
+                    //   if (states.contains(MaterialState.selected)) {
+                    //     return Colors.white70;
+                    //   }
+                    //   return Colors.grey;
+                    // }),
+                    // trackColor: MaterialStateProperty.resolveWith<Color>(
+                    //     (Set<MaterialState> states) {
+                    //   return Colors.grey.shade600;
+                    // }),
                   onChanged: (value) {
                       ref.read(peerNotifier.notifier).setIsServer(value);
                   },
