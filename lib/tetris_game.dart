@@ -123,7 +123,6 @@ class TetrisGame extends FlameGame
     showFps = widgetRef.read(settingsNotifier).showFps;
   }
 
-
   Future<void> initAudio() async {
     FlameAudio.bgm.initialize();
     final sfxNames = SoundEffects.allNames;
@@ -147,7 +146,9 @@ class TetrisGame extends FlameGame
   }
 
   void handlePeerCommand(String command) {
-    gamePage?.handlePeerCommand(command);
+    if (command.length == 3 && command.startsWith('@i')) {
+      gamePage?.handlePeerCommand(command);
+    }
   }
 
   void backgroundMusicStart() {
