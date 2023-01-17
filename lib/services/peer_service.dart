@@ -70,7 +70,7 @@ class PeerService {
   }
 
   void _setRandomPeerId() {
-    _peerId = _random.nextInt(99999);
+    _peerId = 10000 + _random.nextInt(90000);
   }
 
   Future<void> initPeer() async {
