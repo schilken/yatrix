@@ -10,6 +10,7 @@ class SettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final sliderTheme = Theme.of(context).sliderTheme;
     final textTheme = Theme.of(context).textTheme;
     final settings = ref.watch(settingsNotifier);
 
@@ -51,8 +52,8 @@ class SettingsPage extends ConsumerWidget {
                 value: settings.musicVolume,
                 label: '${settings.musicVolume * 10}',
                 divisions: 10,
-                // thumbColor: Colors.white54,
-                // activeColor: Colors.white70,
+                thumbColor: sliderTheme.thumbColor,
+                activeColor: sliderTheme.activeTrackColor,
                 onChanged: (double newMusicVolume) {
                   game.setBackgroundMusicVolume(newMusicVolume);
                   ref
@@ -73,8 +74,8 @@ class SettingsPage extends ConsumerWidget {
                 value: settings.soundEffectsVolume,
                 label: '${settings.soundEffectsVolume * 10}',
                 divisions: 10,
-                // thumbColor: Colors.white54,
-                // activeColor: Colors.white70,
+                thumbColor: sliderTheme.thumbColor,
+                activeColor: sliderTheme.activeTrackColor,
                 onChanged: (double newSoundEffectsVolume) {
                   game.setSoundEffectsVolume(newSoundEffectsVolume);
                   ref

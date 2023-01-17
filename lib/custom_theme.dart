@@ -54,10 +54,10 @@ class CustomTheme {
         ),
       ),
       sliderTheme: SliderThemeData(
-        activeTrackColor: Colors.white,
+        activeTrackColor: Colors.white70,
         inactiveTrackColor: Colors.grey.shade800,
-        thumbColor: Colors.white,
-        valueIndicatorColor: CustomPalette.red500,
+        thumbColor: Colors.white54,
+        valueIndicatorColor: Colors.grey.shade800,
         inactiveTickMarkColor: Colors.transparent,
         activeTickMarkColor: Colors.transparent,
       ),

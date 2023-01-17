@@ -28,6 +28,7 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     final highScore = ref.watch(highScoreNotifier);
     return Material(
       child: Container(
@@ -53,10 +54,7 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
             SizedBox(height: 32),
             Text(
               'High Scores',
-              style: TextStyle(
-                fontSize: 32,
-                color: Colors.white60,
-              ),
+              style: textTheme.headline4,
             ),
             SizedBox(height: 24),
             if (widget.game.isGameOver)
@@ -72,10 +70,7 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
                 ),
                 decoration: InputDecoration(
                   hintText: 'Enter Your Name',
-                  hintStyle: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.white60,
-                  ),
+                  hintStyle: textTheme.bodyLarge,
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.white60),
                   ),
@@ -86,10 +81,7 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
               Text(
                 'Points: ${widget.game.points}\nRows: ${widget.game.rows}',
                 textAlign: TextAlign.start,
-                style: const TextStyle(
-                  fontSize: 20,
-                  color: Colors.white60,
-                ),
+                style: textTheme.headline6,
               ),
             const SizedBox(height: 12),
             if (widget.game.isGameOver)
@@ -116,15 +108,11 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
                     tileColor: Colors.grey,
                     title: Text(
                       score.userName,
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
+                      style: textTheme.headline6,
                     ),
                     subtitle: Text(
                       'Points: ${score.points}\nRows: ${score.rows}',
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
+                      style: textTheme.headline6,
                     ),
                     shape: new RoundedRectangleBorder(
                         side: BorderSide(width: 2, color: Colors.amberAccent),

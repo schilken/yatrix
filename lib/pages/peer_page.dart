@@ -165,10 +165,7 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
           ),
           decoration: InputDecoration(
             hintText: 'Enter ID of your Server',
-            hintStyle: const TextStyle(
-              fontSize: 16,
-              color: Colors.white60,
-            ),
+            hintStyle: textTheme.bodyLarge,
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white60),
             ),
