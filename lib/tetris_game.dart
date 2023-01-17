@@ -155,6 +155,18 @@ class TetrisGame extends FlameGame
     widgetRef.read(peerServiceProvider).sendMessage('@i3');
   }
 
+  void notifyGameOver() {
+    widgetRef
+        .read(peerServiceProvider)
+        .sendMessage('Your peer has "Game Over"!');
+  }
+
+  void notifyWin() {
+    widgetRef
+        .read(peerServiceProvider)
+        .sendMessage('Your peer has removed 30 rows!');
+  }
+
   void backgroundMusicStart() {
     FlameAudio.bgm.play(backgroundMusicName, volume: backgroundMusicVolume);
   }

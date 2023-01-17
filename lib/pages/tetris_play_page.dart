@@ -221,6 +221,7 @@ class TetrisPlayPage extends Component
     if (!game.isGameRunning) {
       print('>>> GAME OVER <<<');
       game.isGameOver = true;
+      game.notifyGameOver();
       game.router.pushNamed('gameOver');
       return;
     }
