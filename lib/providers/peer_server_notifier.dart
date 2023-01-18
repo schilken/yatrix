@@ -77,22 +77,22 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
       print('PeerServerNotifier.listen: $message');
       state =
           state.copyWith(serverState: ServerState.connected, message: message);
-      BotToast.showText(
-        text: message,
-        duration: const Duration(seconds: 3),
-        align: const Alignment(0, 0.3),
-      );
+      // BotToast.showText(
+      //   text: message,
+      //   duration: const Duration(seconds: 3),
+      //   align: const Alignment(0, 0.3),
+      // );
     });
   }
 
   void addOnDoneCallback() {
     _streamSubscription?.onDone(() {
       stop();
-      BotToast.showText(
-        text: 'Two-Player Mode finished',
-        duration: const Duration(seconds: 3),
-        align: const Alignment(0, 0.3),
-      );
+      // BotToast.showText(
+      //   text: 'Two-Player Mode finished',
+      //   duration: const Duration(seconds: 3),
+      //   align: const Alignment(0, 0.3),
+      // );
     });
   }
 
@@ -101,7 +101,7 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
     _peerService.disposePeer();
     state = state.copyWith(
       serverState: ServerState.notStarted,
-      message: '',
+      message: '@done!',
     );
   }
 }

@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
 import 'package:flame/input.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart'
     show TextStyle, Colors, KeyEventResult, TextField, Center, Material;
+import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -51,6 +53,9 @@ class TetrisGame extends FlameGame
   TetrisGame({required this.widgetRef});
 
   bool isGameRunning = false;
+  bool isGameOver = false;
+  bool isTwoPlayerGame = false;
+
   late final RouterComponent router;
   TetrisPageInterface? gamePage;
   KeyboardGameController? keyboardGameController;
@@ -60,18 +65,24 @@ class TetrisGame extends FlameGame
   double backgroundMusicVolume = 0.25;
   double sfxVolume = 0.5;
   bool showFps = true;
-  bool isGameOver = false;
 
   int _rows = 0;
   int _points = 0;
+
   void setScoreValues({required int points, required int rows}) {
     _points = points;
     _rows = rows;
+    if (_rows >= 30 && isTwoPlayerGame) {
+      notifyWin();
+    }
     widgetRef.read(highScoreNotifier.notifier).setScoreValues(points, rows);
   }
 
   int get points => _points;
   int get rows => _rows;
+
+  String _gameEndString = 'Game Over!';
+  String get gameEndString => _gameEndString;
 
   @override
   Future<void> onLoad() async {
@@ -144,26 +155,79 @@ class TetrisGame extends FlameGame
     gamePage?.handleBlockFreezed();
   }
 
+  void startNewGame() {
+    _gameEndString = 'Game Over!';
+    backgroundMusicStart();
+    isGameRunning = true;
+    isGameOver = false;
+    isTwoPlayerGame = widgetRef.read(peerNotifier).isEnabled;
+  }
+
+  void stopGame() {
+    isGameRunning = false;
+    isGameOver = true;
+    router.pushNamed('gameOver');
+  }
+
+  void topIsReached() {
+    print('>>> GAME OVER <<<');
+    notifyGameOver();
+    stopGame();
+  }
+
+  void notifyGameOver() {
+    if (isTwoPlayerGame) {
+      _gameEndString = 'YOU LOSE!';
+      // the other side has won
+      widgetRef.read(peerServiceProvider).sendMessage('@+');
+    }
+  }
+
+// Used by Two-Player-Mode
+  void notifyWin() {
+    // the other side has lost
+    widgetRef.read(peerServiceProvider).sendMessage('@-');
+    _gameEndString = 'YOU WIN!';
+    stopGame();
+  }
+
+  void receivedLost() {
+    _gameEndString = 'YOU LOSE!';
+    stopGame();
+  }
+
+  void receivedWin() {
+    _gameEndString = 'YOU WIN!';
+    stopGame();
+  }
+
   void handlePeerCommand(String command) {
+    print('handlePeerCommand >>>> command: $command');
+    String? message;
     if (command.length == 3 && command.startsWith('@i')) {
       gamePage?.handlePeerCommand(command);
+    } else if (command == '@-') {
+      message = 'Your peer has removed 30 rows!';
+      receivedLost();
+    } else if (command == '@+') {
+      message = 'Your peer had "Game Over"!';
+      receivedWin();
+    } else if (command == '@done!') {
+      message = 'Two-Player Mode finished';
+    }
+    if (message != null) {
+      BotToast.showText(
+        text: message,
+        duration: const Duration(seconds: 3),
+        align: const Alignment(0, 0.3),
+      );
     }
   }
 
   void rowWasRemoved() {
-    widgetRef.read(peerServiceProvider).sendMessage('@i3');
-  }
-
-  void notifyGameOver() {
-    widgetRef
-        .read(peerServiceProvider)
-        .sendMessage('Your peer has "Game Over"!');
-  }
-
-  void notifyWin() {
-    widgetRef
-        .read(peerServiceProvider)
-        .sendMessage('Your peer has removed 30 rows!');
+    if (isTwoPlayerGame) {
+      widgetRef.read(peerServiceProvider).sendMessage('@i3');
+    }
   }
 
   void backgroundMusicStart() {

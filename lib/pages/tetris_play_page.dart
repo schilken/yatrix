@@ -183,9 +183,7 @@ class TetrisPlayPage extends Component
   @override
   bool startGameIfNotRunning() {
     if (!game.isGameRunning) {
-      game.backgroundMusicStart();
-      game.isGameRunning = true;
-      game.isGameOver = false;
+      game.startNewGame();
       addRandomBlock();
       updatePoints(null);
       return true;
@@ -212,17 +210,14 @@ class TetrisPlayPage extends Component
   @override
   void handleBlockFreezed() {
     updatePoints(_currentFallingBlock?.y);
+    if (_currentFallingBlock != null && _currentFallingBlock!.y < 75) {
+      game.topIsReached();
+      return;
+    }
     game.playSoundEffect(SoundEffects.freezedBlock);
     // final matrix = creatBlockMatrix();
     // print(matrix);
     removeFullRows();
-    if (!game.isGameRunning) {
-      print('>>> GAME OVER <<<');
-      game.isGameOver = true;
-      game.notifyGameOver();
-      game.router.pushNamed('gameOver');
-      return;
-    }
     addRandomBlock();
   }
 

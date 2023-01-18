@@ -40,7 +40,7 @@ class GameOverPage extends Component with TapCallbacks, HasGameRef<TetrisGame> {
   Future<void> onLoad() async {
     addAll([
       TextComponent(
-        text: 'GAME OVER!',
+        text: game.gameEndString,
         position: game.canvasSize / 2,
         anchor: Anchor.center,
         children: [

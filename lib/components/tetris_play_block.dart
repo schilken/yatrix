@@ -129,9 +129,6 @@ abstract class TetrisBaseBlock extends SpriteComponent
     _lastDeltaX = null;
     adjustY();
 //    print('freezedBlock y: $y');
-    if (y <= 75) {
-      game.isGameRunning = false;
-    }
     if (!isConstructionMode) {
       Future.delayed(const Duration(milliseconds: 500), markAllQuadsAsFreezed);
     }

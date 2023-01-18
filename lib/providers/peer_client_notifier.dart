@@ -87,11 +87,11 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
       print('PeerClientNotifier.listen: $message');
       state =
           state.copyWith(clientState: ClientState.connected, message: message);
-      BotToast.showText(
-        text: message,
-        duration: const Duration(seconds: 3),
-        align: const Alignment(0, 0.3),
-      );
+      // BotToast.showText(
+      //   text: message,
+      //   duration: const Duration(seconds: 3),
+      //   align: const Alignment(0, 0.3),
+      // );
     });
   }
 
@@ -99,11 +99,13 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
     _streamSubscription?.onDone(() {
       print('disConnect onDone');
       disConnect();
-      BotToast.showText(
-        text: 'Two-Player Mode finished',
-        duration: const Duration(seconds: 3),
-        align: const Alignment(0, 0.3),
-      );
+      // state =
+      //     state.copyWith(clientState: ClientState.connected, message: '@done!');
+      // BotToast.showText(
+      //   text: 'Two-Player Mode finished',
+      //   duration: const Duration(seconds: 3),
+      //   align: const Alignment(0, 0.3),
+      // );
     });
   }
 
@@ -111,7 +113,7 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
     _peerService.disposePeer();
     state = state.copyWith(
       clientState: ClientState.notConnected,
-      message: '',
+      message: '@done!',
     );
   }
 }
