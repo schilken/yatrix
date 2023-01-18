@@ -3,10 +3,12 @@ import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flutter/rendering.dart';
 
-import '../tetris_game.dart';
-
 abstract class SimpleButton extends PositionComponent with TapCallbacks {
-  SimpleButton(this._iconPath, {super.position}) : super(size: Vector2.all(40));
+  SimpleButton({
+    required this.iconPath,
+    required this.onTapped,
+    super.position,
+  }) : super(size: Vector2.all(40));
 
   final Paint _borderPaint = Paint()
     ..style = PaintingStyle.stroke
@@ -15,9 +17,9 @@ abstract class SimpleButton extends PositionComponent with TapCallbacks {
     ..style = PaintingStyle.stroke
     ..color = const Color(0xffaaaaaa)
     ..strokeWidth = 7;
-  final Path _iconPath;
 
-  void action();
+  final Path iconPath;
+  final VoidCallback onTapped;  
 
   @override
   void render(Canvas canvas) {
@@ -25,7 +27,7 @@ abstract class SimpleButton extends PositionComponent with TapCallbacks {
       RRect.fromRectAndRadius(size.toRect(), const Radius.circular(8)),
       _borderPaint,
     );
-    canvas.drawPath(_iconPath, _iconPaint);
+    canvas.drawPath(iconPath, _iconPaint);
   }
 
   @override
@@ -36,7 +38,7 @@ abstract class SimpleButton extends PositionComponent with TapCallbacks {
   @override
   void onTapUp(TapUpEvent event) {
     _iconPaint.color = const Color(0xffaaaaaa);
-    action();
+    onTapped();
   }
 
   @override
@@ -45,10 +47,10 @@ abstract class SimpleButton extends PositionComponent with TapCallbacks {
   }
 }
 
-class BackButton extends SimpleButton with HasGameRef<TetrisGame> {
-  BackButton()
+class BackButton extends SimpleButton {
+  BackButton({required super.onTapped})
       : super(
-          Path()
+          iconPath: Path()
             ..moveTo(22, 8)
             ..lineTo(10, 20)
             ..lineTo(22, 32)
@@ -57,13 +59,12 @@ class BackButton extends SimpleButton with HasGameRef<TetrisGame> {
           position: Vector2.all(10),
         );
 
-  @override
-  void action() => gameRef.router.pop();
 }
 
-class PauseButton extends SimpleButton with HasGameRef<TetrisGame> {
-  PauseButton()
+class PauseButton extends SimpleButton {
+  PauseButton({required super.onTapped})
       : super(
+          iconPath:
           Path()
             ..moveTo(14, 10)
             ..lineTo(14, 30)
@@ -71,6 +72,4 @@ class PauseButton extends SimpleButton with HasGameRef<TetrisGame> {
             ..lineTo(26, 30),
           position: Vector2(60, 10),
         );
-  @override
-  void action() => gameRef.router.pushNamed('pause');
 }

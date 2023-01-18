@@ -65,8 +65,8 @@ class TetrisPlayPage extends Component
   Future<void> onLoad() async {
     print('TetrisPlayPage.onLoad');
     addAll([
-      BackButton(),
-      PauseButton(),
+      BackButton(onTapped: onBackButton),
+      PauseButton(onTapped: () => gameRef.router.pushNamed('pause')),
       if (game.showFps)
         FpsTextComponent(
           position: Vector2(10, 70),
@@ -103,10 +103,14 @@ class TetrisPlayPage extends Component
   }
 
   @override
-  void onRemove() {
-    reset();
+  Future<void> onRemove() async {
     closeGameControllers();
     super.onRemove();
+  }
+
+  void onBackButton() async {
+    await reset();
+    gameRef.router.pop();
   }
 
   @override
@@ -178,12 +182,12 @@ class TetrisPlayPage extends Component
   }
 
   @override
-  void reset() async {
+  Future<void> reset() async {
 //    print('TetrisPlayPage.reset');
     game.isGameRunning = false;
     final allBlocks = world.children.query<TetrisBaseBlock>();
     allBlocks.forEach((element) => element.removeFromParent());
-    List<Quadrat> allQuads = world.children.query<Quadrat>();
+    final allQuads = world.children.query<Quadrat>();
     await removeQuads(allQuads, delay: 10);
     _removedRows = 0;
     _droppedAtY = null;
@@ -350,6 +354,7 @@ class TetrisPlayPage extends Component
   }
 
   Future<void> removeQuads(List<Quadrat> quads, {int delay = 20}) async {
+    print('removeQuads: $quads');
     final clonedList = [...quads];
     for (final quad in clonedList) {
       world.remove(quad);

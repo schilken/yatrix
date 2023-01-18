@@ -61,8 +61,8 @@ class MosaicPage extends Component
     print('MosaicPage.onLoad');
     _rotater = Debouncer(() => _currentFallingBlock?.rotateBy(-pi / 2));
     addAll([
-      BackButton(),
-      PauseButton(),
+      BackButton(onTapped: gameRef.router.pop),
+      PauseButton(onTapped: () => gameRef.router.pushNamed('pause')),
     ]);
     _joystickPoller = Timer(
       0.2,

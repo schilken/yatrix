@@ -54,7 +54,7 @@ class CreditsPage extends Component with HasGameRef<TetrisGame> {
   Future<void> onLoad() async {
     addAll([
       Background(paint: BasicPalette.black.paint()),
-      BackButton(),
+      BackButton(onTapped: gameRef.router.pop),
     ]);
   }
 }
