@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../app_sizes.dart';
 import '../providers/providers.dart';
 import '../tetris_game.dart';
 
@@ -38,7 +39,7 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: 10),
+            gapH12,
             Row(
               children: [
                 OutlinedButton(
@@ -51,12 +52,12 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
                 ),
               ],
             ),
-            SizedBox(height: 32),
+            gapH32,
             Text(
               'High Scores',
               style: textTheme.headline4,
             ),
-            SizedBox(height: 24),
+            gapH24,
             if (widget.game.isGameOver)
               TextField(
                 controller: _textEditingController,
@@ -76,14 +77,14 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
                   ),
                 ),
               ),
-            SizedBox(height: 12),
+            gapH12,
             if (widget.game.isGameOver)
               Text(
                 'Points: ${widget.game.points}\nRows: ${widget.game.rows}',
                 textAlign: TextAlign.start,
                 style: textTheme.headline6,
               ),
-            const SizedBox(height: 12),
+            gapH12,
             if (widget.game.isGameOver)
               OutlinedButton(
                 onPressed: () {
@@ -97,7 +98,7 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
                 ),
                 child: Text('Save Score'),
               ),
-            SizedBox(height: 32),
+            gapH32,
             Expanded(
               child: ListView.builder(
                 itemCount: highScore.scores.length,
@@ -121,7 +122,7 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
                 },
               ),
             ),
-            SizedBox(height: 32),
+            gapH32,
           ],
         ),
       ),

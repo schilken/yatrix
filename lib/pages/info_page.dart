@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
+import '../app_sizes.dart';
 import '../tetris_game.dart';
 
 class InfoPage extends StatelessWidget {
@@ -73,7 +74,7 @@ These versions are also free without ads or in app purchases.
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: 10),
+            gapH12,
             Row(
               children: [
                 OutlinedButton(
@@ -86,12 +87,12 @@ These versions are also free without ads or in app purchases.
                 ),
               ],
             ),
-            SizedBox(height: 32),
+            gapH32,
             Text(
               'Info',
               style: textTheme.headline4,  
             ),
-            SizedBox(height: 24),
+            gapH24,
             Expanded(
               child: Markdown(
                 //            controller: controller,

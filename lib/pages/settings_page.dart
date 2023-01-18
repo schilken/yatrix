@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../app_sizes.dart';
 import '../providers/providers.dart';
 import '../tetris_game.dart';
 
@@ -22,7 +23,7 @@ class SettingsPage extends ConsumerWidget {
 //          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: 10),
+            gapH12,
             Row(
               children: [
                 OutlinedButton(
@@ -35,17 +36,17 @@ class SettingsPage extends ConsumerWidget {
                 ),
               ],
             ),
-            SizedBox(height: 48),
+            gapH48,
             Text(
               'Settings',
               style: textTheme.headline4,
             ),
-            SizedBox(height: 48),
+            gapH48,
             Text(
               'Background Music Volume',
               style: textTheme.headline5,
             ),
-            SizedBox(height: 12),
+            gapH12,
             SizedBox(
               width: 250.0,
               child: Slider(
@@ -62,12 +63,12 @@ class SettingsPage extends ConsumerWidget {
                 },
               ),
             ),
-            SizedBox(height: 24),
+            gapH24,
             Text(
               'Sound EffectsVolume',
               style: textTheme.headline5,
             ),
-            SizedBox(height: 12),
+            gapH12,
             SizedBox(
               width: 250.0,
               child: Slider(
@@ -84,7 +85,7 @@ class SettingsPage extends ConsumerWidget {
                 },
               ),
             ),
-            SizedBox(height: 24),
+            gapH24,
             Row(
               children: [
                 Text(

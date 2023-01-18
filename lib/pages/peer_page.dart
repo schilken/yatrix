@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../app_sizes.dart';
 import '../providers/providers.dart';
 import '../tetris_game.dart';
 
@@ -24,7 +25,7 @@ class PeerPage extends ConsumerWidget {
 //          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: 10),
+            gapH12,
             Row(
               children: [
                 OutlinedButton(
@@ -37,12 +38,12 @@ class PeerPage extends ConsumerWidget {
                 ),
               ],
             ),
-            SizedBox(height: 32),
+            gapH32,
             Text(
               'Two-Players Configuration',
               style: textTheme.headline4,
             ),
-            SizedBox(height: 48),
+            gapH48,
             ...[
               Row(
                 children: [
@@ -74,7 +75,7 @@ class PeerPage extends ConsumerWidget {
                 ],
               ),
             ],
-            SizedBox(height: 12),
+            gapH12,
             if (isEnabled &&
                 peerConnectState.clientState == ClientState.notConnected &&
                 peerServerState.serverState == ServerState.notStarted) ...[
@@ -108,7 +109,7 @@ class PeerPage extends ConsumerWidget {
                 ],
               ),
             ],
-            SizedBox(height: 12),
+            gapH12,
             if (isEnabled && !isServer) PeerClientView(),
             if (isEnabled && isServer) PeerServerView()
           ],
@@ -152,7 +153,7 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
           'If you want to connect to your player buddy\'s server, enter their Id here.',
           style: textTheme.headline6,
         ),
-        SizedBox(height: 24),
+        gapH24,
         TextField(
           controller: _idEditingController,
           focusNode: _focusNode,
@@ -173,13 +174,13 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
         ),
       ],
       if (peerClientState.clientState == ClientState.error) ...[
-        SizedBox(height: 8),
+        gapH8,
         Text(
           peerClientState.message,
           style: textTheme.headline6?.copyWith(color: Colors.red),
         ),
       ],
-      SizedBox(height: 24),
+      gapH24,
       if (peerClientState.clientState == ClientState.notConnected ||
           peerClientState.clientState == ClientState.error)
         OutlinedButton(
@@ -200,10 +201,10 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
           peerClientState.message,
           style: textTheme.headline6,
         ),
-      SizedBox(height: 8),
+      gapH8,
       if (peerClientState.clientState == ClientState.connecting)
         CircularProgressIndicator(),
-      SizedBox(height: 24),
+      gapH24,
       if (peerClientState.clientState == ClientState.connected ||
           peerClientState.clientState == ClientState.connecting)
         OutlinedButton(
@@ -218,7 +219,7 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
           child: Text('Disconnect'),
         ),
       if (peerClientState.clientState == ClientState.connected) ...[
-        SizedBox(height: 24),
+        gapH24,
         TextField(
           controller: _messageEditingController,
           focusNode: _focusNode,
@@ -234,7 +235,7 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
             ),
           ),
         ),
-        SizedBox(height: 12),
+        gapH12,
         OutlinedButton(
           onPressed: () {
             ref
@@ -266,7 +267,7 @@ class PeerServerView extends ConsumerWidget {
           'You are the server. Start the server and tell your player buddy the Server ID.',
           style: textTheme.headline6,
         ),
-        SizedBox(height: 24),
+        gapH24,
         if (peerServerState.serverState == ServerState.notStarted)
           OutlinedButton(
             onPressed: ref.read(peerServerNotifier.notifier).start,
@@ -284,11 +285,11 @@ class PeerServerView extends ConsumerWidget {
           peerServerState.message,
           style: textTheme.headline6,
         ),
-      SizedBox(height: 8),
+      gapH8,
       if (peerServerState.serverState == ServerState.starting ||
           peerServerState.serverState == ServerState.listening)
         CircularProgressIndicator(),
-      SizedBox(height: 24),
+      gapH24,
       if (peerServerState.serverState == ServerState.listening ||
           peerServerState.serverState == ServerState.connected)
         OutlinedButton(
