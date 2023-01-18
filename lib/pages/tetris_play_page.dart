@@ -341,6 +341,7 @@ class TetrisPlayPage extends Component
 //    print('removeRow $y');
     game.playSoundEffect(SoundEffects.removingFilledRow);
     _removedRows++;
+    updatePoints(null);
     game.rowWasRemoved();
     await removeQuadsAnimated(findQuadsInRow(y));
   }
