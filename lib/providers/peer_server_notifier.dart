@@ -1,10 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, avoid_print
 import 'dart:async';
 
-import 'package:bot_toast/bot_toast.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'providers.dart';
 
 enum ServerState {
@@ -77,22 +74,12 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
       print('PeerServerNotifier.listen: $message');
       state =
           state.copyWith(serverState: ServerState.connected, message: message);
-      // BotToast.showText(
-      //   text: message,
-      //   duration: const Duration(seconds: 3),
-      //   align: const Alignment(0, 0.3),
-      // );
     });
   }
 
   void addOnDoneCallback() {
     _streamSubscription?.onDone(() {
       stop();
-      // BotToast.showText(
-      //   text: 'Two-Player Mode finished',
-      //   duration: const Duration(seconds: 3),
-      //   align: const Alignment(0, 0.3),
-      // );
     });
   }
 

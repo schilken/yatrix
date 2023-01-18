@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, avoid_print
 import 'dart:async';
 
-import 'package:bot_toast/bot_toast.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'providers.dart';
@@ -87,11 +85,6 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
       print('PeerClientNotifier.listen: $message');
       state =
           state.copyWith(clientState: ClientState.connected, message: message);
-      // BotToast.showText(
-      //   text: message,
-      //   duration: const Duration(seconds: 3),
-      //   align: const Alignment(0, 0.3),
-      // );
     });
   }
 
@@ -99,13 +92,6 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
     _streamSubscription?.onDone(() {
       print('disConnect onDone');
       disConnect();
-      // state =
-      //     state.copyWith(clientState: ClientState.connected, message: '@done!');
-      // BotToast.showText(
-      //   text: 'Two-Player Mode finished',
-      //   duration: const Duration(seconds: 3),
-      //   align: const Alignment(0, 0.3),
-      // );
     });
   }
 
