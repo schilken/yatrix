@@ -44,10 +44,8 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
             autofocus: true,
             autocorrect: false,
             cursorColor: Colors.white60,
-            style: const TextStyle(
-              fontSize: 20,
-              color: Colors.white60,
-            ),
+            keyboardType: TextInputType.number,
+            style: textTheme.headline5,
             decoration: InputDecoration(
               hintText: 'Enter ID of your Server',
               hintStyle: textTheme.bodyText1,
