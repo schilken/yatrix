@@ -19,7 +19,7 @@ class PeerPage extends ConsumerWidget {
     final isServer = peerState.isServer;
     return Material(
       child: Container(
-        color: Color.fromARGB(255, 20, 20, 20),
+        color: const Color.fromARGB(255, 20, 20, 20),
         padding: const EdgeInsets.fromLTRB(20.0, 0, 20, 30),
         child: Column(
 //          mainAxisAlignment: MainAxisAlignment.start,
@@ -33,7 +33,7 @@ class PeerPage extends ConsumerWidget {
                   child: Text('<'),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.white60,
-                    side: BorderSide(color: Colors.white60),
+                    side: const BorderSide(color: Colors.white60),
                   ),
                 ),
               ],
@@ -51,7 +51,7 @@ class PeerPage extends ConsumerWidget {
                     'Two-Player Mode',
                     style: textTheme.headline5,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Switch(
                     // This bool value toggles the switch.
                     value: peerState.isEnabled,
@@ -85,7 +85,7 @@ class PeerPage extends ConsumerWidget {
                     'Activate 2-Player-Server',
                     style: textTheme.headline5,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Switch(
                     // This bool value toggles the switch.
                     value: isServer,
@@ -110,8 +110,8 @@ class PeerPage extends ConsumerWidget {
               ),
             ],
             gapH12,
-            if (isEnabled && !isServer) PeerClientView(),
-            if (isEnabled && isServer) PeerServerView()
+            if (isEnabled && !isServer) const PeerClientView(),
+            if (isEnabled && isServer) const PeerServerView()
           ],
         ),
       ),
@@ -129,7 +129,6 @@ class PeerClientView extends ConsumerStatefulWidget {
 class _PeerClientViewState extends ConsumerState<PeerClientView> {
   late TextEditingController _idEditingController;
   late TextEditingController _messageEditingController;
-  late ScrollController _scrollController;
   late FocusNode _focusNode;
 
   @override
@@ -137,7 +136,6 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
     super.initState();
     _idEditingController = TextEditingController();
     _messageEditingController = TextEditingController();
-    _scrollController = ScrollController();
     _focusNode = FocusNode();
     _idEditingController.text = ''; //ref.read(peerNotifier).remotePeerId;
   }
@@ -167,7 +165,7 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
           decoration: InputDecoration(
             hintText: 'Enter ID of your Server',
             hintStyle: textTheme.bodyText1,
-            enabledBorder: OutlineInputBorder(
+              enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white60),
             ),
           ),
@@ -193,7 +191,7 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
             foregroundColor: Colors.white60,
             side: const BorderSide(color: Colors.white60),
           ),
-          child: Text('Connect'),
+            child: const Text('Connect'),
         ),
       if (peerClientState.clientState == ClientState.connecting ||
           peerClientState.clientState == ClientState.connected)
@@ -203,7 +201,7 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
         ),
       gapH8,
       if (peerClientState.clientState == ClientState.connecting)
-        CircularProgressIndicator(),
+          const CircularProgressIndicator(),
       gapH24,
       if (peerClientState.clientState == ClientState.connected ||
           peerClientState.clientState == ClientState.connecting)
@@ -216,7 +214,7 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
             foregroundColor: Colors.white60,
             side: const BorderSide(color: Colors.white60),
           ),
-          child: Text('Disconnect'),
+            child: const Text('Disconnect'),
         ),
       if (peerClientState.clientState == ClientState.connected) ...[
         gapH24,
@@ -230,7 +228,7 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
           decoration: InputDecoration(
             hintText: 'Enter your message',
             hintStyle: textTheme.bodyText1,
-            enabledBorder: OutlineInputBorder(
+              enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white60),
             ),
           ),
@@ -247,10 +245,11 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
             foregroundColor: Colors.white60,
             side: const BorderSide(color: Colors.white60),
           ),
-          child: Text('Send message to Peer'),
+            child: const Text('Send message to Peer'),
         ),
       ],
-    ]);
+      ],
+    );
   }
 }
 
@@ -275,7 +274,7 @@ class PeerServerView extends ConsumerWidget {
               foregroundColor: Colors.white60,
               side: const BorderSide(color: Colors.white60),
             ),
-            child: Text('Start Server'),
+              child: const Text('Start Server'),
           ),
       ],
       if (peerServerState.serverState == ServerState.starting ||
@@ -288,7 +287,7 @@ class PeerServerView extends ConsumerWidget {
       gapH8,
       if (peerServerState.serverState == ServerState.starting ||
           peerServerState.serverState == ServerState.listening)
-        CircularProgressIndicator(),
+          const CircularProgressIndicator(),
       gapH24,
       if (peerServerState.serverState == ServerState.listening ||
           peerServerState.serverState == ServerState.connected)
@@ -301,8 +300,9 @@ class PeerServerView extends ConsumerWidget {
             foregroundColor: Colors.white60,
             side: const BorderSide(color: Colors.white60),
           ),
-          child: Text('Stop Server'),
+            child: const Text('Stop Server'),
         ),
-    ]);
+      ],
+    );
   }
 }
