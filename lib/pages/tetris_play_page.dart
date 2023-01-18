@@ -133,7 +133,7 @@ class TetrisPlayPage extends Component
     }
     fiveButtons?.position = Vector2(
       size.x - 2 * fiveButtonSize.x - 2 * buttonGapX,
-      size.y - 2 * fiveButtonSize.y - buttonGapX,
+      size.y - 2 * fiveButtonSize.y + buttonGapX,
     );
     fiveButtons?.size = fiveButtonSize;
     if (threeButtons == null) {
