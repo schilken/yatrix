@@ -22,11 +22,11 @@ class CustomTheme {
         fontWeight: FontWeight.w800,
       ),
       headline4: TextStyle(
-        fontSize: 32,
+        fontSize: 28,
         color: Colors.white60,
       ),
       headline5: TextStyle(
-        fontSize: 24,
+        fontSize: 20,
         color: Colors.white60,
       ),
       headline6: TextStyle(
