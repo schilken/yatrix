@@ -100,6 +100,7 @@ class TetrisPlayPage extends Component
       fiveButtons!,
       threeButtons!,
     ]);
+    _twoPlayerActive?.opacity = game.isTwoPlayerGame ? 1.0 : 0.0;
   }
 
   @override
@@ -200,7 +201,6 @@ class TetrisPlayPage extends Component
   @override
   bool startGameIfNotRunning() {
     if (!game.isGameRunning) {
-      _twoPlayerActive?.opacity = game.isTwoPlayerGame ? 1.0 : 0.0;
       game.startNewGame();
       addRandomBlock();
       updatePoints(null);
