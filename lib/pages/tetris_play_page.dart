@@ -48,6 +48,7 @@ class TetrisPlayPage extends Component
 
   FiveButtonsGameController? fiveButtons;
   ThreeButtonsGameController? threeButtons;
+  SvgButton? _twoPlayerActive;
 
   TetrisBaseBlock? _currentFallingBlock;
   @override
@@ -144,6 +145,18 @@ class TetrisPlayPage extends Component
     }
     threeButtons?.position =
         Vector2(size.x - 2 * 35 - 2 * buttonGapX, buttonGapX);
+
+    if (_twoPlayerActive == null) {
+      _twoPlayerActive = SvgButton(
+        name: 'svg/cloud-arrow-right-outline-green.svg',
+        position: Vector2(size.x / 2, -100),
+        onTap: () {},
+      );
+//      _twoPlayerActive?.opacity = 0.0;
+      add(_twoPlayerActive!);
+    }
+    _twoPlayerActive?.position = Vector2(size.x / 2, buttonGapX);
+    _twoPlayerActive?.size = fiveButtonSize;
     super.onGameResize(size);
   }
 
@@ -183,6 +196,7 @@ class TetrisPlayPage extends Component
   @override
   bool startGameIfNotRunning() {
     if (!game.isGameRunning) {
+      _twoPlayerActive?.opacity = game.isTwoPlayerGame ? 1.0 : 0.0;
       game.startNewGame();
       addRandomBlock();
       updatePoints(null);
