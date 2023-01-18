@@ -53,21 +53,7 @@ class PeerPage extends ConsumerWidget {
                   ),
                   const Spacer(),
                   Switch(
-                    // This bool value toggles the switch.
                     value: peerState.isEnabled,
-                    // inactiveThumbColor: Colors.white24,
-                    // inactiveTrackColor: Colors.white24,
-                    // thumbColor: MaterialStateProperty.resolveWith<Color>(
-                    //     (Set<MaterialState> states) {
-                    //   if (states.contains(MaterialState.selected)) {
-                    //     return Colors.white70;
-                    //   }
-                    //   return Colors.grey;
-                    // }),
-                    // trackColor: MaterialStateProperty.resolveWith<Color>(
-                    //     (Set<MaterialState> states) {
-                    //   return Colors.grey.shade600;
-                    // }),
                     onChanged: (value) {
                       ref.read(peerNotifier.notifier).setIsEnabled(value);
                     },
@@ -87,21 +73,7 @@ class PeerPage extends ConsumerWidget {
                   ),
                   const Spacer(),
                   Switch(
-                    // This bool value toggles the switch.
                     value: isServer,
-                    // inactiveThumbColor: Colors.white24,
-                    // inactiveTrackColor: Colors.white24,
-                    // thumbColor: MaterialStateProperty.resolveWith<Color>(
-                    //     (Set<MaterialState> states) {
-                    //   if (states.contains(MaterialState.selected)) {
-                    //     return Colors.white70;
-                    //   }
-                    //   return Colors.grey;
-                    // }),
-                    // trackColor: MaterialStateProperty.resolveWith<Color>(
-                    //     (Set<MaterialState> states) {
-                    //   return Colors.grey.shade600;
-                    // }),
                     onChanged: (value) {
                       ref.read(peerNotifier.notifier).setIsServer(value);
                     },
