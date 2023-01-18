@@ -18,6 +18,7 @@ import '../components/quadrat.dart';
 import '../components/svg_button.dart';
 import '../components/tetris_play_block.dart';
 import '../components/three_buttons_game_controller.dart';
+import '../custom_theme.dart';
 import '../tetris_game.dart';
 import '../tetris_matrix.dart';
 
@@ -117,12 +118,9 @@ class TetrisPlayPage extends Component
     _textComponent = TextBoxComponent(
       text: 'Tap button to start ->',
       textRenderer: TextPaint(
-        style: const TextStyle(
-          color: Color(0x66ffffff),
-          fontSize: 20,
-        ),
+        style: CustomTheme.darkTheme.textTheme.headline6,
       ),
-      position: Vector2(30, size.y - 2 * 35 - buttonGapX),
+      position: Vector2(20, size.y - 2 * 35 - buttonGapX),
       size: gameRef.canvasSize,
     );
     add(_textComponent!);

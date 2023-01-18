@@ -19,7 +19,7 @@ void main() async {
       child: Builder(builder: (context) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          darkTheme: CustomTheme.darkTheme(),
+          darkTheme: CustomTheme.darkTheme,
           themeMode: ThemeMode.dark,
           home: SafeArea(
             child: Builder(

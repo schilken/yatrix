@@ -14,58 +14,71 @@ class CustomPalette {
 }
 
 class CustomTheme {
-  static ThemeData darkTheme() {
-    return ThemeData(
-      colorScheme: ColorScheme.fromSwatch(
-        brightness: Brightness.dark,
-        primarySwatch: MaterialColor(
-          CustomPalette.red500.value,
-          const {
-            100: CustomPalette.red100,
-            200: CustomPalette.red200,
-            300: CustomPalette.red300,
-            400: CustomPalette.red400,
-            500: CustomPalette.red500,
-            600: CustomPalette.red600,
-            700: CustomPalette.red700,
-            800: CustomPalette.red800,
-            900: CustomPalette.red900,
-          },
-        ),
-        accentColor: CustomPalette.red500,
+  static ThemeData darkTheme = ThemeData(
+    colorScheme: ColorScheme.fromSwatch(
+      brightness: Brightness.dark,
+      primarySwatch: MaterialColor(
+        CustomPalette.red500.value,
+        const {
+          100: CustomPalette.red100,
+          200: CustomPalette.red200,
+          300: CustomPalette.red300,
+          400: CustomPalette.red400,
+          500: CustomPalette.red500,
+          600: CustomPalette.red600,
+          700: CustomPalette.red700,
+          800: CustomPalette.red800,
+          900: CustomPalette.red900,
+        },
       ),
-      scaffoldBackgroundColor: CustomPalette.almostBlack,
-      appBarTheme: const AppBarTheme(
-        elevation: 0,
-        color: CustomPalette.almostBlack,
+      accentColor: CustomPalette.red500,
+    ),
+    scaffoldBackgroundColor: CustomPalette.almostBlack,
+    appBarTheme: const AppBarTheme(
+      elevation: 0,
+      color: CustomPalette.almostBlack,
+    ),
+    textTheme: const TextTheme(
+      headline1: TextStyle(
+        fontSize: 48,
+        color: Color(0xFFC8FFF5),
+        fontWeight: FontWeight.w800,
       ),
-      textTheme: const TextTheme(
-        headline4: TextStyle(
-          fontSize: 32,
-          color: Colors.white60,
-        ),
-        headline5: TextStyle(
-          fontSize: 24,
-          color: Colors.white60,
-        ),
-        headline6: TextStyle(
-          fontSize: 16,
-          color: Colors.white60,
-        ),
+      headline4: TextStyle(
+        fontSize: 32,
+        color: Colors.white60,
       ),
-      sliderTheme: SliderThemeData(
-        activeTrackColor: Colors.white70,
-        inactiveTrackColor: Colors.grey.shade800,
-        thumbColor: Colors.white54,
-        valueIndicatorColor: Colors.grey.shade800,
-        inactiveTickMarkColor: Colors.transparent,
-        activeTickMarkColor: Colors.transparent,
+      headline5: TextStyle(
+        fontSize: 24,
+        color: Colors.white60,
       ),
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          backgroundColor: CustomPalette.red500,
-        ),
+      headline6: TextStyle(
+        fontSize: 16,
+        color: Colors.white60,
       ),
-    );
-  }
+      bodyText1: TextStyle(
+        fontSize: 14,
+        color: Colors.white60,
+      ),
+    ),
+    sliderTheme: SliderThemeData(
+      activeTrackColor: Colors.white70,
+      inactiveTrackColor: Colors.grey.shade800,
+      thumbColor: Colors.white54,
+      valueIndicatorColor: Colors.grey.shade800,
+      inactiveTickMarkColor: Colors.transparent,
+      activeTickMarkColor: Colors.transparent,
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        backgroundColor: CustomPalette.red500,
+      ),
+    ),
+    // outlinedButtonTheme: OutlinedButtonThemeData(
+    //   style: ButtonStyle(
+    //     foregroundColor: Colors.white60,
+    //     side: BorderSide(color: Colors.white60),
+    //   ),
+    // ),
+  );
 }

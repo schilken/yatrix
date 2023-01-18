@@ -64,6 +64,7 @@ These versions are also free without ads or in app purchases.
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Material(
       child: Container(
         color: Color.fromARGB(255, 20, 20, 20),
@@ -88,10 +89,7 @@ These versions are also free without ads or in app purchases.
             SizedBox(height: 32),
             Text(
               'Info',
-              style: TextStyle(
-                fontSize: 32,
-                color: Colors.white60,
-              ),
+              style: textTheme.headline4,  
             ),
             SizedBox(height: 24),
             Expanded(
@@ -102,25 +100,11 @@ These versions are also free without ads or in app purchases.
                 padding: const EdgeInsets.all(0),
                 styleSheet: MarkdownStyleSheet().copyWith(
                   h1Padding: const EdgeInsets.only(top: 12, bottom: 4),
-                  h1: const TextStyle(
-                    color: Colors.white60,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  h1: textTheme.headline4,
                   h2Padding: const EdgeInsets.only(top: 12, bottom: 4),
-                  h2: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white60,
-                  ),
-                  p: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.white60,
-                  ),
-                  listBullet: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white60,
-                  ),
+                  h2: textTheme.headline5,
+                  p: textTheme.bodyText1,
+                  listBullet: textTheme.bodyText1,
                 ),
               ),
             ),

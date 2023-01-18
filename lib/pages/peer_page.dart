@@ -165,7 +165,7 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
           ),
           decoration: InputDecoration(
             hintText: 'Enter ID of your Server',
-            hintStyle: textTheme.bodyLarge,
+            hintStyle: textTheme.bodyText1,
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white60),
             ),
@@ -225,10 +225,10 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
           autofocus: true,
           autocorrect: false,
           cursorColor: Colors.white60,
-          style: textTheme.bodyLarge,
+          style: textTheme.bodyText1,
           decoration: InputDecoration(
             hintText: 'Enter your message',
-            hintStyle: textTheme.bodyLarge,
+            hintStyle: textTheme.bodyText1,
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white60),
             ),

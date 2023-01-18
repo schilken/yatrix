@@ -1,10 +1,11 @@
 import 'package:flame/components.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart' hide BackButton;
-import '../tetris_game.dart';
 
 import '../components/background.dart';
 import '../components/buttons.dart';
+import '../custom_theme.dart';
+import '../tetris_game.dart';
 
 class CreditsPage extends Component with HasGameRef<TetrisGame> {
   late final TextComponent _title;
@@ -15,10 +16,7 @@ class CreditsPage extends Component with HasGameRef<TetrisGame> {
       _title = TextBoxComponent(
         text: 'Credits',
         textRenderer: TextPaint(
-          style: const TextStyle(
-            color: Color(0x66ffffff),
-            fontSize: 32,
-          ),
+          style: CustomTheme.darkTheme.textTheme.headline4,
         ),
       ),
       _textBox = TextBoxComponent(
@@ -34,7 +32,7 @@ class CreditsPage extends Component with HasGameRef<TetrisGame> {
             '- flutter_markdown\n'
             '- shared_preferences\n'
             '- sprintf\n',
-        textRenderer: _box,
+        textRenderer: _vintageGreen,
         boxConfig: TextBoxConfig(
           timePerChar: 0.05,
           growingBox: true,
@@ -47,7 +45,7 @@ class CreditsPage extends Component with HasGameRef<TetrisGame> {
   @override
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
-    var yPosition = size.y / 4;
+    var yPosition = size.y / 5;
     _title.position = Vector2(12, yPosition);
     _textBox.position = Vector2(12, yPosition += 80);
   }
@@ -61,14 +59,12 @@ class CreditsPage extends Component with HasGameRef<TetrisGame> {
   }
 }
 
-final _regularTextStyle =
-    TextStyle(fontSize: 16, color: BasicPalette.white.color);
-final _regular = TextPaint(style: _regularTextStyle);
-final _box = _regular.copyWith(
+final _regular = TextPaint(style: CustomTheme.darkTheme.textTheme.headline6);
+final _vintageGreen = _regular.copyWith(
   (style) => style.copyWith(
     color: Colors.lightGreenAccent,
     fontFamily: 'monospace',
-    letterSpacing: 1.5,
+    letterSpacing: 1.2,
   ),
 );
 

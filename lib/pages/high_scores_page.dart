@@ -70,7 +70,7 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
                 ),
                 decoration: InputDecoration(
                   hintText: 'Enter Your Name',
-                  hintStyle: textTheme.bodyLarge,
+                  hintStyle: textTheme.bodyText1,
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.white60),
                   ),

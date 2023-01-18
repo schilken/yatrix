@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flutter/rendering.dart';
+import '../custom_theme.dart';
 import '../tetris_game.dart';
 
 import '../components/rounded_button.dart';
@@ -22,11 +23,7 @@ class StartPage extends Component with HasGameRef<TetrisGame> {
       _logo = TextComponent(
         text: '[YaTriX]',
         textRenderer: TextPaint(
-          style: const TextStyle(
-            fontSize: 64,
-            color: Color(0xFFC8FFF5),
-            fontWeight: FontWeight.w800,
-          ),
+          style: CustomTheme.darkTheme.textTheme.headline1,
         ),
         anchor: Anchor.center,
       ),

@@ -13,7 +13,6 @@ import 'components/keyboard_game_controller.dart';
 import 'game_assets.dart';
 import 'pages/credits_page.dart';
 import 'pages/game_over_route.dart';
-import 'pages/help_page.dart';
 import 'pages/high_scores_page.dart';
 import 'pages/info_page.dart';
 import 'pages/pause_route.dart';

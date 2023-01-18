@@ -1,10 +1,10 @@
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/palette.dart';
-import 'package:flutter/rendering.dart';
-import '../tetris_game.dart';
 
 import '../components/background.dart';
+import '../custom_theme.dart';
+import '../tetris_game.dart';
 
 class SplashScreen extends Component with TapCallbacks, HasGameRef<TetrisGame> {
   @override
@@ -14,10 +14,7 @@ class SplashScreen extends Component with TapCallbacks, HasGameRef<TetrisGame> {
       TextBoxComponent(
         text: '[YaTriX]',
         textRenderer: TextPaint(
-          style: const TextStyle(
-            color: Color(0x66ffffff),
-            fontSize: 32,
-          ),
+          style: CustomTheme.darkTheme.textTheme.headline4,
         ),
         align: Anchor.center,
         size: gameRef.canvasSize,
