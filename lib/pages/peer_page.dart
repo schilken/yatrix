@@ -20,7 +20,7 @@ class PeerPage extends ConsumerWidget {
     return Material(
       child: Container(
         color: Color.fromARGB(255, 20, 20, 20),
-        padding: const EdgeInsets.fromLTRB(60.0, 0, 60, 30),
+        padding: const EdgeInsets.fromLTRB(20.0, 0, 20, 30),
         child: Column(
 //          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -82,7 +82,7 @@ class PeerPage extends ConsumerWidget {
               Row(
                 children: [
                   Text(
-                    'Acticate Two-Player-Server',
+                    'Activate 2-Player-Server',
                     style: textTheme.headline5,
                   ),
                   Spacer(),
