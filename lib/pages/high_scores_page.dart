@@ -119,6 +119,7 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
                 },
               ),
             ),
+            Text('App Version: ${highScore.appVersion}'),
             gapH32,
           ],
         ),

@@ -61,22 +61,26 @@ class HighScoreState {
   ScoreItem currentScore;
   List<ScoreItem> scores;
   String userName;
+  String appVersion;
 
   HighScoreState({
     required this.currentScore,
     required this.scores,
     required this.userName,
+    required this.appVersion,
   });
 
   HighScoreState copyWith({
     ScoreItem? currentScore,
     List<ScoreItem>? scores,
     String? userName,
+    String? appVersion,
   }) {
     return HighScoreState(
       currentScore: currentScore ?? this.currentScore,
       scores: scores ?? this.scores,
       userName: userName ?? this.userName,
+      appVersion: appVersion ?? this.appVersion,
     );
   }
 }
@@ -98,6 +102,7 @@ class HighScoreNotifier extends Notifier<HighScoreState> {
           (e1, e2) => e2.points.compareTo(e1.points),
         ),
       userName: _preferencesRepository.userName,
+      appVersion: _preferencesRepository.appVersion,
     );
   }
 
@@ -129,7 +134,9 @@ class HighScoreNotifier extends Notifier<HighScoreState> {
         ..sort(
           (e1, e2) => e2.points.compareTo(e1.points),
         ),
+      appVersion: _preferencesRepository.appVersion,
     );
+
   }
 }
 

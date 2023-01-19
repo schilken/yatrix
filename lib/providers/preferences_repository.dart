@@ -8,6 +8,8 @@ class PreferencesRepository {
 
   PreferencesRepository(this._prefs);
 
+  String get appVersion => _prefs.getString('appVersion') ?? '?';
+
   Future<void> setMusicVolume(double volume) async {
     await _prefs.setDouble('musicVolume', volume);
   }

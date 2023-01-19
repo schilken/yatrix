@@ -27,6 +27,7 @@ dependencies:
   bot_toast: ^4.0.3
   collection: ^1.16.0
   another_xlider: ^1.1.2  
+  pubspec_parse: ^1.2.1
 
 dev_dependencies:
   flutter_test:
@@ -45,3 +46,4 @@ flutter:
     - assets/audio/zapsplat_sound_design_transition_whoosh_fast_airy_002_74584.mp3
     - assets/audio/zapsplat_fantasy_magic_chime_ping_wand_fairy_godmother_013_38299.mp3
     - assets/audio/zapsplat_sound_design_transition_whoosh_fast_airy_002_74584.mp3
+    - pubspec.yaml
