@@ -16,7 +16,7 @@ class TetrisMatrix {
     for (var i = 0; i < rows; i++) {
       final leadingZero = i < 10 ? '0' : '';
       rowsAsString.add(
-        '$leadingZero$i: ${matrix[i].map((val) => val.toString()).join()}',
+        '$leadingZero$i: ${matrix[i].map((val) => val).join()}',
       );
     }
     return rowsAsString.join('\n');

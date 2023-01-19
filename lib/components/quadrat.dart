@@ -2,11 +2,8 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/extensions.dart';
-import 'package:flame/palette.dart';
 import 'package:flutter/animation.dart';
-import 'package:flutter/rendering.dart';
 
-import 'background.dart';
 import '../game_assets.dart';
 import 'tetris_play_block.dart';
 

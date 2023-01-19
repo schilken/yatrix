@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 import 'dart:math';
 
 import 'package:flame/components.dart';
@@ -7,11 +8,11 @@ import 'package:flame/palette.dart';
 import 'package:flutter/services.dart';
 
 import '../components/boundaries.dart';
-import '../components/simple_button_component.dart';
 import '../components/five_buttons_game_controller.dart';
 import '../components/game_controller_mixin.dart';
 import '../components/keyboard_game_controller.dart';
 import '../components/png_button.dart';
+import '../components/simple_button_component.dart';
 import '../components/tetris_play_block.dart';
 import '../components/three_buttons_game_controller.dart';
 import '../tetris_game.dart';
@@ -23,7 +24,7 @@ class Debouncer {
   int delayTicks = 0;
 
   void tick() {
-    print('delayTicks: ${delayTicks}');
+//    print('delayTicks: ${delayTicks}');
     if (--delayTicks < 0) {
       callback();
       delayTicks = 2;
@@ -48,9 +49,11 @@ class MosaicPage extends Component
   late Debouncer _rotater;
 
   TetrisBaseBlock? _currentFallingBlock;
+  @override
   TetrisBaseBlock? get currentFallingBlock => _currentFallingBlock;
 
   double? _droppedAtY;
+  @override
   set droppedAtY(double y) => _droppedAtY = y;
 
   ThreeButtonsGameController? threeButtons;
@@ -58,7 +61,7 @@ class MosaicPage extends Component
 
   @override
   Future<void> onLoad() async {
-    print('MosaicPage.onLoad');
+//    print('MosaicPage.onLoad');
     _rotater = Debouncer(() => _currentFallingBlock?.rotateBy(-pi / 2));
     addAll([
       BackButtonComponent(onTapped: gameRef.router.pop),
@@ -163,7 +166,7 @@ class MosaicPage extends Component
     allsvgButtons.forEach((button) => button.removeFromParent());
     _joystick?.removeFromParent();
     final quadsize = min(25.0, (size.x - 20 - 6 * 10 - 20 - 50) / 14);
-    print('quadsize: ${size.x}  $quadsize');
+//    print('quadsize: ${size.x}  $quadsize');
     final size3x2quads = Vector2(3 * quadsize, 2 * quadsize);
     final size2x2quads = Vector2(2 * quadsize, 2 * quadsize);
     final size1x4quads = Vector2(4 * quadsize, quadsize);
@@ -228,7 +231,8 @@ class MosaicPage extends Component
         name: 'dice',
         position: Vector2(
             20 + size3x2quads.x + size2x2quads.x + size1x4quads.x + 3 * 10,
-            yOffsetRow2),
+          yOffsetRow2,
+        ),
         size: size2x2quads,
         onTap: addRandomBlock,
       ),
@@ -276,7 +280,7 @@ class MosaicPage extends Component
 
   @override
   void addRandomBlock({Vector2? startPosition}) {
-    print('addRandomBlock');
+//    print('addRandomBlock');
     _currentFallingBlock = TetrisBaseBlock.random(
       startPosition ?? defaultStartPosition,
       null,

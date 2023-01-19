@@ -31,7 +31,7 @@ void main() async {
           builder: BotToastInit(),
           navigatorObservers: [BotToastNavigatorObserver()],
         );
-      }
+        },
       ),
     ),
   );

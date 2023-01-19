@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, avoid_print
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'providers.dart';
@@ -32,14 +32,9 @@ class PeerState {
 }
 
 class PeerNotifier extends Notifier<PeerState> {
-  late PreferencesRepository _preferencesRepository;
   late PeerService _peerService;
   late PeerClientState _peerClientState;
   late PeerServerState _peerServerState;
-
-  PeerNotifier() {
-    print('PeerNotifier.constructor');
-  }
 
   bool _isEnabled = false;
   bool _isServer = false;
@@ -47,7 +42,6 @@ class PeerNotifier extends Notifier<PeerState> {
 
   @override
   PeerState build() {
-    _preferencesRepository = ref.read(preferencesRepositoryProvider);
     _peerService = ref.read(peerServiceProvider);
     _peerClientState = ref.watch(peerClientNotifier);
     _peerServerState = ref.watch(peerServerNotifier);

@@ -1,9 +1,11 @@
 import 'dart:async';
+
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame_svg/flame_svg.dart';
+
 import 'keyboard_game_controller.dart';
 import 'svg_button.dart';
-import 'package:flame_svg/flame_svg.dart';
 
 class FiveButtonsGameController extends PositionComponent
     with Draggable
@@ -68,7 +70,7 @@ class FiveButtonsGameController extends PositionComponent
     return false;
   }
 
-  // TODO: close streamController
+  // TODO(as): close streamController
 }
 
 

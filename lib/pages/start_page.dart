@@ -1,9 +1,9 @@
 import 'package:flame/components.dart';
 import 'package:flutter/rendering.dart';
-import '../custom_theme.dart';
-import '../tetris_game.dart';
 
 import '../components/rounded_button.dart';
+import '../custom_theme.dart';
+import '../tetris_game.dart';
 
 class StartPage extends Component with HasGameRef<TetrisGame> {
   late final TextComponent _logo;
@@ -83,7 +83,7 @@ class StartPage extends Component with HasGameRef<TetrisGame> {
   @override
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
-    double yPosition = size.y / 5;
+    var yPosition = size.y / 5;
     _logo.position = Vector2(size.x / 2, yPosition);
     _playButton.position = Vector2(size.x / 2, yPosition += yStartOffset);
     _constructButton.position = Vector2(size.x / 2, yPosition += yDelta);

@@ -17,14 +17,16 @@ final preferencesRepositoryProvider = Provider<PreferencesRepository>(
 final highScoreNotifier =
     NotifierProvider<HighScoreNotifier, HighScoreState>(HighScoreNotifier.new);
 
-// a generic Listener class, used to keep track of when a provider notifies its listeners
+// a generic Listener class,
+// used to keep track of when a provider notifies its listeners
 class Listener<T> extends Mock {
   void call(T? previous, T next);
 }
 
 void main() {
   ProviderContainer makeProviderContainer(
-      MockSharedPreferences mockSharedPreferences) {
+    MockSharedPreferences mockSharedPreferences,
+  ) {
     final container = ProviderContainer(
       overrides: [
         sharedPreferencesProvider.overrideWithValue(mockSharedPreferences),
@@ -74,7 +76,6 @@ void main() {
     });
   });
 }
-
 
 final scoreItems = [
   const ScoreItem(userName: 'user1', points: 1000, rows: 10),

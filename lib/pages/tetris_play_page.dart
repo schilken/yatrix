@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 import 'dart:async';
 import 'dart:math';
 
@@ -10,11 +11,11 @@ import 'package:sprintf/sprintf.dart';
 import 'package:yatrix/game_assets.dart';
 
 import '../components/boundaries.dart';
-import '../components/simple_button_component.dart';
 import '../components/five_buttons_game_controller.dart';
 import '../components/game_controller_mixin.dart';
 import '../components/keyboard_game_controller.dart';
 import '../components/quadrat.dart';
+import '../components/simple_button_component.dart';
 import '../components/svg_button.dart';
 import '../components/tetris_play_block.dart';
 import '../components/three_buttons_game_controller.dart';
@@ -113,7 +114,7 @@ class TetrisPlayPage extends Component
     super.onRemove();
   }
 
-  void onBackButton() async {
+  Future<void> onBackButton() async {
     await reset();
     gameRef.router.pop();
   }
@@ -183,7 +184,9 @@ class TetrisPlayPage extends Component
     );
     _textComponent?.text = pointString;
     game.setScoreValues(
-        points: _freezedCounter + _removedRows * 100, rows: _removedRows);
+      points: _freezedCounter + _removedRows * 100,
+      rows: _removedRows,
+    );
   }
 
   @override
@@ -352,7 +355,9 @@ class TetrisPlayPage extends Component
   }
 
   Future<void> removeQuadsAnimated(List<Quadrat> quads,
-      {int delay = 20}) async {
+      {
+    int delay = 20,
+  }) async {
     for (final quad in quads) {
       quad.removeAnimated();
       await Future<void>.delayed(Duration(milliseconds: delay));

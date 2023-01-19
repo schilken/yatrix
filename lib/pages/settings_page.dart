@@ -18,7 +18,7 @@ class SettingsPage extends ConsumerWidget {
 
     return Material(
       child: Container(
-        color: Color.fromARGB(255, 20, 20, 20),
+        color: const Color.fromARGB(255, 20, 20, 20),
         padding: const EdgeInsets.fromLTRB(60.0, 0, 60, 30),
         child: Column(
 //          mainAxisAlignment: MainAxisAlignment.start,
@@ -86,23 +86,10 @@ class SettingsPage extends ConsumerWidget {
                   'Show FPS',
                   style: textTheme.headline5,
                 ),
-                Spacer(),
+                const Spacer(),
                 Switch(
                   // This bool value toggles the switch.
                   value: ref.read(settingsNotifier).showFps,
-                  // inactiveThumbColor: Colors.white24,
-                  // inactiveTrackColor: Colors.white24,
-                  // thumbColor: MaterialStateProperty.resolveWith<Color>(
-                  //     (Set<MaterialState> states) {
-                  //   if (states.contains(MaterialState.selected)) {
-                  //     return Colors.white70;
-                  //   }
-                  //   return Colors.grey;
-                  // }),
-                  // trackColor: MaterialStateProperty.resolveWith<Color>(
-                  //     (Set<MaterialState> states) {
-                  //   return Colors.grey.shade600;
-                  // }),
                   onChanged: (value) {
                     ref.read(settingsNotifier.notifier).setShowFps(value);
                     game.showFps = value;

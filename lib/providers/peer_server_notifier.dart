@@ -78,9 +78,7 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
   }
 
   void addOnDoneCallback() {
-    _streamSubscription?.onDone(() {
-      stop();
-    });
+    _streamSubscription?.onDone(stop);
   }
 
   void stop() {

@@ -1,7 +1,7 @@
+// ignore_for_file: avoid_print
 import 'dart:async';
 import 'dart:math';
 
-import '../tetris_game.dart';
 import 'keyboard_game_controller.dart';
 import 'tetris_play_block.dart';
 

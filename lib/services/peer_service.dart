@@ -1,7 +1,7 @@
+// ignore_for_file: avoid_print
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:peerdart/peerdart.dart';
 
@@ -36,7 +36,7 @@ class PeerService {
         _streamController?.add('connection closed');
         isConnected = false;
         Future<void>.delayed(
-          Duration(milliseconds: 100),
+          const Duration(milliseconds: 100),
           _streamController?.close,
         );
       });
@@ -88,7 +88,7 @@ class PeerService {
         _streamController?.add('connection closed');
         isConnected = false;
         Future<void>.delayed(
-          Duration(milliseconds: 100),
+          const Duration(milliseconds: 100),
           _streamController?.close,
         );
       });

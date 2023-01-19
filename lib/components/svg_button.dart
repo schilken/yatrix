@@ -32,6 +32,7 @@ class SvgButton extends PositionComponent with HasPaint, TapCallbacks {
     priority = 100;
   }
 
+  @override
   Future<void> onLoad() async {
 //    debugMode = true;
     _svg = await Svg.load(name);

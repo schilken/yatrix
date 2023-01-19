@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 import 'dart:async';
 
 import 'package:bot_toast/bot_toast.dart';
@@ -5,8 +6,7 @@ import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
 import 'package:flame/input.dart';
 import 'package:flame_audio/flame_audio.dart';
-import 'package:flutter/material.dart'
-    show TextStyle, Colors, KeyEventResult, TextField, Center, Material;
+import 'package:flutter/material.dart' show KeyEventResult;
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,16 +17,14 @@ import 'pages/credits_page.dart';
 import 'pages/game_over_route.dart';
 import 'pages/high_scores_page.dart';
 import 'pages/info_page.dart';
+import 'pages/mosaic_page.dart';
 import 'pages/pause_route.dart';
 import 'pages/peer_page.dart';
 import 'pages/settings_page.dart';
 import 'pages/splash_screen.dart';
 import 'pages/start_page.dart';
-import 'pages/mosaic_page.dart';
 import 'pages/tetris_play_page.dart';
 import 'providers/providers.dart';
-
-const TextStyle _textStyle = TextStyle(color: Colors.black, fontSize: 2);
 
 enum SoundEffects {
   freezedBlock('pha.mp3'),
@@ -34,7 +32,8 @@ enum SoundEffects {
     'zapsplat_fantasy_magic_chime_ping_wand_fairy_godmother_013_38299.mp3',
   ),
   droppingBlock(
-      'zapsplat_sound_design_transition_whoosh_fast_airy_002_74584.mp3');
+    'zapsplat_sound_design_transition_whoosh_fast_airy_002_74584.mp3',
+  );
 
   final String name;
 

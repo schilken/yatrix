@@ -40,5 +40,5 @@ class ThreeButtonsGameController extends PositionComponent
   @override
   Stream<GameCommand> get commandStream => _controller.stream;
 
-  // TODO: close streamController
+  // TODO(as): close streamController
 }
