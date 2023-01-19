@@ -100,7 +100,7 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
               ),
             gapH32,
             Expanded(
-              child: ListView.builder(
+              child: ListView.separated(
                 itemCount: highScore.scores.length,
                 itemBuilder: (context, index) {
                   final score = highScore.scores[index];
@@ -119,6 +119,9 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
                         side: BorderSide(width: 2, color: Colors.amberAccent),
                         borderRadius: new BorderRadius.circular(15.0)),
                   );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return gapH8;
                 },
               ),
             ),
