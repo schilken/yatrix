@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:yatrix/components/id_input_widget.dart';
 
 import '../app_sizes.dart';
 import '../providers/providers.dart';
@@ -15,6 +16,7 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
   late TextEditingController _idEditingController;
   late TextEditingController _messageEditingController;
   late FocusNode _focusNode;
+  int _serverId = 0;
 
   @override
   void initState() {
@@ -38,22 +40,7 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
             style: textTheme.headline6,
           ),
           gapH24,
-          TextField(
-            controller: _idEditingController,
-            focusNode: _focusNode,
-            autofocus: true,
-            autocorrect: false,
-            cursorColor: Colors.white60,
-            keyboardType: TextInputType.number,
-            style: textTheme.headline5,
-            decoration: InputDecoration(
-              hintText: 'Enter ID of your Server',
-              hintStyle: textTheme.bodyText1,
-              enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white60),
-              ),
-            ),
-          ),
+          IdInputWidget(onChanged: (value) => _serverId = value),
         ],
         if (peerClientState.clientState == ClientState.error) ...[
           gapH8,
@@ -69,7 +56,7 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
             onPressed: () {
               ref
                   .read(peerClientNotifier.notifier)
-                  .connect(remotePeerId: _idEditingController.text);
+                  .connect(remotePeerId: _serverId.toString());
             },
             style: OutlinedButton.styleFrom(
               foregroundColor: Colors.white60,
