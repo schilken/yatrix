@@ -355,7 +355,6 @@ class TetrisPlayPage extends Component
   }
 
   Future<void> removeQuads(List<Quadrat> quads, {int delay = 20}) async {
-    print('removeQuads: $quads');
     final clonedList = [...quads];
     for (final quad in clonedList) {
       world.remove(quad);
