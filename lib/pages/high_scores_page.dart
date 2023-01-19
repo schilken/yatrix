@@ -15,14 +15,12 @@ class HighScoresPage extends ConsumerStatefulWidget {
 
 class _HighScoresPageState extends ConsumerState<HighScoresPage> {
   late TextEditingController _textEditingController;
-  late ScrollController _scrollController;
   late FocusNode _focusNode;
 
   @override
   void initState() {
     super.initState();
     _textEditingController = TextEditingController();
-    _scrollController = ScrollController();
     _focusNode = FocusNode();
     _textEditingController.text = ref.read(highScoreNotifier).userName;
   }
@@ -33,11 +31,11 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
     final highScore = ref.watch(highScoreNotifier);
     return Material(
       child: Container(
-        color: Color.fromARGB(200, 20, 20, 20),
+        color: const Color.fromARGB(200, 20, 20, 20),
         padding: const EdgeInsets.fromLTRB(60.0, 0, 60, 30),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+//          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             gapH12,
             Row(
@@ -58,46 +56,43 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
               style: textTheme.headline4,
             ),
             gapH24,
-            if (widget.game.isGameOver)
+            if (widget.game.isGameOver) ...[
               TextField(
                 controller: _textEditingController,
                 focusNode: _focusNode,
                 autofocus: true,
                 autocorrect: false,
                 cursorColor: Colors.white60,
-                style: const TextStyle(
-                  fontSize: 20,
-                  color: Colors.white60,
-                ),
+                style: textTheme.headline5,
                 decoration: InputDecoration(
                   hintText: 'Enter Your Name',
                   hintStyle: textTheme.bodyText1,
-                  enabledBorder: OutlineInputBorder(
+                  enabledBorder: const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.white60),
                   ),
                 ),
               ),
-            gapH12,
-            if (widget.game.isGameOver)
+              gapH12,
               Text(
                 'Points: ${widget.game.points}\nRows: ${widget.game.rows}',
                 textAlign: TextAlign.start,
                 style: textTheme.headline6,
               ),
-            gapH12,
-            if (widget.game.isGameOver)
+              gapH12,
               OutlinedButton(
                 onPressed: () {
                   widget.game.isGameOver = false;
                   ref.read(highScoreNotifier.notifier).addCurrentScoreFor(
-                      userName: _textEditingController.text);
+                        userName: _textEditingController.text,
+                      );
                 },
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.white60,
                   side: const BorderSide(color: Colors.white60),
                 ),
-                child: Text('Save Score'),
+                child: const Text('Save Score'),
               ),
+            ],
             gapH32,
             Expanded(
               child: ListView.separated(
@@ -109,15 +104,20 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
                     tileColor: Colors.grey,
                     title: Text(
                       score.userName,
-                      style: textTheme.headline6,
+                      style: textTheme.headline6!
+                          .copyWith(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text(
                       'Points: ${score.points}\nRows: ${score.rows}',
                       style: textTheme.headline6,
                     ),
-                    shape: new RoundedRectangleBorder(
-                        side: BorderSide(width: 2, color: Colors.amberAccent),
-                        borderRadius: new BorderRadius.circular(15.0)),
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(
+                        width: 2,
+                        color: Colors.amberAccent,
+                      ),
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {
