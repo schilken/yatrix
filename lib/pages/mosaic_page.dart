@@ -7,7 +7,7 @@ import 'package:flame/palette.dart';
 import 'package:flutter/services.dart';
 
 import '../components/boundaries.dart';
-import '../components/buttons.dart';
+import '../components/simple_button_component.dart';
 import '../components/five_buttons_game_controller.dart';
 import '../components/game_controller_mixin.dart';
 import '../components/keyboard_game_controller.dart';
@@ -61,8 +61,8 @@ class MosaicPage extends Component
     print('MosaicPage.onLoad');
     _rotater = Debouncer(() => _currentFallingBlock?.rotateBy(-pi / 2));
     addAll([
-      BackButton(onTapped: gameRef.router.pop),
-      PauseButton(onTapped: () => gameRef.router.pushNamed('pause')),
+      BackButtonComponent(onTapped: gameRef.router.pop),
+      PauseButtonComponent(onTapped: () => gameRef.router.pushNamed('pause')),
     ]);
     _joystickPoller = Timer(
       0.2,

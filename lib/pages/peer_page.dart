@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app_sizes.dart';
+import '../components/simple_button_widget.dart';
 import '../providers/providers.dart';
 import '../tetris_game.dart';
 import 'peer_client_view.dart';
@@ -30,14 +31,7 @@ class PeerPage extends ConsumerWidget {
             gapH12,
             Row(
               children: [
-                OutlinedButton(
-                  onPressed: () => game.router.pop(),
-                  child: Text('<'),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.white60,
-                    side: const BorderSide(color: Colors.white60),
-                  ),
-                ),
+                BackButtonWidget(onTapped: game.router.pop),
               ],
             ),
             gapH32,

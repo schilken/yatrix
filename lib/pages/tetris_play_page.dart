@@ -10,7 +10,7 @@ import 'package:sprintf/sprintf.dart';
 import 'package:yatrix/game_assets.dart';
 
 import '../components/boundaries.dart';
-import '../components/buttons.dart';
+import '../components/simple_button_component.dart';
 import '../components/five_buttons_game_controller.dart';
 import '../components/game_controller_mixin.dart';
 import '../components/keyboard_game_controller.dart';
@@ -65,8 +65,8 @@ class TetrisPlayPage extends Component
   Future<void> onLoad() async {
     print('TetrisPlayPage.onLoad');
     addAll([
-      BackButton(onTapped: onBackButton),
-      PauseButton(onTapped: () => gameRef.router.pushNamed('pause')),
+      BackButtonComponent(onTapped: onBackButton),
+      PauseButtonComponent(onTapped: () => gameRef.router.pushNamed('pause')),
       if (game.showFps)
         FpsTextComponent(
           position: Vector2(10, 70),
@@ -100,6 +100,10 @@ class TetrisPlayPage extends Component
       fiveButtons!,
       threeButtons!,
     ]);
+    updateTwoPlayerIcon();
+  }
+
+  void updateTwoPlayerIcon() {
     _twoPlayerActive?.opacity = game.isTwoPlayerGame ? 1.0 : 0.0;
   }
 
@@ -204,6 +208,7 @@ class TetrisPlayPage extends Component
       game.startNewGame();
       addRandomBlock();
       updatePoints(null);
+      updateTwoPlayerIcon();
       return true;
     }
     return false;
