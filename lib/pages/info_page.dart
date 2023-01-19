@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../app_sizes.dart';
+import '../components/simple_button_widget.dart';
 import '../tetris_game.dart';
 
 class InfoPage extends StatelessWidget {
@@ -77,14 +78,7 @@ These versions are also free without ads or in app purchases.
             gapH12,
             Row(
               children: [
-                OutlinedButton(
-                  onPressed: game.router.pop,
-                  child: Text('<'),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.white60,
-                    side: BorderSide(color: Colors.white60),
-                  ),
-                ),
+                BackButtonWidget(onTapped: game.router.pop),
               ],
             ),
             gapH32,

@@ -3,8 +3,9 @@ import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flutter/rendering.dart';
 
-abstract class SimpleButton extends PositionComponent with TapCallbacks {
-  SimpleButton({
+abstract class SimpleButtonComponent extends PositionComponent
+    with TapCallbacks {
+  SimpleButtonComponent({
     required this.iconPath,
     required this.onTapped,
     super.position,
@@ -19,7 +20,7 @@ abstract class SimpleButton extends PositionComponent with TapCallbacks {
     ..strokeWidth = 7;
 
   final Path iconPath;
-  final VoidCallback onTapped;  
+  final VoidCallback onTapped;
 
   @override
   void render(Canvas canvas) {
@@ -47,8 +48,8 @@ abstract class SimpleButton extends PositionComponent with TapCallbacks {
   }
 }
 
-class BackButton extends SimpleButton {
-  BackButton({required super.onTapped})
+class BackButtonComponent extends SimpleButtonComponent {
+  BackButtonComponent({required super.onTapped})
       : super(
           iconPath: Path()
             ..moveTo(22, 8)
@@ -58,14 +59,12 @@ class BackButton extends SimpleButton {
             ..lineTo(34, 20),
           position: Vector2.all(10),
         );
-
 }
 
-class PauseButton extends SimpleButton {
-  PauseButton({required super.onTapped})
+class PauseButtonComponent extends SimpleButtonComponent {
+  PauseButtonComponent({required super.onTapped})
       : super(
-          iconPath:
-          Path()
+          iconPath: Path()
             ..moveTo(14, 10)
             ..lineTo(14, 30)
             ..moveTo(26, 10)
