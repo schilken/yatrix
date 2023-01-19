@@ -14,6 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'components/keyboard_game_controller.dart';
 import 'game_assets.dart';
 import 'pages/credits_page.dart';
+import 'pages/dialog_overlay.dart';
 import 'pages/game_over_route.dart';
 import 'pages/high_scores_page.dart';
 import 'pages/info_page.dart';
@@ -121,6 +122,11 @@ class TetrisGame extends FlameGame
           'highScore': OverlayRoute(
             (context, game) {
               return HighScoresPage(game: this);
+            },
+          ),
+          'commitDialog': OverlayRoute(
+            (context, game) {
+              return DialogOverlay(game: this);
             },
           ),
         },

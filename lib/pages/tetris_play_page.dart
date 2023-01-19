@@ -115,6 +115,10 @@ class TetrisPlayPage extends Component
   }
 
   Future<void> onBackButton() async {
+    if (game.isTwoPlayerGame) {
+      gameRef.router.pushNamed('commitDialog');
+      return;
+    }
     await reset();
     gameRef.router.pop();
   }

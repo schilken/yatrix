@@ -6,30 +6,13 @@ import '../components/simple_button_widget.dart';
 import '../providers/providers.dart';
 import '../tetris_game.dart';
 
-class DialogOverlay extends ConsumerStatefulWidget {
+class DialogOverlay extends ConsumerWidget {
   DialogOverlay({super.key, required this.game});
   TetrisGame game;
 
   @override
-  ConsumerState<DialogOverlay> createState() => _HighScoresPageState();
-}
-
-class _HighScoresPageState extends ConsumerState<DialogOverlay> {
-  late TextEditingController _textEditingController;
-  late FocusNode _focusNode;
-
-  @override
-  void initState() {
-    super.initState();
-    _textEditingController = TextEditingController();
-    _focusNode = FocusNode();
-    _textEditingController.text = ref.read(highScoreNotifier).userName;
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
-    final highScore = ref.watch(highScoreNotifier);
     return Material(
       child: Center(
         child: Container(
@@ -49,7 +32,7 @@ class _HighScoresPageState extends ConsumerState<DialogOverlay> {
               gapH8,
               Row(
                 children: [
-                  BackButtonWidget(onTapped: widget.game.router.pop),
+                  BackButtonWidget(onTapped: game.router.pop),
                 ],
               ),
               gapH48,
@@ -66,9 +49,13 @@ class _HighScoresPageState extends ConsumerState<DialogOverlay> {
               Spacer(),
               OutlinedButton(
                 onPressed: () {
-                  // ref.read(highScoreNotifier.notifier).addCurrentScoreFor(
-                  //       userName: _textEditingController.text,
-                  //     );
+                  // pop the dialog
+                  game.router.pop();
+                  // then pop the TetrisGamePage
+                  game.router.pop();
+                  Future<void>.delayed(
+                      Duration(milliseconds: 100), () => game.topIsReached());
+                  ref.read(dialogNotifier.notifier).setIsCommitted();
                 },
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.white60,
