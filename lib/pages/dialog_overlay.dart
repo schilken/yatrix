@@ -13,6 +13,7 @@ class DialogOverlay extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
+    final dialogData = ref.read(dialogDataProvider);
     return Material(
       child: Center(
         child: Container(
@@ -35,33 +36,38 @@ class DialogOverlay extends ConsumerWidget {
                   BackButtonWidget(onTapped: game.router.pop),
                 ],
               ),
-              gapH48,
+              gapH32,
+              if (dialogData.title != null)
               Text(
-                'Really abort the Two-Player-Game and go back to the Menu?',
-                style: textTheme.bodyMedium,
-                textAlign: TextAlign.center,
-              ),
-              gapH12,
-              Text(
-                'You peer will win this game.',
-                style: textTheme.bodyMedium,
-              ),
+                  dialogData.title!,
+                  style: textTheme.headline6,
+                  textAlign: TextAlign.center,
+                ),
+              if (dialogData.text1 != null) ...[
+                gapH12,
+                Text(
+                  dialogData.text1!,
+                  style: textTheme.bodyText1,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+              if (dialogData.text2 != null) ...[
+                gapH12,
+                Text(
+                  dialogData.text2!,
+                  style: textTheme.bodyText1,
+                ),
+              ],
               Spacer(),
               OutlinedButton(
                 onPressed: () {
-                  // pop the dialog
-                  game.router.pop();
-                  // then pop the TetrisGamePage
-                  game.router.pop();
-                  Future<void>.delayed(
-                      Duration(milliseconds: 100), () => game.topIsReached());
-                  ref.read(dialogNotifier.notifier).setIsCommitted();
+                  dialogData.onCommit?.call();
                 },
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.white60,
                   side: const BorderSide(color: Colors.white60),
                 ),
-                child: const Text('Abort the Game'),
+                child: Text(dialogData.buttonText ?? 'OK'),
               ),
             ],
           ),

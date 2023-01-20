@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: avoid_print
 import 'dart:async';
 
@@ -13,18 +14,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'components/keyboard_game_controller.dart';
 import 'helpers/game_assets.dart';
-import 'pages/flame/credits_page.dart';
 import 'pages/dialog_overlay.dart';
+import 'pages/flame/credits_page.dart';
 import 'pages/flame/game_over_route.dart';
-import 'pages/high_scores_page.dart';
-import 'pages/info_page.dart';
 import 'pages/flame/mosaic_page.dart';
 import 'pages/flame/pause_route.dart';
-import 'pages/peer_page.dart';
-import 'pages/settings_page.dart';
 import 'pages/flame/splash_screen.dart';
 import 'pages/flame/start_page.dart';
 import 'pages/flame/tetris_play_page.dart';
+import 'pages/high_scores_page.dart';
+import 'pages/info_page.dart';
+import 'pages/peer_page.dart';
+import 'pages/settings_page.dart';
 import 'providers/providers.dart';
 
 enum SoundEffects {
@@ -223,6 +224,12 @@ class TetrisGame extends FlameGame
       message = 'Two-Player Mode finished';
     } else if (command.startsWith('@L')) {
       gamePage?.handlePeerCommand(command);
+    } else if (command == '@>?') {
+      message = 'Server: Can we start the game?';
+      gamePage?.handlePeerCommand(command);
+    } else if (command == '@>!') {
+      message = 'Client: Start the Game!';
+      gamePage?.handlePeerCommand(command);
     }
 
     if (message != null) {
@@ -237,6 +244,12 @@ class TetrisGame extends FlameGame
   void notifyRowWasRemoved() {
     if (isTwoPlayerGame) {
       widgetRef.read(peerServiceProvider).sendMessage('@i3');
+    }
+  }
+
+  void askPeerToStartGame() {
+    if (isTwoPlayerGame) {
+      widgetRef.read(peerServiceProvider).sendMessage('@>?');
     }
   }
 
@@ -266,5 +279,25 @@ class TetrisGame extends FlameGame
 
   void playSoundEffect(SoundEffects soundEffect) {
     FlameAudio.play(soundEffect.name, volume: sfxVolume);
+  }
+
+  void showAbortGameDialog() {
+    widgetRef.read(dialogDataProvider.notifier).state = DialogData(
+      title: 'Two-Players-Mode',
+      text1: 'Really abort the game and go back to the Menu?',
+      text2: 'You peer will win this game.',
+      buttonText: 'Abort the Game',
+      onCommit: () {
+        // pop the dialog
+        router.pop();
+        // then pop the TetrisGamePage
+        router.pop();
+        Future<void>.delayed(
+          const Duration(milliseconds: 100),
+          topIsReached,
+        );
+      },
+    );
+    router.pushNamed('commitDialog');
   }
 }

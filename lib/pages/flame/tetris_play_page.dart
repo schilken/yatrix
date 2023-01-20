@@ -229,7 +229,7 @@ class TetrisPlayPage extends Component
 
   Future<void> onBackButton() async {
     if (game.isTwoPlayerGame) {
-      gameRef.router.pushNamed('commitDialog');
+      gameRef.showAbortGameDialog();
       return;
     }
     await onReset();
@@ -266,16 +266,24 @@ class TetrisPlayPage extends Component
 
   bool vetoTwoPlayerGameStart() {
     if (game.isTwoPlayerGame) {
+      if (!game.isPeerServer) {
       BotToast.showText(
         text: ' Two-Players-Mode. Wait for the Server to start the game.',
         duration: const Duration(seconds: 3),
         align: const Alignment(0, 0.3),
       );
       return true;
+      } else {
+        BotToast.showText(
+          text: ' Two-Players-Mode. Asking the peer to start.',
+          duration: const Duration(seconds: 3),
+          align: const Alignment(0, 0.3),
+        );
+        game.askPeerToStartGame();
+      }
     }
-    return false;
+    return false; // no veto
   }
-
 
   @override
   bool startGameIfNotRunning() {
@@ -283,13 +291,17 @@ class TetrisPlayPage extends Component
       if (vetoTwoPlayerGameStart()) {
         return true;
       }
-      game.startNewGame();
-      addRandomBlock();
-      updatePoints(null);
-      updateTwoPlayerIcon();
+      startTheGame();
       return true;
     }
     return false;
+  }
+
+  void startTheGame() {
+    game.startNewGame();
+    addRandomBlock();
+    updatePoints(null);
+    updateTwoPlayerIcon();
   }
 
   // @override
@@ -351,6 +363,8 @@ class TetrisPlayPage extends Component
     } else if (command.startsWith('@L')) {
       final level = int.parse(command.substring(2));
       _levelIndicatorPeer?.level = level;
+    } else if (command == '@>!') {
+      startTheGame();
     }
   }
 
