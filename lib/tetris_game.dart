@@ -55,6 +55,7 @@ class TetrisGame extends FlameGame
   bool isGameRunning = false;
   bool isGameOver = false;
   bool isTwoPlayerGame = false;
+  bool isPeerServer = false;
 
   late final RouterComponent router;
   TetrisPageInterface? gamePage;
@@ -205,9 +206,10 @@ class TetrisGame extends FlameGame
     stopGame();
   }
 
-  void handlePeerCommand(String command, bool isConnected) {
+  void handlePeerCommand(String command, bool isConnected, bool isServer) {
     print('handlePeerCommand >>>> command: $command $isConnected');
     isTwoPlayerGame = isConnected;
+    isPeerServer = isServer;
     String? message;
     if (command.length == 3 && command.startsWith('@i')) {
       gamePage?.handlePeerCommand(command);

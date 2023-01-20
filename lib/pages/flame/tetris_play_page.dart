@@ -264,9 +264,25 @@ class TetrisPlayPage extends Component
     game.backgroundMusicStop();
   }
 
+  bool vetoTwoPlayerGameStart() {
+    if (game.isTwoPlayerGame) {
+      BotToast.showText(
+        text: ' Two-Players-Mode. Wait for the Server to start the game.',
+        duration: const Duration(seconds: 3),
+        align: const Alignment(0, 0.3),
+      );
+      return true;
+    }
+    return false;
+  }
+
+
   @override
   bool startGameIfNotRunning() {
-    if (!game.isGameRunning) {
+    if (!game.isGameRunning && !game.isPeerServer) {
+      if (vetoTwoPlayerGameStart()) {
+        return true;
+      }
       game.startNewGame();
       addRandomBlock();
       updatePoints(null);
