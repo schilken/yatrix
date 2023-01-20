@@ -13,18 +13,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'components/keyboard_game_controller.dart';
 import 'game_assets.dart';
-import 'pages/credits_page.dart';
+import 'pages/flame/credits_page.dart';
 import 'pages/dialog_overlay.dart';
-import 'pages/game_over_route.dart';
+import 'pages/flame/game_over_route.dart';
 import 'pages/high_scores_page.dart';
 import 'pages/info_page.dart';
-import 'pages/mosaic_page.dart';
-import 'pages/pause_route.dart';
+import 'pages/flame/mosaic_page.dart';
+import 'pages/flame/pause_route.dart';
 import 'pages/peer_page.dart';
 import 'pages/settings_page.dart';
-import 'pages/splash_screen.dart';
-import 'pages/start_page.dart';
-import 'pages/tetris_play_page.dart';
+import 'pages/flame/splash_screen.dart';
+import 'pages/flame/start_page.dart';
+import 'pages/flame/tetris_play_page.dart';
 import 'providers/providers.dart';
 
 enum SoundEffects {
