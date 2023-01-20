@@ -40,7 +40,7 @@ class TetrisPlayPage extends Component
 
   late final RouterComponent router;
 
-  final defaultStartPosition = Vector2(250, 70);
+  final defaultStartPosition = Vector2(250, 75);
   final xOffset = 50;
   TextComponent? _textComponent;
   int _freezedCounter = 0;
@@ -265,13 +265,12 @@ class TetrisPlayPage extends Component
   @override
   void handleBlockFreezed() {
     updatePoints(_currentFallingBlock?.y);
-    if (_currentFallingBlock != null && _currentFallingBlock!.y < 75) {
+    if (_currentFallingBlock != null && _currentFallingBlock!.y <= 75) {
       game.topIsReached();
       return;
     }
     game.playSoundEffect(SoundEffects.freezedBlock);
-    // final matrix = creatBlockMatrix();
-    // print(matrix);
+    notifyLevel();
     removeFullRows();
     addRandomBlock();
   }
@@ -379,7 +378,7 @@ class TetrisPlayPage extends Component
     game.playSoundEffect(SoundEffects.removingFilledRow);
     _removedRows++;
     updatePoints(null);
-    game.rowWasRemoved();
+    game.notifyRowWasRemoved();
     await removeQuadsAnimated(findQuadsInRow(y));
   }
 
@@ -427,18 +426,19 @@ class TetrisPlayPage extends Component
     return rowFillingMap;
   }
 
-  int findLevel() {
+  void notifyLevel() {
     final matrix = creatBlockMatrix();
-    return matrix.level;
+//    print('matrix: $matrix');
+    game.notifyLevel(matrix.level);
   }
 
 
   TetrisMatrix creatBlockMatrix() {
     final matrix = TetrisMatrix();
-    for (var i = matrix.rows - 1; i >= 0; i--) {
-      final y = 125.0 + i * 50;
-      for (var j = 0; j < matrix.cols; j++) {
-        final x = 25.0 + j * 50;
+    for (var row = matrix.rowCount - 1; row >= 0; row--) {
+      final y = 75.0 + row * 50;
+      for (var col = 0; col < matrix.colCount; col++) {
+        final x = 25.0 + col * 50;
         final point = Vector2(xOffset + x, y);
         final quad = world.children
             .query<Quadrat>()
@@ -446,7 +446,7 @@ class TetrisPlayPage extends Component
             .firstOrNull;
 
         if (quad != null) {
-          matrix.add(i, j, quad.state.value);
+          matrix.add(row, col, quad.state.value);
         }
       }
     }

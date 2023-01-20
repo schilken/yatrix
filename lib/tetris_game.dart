@@ -229,9 +229,16 @@ class TetrisGame extends FlameGame
     }
   }
 
-  void rowWasRemoved() {
+  void notifyRowWasRemoved() {
     if (isTwoPlayerGame) {
       widgetRef.read(peerServiceProvider).sendMessage('@i3');
+    }
+  }
+
+  void notifyLevel(int level) {
+    print('notifyLevell: $level');
+    if (isTwoPlayerGame) {
+      widgetRef.read(peerServiceProvider).sendMessage('@L$level');
     }
   }
 
