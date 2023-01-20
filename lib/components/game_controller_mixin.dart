@@ -7,7 +7,7 @@ import 'tetris_play_block.dart';
 
 mixin GameControllerMixin {
   TetrisBaseBlock? get currentFallingBlock;
-  void reset();
+  void onReset();
   bool startGameIfNotRunning();
   void addRandomBlock();
   void updatePoints(double? freezedAtY);
@@ -31,7 +31,7 @@ mixin GameControllerMixin {
   void handleGameCommand(GameCommand command) {
     print('gameCommand: $command');
     if (command == GameCommand.reset) {
-      reset();
+      onReset();
       return;
     }
     // if (command == GameCommand.help) {

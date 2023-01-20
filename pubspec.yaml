@@ -3,7 +3,7 @@ description: yet another Tetris clone
 
 publish_to: 'none'
 
-version: 0.9.0+147
+version: 0.9.0+149
 
 environment:
   sdk: ">=2.17.0 <3.0.0"

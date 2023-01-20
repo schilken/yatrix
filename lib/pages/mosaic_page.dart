@@ -97,7 +97,7 @@ class MosaicPage extends Component
 
   @override
   void onRemove() {
-    reset();
+    onReset();
     closeGameControllers();
     super.onRemove();
   }
@@ -241,7 +241,7 @@ class MosaicPage extends Component
   }
 
   @override
-  void reset() {
+  void onReset() {
     game.isGameRunning = false;
     final allBlocks = world?.children.query<TetrisBaseBlock>();
     allBlocks?.forEach((element) => element.removeFromParent());

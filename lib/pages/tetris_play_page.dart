@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:bot_toast/bot_toast.dart';
 import 'package:collection/collection.dart';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
@@ -67,7 +68,7 @@ class TetrisPlayPage extends Component
     print('TetrisPlayPage.onLoad');
     addAll([
       BackButtonComponent(onTapped: onBackButton),
-      PauseButtonComponent(onTapped: () => gameRef.router.pushNamed('pause')),
+      PauseButtonComponent(onTapped: onPauseButton),
       if (game.showFps)
         FpsTextComponent(
           position: Vector2(10, 70),
@@ -112,15 +113,6 @@ class TetrisPlayPage extends Component
   Future<void> onRemove() async {
     closeGameControllers();
     super.onRemove();
-  }
-
-  Future<void> onBackButton() async {
-    if (game.isTwoPlayerGame) {
-      gameRef.router.pushNamed('commitDialog');
-      return;
-    }
-    await reset();
-    gameRef.router.pop();
   }
 
   @override
@@ -193,9 +185,43 @@ class TetrisPlayPage extends Component
     );
   }
 
+  Future<void> onPauseButton() async {
+    if (game.isTwoPlayerGame) {
+      BotToast.showText(
+        text: 'Pause is not allowed in Two-Players-Mode.',
+        duration: const Duration(seconds: 3),
+        align: const Alignment(0, 0.3),
+      );
+      return;
+    }
+    gameRef.router.pushNamed('pause');
+  }
+
+  Future<void> onBackButton() async {
+    if (game.isTwoPlayerGame) {
+      gameRef.router.pushNamed('commitDialog');
+      return;
+    }
+    await onReset();
+    gameRef.router.pop();
+  }
+
+
   @override
-  Future<void> reset() async {
+  Future<void> onReset() async {
 //    print('TetrisPlayPage.reset');
+    if (game.isTwoPlayerGame) {
+      BotToast.showText(
+        text: 'Restart is not allowed in Two-Players-Mode.',
+        duration: const Duration(seconds: 3),
+        align: const Alignment(0, 0.3),
+      );
+      return;
+    }
+    await clearGameStatus();
+  }
+
+  Future<void> clearGameStatus() async {
     game.isGameRunning = false;
     final allBlocks = world.children.query<TetrisBaseBlock>();
     allBlocks.forEach((element) => element.removeFromParent());
