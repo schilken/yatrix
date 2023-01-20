@@ -72,5 +72,8 @@ class GameOverPage extends Component with TapCallbacks, HasGameRef<TetrisGame> {
   bool containsLocalPoint(Vector2 point) => true;
 
   @override
-  void onTapUp(TapUpEvent event) => game.router.pop();
+  void onTapUp(TapUpEvent event) {
+    game.router.pop();
+    game.router.pop();
+  }
 }
