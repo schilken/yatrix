@@ -219,7 +219,10 @@ class TetrisGame extends FlameGame
       receivedWin();
     } else if (command == '@done!') {
       message = 'Two-Player Mode finished';
+    } else if (command.startsWith('@L')) {
+      gamePage?.handlePeerCommand(command);
     }
+
     if (message != null) {
       BotToast.showText(
         text: message,

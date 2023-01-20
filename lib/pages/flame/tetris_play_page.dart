@@ -15,6 +15,7 @@ import '../../components/boundaries.dart';
 import '../../components/five_buttons_game_controller.dart';
 import '../../components/game_controller_mixin.dart';
 import '../../components/keyboard_game_controller.dart';
+import '../../components/level_indicator.dart';
 import '../../components/quadrat.dart';
 import '../../components/simple_button_component.dart';
 import '../../components/svg_button.dart';
@@ -51,6 +52,8 @@ class TetrisPlayPage extends Component
   FiveButtonsGameController? fiveButtons;
   ThreeButtonsGameController? threeButtons;
   SvgButton? _twoPlayerActive;
+  LevelIndicator? _levelIndicatorSelf;
+  LevelIndicator? _levelIndicatorPeer;
 
   TetrisBaseBlock? _currentFallingBlock;
   @override
@@ -163,6 +166,33 @@ class TetrisPlayPage extends Component
     }
     _twoPlayerActive?.position = Vector2(size.x / 2, buttonGapX);
     _twoPlayerActive?.size = fiveButtonSize;
+
+    final levelSize = (size.x < 600) ? Vector2(20, 35) : Vector2(40, 70);
+
+    if (_levelIndicatorSelf == null) {
+      _levelIndicatorSelf = LevelIndicator(
+        level: 0,
+        color: Color.fromARGB(255, 110, 141, 244),
+      );
+//      _levelIndicatorSelf?.opacity = 0.0;
+      add(_levelIndicatorSelf!);
+    }
+    _levelIndicatorSelf?.position =
+        Vector2(size.x / 2 - 2 * levelSize.x - buttonGapX - 5, buttonGapX);
+    _levelIndicatorSelf?.size = levelSize;
+
+    if (_levelIndicatorPeer == null) {
+      _levelIndicatorPeer = LevelIndicator(
+        level: 0,
+        color: Color.fromARGB(255, 124, 241, 148),
+      );
+//      _levelIndicatorPeer?.opacity = 0.0;
+      add(_levelIndicatorPeer!);
+    }
+    _levelIndicatorPeer?.position =
+        Vector2(size.x / 2 - levelSize.x - buttonGapX, buttonGapX);
+    _levelIndicatorPeer?.size = levelSize;
+
     super.onGameResize(size);
   }
 
@@ -298,9 +328,14 @@ class TetrisPlayPage extends Component
 
   @override
   Future<void> handlePeerCommand(String command) async {
-    final slotIndex = int.parse(command[2]);
-    await insertEmptyRow();
-    insertRow(emptySlot: slotIndex);
+    if (command.length == 3 && command.startsWith('@i')) {
+      final slotIndex = int.parse(command[2]);
+      await insertEmptyRow();
+      insertRow(emptySlot: slotIndex);
+    } else if (command.startsWith('@L')) {
+      final level = int.parse(command.substring(2));
+      _levelIndicatorPeer?.level = level;
+    }
   }
 
   @override
@@ -430,8 +465,8 @@ class TetrisPlayPage extends Component
     final matrix = creatBlockMatrix();
 //    print('matrix: $matrix');
     game.notifyLevel(matrix.level);
+    _levelIndicatorSelf?.level = matrix.level;
   }
-
 
   TetrisMatrix creatBlockMatrix() {
     final matrix = TetrisMatrix();
