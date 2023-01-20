@@ -49,7 +49,7 @@ class _IdInputWidgetState extends State<IdInputWidget> {
           ),
           gapH8,
           Container(
-            height: 180,
+            height: 140,
             width: 320,
             child: ListView.builder(
               itemCount: 5,
