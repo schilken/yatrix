@@ -5,8 +5,8 @@ import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flutter/rendering.dart';
 
-import '../game_assets.dart';
-import '../helpers.dart';
+import '../helpers/game_assets.dart';
+import '../helpers/helpers.dart';
 import '../tetris_game.dart';
 import 'boundaries.dart';
 import 'quadrat.dart';

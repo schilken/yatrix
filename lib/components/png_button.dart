@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 
-import '../game_assets.dart';
+import '../helpers/game_assets.dart';
 
 class PngButton extends PositionComponent with HasPaint, TapCallbacks {
   late Image _image;

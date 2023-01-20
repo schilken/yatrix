@@ -1,0 +1,32 @@
+        if (peerClientState.clientState == ClientState.connected) ...[
+          gapH24,
+          TextField(
+            controller: _messageEditingController,
+            focusNode: _focusNode,
+            autofocus: true,
+            autocorrect: false,
+            cursorColor: Colors.white60,
+            style: textTheme.bodyText1,
+            decoration: InputDecoration(
+              hintText: 'Enter your message',
+              hintStyle: textTheme.bodyText1,
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white60),
+              ),
+            ),
+          ),
+          gapH12,
+          OutlinedButton(
+            onPressed: () {
+              ref
+                  .read(peerServiceProvider)
+                  .sendMessage(_messageEditingController.text);
+              _messageEditingController.text = '';
+            },
+            style: OutlinedButton.styleFrom(
+              foregroundColor: Colors.white60,
+              side: const BorderSide(color: Colors.white60),
+            ),
+            child: const Text('Send message to Peer'),
+          ),
+        ],

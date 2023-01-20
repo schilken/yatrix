@@ -1,7 +1,7 @@
 import 'package:another_xlider/another_xlider.dart';
 import 'package:flutter/material.dart';
 
-import '../app_sizes.dart';
+import '../helpers/app_sizes.dart';
 
 typedef IntCallback = void Function(int value);
 

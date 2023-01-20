@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../app_sizes.dart';
+import '../helpers/app_sizes.dart';
 import '../providers/providers.dart';
 
 class PeerServerView extends ConsumerWidget {

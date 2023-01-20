@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:test/test.dart';
-import 'package:yatrix/helpers.dart';
+import 'package:yatrix/helpers/helpers.dart';
 
 void main() {
   group('helpers  - ', () {

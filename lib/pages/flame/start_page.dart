@@ -2,7 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/rendering.dart';
 
 import '../../components/rounded_button.dart';
-import '../../custom_theme.dart';
+import '../../helpers/custom_theme.dart';
 import '../../tetris_game.dart';
 
 class StartPage extends Component with HasGameRef<TetrisGame> {

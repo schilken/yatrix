@@ -12,7 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'components/keyboard_game_controller.dart';
-import 'game_assets.dart';
+import 'helpers/game_assets.dart';
 import 'pages/flame/credits_page.dart';
 import 'pages/dialog_overlay.dart';
 import 'pages/flame/game_over_route.dart';

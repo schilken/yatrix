@@ -3,7 +3,7 @@ import 'package:flame/experimental.dart';
 import 'package:flame/palette.dart';
 
 import '../../components/background.dart';
-import '../../custom_theme.dart';
+import '../../helpers/custom_theme.dart';
 import '../../tetris_game.dart';
 
 class SplashScreen extends Component with TapCallbacks, HasGameRef<TetrisGame> {

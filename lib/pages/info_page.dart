@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
-import '../app_sizes.dart';
+import '../helpers/app_sizes.dart';
 import '../components/simple_button_widget.dart';
 import '../tetris_game.dart';
 

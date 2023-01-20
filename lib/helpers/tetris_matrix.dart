@@ -10,6 +10,10 @@ class TetrisMatrix {
     matrix[i][j] = value;
   }
 
+  int get level {
+    return 0;
+  }
+
   @override
   String toString() {
     final rowsAsString = <String>[];
@@ -21,4 +25,5 @@ class TetrisMatrix {
     }
     return rowsAsString.join('\n');
   }
+
 }

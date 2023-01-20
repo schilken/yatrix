@@ -15,7 +15,7 @@ class GamePage extends ConsumerWidget {
       peerNotifier,
       (previous, next) {
         game.handlePeerCommand(
-            next.message, next.isServer); // TODO(as) only for easier testing
+            next.message, next.isEnabled); // TODO(as) only for easier testing
       },
     );
     return GameWidget(

@@ -4,7 +4,7 @@ import 'package:flame/effects.dart';
 import 'package:flame/extensions.dart';
 import 'package:flutter/animation.dart';
 
-import '../game_assets.dart';
+import '../helpers/game_assets.dart';
 import 'tetris_play_block.dart';
 
 typedef TetrisBlockTearOff = TetrisBaseBlock Function({

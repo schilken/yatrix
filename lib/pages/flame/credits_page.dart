@@ -4,7 +4,7 @@ import 'package:flutter/material.dart' hide BackButton;
 
 import '../../components/background.dart';
 import '../../components/simple_button_component.dart';
-import '../../custom_theme.dart';
+import '../../helpers/custom_theme.dart';
 import '../../tetris_game.dart';
 
 class CreditsPage extends Component with HasGameRef<TetrisGame> {

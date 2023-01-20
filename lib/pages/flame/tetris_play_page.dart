@@ -9,7 +9,7 @@ import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
 import 'package:flutter/painting.dart';
 import 'package:sprintf/sprintf.dart';
-import 'package:yatrix/game_assets.dart';
+import 'package:yatrix/helpers/game_assets.dart';
 
 import '../../components/boundaries.dart';
 import '../../components/five_buttons_game_controller.dart';
@@ -20,9 +20,9 @@ import '../../components/simple_button_component.dart';
 import '../../components/svg_button.dart';
 import '../../components/tetris_play_block.dart';
 import '../../components/three_buttons_game_controller.dart';
-import '../../custom_theme.dart';
+import '../../helpers/custom_theme.dart';
 import '../../tetris_game.dart';
-import '../../tetris_matrix.dart';
+import '../../helpers/tetris_matrix.dart';
 
 enum Direction {
   up,
@@ -426,6 +426,12 @@ class TetrisPlayPage extends Component
     }
     return rowFillingMap;
   }
+
+  int findLevel() {
+    final matrix = creatBlockMatrix();
+    return matrix.level;
+  }
+
 
   TetrisMatrix creatBlockMatrix() {
     final matrix = TetrisMatrix();

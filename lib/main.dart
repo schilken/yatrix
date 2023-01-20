@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pubspec_parse/pubspec_parse.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'custom_theme.dart';
+import 'helpers/custom_theme.dart';
 import 'pages/game_page.dart';
 import 'providers/providers.dart';
 
