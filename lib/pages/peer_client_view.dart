@@ -31,10 +31,15 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final peerClientState = ref.watch(peerClientNotifier);
+    final isError = peerClientState.clientState == ClientState.error;
+    final isNotConnected =
+        peerClientState.clientState == ClientState.notConnected ||
+            peerClientState.clientState == ClientState.error;
+    final isConnecting = peerClientState.clientState == ClientState.connecting;
+    final isConnected = peerClientState.clientState == ClientState.connected;
     return Column(
       children: [
-        if (peerClientState.clientState == ClientState.notConnected ||
-            peerClientState.clientState == ClientState.error) ...[
+        if (isNotConnected) ...[
           Text(
             'If you want to connect to your player buddy\'s server, enter their Id here.',
             style: textTheme.headline6,
@@ -42,7 +47,7 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
           gapH24,
           IdInputWidget(onChanged: (value) => _serverId = value),
         ],
-        if (peerClientState.clientState == ClientState.error) ...[
+        if (isError) ...[
           gapH8,
           Text(
             peerClientState.message,
@@ -50,8 +55,7 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
           ),
         ],
         gapH24,
-        if (peerClientState.clientState == ClientState.notConnected ||
-            peerClientState.clientState == ClientState.error)
+        if (isNotConnected)
           OutlinedButton(
             onPressed: () {
               ref
@@ -64,18 +68,16 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
             ),
             child: const Text('Connect'),
           ),
-        if (peerClientState.clientState == ClientState.connecting ||
-            peerClientState.clientState == ClientState.connected)
+        if (isConnecting || isConnected)
           Text(
             peerClientState.message,
             style: textTheme.headline6,
           ),
         gapH8,
-        if (peerClientState.clientState == ClientState.connecting)
+        if (isConnecting)
           const CircularProgressIndicator(),
         gapH24,
-        if (peerClientState.clientState == ClientState.connected ||
-            peerClientState.clientState == ClientState.connecting)
+        if (isConnecting || isConnected)
           OutlinedButton(
             onPressed: () {
               ref.read(peerNotifier.notifier).setIsEnabled(false);
@@ -87,38 +89,7 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
             ),
             child: const Text('Disconnect'),
           ),
-        if (peerClientState.clientState == ClientState.connected) ...[
-          gapH24,
-          TextField(
-            controller: _messageEditingController,
-            focusNode: _focusNode,
-            autofocus: true,
-            autocorrect: false,
-            cursorColor: Colors.white60,
-            style: textTheme.bodyText1,
-            decoration: InputDecoration(
-              hintText: 'Enter your message',
-              hintStyle: textTheme.bodyText1,
-              enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white60),
-              ),
-            ),
-          ),
-          gapH12,
-          OutlinedButton(
-            onPressed: () {
-              ref
-                  .read(peerServiceProvider)
-                  .sendMessage(_messageEditingController.text);
-              _messageEditingController.text = '';
-            },
-            style: OutlinedButton.styleFrom(
-              foregroundColor: Colors.white60,
-              side: const BorderSide(color: Colors.white60),
-            ),
-            child: const Text('Send message to Peer'),
-          ),
-        ],
+
       ],
     );
   }
