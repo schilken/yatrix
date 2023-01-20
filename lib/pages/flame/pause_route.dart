@@ -3,7 +3,7 @@ import 'package:flame/effects.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame/rendering.dart';
-import '../tetris_game.dart';
+import '../../tetris_game.dart';
 
 class PauseRoute extends Route {
   PauseRoute() : super(PausePage.new, transparent: true);

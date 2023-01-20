@@ -1,9 +1,9 @@
 import 'package:flame/components.dart';
 import 'package:flutter/rendering.dart';
 
-import '../components/rounded_button.dart';
-import '../custom_theme.dart';
-import '../tetris_game.dart';
+import '../../components/rounded_button.dart';
+import '../../custom_theme.dart';
+import '../../tetris_game.dart';
 
 class StartPage extends Component with HasGameRef<TetrisGame> {
   late final TextComponent _logo;
@@ -76,7 +76,6 @@ class StartPage extends Component with HasGameRef<TetrisGame> {
         borderColor: const Color(0xfffff4c7),
         size: Vector2(150, 40),
       ),
-
     ]);
   }
 

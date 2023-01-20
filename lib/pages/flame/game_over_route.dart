@@ -6,8 +6,8 @@ import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame/rendering.dart';
 
-import '../components/rounded_button.dart';
-import '../tetris_game.dart';
+import '../../components/rounded_button.dart';
+import '../../tetris_game.dart';
 
 class GameOverRoute extends Route {
   GameOverRoute()
@@ -35,7 +35,6 @@ class GameOverRoute extends Route {
 }
 
 class GameOverPage extends Component with TapCallbacks, HasGameRef<TetrisGame> {
-
   @override
   Future<void> onLoad() async {
     addAll([

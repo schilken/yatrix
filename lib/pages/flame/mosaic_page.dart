@@ -7,15 +7,15 @@ import 'package:flame/game.dart' hide Viewport;
 import 'package:flame/palette.dart';
 import 'package:flutter/services.dart';
 
-import '../components/boundaries.dart';
-import '../components/five_buttons_game_controller.dart';
-import '../components/game_controller_mixin.dart';
-import '../components/keyboard_game_controller.dart';
-import '../components/png_button.dart';
-import '../components/simple_button_component.dart';
-import '../components/tetris_play_block.dart';
-import '../components/three_buttons_game_controller.dart';
-import '../tetris_game.dart';
+import '../../components/boundaries.dart';
+import '../../components/five_buttons_game_controller.dart';
+import '../../components/game_controller_mixin.dart';
+import '../../components/keyboard_game_controller.dart';
+import '../../components/png_button.dart';
+import '../../components/simple_button_component.dart';
+import '../../components/tetris_play_block.dart';
+import '../../components/three_buttons_game_controller.dart';
+import '../../tetris_game.dart';
 
 class Debouncer {
   Debouncer(this.callback);
@@ -150,7 +150,7 @@ class MosaicPage extends Component
       size.x - 2 * fiveButtonSize.x - 2 * buttonGapX,
       size.y - 2 * fiveButtonSize.y,
     );
-    fiveButtons?.size = fiveButtonSize;    
+    fiveButtons?.size = fiveButtonSize;
     if (threeButtons == null) {
       threeButtons = ThreeButtonsGameController(
         buttonSize: Vector2.all(35),
@@ -230,7 +230,7 @@ class MosaicPage extends Component
       PngButton(
         name: 'dice',
         position: Vector2(
-            20 + size3x2quads.x + size2x2quads.x + size1x4quads.x + 3 * 10,
+          20 + size3x2quads.x + size2x2quads.x + size1x4quads.x + 3 * 10,
           yOffsetRow2,
         ),
         size: size2x2quads,
@@ -265,7 +265,7 @@ class MosaicPage extends Component
   @override
   void handlePeerCommand(String command) {
     print('handlePeerCommand: ${handlePeerCommand}');
-  }  
+  }
 
   // @override
   // void showHelp() {}

@@ -11,18 +11,18 @@ import 'package:flutter/painting.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:yatrix/game_assets.dart';
 
-import '../components/boundaries.dart';
-import '../components/five_buttons_game_controller.dart';
-import '../components/game_controller_mixin.dart';
-import '../components/keyboard_game_controller.dart';
-import '../components/quadrat.dart';
-import '../components/simple_button_component.dart';
-import '../components/svg_button.dart';
-import '../components/tetris_play_block.dart';
-import '../components/three_buttons_game_controller.dart';
-import '../custom_theme.dart';
-import '../tetris_game.dart';
-import '../tetris_matrix.dart';
+import '../../components/boundaries.dart';
+import '../../components/five_buttons_game_controller.dart';
+import '../../components/game_controller_mixin.dart';
+import '../../components/keyboard_game_controller.dart';
+import '../../components/quadrat.dart';
+import '../../components/simple_button_component.dart';
+import '../../components/svg_button.dart';
+import '../../components/tetris_play_block.dart';
+import '../../components/three_buttons_game_controller.dart';
+import '../../custom_theme.dart';
+import '../../tetris_game.dart';
+import '../../tetris_matrix.dart';
 
 enum Direction {
   up,
@@ -206,7 +206,6 @@ class TetrisPlayPage extends Component
     gameRef.router.pop();
   }
 
-
   @override
   Future<void> onReset() async {
 //    print('TetrisPlayPage.reset');
@@ -384,8 +383,8 @@ class TetrisPlayPage extends Component
     await removeQuadsAnimated(findQuadsInRow(y));
   }
 
-  Future<void> removeQuadsAnimated(List<Quadrat> quads,
-      {
+  Future<void> removeQuadsAnimated(
+    List<Quadrat> quads, {
     int delay = 20,
   }) async {
     for (final quad in quads) {
