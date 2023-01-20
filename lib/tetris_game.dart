@@ -226,7 +226,7 @@ class TetrisGame extends FlameGame
       gamePage?.handlePeerCommand(command);
     } else if (command == '@>?') {
       message = 'Server: Can we start the game?';
-      gamePage?.handlePeerCommand(command);
+      showStartGameDialog();
     } else if (command == '@>!') {
       message = 'Client: Start the Game!';
       gamePage?.handlePeerCommand(command);
@@ -250,6 +250,12 @@ class TetrisGame extends FlameGame
   void askPeerToStartGame() {
     if (isTwoPlayerGame) {
       widgetRef.read(peerServiceProvider).sendMessage('@>?');
+    }
+  }
+
+  void answerToPeerToStartGame() {
+    if (isTwoPlayerGame) {
+      widgetRef.read(peerServiceProvider).sendMessage('@>!');
     }
   }
 
@@ -296,6 +302,23 @@ class TetrisGame extends FlameGame
           const Duration(milliseconds: 100),
           topIsReached,
         );
+      },
+    );
+    router.pushNamed('commitDialog');
+  }
+
+  void showStartGameDialog() {
+    widgetRef.read(dialogDataProvider.notifier).state = DialogData(
+      title: 'Two-Players-Mode',
+      text1: 'Your peer is ready to start the game.',
+      text2: 'Tap Start if you are also ready.',
+      buttonText: 'Start the Game',
+      onCommit: () {
+        // pop the dialog
+        router.pop();
+        answerToPeerToStartGame();
+        startNewGame();
+        gamePage?.handlePeerCommand('@>!');
       },
     );
     router.pushNamed('commitDialog');

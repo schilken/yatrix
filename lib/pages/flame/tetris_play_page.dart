@@ -280,6 +280,7 @@ class TetrisPlayPage extends Component
           align: const Alignment(0, 0.3),
         );
         game.askPeerToStartGame();
+        return true;
       }
     }
     return false; // no veto
@@ -287,7 +288,7 @@ class TetrisPlayPage extends Component
 
   @override
   bool startGameIfNotRunning() {
-    if (!game.isGameRunning && !game.isPeerServer) {
+    if (!game.isGameRunning) {
       if (vetoTwoPlayerGameStart()) {
         return true;
       }
