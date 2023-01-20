@@ -14,7 +14,8 @@ class GamePage extends ConsumerWidget {
     ref.listen<PeerState>(
       peerNotifier,
       (previous, next) {
-        game.handlePeerCommand(next.message);
+        game.handlePeerCommand(
+            next.message, next.isServer); // TODO(as) only for easier testing
       },
     );
     return GameWidget(

@@ -165,7 +165,6 @@ class TetrisGame extends FlameGame
     backgroundMusicStart();
     isGameRunning = true;
     isGameOver = false;
-    isTwoPlayerGame = widgetRef.read(peerNotifier).isEnabled;
   }
 
   void stopGame() {
@@ -206,8 +205,9 @@ class TetrisGame extends FlameGame
     stopGame();
   }
 
-  void handlePeerCommand(String command) {
-    print('handlePeerCommand >>>> command: $command');
+  void handlePeerCommand(String command, bool isConnected) {
+    print('handlePeerCommand >>>> command: $command $isConnected');
+    isTwoPlayerGame = isConnected;
     String? message;
     if (command.length == 3 && command.startsWith('@i')) {
       gamePage?.handlePeerCommand(command);
