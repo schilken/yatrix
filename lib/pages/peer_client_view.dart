@@ -13,18 +13,11 @@ class PeerClientView extends ConsumerStatefulWidget {
 }
 
 class _PeerClientViewState extends ConsumerState<PeerClientView> {
-  late TextEditingController _idEditingController;
-  late TextEditingController _messageEditingController;
-  late FocusNode _focusNode;
   int _serverId = 0;
 
   @override
   void initState() {
     super.initState();
-    _idEditingController = TextEditingController();
-    _messageEditingController = TextEditingController();
-    _focusNode = FocusNode();
-    _idEditingController.text = ''; //ref.read(peerNotifier).remotePeerId;
   }
 
   @override
