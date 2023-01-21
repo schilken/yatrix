@@ -159,7 +159,7 @@ class TetrisPlayPage extends Component
       _twoPlayerActive = SvgButton(
         name: 'svg/cloud-arrow-right-outline-green.svg',
         position: Vector2(size.x / 2, -100),
-        onTap: () {},
+        onTap: game.showPromptDialog,
       );
 //      _twoPlayerActive?.opacity = 0.0;
       add(_twoPlayerActive!);
@@ -172,7 +172,7 @@ class TetrisPlayPage extends Component
     if (_levelIndicatorSelf == null) {
       _levelIndicatorSelf = LevelIndicator(
         level: 0,
-        color: Color.fromARGB(255, 110, 141, 244),
+        color: const Color.fromARGB(255, 110, 141, 244),
       );
 //      _levelIndicatorSelf?.opacity = 0.0;
       add(_levelIndicatorSelf!);
@@ -184,7 +184,7 @@ class TetrisPlayPage extends Component
     if (_levelIndicatorPeer == null) {
       _levelIndicatorPeer = LevelIndicator(
         level: 0,
-        color: Color.fromARGB(255, 124, 241, 148),
+        color: const Color.fromARGB(255, 124, 241, 148),
       );
 //      _levelIndicatorPeer?.opacity = 0.0;
       add(_levelIndicatorPeer!);

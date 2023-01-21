@@ -68,7 +68,7 @@ class TetrisGame extends FlameGame
   double sfxVolume = 0.5;
   bool showFps = true;
 
-  DialogData? _dialogData;
+  DialogConfig? _dialogConfig;
   int _rows = 0;
   int _points = 0;
 
@@ -131,8 +131,8 @@ class TetrisGame extends FlameGame
             (context, game) {
             return DialogOverlay(
               game: this,
-              dialogData: _dialogData ??
-                  DialogData(
+              dialogConfig: _dialogConfig ??
+                  DialogConfig(
                     title: 'DialogData not prepared',
                   ),
             );
@@ -192,14 +192,14 @@ class TetrisGame extends FlameGame
     if (isTwoPlayerGame) {
       _gameEndString = 'YOU LOSE!';
       // the other side has won
-      widgetRef.read(peerServiceProvider).sendMessage('@+');
+      sendMessageToPeer('@+');
     }
   }
 
 // Used by Two-Player-Mode
   void notifyWin() {
     // the other side has lost
-    widgetRef.read(peerServiceProvider).sendMessage('@-');
+    sendMessageToPeer('@-');
     _gameEndString = 'YOU WIN!';
     stopGame();
   }
@@ -248,29 +248,27 @@ class TetrisGame extends FlameGame
     }
   }
 
-  void notifyRowWasRemoved() {
+  void sendMessageToPeer(String message) {
     if (isTwoPlayerGame) {
-      widgetRef.read(peerServiceProvider).sendMessage('@i3');
+      widgetRef.read(peerServiceProvider).sendMessage(message);
     }
+  }
+
+  void notifyRowWasRemoved() {
+    sendMessageToPeer('@i3');
   }
 
   void askPeerToStartGame() {
-    if (isTwoPlayerGame) {
-      widgetRef.read(peerServiceProvider).sendMessage('@>?');
-    }
+    sendMessageToPeer('@>?');
   }
 
   void answerToPeerToStartGame() {
-    if (isTwoPlayerGame) {
-      widgetRef.read(peerServiceProvider).sendMessage('@>!');
-    }
+    sendMessageToPeer('@>!');
   }
 
   void notifyLevel(int level) {
     print('notifyLevell: $level');
-    if (isTwoPlayerGame) {
-      widgetRef.read(peerServiceProvider).sendMessage('@L$level');
-    }
+    sendMessageToPeer('@L$level');
   }
 
   void backgroundMusicStart() {
@@ -295,7 +293,7 @@ class TetrisGame extends FlameGame
   }
 
   void showAbortGameDialog() {
-    _dialogData = DialogData(
+    _dialogConfig = DialogConfig(
       title: 'Two-Players-Mode',
       text1: 'Really abort the game and go back to the Menu?',
       text2: 'You peer will win this game.',
@@ -315,7 +313,7 @@ class TetrisGame extends FlameGame
   }
 
   void showStartGameDialog() {
-    _dialogData = DialogData(
+    _dialogConfig = DialogConfig(
       title: 'Two-Players-Mode',
       text1: 'Your peer is ready to start the game.',
       text2: 'Tap Start if you are also ready.',
@@ -330,4 +328,18 @@ class TetrisGame extends FlameGame
     );
     router.pushNamed('commitDialog');
   }
+
+  void showPromptDialog() {
+    _dialogConfig = DialogConfig(
+      title: 'Two-Players-Mode',
+      text1: 'Here you can send a short text message to your peer.',
+      buttonText: 'Send Message',
+      onStringInput: (text) {
+        // pop the dialog
+        router.pop();
+        sendMessageToPeer(text);
+      },
+    );
+    router.pushNamed('commitDialog');
+  }  
 }
