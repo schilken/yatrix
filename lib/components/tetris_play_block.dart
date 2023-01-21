@@ -29,7 +29,7 @@ abstract class TetrisBaseBlock extends SpriteComponent
   Vector2 _velocity;
   Vector2 blockPosition;
 
-  static final Random _random = Random();
+  static Random _random = Random();
   Vector2 get blockSize;
   Anchor get blockAnchor;
   List<Vector2> get quadPositions;
@@ -42,6 +42,11 @@ abstract class TetrisBaseBlock extends SpriteComponent
   World? world;
   // if world == null, then we are in Construction Mode
   bool get isConstructionMode => world == null;
+
+  static void setRandomSeed(int seed) {
+    print('setRandomSeed: $seed');
+    _random = Random(seed);
+  }
 
   factory TetrisBaseBlock.create(
     String blockType,

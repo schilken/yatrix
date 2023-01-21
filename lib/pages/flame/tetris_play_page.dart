@@ -155,15 +155,13 @@ class TetrisPlayPage extends Component
     threeButtons?.position =
         Vector2(size.x - 2 * 35 - 2 * buttonGapX, buttonGapX);
 
-    if (_twoPlayerActive == null) {
       _twoPlayerActive = SvgButton(
         name: 'svg/cloud-arrow-right-outline-green.svg',
-        position: Vector2(size.x / 2, -100),
+//        position: Vector2(size.x / 2, -100),
         onTap: game.isTwoPlayerGame ? game.showPromptDialog : () {},
       );
 //      _twoPlayerActive?.opacity = 0.0;
-      add(_twoPlayerActive!);
-    }
+    add(_twoPlayerActive!);
     _twoPlayerActive?.position = Vector2(size.x / 2, buttonGapX);
     _twoPlayerActive?.size = fiveButtonSize;
 
@@ -220,7 +218,7 @@ class TetrisPlayPage extends Component
       BotToast.showText(
         text: 'Pause is not allowed in Two-Players-Mode.',
         duration: const Duration(seconds: 3),
-        align: const Alignment(0, 0.3),
+        align: const Alignment(0, -0.5),
       );
       return;
     }
@@ -243,7 +241,7 @@ class TetrisPlayPage extends Component
       BotToast.showText(
         text: 'Restart is not allowed in Two-Players-Mode.',
         duration: const Duration(seconds: 3),
-        align: const Alignment(0, 0.3),
+        align: const Alignment(0, -0.5),
       );
       return;
     }
@@ -270,14 +268,14 @@ class TetrisPlayPage extends Component
       BotToast.showText(
         text: ' Two-Players-Mode. Wait for the Server to start the game.',
         duration: const Duration(seconds: 3),
-        align: const Alignment(0, 0.3),
+          align: const Alignment(0, -0.5),
       );
       return true;
       } else {
         BotToast.showText(
           text: ' Two-Players-Mode. Asking the peer to start.',
           duration: const Duration(seconds: 3),
-          align: const Alignment(0, 0.3),
+          align: const Alignment(0, -0.5),
         );
         game.askPeerToStartGame();
         return true;
@@ -364,7 +362,8 @@ class TetrisPlayPage extends Component
     } else if (command.startsWith('@L')) {
       final level = int.parse(command.substring(2));
       _levelIndicatorPeer?.level = level;
-    } else if (command == '@>!') {
+    } else if (command.startsWith('@>!')) {
+      TetrisBaseBlock.setRandomSeed(int.parse(command.substring(3)));
       startTheGame();
     }
   }
@@ -372,7 +371,7 @@ class TetrisPlayPage extends Component
   @override
   Future<void> debugAction() async {
     await insertEmptyRow();
-    insertRow(emptySlot: _random.nextInt(11));
+    insertRow(emptySlot: 3);
   }
 
   Future<void> insertRow({required int emptySlot}) async {

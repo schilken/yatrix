@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: avoid_print
 import 'dart:async';
+import 'dart:math';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flame/experimental.dart';
@@ -67,6 +68,7 @@ class TetrisGame extends FlameGame
   double backgroundMusicVolume = 0.25;
   double sfxVolume = 0.5;
   bool showFps = true;
+  Random _random = Random();
 
   DialogConfig? _dialogConfig;
   int _rows = 0;
@@ -127,8 +129,7 @@ class TetrisGame extends FlameGame
               return HighScoresPage(game: this);
             },
           ),
-          'commitDialog': OverlayRoute(
-            (context, game) {
+          'commitDialog': OverlayRoute((context, game) {
             return DialogOverlay(
               game: this,
               dialogConfig: _dialogConfig ??
@@ -136,8 +137,7 @@ class TetrisGame extends FlameGame
                     title: 'DialogData not prepared',
                   ),
             );
-          }
-          ),
+          }),
         },
         initialRoute: 'splash',
       ),
@@ -234,16 +234,18 @@ class TetrisGame extends FlameGame
     } else if (command == '@>?') {
       message = 'Server: Can we start the game?';
       showStartGameDialog();
-    } else if (command == '@>!') {
+    } else if (command.startsWith('@>!')) {
       message = 'Client: Start the Game!';
       gamePage?.handlePeerCommand(command);
+    } else {
+      message = command;
     }
 
     if (message != null) {
       BotToast.showText(
         text: message,
         duration: const Duration(seconds: 3),
-        align: const Alignment(0, 0.3),
+        align: const Alignment(0, -0.5),
       );
     }
   }
@@ -262,8 +264,13 @@ class TetrisGame extends FlameGame
     sendMessageToPeer('@>?');
   }
 
-  void answerToPeerToStartGame() {
-    sendMessageToPeer('@>!');
+  void startTwoPlayerGame() {
+    final seed = _random.nextInt(10000);
+    // start game on remote peer
+    sendMessageToPeer('@>!$seed');
+    startNewGame();
+    // start local game
+    gamePage?.handlePeerCommand('@>!$seed');
   }
 
   void notifyLevel(int level) {
@@ -321,9 +328,7 @@ class TetrisGame extends FlameGame
       onCommit: () {
         // pop the dialog
         router.pop();
-        answerToPeerToStartGame();
-        startNewGame();
-        gamePage?.handlePeerCommand('@>!');
+        startTwoPlayerGame();
       },
     );
     router.pushNamed('commitDialog');
@@ -341,5 +346,5 @@ class TetrisGame extends FlameGame
       },
     );
     router.pushNamed('commitDialog');
-  }  
+  }
 }
