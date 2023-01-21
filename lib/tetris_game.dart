@@ -68,6 +68,7 @@ class TetrisGame extends FlameGame
   double sfxVolume = 0.5;
   bool showFps = true;
 
+  DialogData? _dialogData;
   int _rows = 0;
   int _points = 0;
 
@@ -128,8 +129,14 @@ class TetrisGame extends FlameGame
           ),
           'commitDialog': OverlayRoute(
             (context, game) {
-              return DialogOverlay(game: this);
-            },
+            return DialogOverlay(
+              game: this,
+              dialogData: _dialogData ??
+                  DialogData(
+                    title: 'DialogData not prepared',
+                  ),
+            );
+          }
           ),
         },
         initialRoute: 'splash',
@@ -288,7 +295,7 @@ class TetrisGame extends FlameGame
   }
 
   void showAbortGameDialog() {
-    widgetRef.read(dialogDataProvider.notifier).state = DialogData(
+    _dialogData = DialogData(
       title: 'Two-Players-Mode',
       text1: 'Really abort the game and go back to the Menu?',
       text2: 'You peer will win this game.',
@@ -308,7 +315,7 @@ class TetrisGame extends FlameGame
   }
 
   void showStartGameDialog() {
-    widgetRef.read(dialogDataProvider.notifier).state = DialogData(
+    _dialogData = DialogData(
       title: 'Two-Players-Mode',
       text1: 'Your peer is ready to start the game.',
       text2: 'Tap Start if you are also ready.',

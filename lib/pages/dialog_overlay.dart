@@ -1,25 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../helpers/app_sizes.dart';
 import '../components/simple_button_widget.dart';
-import '../providers/providers.dart';
+import '../helpers/app_sizes.dart';
 import '../tetris_game.dart';
 
+class DialogData {
+  String? title;
+  String? text1;
+  String? text2;
+  String? buttonText;
+  String? returnedData;
+  VoidCallback? onCommit;
+  VoidCallback? onCancel;
+
+  DialogData({
+    this.title,
+    this.text1,
+    this.text2,
+    this.buttonText,
+    this.returnedData,
+    this.onCommit,
+    this.onCancel,
+  });
+}
+
 class DialogOverlay extends ConsumerWidget {
-  DialogOverlay({super.key, required this.game});
+  DialogOverlay({
+    super.key,
+    required this.game,
+    required this.dialogData,
+  });
   TetrisGame game;
+  DialogData dialogData;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
-    final dialogData = ref.read(dialogDataProvider);
     return Material(
       child: Center(
         child: Container(
           padding: EdgeInsets.fromLTRB(12, 8, 20, 20),
           width: 250,
-          height: 250,
+          height: 280,
           decoration: BoxDecoration(
               color: const Color.fromARGB(200, 20, 20, 20),
               border: Border.all(

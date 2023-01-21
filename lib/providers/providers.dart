@@ -14,25 +14,3 @@ final sharedPreferencesProvider = Provider<SharedPreferences>(
   (ref) => throw UnimplementedError(),
   name: 'SharedPreferencesProvider',
 );
-
-class DialogData {
-  String? title;
-  String? text1;
-  String? text2;
-  String? buttonText;
-  String? returnedData;
-  VoidCallback? onCommit;
-  VoidCallback? onCancel;
-
-  DialogData({
-    this.title,
-    this.text1,
-    this.text2,
-    this.buttonText,
-    this.returnedData,
-    this.onCommit,
-    this.onCancel,
-  });
-}
-
-final dialogDataProvider = StateProvider<DialogData>((_) => DialogData());
