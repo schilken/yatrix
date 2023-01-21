@@ -33,7 +33,7 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
     return Material(
       child: Container(
         color: const Color.fromARGB(200, 20, 20, 20),
-        padding: const EdgeInsets.fromLTRB(60.0, 0, 60, 30),
+        padding: const EdgeInsets.fromLTRB(20.0, 0, 20, 30),
         child: Column(
 //          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,

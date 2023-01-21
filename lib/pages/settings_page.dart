@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../helpers/app_sizes.dart';
 import '../components/simple_button_widget.dart';
+import '../helpers/app_sizes.dart';
 import '../providers/providers.dart';
 import '../tetris_game.dart';
 
@@ -19,7 +19,7 @@ class SettingsPage extends ConsumerWidget {
     return Material(
       child: Container(
         color: const Color.fromARGB(255, 20, 20, 20),
-        padding: const EdgeInsets.fromLTRB(60.0, 0, 60, 30),
+        padding: const EdgeInsets.fromLTRB(20.0, 0, 20, 30),
         child: Column(
 //          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
