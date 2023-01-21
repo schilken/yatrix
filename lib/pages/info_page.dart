@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
-import '../helpers/app_sizes.dart';
 import '../components/simple_button_widget.dart';
+import '../helpers/app_sizes.dart';
 import '../tetris_game.dart';
 
 class InfoPage extends StatelessWidget {
@@ -29,6 +29,25 @@ For the high score your points are calculated like this:
 - The earlier you drop the block with the down button, the more points you get.
 
 On desktop you can control the game also with the arrow keys on the keyboard.
+
+## Two-Players-Mode
+You can play against another player if you both have an internet connection.
+These are the steps to setup a connection:
+- The first player activates the Two-Players-Mode and selects then the 2-Player-Server.
+- Then she taps **Start Server** and tells the second player her server id.
+- The second player also activates the Two-Players-Mode and sets the server id, he got from the first player.
+- Then he taps the **Connect** button
+- Both players should now see the message 'Ready to play'
+- If you open the **Play** screen you should see a green cloud on the top.
+
+To start a game 
+- the player, who started the server, tries to start the game as usual
+- there is not yet a block dropping, but a message 'Are you Ready?'
+- The second player gets a dialog with the button **Start the Game **
+- If he taps this button the blocks begin to drop on both screens.
+
+You see your own filling level on the left bar and your peer's level on the right.
+ 
 
 ## The Mosaic
 The mosaic page came up as a by-product. 
@@ -69,7 +88,7 @@ These versions are also free without ads or in app purchases.
     final textTheme = Theme.of(context).textTheme;
     return Material(
       child: Container(
-        color: Color.fromARGB(255, 20, 20, 20),
+        color: const Color.fromARGB(255, 20, 20, 20),
         padding: const EdgeInsets.fromLTRB(12.0, 0, 12, 30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
