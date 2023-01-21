@@ -38,7 +38,10 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
             style: textTheme.headline6,
           ),
           gapH24,
-          IdInputWidget(onChanged: (value) => _serverId = value),
+          IdInputWidget(
+            initialValue: int.parse(peerClientState.remotePeerId),
+            onChanged: (value) => _serverId = value,
+          ),
         ],
         if (isError) ...[
           gapH8,

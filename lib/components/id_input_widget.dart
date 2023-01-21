@@ -9,9 +9,11 @@ class IdInputWidget extends StatefulWidget {
   IdInputWidget({
     super.key,
     required this.onChanged,
+    required this.initialValue,
   });
 
   IntCallback onChanged;
+  int initialValue;
 
   @override
   State<IdInputWidget> createState() => _IdInputWidgetState();
@@ -23,6 +25,7 @@ class _IdInputWidgetState extends State<IdInputWidget> {
   @override
   void initState() {
     widget.onChanged(numberFromDigits);
+    _setDigitsFromNumber(widget.initialValue);
     super.initState();
   }
 
@@ -30,6 +33,14 @@ class _IdInputWidgetState extends State<IdInputWidget> {
     return _digits
         .fold<double>(0, (value, digit) => value * 10 + digit)
         .toInt();
+  }
+
+  void _setDigitsFromNumber(int value) {
+    var shiftedValue = value;
+    for (var digit = 4; digit >= 0; digit--) {
+      _digits[digit] = (shiftedValue % 10).toDouble();
+      shiftedValue ~/= 10;
+    }
   }
 
   void _onChanged() {

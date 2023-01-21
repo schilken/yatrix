@@ -10,6 +10,7 @@ class PreferencesRepository {
 
   String get appVersion => _prefs.getString('appVersion') ?? '?';
 
+
   Future<void> setMusicVolume(double volume) async {
     await _prefs.setDouble('musicVolume', volume);
   }
@@ -49,6 +50,12 @@ class PreferencesRepository {
     final scores = _prefs.getStringList('scores') ?? [];
     scores.add(folder);
     await _prefs.setStringList('scores', scores);
+  }
+
+  String get remotePeerId => _prefs.getString('remotePeerId') ?? '55555';
+
+  Future<void> setRemotePeerId(String remotePeerId) async {
+    await _prefs.setString('remotePeerId', remotePeerId);
   }
 
 }

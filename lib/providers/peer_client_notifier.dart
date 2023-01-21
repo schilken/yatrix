@@ -42,17 +42,18 @@ class PeerClientState {
 }
 
 class PeerClientNotifier extends Notifier<PeerClientState> {
+  late PreferencesRepository _preferencesRepository;
   late PeerService _peerService;
   late Stream<String> _receivedStrings;
   StreamSubscription? _streamSubscription;
-  String _remotePeerId = '';
 
   @override
   PeerClientState build() {
+    _preferencesRepository = ref.read(preferencesRepositoryProvider);
     _peerService = ref.read(peerServiceProvider);
     return PeerClientState(
       clientState: ClientState.notConnected,
-      remotePeerId: _remotePeerId,
+      remotePeerId: _preferencesRepository.remotePeerId,
       message: '',
     );
   }
@@ -65,7 +66,7 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
       );
       return;
     }
-    _remotePeerId = remotePeerId;
+    _preferencesRepository.setRemotePeerId(remotePeerId);
     try {
       _receivedStrings = _peerService.connectToServer(remotePeerId);
     } on Exception catch (e, s) {
