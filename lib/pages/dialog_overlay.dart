@@ -107,6 +107,7 @@ class DialogOverlay extends HookConsumerWidget {
               const Spacer(),
               OutlinedButton(
                 onPressed: () {
+                  dialogConfig.onCommit?.call();
                   dialogConfig.onStringInput
                       ?.call(messageEditingController.text);
                 },
