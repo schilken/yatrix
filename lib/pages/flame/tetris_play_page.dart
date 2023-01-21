@@ -159,7 +159,7 @@ class TetrisPlayPage extends Component
       _twoPlayerActive = SvgButton(
         name: 'svg/cloud-arrow-right-outline-green.svg',
         position: Vector2(size.x / 2, -100),
-        onTap: game.showPromptDialog,
+        onTap: game.isTwoPlayerGame ? game.showPromptDialog : () {},
       );
 //      _twoPlayerActive?.opacity = 0.0;
       add(_twoPlayerActive!);
