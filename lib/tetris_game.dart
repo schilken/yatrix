@@ -245,7 +245,7 @@ class TetrisGame extends FlameGame
       BotToast.showText(
         text: message,
         duration: const Duration(seconds: 3),
-        align: const Alignment(0, -0.5),
+        align: const Alignment(0, -0.85),
       );
     }
   }

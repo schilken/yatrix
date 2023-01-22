@@ -74,7 +74,10 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
     _streamSubscription = _receivedStrings.listen((message) {
       print('PeerServerNotifier.listen: $message');
       state =
-          state.copyWith(serverState: ServerState.connected, message: message);
+          state.copyWith(
+        serverState: ServerState.connected,
+        message: message,
+      );
     });
   }
 

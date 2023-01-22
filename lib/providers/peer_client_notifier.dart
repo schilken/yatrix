@@ -85,7 +85,10 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
     _streamSubscription = _receivedStrings.listen((message) {
       print('PeerClientNotifier.listen: $message');
       state =
-          state.copyWith(clientState: ClientState.connected, message: message);
+          state.copyWith(
+        clientState: ClientState.connected,
+        message: message,
+      );
     });
   }
 
@@ -97,6 +100,7 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
   }
 
   void disConnect() {
+//    print('disConnect');
     _peerService.disposePeer();
     state = state.copyWith(
       clientState: ClientState.notConnected,

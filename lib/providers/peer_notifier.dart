@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, avoid_print
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../helpers/generate_unique_id.dart';
 import 'providers.dart';
@@ -46,7 +46,6 @@ class PeerNotifier extends Notifier<PeerState> {
   bool _isServer = false;
   bool _isConnected = false;
 
-
   @override
   PeerState build() {
     _preferencesRepository = ref.read(preferencesRepositoryProvider);
@@ -58,9 +57,12 @@ class PeerNotifier extends Notifier<PeerState> {
     _isConnected = _peerClientState.clientState == ClientState.connected &&
         _peerServerState.serverState == ServerState.connected;
     print('PeerNotifier.build $_peerClientState $_peerServerState');
-    final message = _peerClientState.clientState == ClientState.connected
-        ? _peerClientState.message
-        : _peerServerState.message; 
+    var message = '';
+    if (_peerClientState.clientState == ClientState.notConnected) {
+      message = _peerServerState.message;
+    } else if (_peerServerState.serverState == ServerState.notStarted) {
+      message = _peerClientState.message;
+    }
     return PeerState(
       isEnabled: _isEnabled,
       isServer: _isServer,
@@ -71,7 +73,6 @@ class PeerNotifier extends Notifier<PeerState> {
 
   void setIsEnabled(bool isEnabled) {
     _isEnabled = isEnabled;
-    state = state.copyWith(isEnabled: isEnabled);
     var localPeerId = _preferencesRepository.localPeerId;
     if (localPeerId.isEmpty) {
       localPeerId = generateUniqueId();
@@ -79,14 +80,25 @@ class PeerNotifier extends Notifier<PeerState> {
     }
     if (isEnabled) {
       _peerService.initPeer(localPeerId);
+      state = state.copyWith(
+        isEnabled: isEnabled,
+        message: '',
+      );
     } else {
       _peerService.disposePeer();
+      state = state.copyWith(
+        isEnabled: isEnabled,
+        message: '',
+      );
     }
   }
 
   void setIsServer(bool isServer) {
     _isServer = isServer;
-    state = state.copyWith(isServer: isServer);
+    state = state.copyWith(
+      isServer: isServer,
+      message: '',
+    );
   }
 
 }
