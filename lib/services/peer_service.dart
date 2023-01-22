@@ -1,23 +1,27 @@
 // ignore_for_file: avoid_print
 import 'dart:async';
-import 'dart:math';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:peerdart/peerdart.dart';
 
+import '../helpers/generate_unique_id.dart';
+
 class PeerService {
-  final _random = Random();
-  int _peerId = 0;
+  late String _peerId;
   Peer? _peer;
   late DataConnection conn;
   StreamController<String>? _streamController;
   bool isConnected = false;
 
-  PeerService() {
-    _setRandomPeerId();
+  String get localPeerId => _peerId;
+
+  Future<void> initPeer(String localPeerId) async {
+    _peer = Peer(id: _peerId, options: PeerOptions(debug: LogLevel.All));
+    if (_peer == null) {
+      throw Exception('creation failed');
+    }
   }
 
-  int get localPeerId => _peerId;
 
   Stream<String> startServer() {
     initStreamController();
@@ -56,18 +60,6 @@ class PeerService {
 //    print('initStreamController');
     _streamController?.close();
     _streamController ??= StreamController<String>();
-  }
-
-  void _setRandomPeerId() {
-    _peerId = 10000 + _random.nextInt(90000);
-  }
-
-  Future<void> initPeer() async {
-    _peer =
-        Peer(id: _peerId.toString(), options: PeerOptions(debug: LogLevel.All));
-    if (_peer == null) {
-      throw Exception('creation failed');
-    }
   }
 
   Stream<String> connectToServer(String id) {

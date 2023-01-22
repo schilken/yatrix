@@ -58,6 +58,13 @@ class PreferencesRepository {
     await _prefs.setString('remotePeerId', remotePeerId);
   }
 
+  String get localPeerId => _prefs.getString('localPeerId') ?? '';
+
+  Future<void> setlocalPeerId(String localPeerId) async {
+    await _prefs.setString('localPeerId', localPeerId);
+  }
+
+
 }
 
 final preferencesRepositoryProvider = Provider<PreferencesRepository>(

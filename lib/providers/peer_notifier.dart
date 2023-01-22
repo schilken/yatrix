@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, avoid_print
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../helpers/generate_unique_id.dart';
 import 'providers.dart';
 
 class PeerState {
@@ -36,6 +37,7 @@ class PeerState {
 }
 
 class PeerNotifier extends Notifier<PeerState> {
+  late PreferencesRepository _preferencesRepository;
   late PeerService _peerService;
   late PeerClientState _peerClientState;
   late PeerServerState _peerServerState;
@@ -47,6 +49,7 @@ class PeerNotifier extends Notifier<PeerState> {
 
   @override
   PeerState build() {
+    _preferencesRepository = ref.read(preferencesRepositoryProvider);
     _peerService = ref.read(peerServiceProvider);
     _peerClientState = ref.watch(peerClientNotifier);
     _peerServerState = ref.watch(peerServerNotifier);
@@ -69,8 +72,13 @@ class PeerNotifier extends Notifier<PeerState> {
   void setIsEnabled(bool isEnabled) {
     _isEnabled = isEnabled;
     state = state.copyWith(isEnabled: isEnabled);
+    var localPeerId = _preferencesRepository.localPeerId;
+    if (localPeerId.isEmpty) {
+      localPeerId = generateUniqueId();
+      _preferencesRepository.setlocalPeerId(localPeerId);
+    }
     if (isEnabled) {
-      _peerService.initPeer();
+      _peerService.initPeer(localPeerId);
     } else {
       _peerService.disposePeer();
     }

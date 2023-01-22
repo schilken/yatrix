@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, avoid_print
 import 'dart:async';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'providers.dart';
 
 enum ServerState {
@@ -13,44 +13,46 @@ enum ServerState {
 }
 
 class PeerServerState {
-  String serverPeerId;
+  String localPeerId;
   ServerState serverState;
   String message;
 
   PeerServerState({
-    required this.serverPeerId,
+    required this.localPeerId,
     required this.serverState,
     required this.message,
   });
 
   PeerServerState copyWith({
-    String? serverPeerId,
+    String? localPeerId,
     ServerState? serverState,
     String? message,
   }) {
     return PeerServerState(
-      serverPeerId: serverPeerId ?? this.serverPeerId,
+      localPeerId: localPeerId ?? this.localPeerId,
       serverState: serverState ?? this.serverState,
       message: message ?? this.message,
     );
   }
 
   @override
-  String toString() => 'PeerServerState(serverPeerId: $serverPeerId, '
+  String toString() => 'PeerServerState(serverPeerId: $localPeerId, '
       'serverState: $serverState, message: $message)';
 }
 
 class PeerServerNotifier extends Notifier<PeerServerState> {
+  late PreferencesRepository _preferencesRepository;
   late PeerService _peerService;
   late Stream<String> _receivedStrings;
   StreamSubscription? _streamSubscription;
 
   @override
   PeerServerState build() {
+    _preferencesRepository = ref.read(preferencesRepositoryProvider);
     _peerService = ref.read(peerServiceProvider);
     return PeerServerState(
       serverState: ServerState.notStarted,
-      serverPeerId: _peerService.localPeerId.toString(),
+      localPeerId: _peerService.localPeerId,
       message: '',
     );
   }
@@ -63,7 +65,7 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
     }
     state = state.copyWith(
         serverState: ServerState.listening,
-      message: 'Server is listening on ID ${state.serverPeerId}',
+      message: 'Server is listening on ID ${state.localPeerId}',
     );
     addReceivedDataListener();
     addOnDoneCallback();
