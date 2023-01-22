@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, avoid_print
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'providers.dart';
 
@@ -66,6 +67,8 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
       localPeerId: _peerService.localPeerId,
       message: 'Server is listening on ID:',
     );
+    Clipboard.setData(ClipboardData(
+        text: 'Your ServerId for YaTriX: ${_peerService.localPeerId}'));
     addReceivedDataListener();
     addOnDoneCallback();
   }

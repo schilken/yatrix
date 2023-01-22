@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, avoid_print
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'providers.dart';
@@ -58,11 +59,17 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
     );
   }
 
-  Future<void> connect({required String remotePeerId}) async {
-    if (remotePeerId.length < 5) {
+  Future<void> connect() async {
+    String? remotePeerId;
+    final data = await Clipboard.getData(Clipboard.kTextPlain);
+    if (data != null) {
+      remotePeerId = data.text;
+    }
+    if (remotePeerId == null || remotePeerId.length != 7) {
       state = state.copyWith(
           clientState: ClientState.error,
-        message: 'ID must be a 5 digit number',
+        message:
+            'No Id found on the clipboard. It should be 7 characters long and look like "y8Wp3By"',
       );
       return;
     }

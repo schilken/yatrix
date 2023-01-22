@@ -34,14 +34,14 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
       children: [
         if (isNotConnected) ...[
           Text(
-            'If you want to connect to your player buddy\'s server, enter their Id here.',
+            'If you want to connect to your player buddy\'s server, put their ID onto the clipboard and press the connect button.',
             style: textTheme.headline6,
           ),
           gapH24,
-          IdInputWidget(
-            initialValue: int.parse(peerClientState.remotePeerId),
-            onChanged: (value) => _serverId = value,
-          ),
+          // IdInputWidget(
+          //   initialValue: int.parse(peerClientState.remotePeerId),
+          //   onChanged: (value) => _serverId = value,
+          // ),
         ],
         if (isError) ...[
           gapH8,
@@ -56,7 +56,7 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
             onPressed: () {
               ref
                   .read(peerClientNotifier.notifier)
-                  .connect(remotePeerId: _serverId.toString());
+                  .connect();
             },
             style: OutlinedButton.styleFrom(
               foregroundColor: Colors.white60,

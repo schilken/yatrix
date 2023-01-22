@@ -11,11 +11,19 @@ class PeerServerView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
     final peerServerState = ref.watch(peerServerNotifier);
+    final isNotConnected =
+        peerServerState.serverState == ServerState.notStarted ||
+            peerServerState.serverState == ServerState.error;
+    final isStarting = peerServerState.serverState == ServerState.starting;
+    final isListening = peerServerState.serverState == ServerState.listening;
+    final isConnected = peerServerState.serverState == ServerState.connected;
+
     return Column(
       children: [
         if (peerServerState.serverState == ServerState.notStarted) ...[
           Text(
-            'You are the server. Start the server and tell your player buddy the Server ID.',
+            'Start the server and tell your player buddy the Server ID. '
+            'You will find it also on the clipboard.',
             style: textTheme.headline6,
           ),
           gapH24,
@@ -29,20 +37,16 @@ class PeerServerView extends ConsumerWidget {
               child: const Text('Start Server'),
             ),
         ],
-        if (peerServerState.serverState == ServerState.starting ||
-            peerServerState.serverState == ServerState.listening ||
-            peerServerState.serverState == ServerState.connected)
+        if (isStarting || isListening || isConnected)
           Text(
             '${peerServerState.message} ${peerServerState.localPeerId}',
             style: textTheme.headline6,
           ),
         gapH8,
-        if (peerServerState.serverState == ServerState.starting ||
-            peerServerState.serverState == ServerState.listening)
+        if (isStarting || isListening)
           const CircularProgressIndicator(),
         gapH24,
-        if (peerServerState.serverState == ServerState.listening ||
-            peerServerState.serverState == ServerState.connected)
+        if (isListening || isConnected)
           OutlinedButton(
             onPressed: () {
               ref.read(peerServerNotifier.notifier).stop();
