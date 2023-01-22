@@ -260,6 +260,7 @@ class TetrisPlayPage extends Component
     _freezedCounter = 0;
     _currentFallingBlock = null;
     game.backgroundMusicStop();
+    notifyLevel();
   }
 
   bool vetoTwoPlayerGameStart() {
@@ -351,6 +352,7 @@ class TetrisPlayPage extends Component
       } while (yAboveRemovedRow > 125.0);
       removedRows++;
     }
+    notifyLevel();
   }
 
   @override
@@ -390,6 +392,7 @@ class TetrisPlayPage extends Component
       await world.add(quad);
       quad.freeze();
     }
+    notifyLevel();
   }
 
   Future<void> insertEmptyRow() async {
