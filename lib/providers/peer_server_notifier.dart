@@ -50,7 +50,7 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
     _peerService = ref.read(peerServiceProvider);
     return PeerServerState(
       serverState: ServerState.notStarted,
-      localPeerId: _peerService.localPeerId,
+      localPeerId: '?',
       message: '',
     );
   }
@@ -63,7 +63,8 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
     }
     state = state.copyWith(
         serverState: ServerState.listening,
-      message: 'Server is listening on ID ${state.localPeerId}',
+      localPeerId: _peerService.localPeerId,
+      message: 'Server is listening on ID:',
     );
     addReceivedDataListener();
     addOnDoneCallback();

@@ -16,6 +16,7 @@ class PeerService {
   String get localPeerId => _peerId;
 
   Future<void> initPeer(String localPeerId) async {
+    _peerId = localPeerId;
     _peer = Peer(id: _peerId, options: PeerOptions(debug: LogLevel.All));
     if (_peer == null) {
       throw Exception('creation failed');

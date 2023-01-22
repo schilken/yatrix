@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../helpers/app_sizes.dart';
 import '../components/simple_button_widget.dart';
+import '../helpers/app_sizes.dart';
 import '../providers/providers.dart';
 import '../tetris_game.dart';
 import 'peer_client_view.dart';

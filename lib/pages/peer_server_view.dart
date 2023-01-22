@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../helpers/app_sizes.dart';
 import '../providers/providers.dart';
@@ -33,7 +33,7 @@ class PeerServerView extends ConsumerWidget {
             peerServerState.serverState == ServerState.listening ||
             peerServerState.serverState == ServerState.connected)
           Text(
-            peerServerState.message,
+            '${peerServerState.message} ${peerServerState.localPeerId}',
             style: textTheme.headline6,
           ),
         gapH8,
