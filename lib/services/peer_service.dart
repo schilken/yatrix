@@ -7,7 +7,7 @@ import 'package:peerdart/peerdart.dart';
 import '../helpers/generate_unique_id.dart';
 
 class PeerService {
-  late String _peerId;
+  String _peerId = '';
   Peer? _peer;
   late DataConnection conn;
   StreamController<String>? _streamController;

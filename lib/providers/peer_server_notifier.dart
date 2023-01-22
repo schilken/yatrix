@@ -41,14 +41,12 @@ class PeerServerState {
 }
 
 class PeerServerNotifier extends Notifier<PeerServerState> {
-  late PreferencesRepository _preferencesRepository;
   late PeerService _peerService;
   late Stream<String> _receivedStrings;
   StreamSubscription? _streamSubscription;
 
   @override
   PeerServerState build() {
-    _preferencesRepository = ref.read(preferencesRepositoryProvider);
     _peerService = ref.read(peerServiceProvider);
     return PeerServerState(
       serverState: ServerState.notStarted,
