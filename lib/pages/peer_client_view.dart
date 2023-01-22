@@ -76,7 +76,7 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
         if (isConnecting || isConnected)
           OutlinedButton(
             onPressed: () {
-              ref.read(peerNotifier.notifier).setIsEnabled(false);
+              ref.read(peerNotifier.notifier).enableTwoPlayerMode(false);
               ref.read(peerClientNotifier.notifier).disConnect();
             },
             style: OutlinedButton.styleFrom(

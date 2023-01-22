@@ -38,7 +38,7 @@ class PeerServerView extends ConsumerWidget {
             ),
         ],
         if (isStarting || isListening || isConnected)
-          Text(
+          SelectableText(
             '${peerServerState.message} ${peerServerState.localPeerId}',
             style: textTheme.headline6,
           ),
@@ -50,7 +50,7 @@ class PeerServerView extends ConsumerWidget {
           OutlinedButton(
             onPressed: () {
               ref.read(peerServerNotifier.notifier).stop();
-              ref.read(peerNotifier.notifier).setIsEnabled(false);
+              ref.read(peerNotifier.notifier).enableTwoPlayerMode(false);
             },
             style: OutlinedButton.styleFrom(
               foregroundColor: Colors.white60,

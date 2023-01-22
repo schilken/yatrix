@@ -51,7 +51,9 @@ class PeerPage extends ConsumerWidget {
                   Switch(
                     value: peerState.isEnabled,
                     onChanged: (value) {
-                      ref.read(peerNotifier.notifier).setIsEnabled(value);
+                      ref
+                          .read(peerNotifier.notifier)
+                          .enableTwoPlayerMode(value);
                     },
                   ),
                 ],

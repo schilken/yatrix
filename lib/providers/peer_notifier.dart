@@ -71,23 +71,26 @@ class PeerNotifier extends Notifier<PeerState> {
     );
   }
 
-  void setIsEnabled(bool isEnabled) {
-    _isEnabled = isEnabled;
+  void enableTwoPlayerMode(bool enabled) {
+    _isEnabled = enabled;
     var localPeerId = _preferencesRepository.localPeerId;
     if (localPeerId.isEmpty) {
       localPeerId = generateUniqueId();
       _preferencesRepository.setlocalPeerId(localPeerId);
     }
-    if (isEnabled) {
+    if (enabled) {
       _peerService.initPeer(localPeerId);
       state = state.copyWith(
-        isEnabled: isEnabled,
+        isEnabled: enabled,
         message: '',
       );
     } else {
+      if (_peerClientState.clientState != ClientState.notConnected) {
+        ref.watch(peerClientNotifier.notifier).disConnect();
+      }
       _peerService.disposePeer();
       state = state.copyWith(
-        isEnabled: isEnabled,
+        isEnabled: enabled,
         message: '',
       );
     }

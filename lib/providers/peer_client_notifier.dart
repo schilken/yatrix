@@ -73,6 +73,14 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
       );
       return;
     }
+    if (remotePeerId == _peerService.localPeerId) {
+      state = state.copyWith(
+        clientState: ClientState.error,
+        message:
+            'You can\'t connect to yourself. Put the id of your peer\'s server on the clipboard.',
+      );
+      return;
+    }
     _preferencesRepository.setRemotePeerId(remotePeerId);
     try {
       _receivedStrings = _peerService.connectToServer(remotePeerId);

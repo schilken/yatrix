@@ -68,7 +68,8 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
       message: 'Server is listening on ID:',
     );
     Clipboard.setData(ClipboardData(
-        text: 'Your ServerId for YaTriX: ${_peerService.localPeerId}'));
+        text:
+            'Your ServerId for YaTriX: Copy only the last seven characters→ ${_peerService.localPeerId}'));
     addReceivedDataListener();
     addOnDoneCallback();
   }
