@@ -22,8 +22,9 @@ class PeerServerView extends ConsumerWidget {
       children: [
         if (peerServerState.serverState == ServerState.notStarted) ...[
           Text(
-            'Start the server and tell your player buddy the Server ID. '
-            'You will find it also on the clipboard.',
+            'Start the server and send the displayed ID to your fellow player. '
+            'Use phone, email, iMessage, or whatever. '
+            'You\'ll also find it on the clipboard.',
             style: textTheme.headline6,
           ),
           gapH24,
