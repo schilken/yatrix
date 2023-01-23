@@ -33,17 +33,17 @@ On desktop you can control the game also with the arrow keys on the keyboard.
 ## Two-Player-Mode
 You can play against another player if you both have an internet connection.
 These are the steps to setup a connection:
-- The first player activates the Two-Player-Mode and selects then the 2-Player-Server.
-- Then she taps **Start Server** and tells the second player her server id.
-- The second player also activates the Two-Player-Mode and sets the server id, he got from the first player.
-- Then he taps the **Connect** button
-- Both players should now see the message 'Ready to play'
+- The first player activates the Two-Player-Mode and then selects the 2-Player-Server.
+- Then she taps **Start Server** and tells the second player her ServerId.
+- The second player copies the received ServerId in his clipboard.
+- Then he also activates the Two-Player-Mode and taps "Connect".
+- Both players should now see the message 'connection opened'
 - If you open the **Play** screen you should see a green cloud on the top.
 
-To start a game 
-- the player, who started the server, tries to start the game as usual
-- there is not yet a block dropping, but a message 'Are you Ready?'
-- The second player gets a dialog with the button **Start the Game **
+To start a game: 
+- The player, who started the server, tries to start the game as usual.
+- There is not yet a block dropping, but a message 'Are you Ready?'
+- The second player gets a dialog with the button **Start the Game**.
 - If he taps this button the blocks begin to drop on both screens.
 
 You see your own filling level on the left bar and your peer's level on the right.
