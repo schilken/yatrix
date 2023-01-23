@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:yatrix/components/id_input_widget.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../helpers/app_sizes.dart';
 import '../providers/providers.dart';

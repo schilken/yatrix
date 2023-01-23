@@ -28,16 +28,22 @@ class CreditsPage extends Component with HasGameRef<TetrisGame> {
             '- flame\n'
             '- flame_svg\n'
             '- flame_audio\n'
-            '- flutter_riverpod\n'
+            '- hooks_riverpod\n'
             '- flutter_markdown\n'
             '- shared_preferences\n'
-            '- sprintf\n',
+            '- peerdart\n'
+            '- flutter_webrtc\n'
+            '- bot_toast\n'
+            '- pubspec_parse\n'
+            '- bot_toast\n'
+            '- share_plus\n'
+            '- mocktail\n',
         textRenderer: _vintageGreen,
         boxConfig: TextBoxConfig(
           timePerChar: 0.05,
           growingBox: true,
         ),
-        size: Vector2(350, 400),
+        size: Vector2(350, 600),
       ),
     ]);
   }
@@ -45,9 +51,9 @@ class CreditsPage extends Component with HasGameRef<TetrisGame> {
   @override
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
-    var yPosition = size.y / 5;
+    var yPosition = 60.0;
     _title.position = Vector2(12, yPosition);
-    _textBox.position = Vector2(12, yPosition += 80);
+    _textBox.position = Vector2(12, yPosition += 50);
   }
 
   @override

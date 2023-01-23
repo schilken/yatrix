@@ -30,7 +30,7 @@ class SettingsPage extends ConsumerWidget {
                 BackButtonWidget(onTapped: game.router.pop),
               ],
             ),
-            gapH48,
+            gapH32,
             Text(
               'Settings',
               style: textTheme.headline4,
