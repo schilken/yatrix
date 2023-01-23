@@ -11,7 +11,7 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart' show KeyEventResult;
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'components/keyboard_game_controller.dart';
 import 'helpers/game_assets.dart';
@@ -68,7 +68,7 @@ class TetrisGame extends FlameGame
   double backgroundMusicVolume = 0.25;
   double sfxVolume = 0.5;
   bool showFps = true;
-  Random _random = Random();
+  final Random _random = Random();
 
   DialogConfig? _dialogConfig;
   int _rows = 0;
