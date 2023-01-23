@@ -312,10 +312,12 @@ class TetrisGame extends FlameGame
         router.pop();
         // then pop the TetrisGamePage
         router.pop();
-        Future<void>.delayed(
-          const Duration(milliseconds: 100),
-          topIsReached,
-        );
+        if (points > 10) {
+          Future<void>.delayed(
+            const Duration(milliseconds: 100),
+            topIsReached,
+          );
+        }
       },
     );
     router.pushNamed('commitDialog');
