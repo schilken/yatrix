@@ -27,7 +27,6 @@ dependencies:
   flutter_webrtc: ^0.9.19
   bot_toast: ^4.0.3
   collection: ^1.16.0
-  another_xlider: ^1.1.2  
   pubspec_parse: ^1.2.1
   share_plus: ^6.3.0  
 
