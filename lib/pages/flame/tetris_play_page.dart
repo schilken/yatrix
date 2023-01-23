@@ -105,7 +105,6 @@ class TetrisPlayPage extends Component
       fiveButtons!,
       threeButtons!,
     ]);
-    updateTwoPlayerIcon();
   }
 
   void updateTwoPlayerIcon() {
@@ -164,6 +163,7 @@ class TetrisPlayPage extends Component
     add(_twoPlayerActive!);
     _twoPlayerActive?.position = Vector2(size.x / 2, buttonGapX);
     _twoPlayerActive?.size = fiveButtonSize;
+    updateTwoPlayerIcon();
 
     final levelSize = (size.x < 600) ? Vector2(20, 35) : Vector2(40, 70);
 
