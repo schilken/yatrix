@@ -299,6 +299,7 @@ class TetrisPlayPage extends Component
 
   void startTheGame() {
     game.startNewGame();
+    TetrisBaseBlock.setVelocity(game.velocity);
     addRandomBlock();
     updatePoints(null);
     updateTwoPlayerIcon();

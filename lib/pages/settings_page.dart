@@ -80,6 +80,30 @@ class SettingsPage extends ConsumerWidget {
               ),
             ),
             gapH24,
+            Text(
+              'Velocity',
+              style: textTheme.headline5,
+            ),
+            gapH12,
+            SizedBox(
+              width: 250.0,
+              child: Slider(
+                value: settings.velocity.toDouble(),
+                label: '${settings.velocity}',
+                divisions: 10,
+                min: 50,
+                max: 300,
+                thumbColor: sliderTheme.thumbColor,
+                activeColor: sliderTheme.activeTrackColor,
+                onChanged: (double newVelocity) {
+                  game.setVelocity(newVelocity.toInt());
+                  ref
+                      .read(settingsNotifier.notifier)
+                      .setVelocity(newVelocity.toInt());
+                },
+              ),
+            ),
+            gapH24,
             Row(
               children: [
                 Text(

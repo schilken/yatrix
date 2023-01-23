@@ -10,6 +10,7 @@ class SettingsState {
   bool activatePeerServer;
   String localPeerId;
   String remotePeerId;
+  int velocity;
 
   SettingsState({
     required this.musicVolume,
@@ -18,6 +19,7 @@ class SettingsState {
     required this.activatePeerServer,
     required this.localPeerId,
     required this.remotePeerId,
+    required this.velocity,
   });
 
   SettingsState copyWith({
@@ -27,6 +29,7 @@ class SettingsState {
     bool? activatePeerServer,
     String? localPeerId,
     String? remotePeerId,
+    int? velocity,
   }) {
     return SettingsState(
       musicVolume: musicVolume ?? this.musicVolume,
@@ -35,6 +38,7 @@ class SettingsState {
       activatePeerServer: activatePeerServer ?? this.activatePeerServer,
       localPeerId: localPeerId ?? this.localPeerId,
       remotePeerId: remotePeerId ?? this.remotePeerId,
+      velocity: velocity ?? this.velocity,
     );
   }
 }
@@ -55,6 +59,7 @@ class SettingsNotifier extends Notifier<SettingsState> {
       activatePeerServer: _activatePeerServer,
       localPeerId: '141414',
       remotePeerId: _remotePeerId,
+      velocity: _preferencesRepository.velocity,
     );
   }
 
@@ -81,6 +86,11 @@ class SettingsNotifier extends Notifier<SettingsState> {
   Future<void> setLocalPeerId(String id) async {
     state = state.copyWith(localPeerId: id);
   }
+
+  Future<void> setVelocity(int velocity) async {
+    state = state.copyWith(velocity: velocity);
+  }
+
 
   void connect({required String remotePeerId}) {
     _remotePeerId = remotePeerId;

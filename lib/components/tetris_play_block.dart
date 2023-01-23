@@ -24,7 +24,7 @@ abstract class TetrisBaseBlock extends SpriteComponent
   TetrisBaseBlock({
     required this.blockPosition,
     this.world,
-  }) : _velocity = Vector2(0, 100);
+  }) : _velocity = Vector2(0, _startVelocity.y);
 
   Vector2 _velocity;
   Vector2 blockPosition;
@@ -43,9 +43,16 @@ abstract class TetrisBaseBlock extends SpriteComponent
   // if world == null, then we are in Construction Mode
   bool get isConstructionMode => world == null;
 
+  static Vector2 _startVelocity = Vector2(0, 100);
+
   static void setRandomSeed(int seed) {
     print('setRandomSeed: $seed');
     _random = Random(seed);
+  }
+
+  static void setVelocity(int ySpeed) {
+    print('setVelocity: $ySpeed');
+    _startVelocity = Vector2(0, ySpeed.toDouble());
   }
 
   factory TetrisBaseBlock.create(

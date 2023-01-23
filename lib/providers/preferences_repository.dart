@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'providers.dart';
@@ -64,6 +64,11 @@ class PreferencesRepository {
     await _prefs.setString('localPeerId', localPeerId);
   }
 
+  int get velocity => _prefs.getInt('velocity') ?? 100;
+
+  Future<void> setvelocity(int velocity) async {
+    await _prefs.setInt('velocity', velocity);
+  }
 
 }
 

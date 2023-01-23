@@ -68,6 +68,7 @@ class TetrisGame extends FlameGame
   double backgroundMusicVolume = 0.25;
   double sfxVolume = 0.5;
   bool showFps = true;
+  int velocity = 100;
   final Random _random = Random();
 
   DialogConfig? _dialogConfig;
@@ -347,5 +348,9 @@ class TetrisGame extends FlameGame
       },
     );
     router.pushNamed('commitDialog');
+  }
+
+  void setVelocity(int velocity) {
+    this.velocity = velocity;
   }
 }
