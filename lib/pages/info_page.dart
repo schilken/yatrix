@@ -30,12 +30,12 @@ For the high score your points are calculated like this:
 
 On desktop you can control the game also with the arrow keys on the keyboard.
 
-## Two-Players-Mode
+## Two-Player-Mode
 You can play against another player if you both have an internet connection.
 These are the steps to setup a connection:
-- The first player activates the Two-Players-Mode and selects then the 2-Player-Server.
+- The first player activates the Two-Player-Mode and selects then the 2-Player-Server.
 - Then she taps **Start Server** and tells the second player her server id.
-- The second player also activates the Two-Players-Mode and sets the server id, he got from the first player.
+- The second player also activates the Two-Player-Mode and sets the server id, he got from the first player.
 - Then he taps the **Connect** button
 - Both players should now see the message 'Ready to play'
 - If you open the **Play** screen you should see a green cloud on the top.

@@ -302,7 +302,7 @@ class TetrisGame extends FlameGame
 
   void showAbortGameDialog() {
     _dialogConfig = DialogConfig(
-      title: 'Two-Players-Mode',
+      title: 'Two-Player-Mode',
       text1: 'Really abort the game and go back to the Menu?',
       text2: 'You peer will win this game.',
       buttonText: 'Abort the Game',
@@ -322,7 +322,7 @@ class TetrisGame extends FlameGame
 
   void showStartGameDialog() {
     _dialogConfig = DialogConfig(
-      title: 'Two-Players-Mode',
+      title: 'Two-Player-Mode',
       text1: 'Your peer is ready to start the game.',
       text2: 'Tap Start if you are also ready.',
       buttonText: 'Start the Game',
@@ -337,7 +337,7 @@ class TetrisGame extends FlameGame
 
   void showPromptDialog() {
     _dialogConfig = DialogConfig(
-      title: 'Two-Players-Mode',
+      title: 'Two-Player-Mode',
       text1: 'Here you can send a short text message to your peer.',
       buttonText: 'Send Message',
       onStringInput: (text) {

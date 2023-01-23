@@ -216,7 +216,7 @@ class TetrisPlayPage extends Component
   Future<void> onPauseButton() async {
     if (game.isTwoPlayerGame) {
       BotToast.showText(
-        text: 'Pause is not allowed in Two-Players-Mode.',
+        text: 'Pause is not allowed in Two-Player-Mode.',
         duration: const Duration(seconds: 3),
         align: const Alignment(0, -0.5),
       );
@@ -239,7 +239,7 @@ class TetrisPlayPage extends Component
 //    print('TetrisPlayPage.reset');
     if (game.isTwoPlayerGame) {
       BotToast.showText(
-        text: 'Restart is not allowed in Two-Players-Mode.',
+        text: 'Restart is not allowed in Two-Player-Mode.',
         duration: const Duration(seconds: 3),
         align: const Alignment(0, -0.5),
       );
@@ -267,14 +267,14 @@ class TetrisPlayPage extends Component
     if (game.isTwoPlayerGame) {
       if (!game.isPeerServer) {
       BotToast.showText(
-        text: ' Two-Players-Mode. Wait for the Server to start the game.',
+          text: ' Two-Player-Mode. Wait for the Server to start the game.',
         duration: const Duration(seconds: 3),
           align: const Alignment(0, -0.5),
       );
       return true;
       } else {
         BotToast.showText(
-          text: ' Two-Players-Mode. Asking the peer to start.',
+          text: ' Two-Player-Mode. Asking the peer to start.',
           duration: const Duration(seconds: 3),
           align: const Alignment(0, -0.5),
         );

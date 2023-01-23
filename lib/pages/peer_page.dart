@@ -36,7 +36,7 @@ class PeerPage extends ConsumerWidget {
             ),
             gapH32,
             Text(
-              'Two-Players Configuration',
+              'Two-Player Configuration',
               style: textTheme.headline4,
             ),
             gapH48,
