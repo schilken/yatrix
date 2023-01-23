@@ -34,8 +34,8 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
       children: [
         if (isNotConnected) ...[
           Text(
-            'If you want to connect to your fellow player\'s server, '
-            'copy his ID to the clipboard and press the "Connect" button.',
+            "If you want to connect to your fellow player's server, "
+            'copy his ServerId to the clipboard and press the "Connect" button.',
             style: textTheme.headline6,
           ),
           gapH24,

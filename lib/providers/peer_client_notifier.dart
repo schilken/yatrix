@@ -69,7 +69,9 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
       state = state.copyWith(
           clientState: ClientState.error,
         message:
-            'No Id found on the clipboard. It should be 7 characters long and look like "y8Wp3By"',
+            'No ServerId found on the clipboard. '
+            'It should be 7 characters long and look like "y8Wp3By"\n'
+            'I found this: "$remotePeerId"',
       );
       return;
     }
@@ -77,7 +79,8 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
       state = state.copyWith(
         clientState: ClientState.error,
         message:
-            'You can\'t connect to yourself. Put the id of your peer\'s server on the clipboard.',
+            "You can't connect to yourself. "
+            "Put the ServerId of your peer's server on the clipboard.",
       );
       return;
     }

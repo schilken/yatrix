@@ -7,6 +7,19 @@ import '../providers/providers.dart';
 class PeerServerView extends ConsumerWidget {
   const PeerServerView({super.key});
 
+void _onShare(BuildContext context, WidgetRef ref) async {
+    // A builder is used to retrieve the context immediately
+    // surrounding the ElevatedButton.
+    //
+    // The context's `findRenderObject` returns the first
+    // RenderObject in its descendent tree when it's not
+    // a RenderObjectWidget. The ElevatedButton's RenderObject
+    // has its position and size after it's built.
+    final box = context.findRenderObject() as RenderBox?;
+    final rect = box!.localToGlobal(Offset.zero) & box.size;
+    ref.read(peerServerNotifier.notifier).shareServerId(rect);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
@@ -44,8 +57,18 @@ class PeerServerView extends ConsumerWidget {
             style: textTheme.headline6,
           ),
         gapH8,
-        if (isStarting || isListening)
+        if (isStarting || isListening) ...[
           const CircularProgressIndicator(),
+          gapH12,
+          OutlinedButton(
+            onPressed: () => _onShare(context, ref),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: Colors.white60,
+              side: const BorderSide(color: Colors.white60),
+            ),
+            child: const Text('Share ServerId'),
+          ),
+        ],
         gapH24,
         if (isListening || isConnected)
           OutlinedButton(

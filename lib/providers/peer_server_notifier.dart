@@ -3,6 +3,8 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'package:share_plus/share_plus.dart';
 import 'providers.dart';
 
 enum ServerState {
@@ -46,6 +48,12 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
   late Stream<String> _receivedStrings;
   StreamSubscription? _streamSubscription;
 
+  String formatTextForServerId(String serverId) {
+    return 'Here is your ServerId for YaTriX: '
+        'Copy only the last seven characters -> $serverId\n'
+        'Open the game at https://schilken.de/yatrix, select "Two-Players-Mode" and tap on "Connect"';
+  }
+
   @override
   PeerServerState build() {
     _peerService = ref.read(peerServiceProvider);
@@ -68,8 +76,9 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
       message: 'Server is listening on ID:',
     );
     Clipboard.setData(ClipboardData(
-        text:
-            'Your ServerId for YaTriX: Copy only the last seven characters→ ${_peerService.localPeerId}'));
+        text: formatTextForServerId(_peerService.localPeerId),
+      ),
+    );
     addReceivedDataListener();
     addOnDoneCallback();
   }
@@ -95,6 +104,14 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
     state = state.copyWith(
       serverState: ServerState.notStarted,
       message: '@done!',
+    );
+  }
+
+  void shareServerId(Rect rect) {
+    Share.share(
+      formatTextForServerId(_peerService.localPeerId),
+      subject: 'YaTriX',
+      sharePositionOrigin: rect,
     );
   }
 }
