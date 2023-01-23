@@ -11,6 +11,7 @@ class SettingsState {
   String localPeerId;
   String remotePeerId;
   int velocity;
+  String nickname;
 
   SettingsState({
     required this.musicVolume,
@@ -20,6 +21,7 @@ class SettingsState {
     required this.localPeerId,
     required this.remotePeerId,
     required this.velocity,
+    required this.nickname,
   });
 
   SettingsState copyWith({
@@ -30,6 +32,7 @@ class SettingsState {
     String? localPeerId,
     String? remotePeerId,
     int? velocity,
+    String? nickname,
   }) {
     return SettingsState(
       musicVolume: musicVolume ?? this.musicVolume,
@@ -39,6 +42,7 @@ class SettingsState {
       localPeerId: localPeerId ?? this.localPeerId,
       remotePeerId: remotePeerId ?? this.remotePeerId,
       velocity: velocity ?? this.velocity,
+      nickname: nickname ?? this.nickname,
     );
   }
 }
@@ -60,6 +64,7 @@ class SettingsNotifier extends Notifier<SettingsState> {
       localPeerId: '141414',
       remotePeerId: _remotePeerId,
       velocity: _preferencesRepository.velocity,
+      nickname: _preferencesRepository.userName,
     );
   }
 
@@ -89,6 +94,11 @@ class SettingsNotifier extends Notifier<SettingsState> {
 
   Future<void> setVelocity(int velocity) async {
     state = state.copyWith(velocity: velocity);
+  }
+
+  Future<void> setNickname(String name) async {
+    await _preferencesRepository.setUserName(name);
+    state = state.copyWith(nickname: name);
   }
 
 

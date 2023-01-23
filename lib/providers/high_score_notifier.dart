@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'providers.dart';
 
@@ -118,17 +118,10 @@ class HighScoreNotifier extends Notifier<HighScoreState> {
   }
 
   /// called on HighScorePage
-  Future<void> setuserName(String name) async {
-    await _preferencesRepository.setUserName(name);
-    state = state.copyWith(userName: name);
-  }
-
-  /// called on HighScorePage
-  Future<void> addCurrentScoreFor({required String userName}) async {
-    await setuserName(userName);
+  Future<void> addCurrentScore() async {
     await _preferencesRepository.addScore(state.currentScore.toJson());
     state = HighScoreState(
-      userName: userName,
+      userName: _preferencesRepository.userName,
       currentScore: state.currentScore,
       scores: _preferencesRepository.scores.map(ScoreItem.fromJson).toList()
         ..sort(

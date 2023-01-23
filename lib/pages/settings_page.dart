@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../components/simple_button_widget.dart';
 import '../helpers/app_sizes.dart';
 import '../providers/providers.dart';
 import '../tetris_game.dart';
 
-class SettingsPage extends ConsumerWidget {
+class SettingsPage extends HookConsumerWidget {
   SettingsPage({super.key, required this.game});
   TetrisGame game;
 
@@ -15,7 +16,8 @@ class SettingsPage extends ConsumerWidget {
     final sliderTheme = Theme.of(context).sliderTheme;
     final textTheme = Theme.of(context).textTheme;
     final settings = ref.watch(settingsNotifier);
-
+    final nameEditingController =
+        useTextEditingController(text: settings.nickname);
     return Material(
       child: Container(
         color: const Color.fromARGB(255, 20, 20, 20),
@@ -36,11 +38,28 @@ class SettingsPage extends ConsumerWidget {
               style: textTheme.headline4,
             ),
             gapH48,
+            TextField(
+              controller: nameEditingController,
+              autocorrect: false,
+              cursorColor: Colors.white60,
+              style: textTheme.headline5,
+              decoration: InputDecoration(
+                isDense: true,
+                hintText: 'Enter Your Nickname',
+                hintStyle: textTheme.bodyText1,
+                enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white60),
+                ),
+              ),
+              onChanged: (name) =>
+                  ref.read(settingsNotifier.notifier).setNickname(name),
+            ),
+            gapH24,
+
             Text(
               'Background Music Volume',
               style: textTheme.headline5,
             ),
-            gapH12,
             SizedBox(
               width: 250.0,
               child: Slider(
@@ -62,7 +81,6 @@ class SettingsPage extends ConsumerWidget {
               'Sound EffectsVolume',
               style: textTheme.headline5,
             ),
-            gapH12,
             SizedBox(
               width: 250.0,
               child: Slider(
@@ -84,7 +102,6 @@ class SettingsPage extends ConsumerWidget {
               'Velocity',
               style: textTheme.headline5,
             ),
-            gapH12,
             SizedBox(
               width: 250.0,
               child: Slider(

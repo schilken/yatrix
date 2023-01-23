@@ -15,16 +15,6 @@ class HighScoresPage extends ConsumerStatefulWidget {
 }
 
 class _HighScoresPageState extends ConsumerState<HighScoresPage> {
-  late TextEditingController _textEditingController;
-  late FocusNode _focusNode;
-
-  @override
-  void initState() {
-    super.initState();
-    _textEditingController = TextEditingController();
-    _focusNode = FocusNode();
-    _textEditingController.text = ref.read(highScoreNotifier).userName;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,23 +41,8 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
             ),
             gapH24,
             if (widget.game.isGameOver) ...[
-              TextField(
-                controller: _textEditingController,
-                focusNode: _focusNode,
-                autofocus: true,
-                autocorrect: false,
-                cursorColor: Colors.white60,
-                style: textTheme.headline5,
-                decoration: InputDecoration(
-                  hintText: 'Enter Your Name',
-                  hintStyle: textTheme.bodyText1,
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white60),
-                  ),
-                ),
-              ),
-              gapH12,
               Text(
+                'Nickname: ${highScore.userName}\n'
                 'Points: ${widget.game.points}\nRows: ${widget.game.rows}',
                 textAlign: TextAlign.start,
                 style: textTheme.headline6,
@@ -76,9 +51,7 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
               OutlinedButton(
                 onPressed: () {
                   widget.game.isGameOver = false;
-                  ref.read(highScoreNotifier.notifier).addCurrentScoreFor(
-                        userName: _textEditingController.text,
-                      );
+                  ref.read(highScoreNotifier.notifier).addCurrentScore();
                 },
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.white60,
@@ -119,8 +92,8 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
                 },
               ),
             ),
-            Text('App Version: ${highScore.appVersion}'),
             gapH32,
+            Text('App Version: ${highScore.appVersion}'),
           ],
         ),
       ),
