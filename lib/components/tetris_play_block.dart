@@ -6,7 +6,7 @@ import 'package:flame/experimental.dart';
 import 'package:flutter/rendering.dart';
 
 import '../helpers/game_assets.dart';
-import '../helpers/helpers.dart';
+import '../helpers/rotation_helper.dart';
 import '../tetris_game.dart';
 import 'boundaries.dart';
 import 'quadrat.dart';
@@ -156,7 +156,7 @@ abstract class TetrisBaseBlock extends SpriteComponent
       //     'Helpers.rotCorrection(quad.absoluteAngle): ${Helpers.rotCorrection(quad.absoluteAngle)}');
       quad.position =
           absolutePosition +
-          Helpers.rotCorrection(quad.absoluteAngle) *
+          RotationHelper.rotCorrection(quad.absoluteAngle) *
               (quadSize - 2 * quadPadding);
       quad.freeze();
       _isFreezed = true;
