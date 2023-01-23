@@ -180,6 +180,7 @@ class TetrisGame extends FlameGame
     isGameRunning = false;
     isGameOver = true;
     router.pushNamed('gameOver');
+    backgroundMusicStop();
   }
 
   void topIsReached() {
