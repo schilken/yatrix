@@ -7,14 +7,7 @@ import 'package:flame/game.dart' hide Viewport;
 import 'package:flame/palette.dart';
 import 'package:flutter/services.dart';
 
-import '../../components/boundaries.dart';
-import '../../components/five_buttons_game_controller.dart';
-import '../../components/game_controller_mixin.dart';
-import '../../components/keyboard_game_controller.dart';
-import '../../components/png_button.dart';
-import '../../components/simple_button_component.dart';
-import '../../components/tetris_play_block.dart';
-import '../../components/three_buttons_game_controller.dart';
+import '../../components/components.dart';
 import '../../tetris_game.dart';
 
 class Debouncer {

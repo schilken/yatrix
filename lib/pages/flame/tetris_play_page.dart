@@ -9,21 +9,10 @@ import 'package:flame/experimental.dart';
 import 'package:flame/game.dart' hide Viewport;
 import 'package:flutter/painting.dart';
 import 'package:sprintf/sprintf.dart';
-import 'package:yatrix/helpers/game_assets.dart';
 
-import '../../components/boundaries.dart';
-import '../../components/five_buttons_game_controller.dart';
-import '../../components/game_controller_mixin.dart';
-import '../../components/keyboard_game_controller.dart';
-import '../../components/level_indicator.dart';
-import '../../components/quadrat.dart';
-import '../../components/simple_button_component.dart';
-import '../../components/svg_button.dart';
-import '../../components/tetris_play_block.dart';
-import '../../components/three_buttons_game_controller.dart';
-import '../../helpers/custom_theme.dart';
+import '../../components/components.dart';
+import '../../helpers/helpers.dart';
 import '../../tetris_game.dart';
-import '../../helpers/tetris_matrix.dart';
 
 enum Direction {
   up,
@@ -155,11 +144,9 @@ class TetrisPlayPage extends Component
         Vector2(size.x - 2 * 35 - 2 * buttonGapX, buttonGapX);
 
       _twoPlayerActive = SvgButton(
-        name: 'svg/cloud-arrow-right-outline-green.svg',
-//        position: Vector2(size.x / 2, -100),
+      name: 'svg/cloud-arrow-right-outline-green.svg',
         onTap: game.isTwoPlayerGame ? game.showPromptDialog : () {},
-      );
-//      _twoPlayerActive?.opacity = 0.0;
+    );
     add(_twoPlayerActive!);
     _twoPlayerActive?.position = Vector2(size.x / 2, buttonGapX);
     _twoPlayerActive?.size = fiveButtonSize;
@@ -172,7 +159,6 @@ class TetrisPlayPage extends Component
         level: 0,
         color: const Color.fromARGB(255, 110, 141, 244),
       );
-//      _levelIndicatorSelf?.opacity = 0.0;
       add(_levelIndicatorSelf!);
     }
     _levelIndicatorSelf?.position =
@@ -184,7 +170,6 @@ class TetrisPlayPage extends Component
         level: 0,
         color: const Color.fromARGB(255, 124, 241, 148),
       );
-//      _levelIndicatorPeer?.opacity = 0.0;
       add(_levelIndicatorPeer!);
     }
     _levelIndicatorPeer?.position =
