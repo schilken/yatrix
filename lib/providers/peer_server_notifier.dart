@@ -50,7 +50,7 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
 
   String formatTextForServerId(String serverId) {
     return 'Here is your ServerId for YaTriX: '
-        'Copy only the last seven characters -> $serverId\n'
+        'Copy the whole message unchanged to your clipboard -> $serverId\n'
         'Open the game at https://schilken.de/yatrix, select "Two-Player-Mode" and tap on "Connect"';
   }
 

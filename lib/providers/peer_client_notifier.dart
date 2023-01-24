@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../helpers/regex_helper.dart';
 import 'providers.dart';
 
 enum ClientState {
@@ -62,15 +63,15 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
   Future<void> connect() async {
     String? remotePeerId;
     final data = await Clipboard.getData(Clipboard.kTextPlain);
-    if (data != null) {
-      remotePeerId = data.text;
+    if (data != null && data.text != null) {
+      remotePeerId = RegexHelper.extractIdFromMessage(data.text!);
     }
-    if (remotePeerId == null || remotePeerId.length != 7) {
+    if (remotePeerId == null) {
       state = state.copyWith(
           clientState: ClientState.error,
         message:
             'No ServerId found on the clipboard. '
-            'It should be 7 characters long and look like "y8Wp3By"\n'
+            'It should be seven characters long following -> like so "-> y8Wp3By"\n'
             'I found this: "$remotePeerId"',
       );
       return;
