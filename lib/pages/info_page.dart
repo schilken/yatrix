@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../components/simple_button_widget.dart';
-import '../helpers/app_sizes.dart';
+import '../constants/app_sizes.dart';
 import '../tetris_game.dart';
 
 class InfoPage extends StatelessWidget {

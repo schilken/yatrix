@@ -1,4 +1,3 @@
-export 'app_sizes.dart';
 export 'custom_theme.dart';
 export 'error_reporting_service.dart';
 export 'extensions.dart';
