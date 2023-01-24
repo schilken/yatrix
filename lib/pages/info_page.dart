@@ -67,10 +67,10 @@ Meanwhile I'm 66 years old and are no longer working fulltime in projects.
 But if I'm offered an interesting project, I'm happy to work with other colleagues for a while.
 
 ## Runs on
-- iOS, search Apple's App Store for YaTrix
-- Android, search Google's Play Store
-- macOS, download it from GitHub 
 - Web, start it right on your browser on Smartphone or Desktop
+- iOS (coming soon, search for YaTriX in Apple's App Store).
+- Android (coming soon, search Google's Play Store)
+- macOS, (coming soon, download it from GitHub) 
 - Should also run on Linux, but I haven't tested it and you have to dowload the source code from GitHub and build it yourself.
 - Should also run on Windows, but the same applies as for linux.
 
