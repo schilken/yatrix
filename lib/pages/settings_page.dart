@@ -13,7 +13,6 @@ class SettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sliderTheme = Theme.of(context).sliderTheme;
     final textTheme = Theme.of(context).textTheme;
     final settings = ref.watch(settingsNotifier);
     return Material(
@@ -75,22 +74,13 @@ class SettingsPage extends ConsumerWidget {
               },
             ),             
             gapH24,
-            Row(
-              children: [
-                Text(
-                  'Show FPS',
-                  style: textTheme.headline5,
-                ),
-                const Spacer(),
-                Switch(
-                  // This bool value toggles the switch.
-                  value: ref.read(settingsNotifier).showFps,
-                  onChanged: (value) {
-                    ref.read(settingsNotifier.notifier).setShowFps(value);
-                    game.showFps = value;
-                  },
-                ),
-              ],
+            StyledSwitch(
+              label: 'Show FPS',
+              value: ref.read(settingsNotifier).showFps,
+              onChanged: (value) {
+                ref.read(settingsNotifier.notifier).setShowFps(value);
+                game.showFps = value;
+              },
             ),
           ],
         ),
