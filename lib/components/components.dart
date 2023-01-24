@@ -8,7 +8,6 @@ export 'png_button.dart';
 export 'quadrat.dart';
 export 'rounded_button.dart';
 export 'simple_button_component.dart';
-export 'simple_button_widget.dart';
 export 'svg_button.dart';
 export 'tetris_play_block.dart';
 export 'three_buttons_game_controller.dart';

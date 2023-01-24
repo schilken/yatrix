@@ -1,13 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../components/simple_button_widget.dart';
 import '../constants/app_sizes.dart';
+import '../custom_widgets/simple_button_widget.dart';
+import '../custom_widgets/styled_textfield.dart';
 import '../providers/providers.dart';
 import '../tetris_game.dart';
 
-class SettingsPage extends HookConsumerWidget {
+class SettingsPage extends ConsumerWidget {
   SettingsPage({super.key, required this.game});
   TetrisGame game;
 
@@ -16,8 +17,6 @@ class SettingsPage extends HookConsumerWidget {
     final sliderTheme = Theme.of(context).sliderTheme;
     final textTheme = Theme.of(context).textTheme;
     final settings = ref.watch(settingsNotifier);
-    final nameEditingController =
-        useTextEditingController(text: settings.nickname);
     return Material(
       child: Container(
         color: const Color.fromARGB(255, 20, 20, 20),
@@ -38,21 +37,10 @@ class SettingsPage extends HookConsumerWidget {
               style: textTheme.headline4,
             ),
             gapH48,
-            TextField(
-              controller: nameEditingController,
-              autocorrect: false,
-              cursorColor: Colors.white60,
-              style: textTheme.headline5,
-              decoration: InputDecoration(
-                isDense: true,
-                hintText: 'Enter Your Nickname',
-                hintStyle: textTheme.bodyText1,
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white60),
-                ),
-              ),
-              onChanged: (name) =>
-                  ref.read(settingsNotifier.notifier).setNickname(name),
+            StyledTextField(
+              initialValue: settings.nickname,
+              hintText: 'Enter Your Nickname',
+              onChanged: ref.read(settingsNotifier.notifier).setNickname,
             ),
             gapH24,
 
@@ -144,3 +132,6 @@ class SettingsPage extends HookConsumerWidget {
     );
   }
 }
+
+
+
