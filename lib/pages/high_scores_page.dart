@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../components/simple_button_widget.dart';
-import '../helpers/app_sizes.dart';
+import '../constants/app_sizes.dart';
 import '../providers/providers.dart';
 import '../tetris_game.dart';
 
