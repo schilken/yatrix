@@ -37,7 +37,10 @@ class SettingsPage extends ConsumerWidget {
             StyledTextField(
               initialValue: settings.nickname,
               hintText: 'Enter Your Nickname',
-              onChanged: ref.read(settingsNotifier.notifier).setNickname,
+              onChanged: (name) {
+                ref.read(settingsNotifier.notifier).setNickname(name);
+                game.setNickName(name);
+              },
             ),
             gapH24,
             StyledSlider(

@@ -69,6 +69,7 @@ class TetrisGame extends FlameGame
   double sfxVolume = 0.5;
   bool showFps = true;
   int velocity = 100;
+  String _userName = '?';
   final Random _random = Random();
 
   DialogConfig? _dialogConfig;
@@ -239,6 +240,8 @@ class TetrisGame extends FlameGame
     } else if (command.startsWith('@>!')) {
       message = 'Client: Start the Game!';
       gamePage?.handlePeerCommand(command);
+    } else if (command.startsWith('@u?')) {
+      sendMessageToPeer('@u!$_userName');
     } else {
       message = command;
     }
@@ -287,6 +290,14 @@ class TetrisGame extends FlameGame
 
   void backgroundMusicStop() {
     FlameAudio.bgm.stop();
+  }
+
+  void setVelocity(int velocity) {
+    this.velocity = velocity;
+  }
+
+  void setNickName(String name) {
+    _userName = name;
   }
 
   void setBackgroundMusicVolume(double newVolume) {
@@ -353,7 +364,4 @@ class TetrisGame extends FlameGame
     router.pushNamed('commitDialog');
   }
 
-  void setVelocity(int velocity) {
-    this.velocity = velocity;
-  }
 }
