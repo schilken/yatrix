@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../custom_widgets/simple_button_widget.dart';
 import '../constants/app_sizes.dart';
+import '../custom_widgets/custom_widgets.dart';
 import '../providers/providers.dart';
 import '../tetris_game.dart';
 
@@ -25,7 +25,6 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
         color: const Color.fromARGB(200, 20, 20, 20),
         padding: const EdgeInsets.fromLTRB(20.0, 0, 20, 30),
         child: Column(
-//          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             gapH12,
@@ -48,16 +47,12 @@ class _HighScoresPageState extends ConsumerState<HighScoresPage> {
                 style: textTheme.headline6,
               ),
               gapH12,
-              OutlinedButton(
+              StyledButton(
+                label: 'Save Score',
                 onPressed: () {
                   widget.game.isGameOver = false;
                   ref.read(highScoreNotifier.notifier).addCurrentScore();
                 },
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white60,
-                  side: const BorderSide(color: Colors.white60),
-                ),
-                child: const Text('Save Score'),
               ),
             ],
             gapH32,

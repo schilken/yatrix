@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../constants/app_sizes.dart';
+import '../custom_widgets/custom_widgets.dart';
 import '../providers/providers.dart';
 
 class PeerClientView extends ConsumerStatefulWidget {
@@ -12,12 +13,6 @@ class PeerClientView extends ConsumerStatefulWidget {
 }
 
 class _PeerClientViewState extends ConsumerState<PeerClientView> {
-  int _serverId = 0;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +29,11 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
         if (isNotConnected) ...[
           Text(
             "If you want to connect to your fellow player's server, "
-            'copy his ServerId to the clipboard and press the "Connect" button.',
+            'copy his ServerId to the clipboard '
+            'and press the "Connect" button.',
             style: textTheme.headline6,
           ),
           gapH24,
-          // IdInputWidget(
-          //   initialValue: int.parse(peerClientState.remotePeerId),
-          //   onChanged: (value) => _serverId = value,
-          // ),
         ],
         if (isError) ...[
           gapH8,
@@ -52,17 +44,11 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
         ],
         gapH24,
         if (isNotConnected)
-          OutlinedButton(
-            onPressed: () {
-              ref
+          StyledButton(
+            label: 'Connect',
+            onPressed: () => ref
                   .read(peerClientNotifier.notifier)
-                  .connect();
-            },
-            style: OutlinedButton.styleFrom(
-              foregroundColor: Colors.white60,
-              side: const BorderSide(color: Colors.white60),
-            ),
-            child: const Text('Connect'),
+                  .connect(),
           ),
         if (isConnecting || isConnected)
           Text(
@@ -74,16 +60,12 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
           const CircularProgressIndicator(),
         gapH24,
         if (isConnecting || isConnected)
-          OutlinedButton(
+          StyledButton(
+            label: 'Disconnect',
             onPressed: () {
               ref.read(peerNotifier.notifier).enableTwoPlayerMode(false);
               ref.read(peerClientNotifier.notifier).disConnect();
             },
-            style: OutlinedButton.styleFrom(
-              foregroundColor: Colors.white60,
-              side: const BorderSide(color: Colors.white60),
-            ),
-            child: const Text('Disconnect'),
           ),
 
       ],

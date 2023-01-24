@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../constants/app_sizes.dart';
+import '../custom_widgets/custom_widgets.dart';
 import '../providers/providers.dart';
 
 class PeerServerView extends ConsumerWidget {
   const PeerServerView({super.key});
 
-void _onShare(BuildContext context, WidgetRef ref) async {
+void _onShare(BuildContext context, WidgetRef ref) {
     // A builder is used to retrieve the context immediately
     // surrounding the ElevatedButton.
     //
@@ -24,9 +25,6 @@ void _onShare(BuildContext context, WidgetRef ref) async {
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
     final peerServerState = ref.watch(peerServerNotifier);
-    final isNotConnected =
-        peerServerState.serverState == ServerState.notStarted ||
-            peerServerState.serverState == ServerState.error;
     final isStarting = peerServerState.serverState == ServerState.starting;
     final isListening = peerServerState.serverState == ServerState.listening;
     final isConnected = peerServerState.serverState == ServerState.connected;
@@ -37,18 +35,14 @@ void _onShare(BuildContext context, WidgetRef ref) async {
           Text(
             'Start the server and send the displayed ID to your fellow player. '
             'Use phone, email, iMessage, or whatever. '
-            'You\'ll also find it on the clipboard.',
+            "You'll also find it on the clipboard.",
             style: textTheme.headline6,
           ),
           gapH24,
           if (peerServerState.serverState == ServerState.notStarted)
-            OutlinedButton(
+            StyledButton(
+              label: 'Start Server',
               onPressed: ref.read(peerServerNotifier.notifier).start,
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.white60,
-                side: const BorderSide(color: Colors.white60),
-              ),
-              child: const Text('Start Server'),
             ),
         ],
         if (isStarting || isListening || isConnected)
@@ -60,27 +54,19 @@ void _onShare(BuildContext context, WidgetRef ref) async {
         if (isStarting || isListening) ...[
           const CircularProgressIndicator(),
           gapH12,
-          OutlinedButton(
+          StyledButton(
+            label: 'Share ServerId',
             onPressed: () => _onShare(context, ref),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: Colors.white60,
-              side: const BorderSide(color: Colors.white60),
-            ),
-            child: const Text('Share ServerId'),
           ),
         ],
         gapH24,
         if (isListening || isConnected)
-          OutlinedButton(
+          StyledButton(
+            label: 'Stop Server',
             onPressed: () {
               ref.read(peerServerNotifier.notifier).stop();
               ref.read(peerNotifier.notifier).enableTwoPlayerMode(false);
             },
-            style: OutlinedButton.styleFrom(
-              foregroundColor: Colors.white60,
-              side: const BorderSide(color: Colors.white60),
-            ),
-            child: const Text('Stop Server'),
           ),
       ],
     );

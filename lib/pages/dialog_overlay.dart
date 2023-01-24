@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../custom_widgets/simple_button_widget.dart';
 import '../constants/app_sizes.dart';
+import '../custom_widgets/custom_widgets.dart';
 import '../tetris_game.dart';
 
 typedef StringCallback = void Function(String value);
@@ -28,7 +27,7 @@ class DialogConfig {
   });
 }
 
-class DialogOverlay extends HookConsumerWidget {
+class DialogOverlay extends ConsumerWidget {
   DialogOverlay({
     super.key,
     required this.game,
@@ -37,9 +36,14 @@ class DialogOverlay extends HookConsumerWidget {
   TetrisGame game;
   DialogConfig dialogConfig;
 
+  var _message = '';
+
+  void _onChanged(String message) {
+    _message = message;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final messageEditingController = useTextEditingController();
     final textTheme = Theme.of(context).textTheme;
     final containsTextfield = dialogConfig.onStringInput != null;
     return Material(
@@ -89,33 +93,19 @@ class DialogOverlay extends HookConsumerWidget {
               ],
               if (containsTextfield) ...[
                 gapH12,
-                TextField(
-                  controller: messageEditingController,
-                  autofocus: true,
-                  autocorrect: false,
-                  cursorColor: Colors.white60,
-                  style: textTheme.bodyText1,
-                  decoration: InputDecoration(
-                    hintText: 'Enter your message',
-                    hintStyle: textTheme.bodyText1,
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white60),
-                    ),
-                  ),
+                StyledTextField(
+                  initialValue: '',
+                  hintText: 'Enter your message',
+                  onChanged: _onChanged,
                 ),
               ],
               const Spacer(),
-              OutlinedButton(
+              StyledButton(
+                label: dialogConfig.buttonText ?? 'OK',
                 onPressed: () {
                   dialogConfig.onCommit?.call();
-                  dialogConfig.onStringInput
-                      ?.call(messageEditingController.text);
+                  dialogConfig.onStringInput?.call(_message);
                 },
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white60,
-                  side: const BorderSide(color: Colors.white60),
-                ),
-                child: Text(dialogConfig.buttonText ?? 'OK'),
               ),
             ],
           ),

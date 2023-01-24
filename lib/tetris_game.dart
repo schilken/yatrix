@@ -253,6 +253,7 @@ class TetrisGame extends FlameGame
   }
 
   void sendMessageToPeer(String message) {
+    print('sendMessageToPeer: message: ${message}');
     if (isTwoPlayerGame) {
       widgetRef.read(peerServiceProvider).sendMessage(message);
     }
