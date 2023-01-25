@@ -33,9 +33,9 @@ void _onShare(BuildContext context, WidgetRef ref) {
       children: [
         if (peerServerState.serverState == ServerState.notStarted) ...[
           Text(
-            'Start the server and send the displayed ID to your fellow player. '
-            'Use phone, email, iMessage, or whatever. '
-            "You'll also find it on the clipboard.",
+            'Start the server and send the message containing your serverId to your fellow player. '
+            "You'll find it on the clipboard. "
+            'Use phone, email, iMessage, or whatever. ',
             style: textTheme.headline6,
           ),
           gapH24,

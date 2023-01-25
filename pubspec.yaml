@@ -1,9 +1,9 @@
 name: yatrix
-description: yet another Tetris clone
+description: Yet Another Tetris Clone
 
 publish_to: 'none'
 
-version: 0.9.0+64
+version: 0.9.0+66
 
 environment:
   sdk: ">=2.18.6 <3.0.0"
