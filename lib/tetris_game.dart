@@ -65,8 +65,8 @@ class TetrisGame extends FlameGame
   WidgetRef widgetRef;
   String backgroundMusicName =
       'music_zapsplat_game_music_childrens_soft_warm_cuddly_calm_015.mp3';
-  double backgroundMusicVolume = 0.25;
-  double sfxVolume = 0.5;
+  double _backgroundMusicVolume = 0.25;
+  double _sfxVolume = 0.5;
   bool showFps = true;
   int velocity = 100;
   String _userName = '?';
@@ -285,7 +285,7 @@ class TetrisGame extends FlameGame
   }
 
   void backgroundMusicStart() {
-    FlameAudio.bgm.play(backgroundMusicName, volume: backgroundMusicVolume);
+    FlameAudio.bgm.play(backgroundMusicName, volume: _backgroundMusicVolume);
   }
 
   void backgroundMusicStop() {
@@ -301,16 +301,16 @@ class TetrisGame extends FlameGame
   }
 
   void setBackgroundMusicVolume(double newVolume) {
-    backgroundMusicVolume = newVolume;
+    _backgroundMusicVolume = newVolume;
     FlameAudio.bgm.audioPlayer.setVolume(newVolume);
   }
 
   void setSoundEffectsVolume(double newVolume) {
-    sfxVolume = newVolume;
+    _sfxVolume = newVolume;
   }
 
   void playSoundEffect(SoundEffects soundEffect) {
-    FlameAudio.play(soundEffect.name, volume: sfxVolume);
+    FlameAudio.play(soundEffect.name, volume: _sfxVolume);
   }
 
   void showAbortGameDialog() {
