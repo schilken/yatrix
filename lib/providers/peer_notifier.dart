@@ -54,7 +54,7 @@ class PeerNotifier extends Notifier<PeerState> {
     _peerServerState = ref.watch(peerServerNotifier);
     _isEnabled = !(_peerClientState.clientState == ClientState.notConnected &&
         _peerServerState.serverState == ServerState.notStarted);
-    _isConnected = _peerClientState.clientState == ClientState.connected &&
+    _isConnected = _peerClientState.clientState == ClientState.connected ||
         _peerServerState.serverState == ServerState.connected;
     print('PeerNotifier.build $_peerClientState $_peerServerState');
     var message = '';

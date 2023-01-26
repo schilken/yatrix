@@ -1,6 +1,6 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../custom_widgets/responsive_center.dart';
 import '../providers/peer_notifier.dart';
 import '../tetris_game.dart';
@@ -17,9 +17,9 @@ class GamePage extends ConsumerWidget {
       (previous, next) {
         game.handlePeerCommand(
           next.message,
-          next.isEnabled,
+          next.isConnected,
           next.isServer,
-        ); // TODO(as) only for easier testing
+        ); 
       },
     );
     return Container(
