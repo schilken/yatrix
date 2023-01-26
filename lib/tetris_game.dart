@@ -285,7 +285,9 @@ class TetrisGame extends FlameGame
   }
 
   void backgroundMusicStart() {
-    FlameAudio.bgm.play(backgroundMusicName, volume: _backgroundMusicVolume);
+    if (_backgroundMusicVolume > 0) {
+      FlameAudio.bgm.play(backgroundMusicName, volume: _backgroundMusicVolume);
+    }
   }
 
   void backgroundMusicStop() {
@@ -310,7 +312,9 @@ class TetrisGame extends FlameGame
   }
 
   void playSoundEffect(SoundEffects soundEffect) {
-    FlameAudio.play(soundEffect.name, volume: _sfxVolume);
+    if (_sfxVolume > 0) {
+      FlameAudio.play(soundEffect.name, volume: _sfxVolume);
+    }
   }
 
   void showAbortGameDialog() {

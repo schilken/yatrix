@@ -48,6 +48,8 @@ To start a game:
 
 You see your own filling level on the left bar and your peer's level on the right.
  
+## WARNING when Playing in Safari Browser
+Better set volume of sounds to zero to avoid unecessary data traffic.
 
 ## The Mosaic
 The mosaic page came up as a by-product. 
