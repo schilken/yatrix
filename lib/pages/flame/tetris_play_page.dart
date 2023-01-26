@@ -33,7 +33,7 @@ class TetrisPlayPage extends Component
   final defaultStartPosition = Vector2(250, 75);
   final xOffset = 50;
   TextComponent? _textComponent;
-  int _freezedCounter = 0;
+  int _dropPoints = 0;
   int _removedRows = 0;
   static const bottomRowY = 1025;
   final _random = Random();
@@ -183,17 +183,19 @@ class TetrisPlayPage extends Component
   void updatePoints(double? freezedAtY) {
     if (_droppedAtY != null && freezedAtY != null) {
       final deltaY = (freezedAtY - _droppedAtY!) / 25;
-      _freezedCounter += deltaY.toInt();
+      // ignore: division_optimization
+      // the higher speed the more points
+      _dropPoints += (deltaY * game.velocity / 100.0).toInt();
       _droppedAtY = null;
     }
-    _freezedCounter++;
+    _dropPoints++;
     final pointString = sprintf(
       'Points: %06i\nRows:%03i',
-      [_freezedCounter + _removedRows * 100, _removedRows],
+      [_dropPoints + _removedRows * 100, _removedRows],
     );
     _textComponent?.text = pointString;
     game.setScoreValues(
-      points: _freezedCounter + _removedRows * 100,
+      points: _dropPoints + _removedRows * 100,
       rows: _removedRows,
     );
   }
@@ -242,7 +244,7 @@ class TetrisPlayPage extends Component
     _removedRows = 0;
     _droppedAtY = null;
     _textComponent?.text = 'Tap button to start ->';
-    _freezedCounter = 0;
+    _dropPoints = 0;
     _currentFallingBlock = null;
     game.backgroundMusicStop();
     notifyLevel();
