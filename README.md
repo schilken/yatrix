@@ -11,7 +11,7 @@ Yet Another Tetris Clone, made with Flutter and Flame-Engine.
 `flutter run -d Chrome`
 
 Build for deployment:
-`flutter build web`
+`flutter build web --web-renderer canvaskit`
 
 Deploy to web server: copy contents of folder build/web:
 
