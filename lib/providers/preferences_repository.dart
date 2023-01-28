@@ -15,14 +15,14 @@ class PreferencesRepository {
     await _prefs.setDouble('musicVolume', volume);
   }
 
-  double get musicVolume => _prefs.getDouble('musicVolume') ?? 0.25;
+  double get musicVolume => _prefs.getDouble('musicVolume') ?? 0.0;
 
   Future<void> setSoundEffectsVolume(double volume) async {
     await _prefs.setDouble('soundEffectsVolume', volume);
   }
 
   double get soundEffectsVolume =>
-      _prefs.getDouble('soundEffectsVolume') ?? 0.25;
+      _prefs.getDouble('soundEffectsVolume') ?? 0.0;
 
 
   Future<void> setUserName(String name) async {
