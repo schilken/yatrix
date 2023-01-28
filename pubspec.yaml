@@ -3,7 +3,7 @@ description: Yet Another Tetris Clone
 
 publish_to: 'none'
 
-version: 0.9.0+68
+version: 0.9.1+1
 
 environment:
   sdk: ">=2.18.6 <3.0.0"
@@ -12,11 +12,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flame_audio: ^1.3.2
+  flame_audio: ^1.4.0
   flame_lint: ^0.1.1
-  equatable: ^2.0.3
   intl: ^0.17.0
-  flame: ^1.5.0
+  flame: ^1.6.0
   flame_svg: ^1.7.0
   sprintf: ^7.0.0
   flutter_hooks: ^0.18.5+1
