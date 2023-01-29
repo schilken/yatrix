@@ -96,11 +96,12 @@ jobs:
         with:
           type: 'zip'
           filename: YaTriX-${{github.ref_name}}-macos.zip
-          directory: build/macos/Build/Products/Release/YaTrix.app
+          directory: .
+          path: build/macos/Build/Products/Release/YaTrix.app
       - name: macOS Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: build/macos/Build/Products/Release/YaTriX-${{github.ref_name}}-macos.zip
+          files: YaTriX-${{github.ref_name}}-macos.zip
