@@ -92,7 +92,7 @@ jobs:
       - name: Build artifacts
         run: flutter build macos --release
       - name: Archive Release
-        uses: thedoctor0/zip-release@master
+        uses: thedoctor0/zip-release@main
         with:
           type: 'zip'
           filename: YaTriX-${{github.ref_name}}-macos.zip
