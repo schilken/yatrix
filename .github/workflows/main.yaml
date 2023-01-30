@@ -65,7 +65,6 @@ jobs:
           type: 'zip'
           filename: YaTriX-${{github.ref_name}}-windows.zip
           directory: build/windows/runner/Release
-          path: YaTrix.exe
       - name: Windows Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
