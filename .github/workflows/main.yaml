@@ -50,7 +50,7 @@ jobs:
         with:
           channel: 'stable'
           architecture: x64
-          flutter-version: '3.3.9'
+          flutter-version: '3.7.0'
       - name: Install project dependencies
         run: flutter pub get
       # - name: Generate intermediates
@@ -83,7 +83,7 @@ jobs:
         with:
           channel: 'stable'
           architecture: x64
-          flutter-version: '3.3.9'
+          flutter-version: '3.7.0'
       - name: Install project dependencies
         run: flutter pub get
       # - name: Generate intermediates
