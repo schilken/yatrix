@@ -98,6 +98,7 @@ jobs:
           filename: YaTriX-${{github.ref_name}}-macos.zip
           directory: build/macos/Build/Products/Release/
           path: YaTrix.app
+          custom: -snl
       - name: macOS Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
