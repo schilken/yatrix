@@ -147,6 +147,7 @@ class TetrisGame extends FlameGame
     keyboardGameController = KeyboardGameController();
     await initAudio();
     showFps = widgetRef.read(settingsNotifier).showFps;
+    _userName = widgetRef.read(settingsNotifier).nickname;
   }
 
   Future<void> initAudio() async {
@@ -240,8 +241,16 @@ class TetrisGame extends FlameGame
     } else if (command.startsWith('@>!')) {
       message = 'Client: Start the Game!';
       gamePage?.handlePeerCommand(command);
+    } else if (command == '@connected') {
+      sendMessageToPeer('@u?$_userName');
     } else if (command.startsWith('@u?')) {
+      message = 'Nickname of client is: ${command.substring(3)}';
+      widgetRef.read(peerServerNotifier.notifier).setClientDetails(message);
+      // auto respond to 'Who are You? with the nickname
       sendMessageToPeer('@u!$_userName');
+    } else if (command.startsWith('@u!')) {
+      message = 'Nickname of server is: ${command.substring(3)}';
+      widgetRef.read(peerClientNotifier.notifier).setServerDetails(message);
     } else {
       message = command;
     }

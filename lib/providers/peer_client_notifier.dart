@@ -18,22 +18,26 @@ class PeerClientState {
   String remotePeerId;
   ClientState clientState;
   String message;
+  String serverDetails;
 
   PeerClientState({
     required this.remotePeerId,
     required this.clientState,
     required this.message,
+    required this.serverDetails,
   });
 
   PeerClientState copyWith({
     String? remotePeerId,
     ClientState? clientState,
     String? message,
+    String? serverDetails,
   }) {
     return PeerClientState(
       remotePeerId: remotePeerId ?? this.remotePeerId,
       clientState: clientState ?? this.clientState,
       message: message ?? this.message,
+      serverDetails: serverDetails ?? this.serverDetails,
     );
   }
 
@@ -41,6 +45,7 @@ class PeerClientState {
   String toString() =>
       'PeerClientState(remotePeerId: $remotePeerId, '
       'clientState: $clientState, message: $message)';
+
 }
 
 class PeerClientNotifier extends Notifier<PeerClientState> {
@@ -57,6 +62,7 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
       clientState: ClientState.notConnected,
       remotePeerId: _preferencesRepository.remotePeerId,
       message: '',
+      serverDetails: '',
     );
   }
 
@@ -126,6 +132,14 @@ class PeerClientNotifier extends Notifier<PeerClientState> {
       message: '@done!',
     );
   }
+
+  void setServerDetails(String text) {
+    state = state.copyWith(
+      serverDetails: text,
+      message: '',
+    );
+  }
+
 }
 
 final peerClientNotifier =

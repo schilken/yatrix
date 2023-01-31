@@ -71,7 +71,7 @@ class PeerService {
 
     conn.on<dynamic>('open').listen((dynamic event) {
       isConnected = true;
-      _streamController?.add('connection opened');
+      _streamController?.add('@connected');
 
       conn.on<dynamic>('data').listen((dynamic data) {
         _streamController?.add(data.toString());

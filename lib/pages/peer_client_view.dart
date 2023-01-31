@@ -50,9 +50,9 @@ class _PeerClientViewState extends ConsumerState<PeerClientView> {
                   .read(peerClientNotifier.notifier)
                   .connect(),
           ),
-        if (isConnecting || isConnected)
+        if (isConnected)
           Text(
-            peerClientState.message,
+            peerClientState.serverDetails,
             style: textTheme.headline6,
           ),
         gapH8,

@@ -45,11 +45,17 @@ void _onShare(BuildContext context, WidgetRef ref) {
               onPressed: ref.read(peerServerNotifier.notifier).start,
             ),
         ],
-        if (isStarting || isListening || isConnected)
+        if (isStarting || isListening)
           SelectableText(
             '${peerServerState.message} ${peerServerState.localPeerId}',
             style: textTheme.headline6,
           ),
+        if (isConnected)
+          SelectableText(
+            '${peerServerState.clientDetails}',
+            style: textTheme.headline6,
+          ),
+
         gapH8,
         if (isStarting || isListening) ...[
           const CircularProgressIndicator(),

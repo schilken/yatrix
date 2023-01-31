@@ -3,8 +3,8 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'package:share_plus/share_plus.dart';
+
 import 'providers.dart';
 
 enum ServerState {
@@ -19,22 +19,26 @@ class PeerServerState {
   String localPeerId;
   ServerState serverState;
   String message;
+  String clientDetails;
 
   PeerServerState({
     required this.localPeerId,
     required this.serverState,
     required this.message,
+    required this.clientDetails,
   });
 
   PeerServerState copyWith({
     String? localPeerId,
     ServerState? serverState,
     String? message,
+    String? clientDetails,
   }) {
     return PeerServerState(
       localPeerId: localPeerId ?? this.localPeerId,
       serverState: serverState ?? this.serverState,
       message: message ?? this.message,
+      clientDetails: clientDetails ?? this.clientDetails,
     );
   }
 
@@ -61,6 +65,7 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
       serverState: ServerState.notStarted,
       localPeerId: '?',
       message: '',
+      clientDetails: '',
     );
   }
 
@@ -112,6 +117,13 @@ class PeerServerNotifier extends Notifier<PeerServerState> {
       formatTextForServerId(_peerService.localPeerId),
       subject: 'YaTriX',
       sharePositionOrigin: rect,
+    );
+  }
+
+  void setClientDetails(String text) {
+    state = state.copyWith(
+      clientDetails: text,
+      message: '',
     );
   }
 }
